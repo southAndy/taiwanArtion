@@ -1,9 +1,15 @@
 import { createStore } from "vuex";
 
+import { filterAPI } from "./API/filterAPI";
+
 export default createStore({
-  state: {},
+  state: {
+    test: 2,
+  },
   getters: {},
   mutations: {},
   actions: {},
-  modules: {},
+  modules: {
+    filterAPI: filterAPI,
+  },
 });
