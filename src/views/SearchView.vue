@@ -1,4 +1,5 @@
 <script>
+import { getAPI } from "@/service/getAPI.js";
 export default {
   name: "SearchView",
   data() {
@@ -7,6 +8,10 @@ export default {
   methods: {
     tempSwitchPage() {
       this.$router.push({ name: "ResultView" });
+      let x = getAPI(
+        "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=all"
+      );
+      console.log(x);
     },
   },
 };
