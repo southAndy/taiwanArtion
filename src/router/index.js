@@ -10,8 +10,9 @@ const router = createRouter({
   routes: [
     {
       path: "/",
-      name: "home",
+      name: "HomeView",
       component: HomeView,
+      alias: "/home",
     },
     // {
     //   path: "/nearby",
