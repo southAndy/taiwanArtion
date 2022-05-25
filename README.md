@@ -5,6 +5,14 @@
 1. 展覽資訊分散
 2. 希望能做到更直覺的搜尋方式
 
+## 目前進度:
+透過release分支,可以看當前的網站狀況:
+https://darling-druid-bd8bb2.netlify.app/
+
+1. 串接API呈現首頁
+2. 手機版畫面製作中...
+
+
 ### 團隊成員：
 1. [前端工程師Andy]()
 2. [設計師Penny](https://www.behance.net/penny840423ef0)
