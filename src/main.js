@@ -6,4 +6,8 @@ import store from "./store";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
 
-createApp(App).use(store).use(router).mount("#app");
+//todo 引入ant-desgin
+import Antd from "ant-design-vue";
+import "ant-design-vue/dist/antd.css";
+
+createApp(App).use(Antd).use(store).use(router).mount("#app");

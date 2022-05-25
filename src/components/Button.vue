@@ -1,5 +1,5 @@
 <template>
-  <button @click="selectExhibitionTime">{{ api }}</button>
+  <button @click="selectExhibitionTime"><slot></slot>{{ api }}</button>
 </template>
 <script>
 export default {
@@ -12,6 +12,7 @@ export default {
     selectExhibitionTime(event) {
       //event points tag self
       let selectTime = event.target.innerText;
+      console.log(selectTime);
       //回傳button value
       this.$emit("update", selectTime);
     },
@@ -28,6 +29,9 @@ button {
   color: black;
   border: none;
   border-radius: 4px;
+  //button space
+  margin-right: 5px;
+  margin-bottom: 5px;
   &:hover {
     background-color: colors.$primary_color;
     color: white;
