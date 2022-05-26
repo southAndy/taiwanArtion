@@ -9,13 +9,19 @@
         <!-- todo 字體太大的...效果 -->
         <h3 class="card_content-title">{{ api?.title }}</h3>
         <!--? time -->
-        <p>展覽日期: {{ api?.startDate }} - {{ api?.endDate }}</p>
+        <p class="card_content-time">
+          {{ api?.startDate }} - {{ api?.endDate }}
+        </p>
         <!-- ? city,location -->
-        <p>地點: {{ api.showInfo[0].location || "縣市" }}</p>
-        <p>單位: {{ api.showUnit || "單位" }}</p>
+        <p class="card_content-place">
+          {{ api.showInfo[0].location || "縣市" }}
+        </p>
+        <p class="card_content-unit">{{ api.showUnit || "單位" }}</p>
       </div>
       <!-- ? price -->
-      <!-- <span>{{ api.showInfo[0].price }}</span> -->
+      <span class="card_content-price">{{
+        api.showInfo[0].price || "免費入場"
+      }}</span>
     </router-link>
   </div>
 </template>
@@ -42,7 +48,15 @@ export default {
   border-radius: 10px;
   margin-bottom: 15px;
 
+  padding: 20px;
+
+  a {
+    display: flex;
+  }
+
   &_image {
+    flex-basis: 40%;
+
     width: 100%;
     height: 100%;
     margin-bottom: 10px;
@@ -52,12 +66,26 @@ export default {
     }
   }
   &_content {
-    padding: 2px 10px;
+    flex-basis: 40%;
+    margin-left: 10px;
+
     &-title {
-      font-size: 20px;
+      font-size: 18px;
     }
     p {
       text-align: start;
+    }
+    &-time {
+      font-size: 11px;
+      width: 145px;
+    }
+    &-price {
+      align-self: end;
+      background: #be875c;
+      color: white;
+      border-radius: 4px;
+      font-size: 12px;
+      flex-basis: 20%;
     }
   }
 }
