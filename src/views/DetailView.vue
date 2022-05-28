@@ -1,8 +1,15 @@
 <script>
 import Price from "@/components/Price.vue";
+import Introduce from "@/components/Introduce.vue";
+import Information from "@/components/Information.vue";
+
 export default {
   name: "detailView",
-  components: { Price },
+  components: {
+    Price,
+    Introduce,
+    Information,
+  },
   data() {
     return {
       imageList: [
@@ -11,8 +18,13 @@ export default {
         require("@/assets/images/Rectangle12.png"),
         require("@/assets/images/Rectangle13.png"),
       ],
-      currentMenu: "Price",
+      currentMenu: "Introduce",
     };
+  },
+  methods: {
+    changePage(page) {
+      this.currentMenu = page;
+    },
   },
 };
 </script>
@@ -37,9 +49,9 @@ export default {
       </div>
     </div>
     <div class="detail_menu">
-      <button>展覽資訊</button>
-      <button>票價</button>
-      <button>展覽介紹</button>
+      <button @click="changePage('Information')">展覽資訊</button>
+      <button @click="changePage('Price')">票價</button>
+      <button @click="changePage('Introduce')">展覽介紹</button>
     </div>
     <div class="detail_content">
       <component :is="currentMenu" />
