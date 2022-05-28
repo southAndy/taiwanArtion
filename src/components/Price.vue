@@ -25,10 +25,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-%subtitle {
-  color: #cdcdcd;
-  font-size: 12px;
-}
+@use "@/assets/scss/base/fonts";
+// %subtitle {
+//   color: #cdcdcd;
+//   font-size: 12px;
+// }
 
 .price {
   h4 {
