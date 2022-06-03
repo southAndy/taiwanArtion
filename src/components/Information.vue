@@ -27,7 +27,7 @@ export default {
 .information {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   text-align: start;
 
   h4 {
