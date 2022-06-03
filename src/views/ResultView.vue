@@ -10,21 +10,36 @@ export default {
     Search,
     Navbar_select,
   },
+  methods: {},
 };
 </script>
 <template>
   <div class="result">
     <Search />
     <Navbar_select />
-    <h3>臺北市,共500件展覽</h3>
-    <router-link :to="{ name: 'ResultView' }">card</router-link>
-    <router-view>
-      <Result_Card />
-    </router-view>
+    <h3 class="result_title">臺北市,共500件展覽</h3>
+    <div class="result_card">
+      <router-link
+        :to="{ name: 'DetailView', params: { id: 4 } }"
+        v-for="result in 4"
+        :key="result"
+      >
+        <Result_Card />
+      </router-link>
+      <router-view></router-view>
+    </div>
   </div>
 </template>
-<style>
+<style lang="scss" scoped>
 .result {
   padding: 16px;
+  &_title {
+    font-size: 16px;
+    text-align: start;
+  }
+  &_card {
+    display: flex;
+    flex-direction: column;
+  }
 }
 </style>
