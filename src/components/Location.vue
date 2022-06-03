@@ -21,7 +21,7 @@
         />
       </div>
     </section>
-    <Send @click="sendResult" />
+    <Send @click="sendResult" :class="{ selected: this.selected }" />
   </div>
 </template>
 <script>
@@ -69,6 +69,7 @@ export default {
     // todo common methods
     sendResult() {
       console.log("sendResult");
+      this.$store.commit("receivedSelected", this.selected);
       this.$router.push({
         name: "ResultView",
         query: { selected: this.selected },
@@ -78,6 +79,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "@/assets/scss/base/colors";
+
 .location {
   margin-top: 16px;
 
@@ -103,5 +106,9 @@ export default {
     flex-wrap: wrap;
     flex: 1;
   }
+}
+.selected {
+  background-color: colors.$primary-color;
+  color: white;
 }
 </style>

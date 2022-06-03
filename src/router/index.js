@@ -33,14 +33,15 @@ const router = createRouter({
     {
       path: "/result",
       name: "ResultView",
+      props: true,
       component: () => import("../views/ResultView.vue"),
-      children: [
-        {
-          path: "detail/:id?",
-          name: "DetailView",
-          component: () => import("../views/DetailView.vue"),
-        },
-      ],
+      children: [],
+    },
+    {
+      path: "/result/detail/:id?",
+      name: "DetailView",
+      props: true,
+      component: () => import("../views/DetailView.vue"),
     },
     {
       path: "/shared",
