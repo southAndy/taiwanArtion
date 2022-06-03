@@ -4,17 +4,14 @@
 <script>
 export default {
   name: "SendResult",
-  props: {
-    selected: String,
-  },
-  methods: {
-    sendResult() {
-      this.$router.push({
-        name: "ResultView",
-        query: { selected: this.selected },
-      });
-    },
-  },
+  // props: {
+  //   selected: String,
+  // },
+  // methods: {
+  //   sendResult() {
+  //     this.$emit("entered", true);
+  //   },
+  // },
 };
 </script>
 <style>
