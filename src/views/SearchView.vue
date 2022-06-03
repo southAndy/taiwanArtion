@@ -24,9 +24,8 @@ export default {
   <div class="search">
     <Search />
     <Select_Navbar />
-
     <!-- todo 同步變色 -->
-    <button class="search_send" @click="sendSearch">確定</button>
+    <!-- <button class="search_send" @click="sendSearch">確定</button> -->
   </div>
 </template>
 <style lang="scss" scoped>
