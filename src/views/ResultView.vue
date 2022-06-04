@@ -33,7 +33,7 @@ export default {
     </h3>
     <div class="result_card" v-if="receivedCity">
       <router-link
-        :to="{ name: 'DetailView', params: { id: 4 } }"
+        :to="{ name: 'DetailView', params: { id: result.UID } }"
         v-for="result in receivedCity"
         :key="result"
       >

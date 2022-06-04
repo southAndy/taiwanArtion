@@ -7,6 +7,7 @@ export default createStore({
   state: () => ({
     api: [],
     selected: null,
+    currentPageUID: null,
   }),
   getters: {
     withImageAPI(state) {
@@ -17,6 +18,9 @@ export default createStore({
         data?.showInfo[0]?.location.startsWith(state.selected)
       );
     },
+    withSpecificUIDAPI(state) {
+      return state?.api.filter((data) => data?.UID === state.currentPageUID);
+    },
     //todo 篩選日期 --- week
     withinWeekAPI() {},
     //todo 篩選日期 --- month
@@ -25,13 +29,18 @@ export default createStore({
     withinMonthsAPI() {},
   },
   mutations: {
+    //store fetched api to state
     recievedAPI(state, api) {
-      // console.log(api);
       state.api = api;
     },
+    // todo 整合logic
+    //store user selected parameter to state
     receivedSelected(state, selected) {
-      console.log(selected);
       this.state.selected = selected;
+    },
+    // store api UID to state
+    receivedUID(state, UID) {
+      this.state.currentPageUID = UID;
     },
   },
   actions: {
