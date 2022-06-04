@@ -3,6 +3,8 @@ import Price from "@/components/Price.vue";
 import Introduce from "@/components/Introduce.vue";
 import Information from "@/components/Information.vue";
 
+import addEventToCalendar from "@/service/getCalendar";
+
 export default {
   name: "detailView",
   components: {
@@ -19,42 +21,83 @@ export default {
         require("@/assets/images/Rectangle13.png"),
       ],
       currentMenu: "Introduce",
+      addEvent: "",
     };
+  },
+  computed: {
+    withSpecificUIDAPI() {
+      return this.$store.getters?.withSpecificUIDAPI;
+    },
   },
   methods: {
     changePage(page) {
       this.currentMenu = page;
     },
+    addCalendarEvent(selecedAPI) {
+      console.log(selecedAPI);
+      let eventTitle = selecedAPI.title;
+      console.log(eventTitle);
+
+      function transferTime(time) {
+        console.log(time);
+        let timeStore = "";
+        for (let begin = 0; begin < time.length; begin++) {
+          if (time[begin] !== "/") {
+            console.log(time[begin]);
+            timeStore = timeStore + time[begin];
+          }
+        }
+        return timeStore;
+      }
+      let startDate = transferTime(selecedAPI.startDate);
+      let endDate = transferTime(selecedAPI.endDate);
+
+      this.addEvent = addEventToCalendar(
+        encodeURI(eventTitle),
+        startDate,
+        endDate
+      );
+    },
+  },
+  created() {
+    this.$store.commit("receivedUID", this.$route.params.id);
+    this.$store.dispatch("getAPI");
   },
 };
 </script>
 <template>
   <div class="detail">
-    <div class="detail_banner">
-      <img src="@/assets/images/Frame89拷貝.png" alt="" />
+    <div class="detail_banner" v-if="withSpecificUIDAPI">
+      <img :src="withSpecificUIDAPI[0]?.imageUrl" alt="展覽海報" />
     </div>
     <a
       class="detail_calendar"
-      href="https://calendar.google.com/calendar/u/0/r/eventedit?text=5/31+%E9%80%99%E4%B8%80%E6%AC%A1%EF%BC%8C%E6%8F%9B%E8%80%81%E9%97%86%E7%B0%A1%E5%A0%B1%E7%B5%A6%E4%BD%A0%E8%81%BD%EF%BC%81%E2%80%94%E2%80%94+Speed+Interview+Summer+2022&dates=20220531T013000Z/20220531T090000Z&details=https://meetjobs.kktix.cc/events/si2022-summer&location&trp=true&sprop=https://meetjobs.kktix.cc/events/si2022-summer&sprop=name:KKTIX&sf=true"
+      @click="addCalendarEvent(withSpecificUIDAPI[0])"
+      :href="addEvent"
     >
       <img src="@/assets/images/calendar.png" alt="calendar-icon" />
     </a>
     <div class="detail_header">
-      <h2 class="detail_header-title">會動的文藝復興</h2>
+      <!-- todo skeleton -->
+      <h2 class="detail_header-title" v-if="withSpecificUIDAPI">
+        {{ withSpecificUIDAPI[0]?.title }}
+      </h2>
+      <!-- todo through price to judment -->
       <span class="detail_header-onsale">開賣中</span>
     </div>
-    <div class="detail_gallery">
+    <!-- todo 有資料可以使用 -->
+    <!-- <div class="detail_gallery">
       <div class="detail_gallery-item" v-for="image in imageList" :key="image">
         <img :src="image" alt="image" />
       </div>
-    </div>
+    </div> -->
     <div class="detail_menu">
       <button @click="changePage('Information')">展覽資訊</button>
       <button @click="changePage('Price')">票價</button>
       <button @click="changePage('Introduce')">展覽介紹</button>
     </div>
     <div class="detail_content">
-      <component :is="currentMenu" />
+      <component :is="currentMenu" :withSpecificUIDAPI="withSpecificUIDAPI" />
     </div>
   </div>
 </template>
@@ -70,6 +113,11 @@ export default {
     right: 13%;
     padding: 1px 4px;
     border-radius: 10px;
+  }
+  &_banner {
+    img {
+      width: 100%;
+    }
   }
   &_header {
     display: flex;
