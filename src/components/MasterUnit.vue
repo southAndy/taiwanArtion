@@ -1,15 +1,15 @@
 <template>
   <div class="master">
-    <Button v-for="(value, index) in masterUnitList" :key="index">
+    <Selected v-for="(value, index) in masterUnitList" :key="index">
       {{ value }}
-    </Button>
+    </Selected>
   </div>
 </template>
 <script>
-import Button from "@/components/Button.vue";
+import Selected from "@/components/Buttons/Selected.vue";
 export default {
   name: "MasterUnit",
-  components: { Button },
+  components: { Selected },
   data() {
     return {
       masterUnitList: ["不限", "文創園區", "美術館", "藝文中心"],

@@ -55,21 +55,21 @@ export default {
         this.isInDate = false;
         this.isInLocation = true;
         this.currentPage = page;
-        console.log("now in the:", page);
+        // console.log("now in the:", page);
       }
       if (page === "MasterUnit") {
         this.isInMasterUnit = true;
         this.isInDate = false;
         this.isInLocation = false;
         this.currentPage = page;
-        console.log("now in the:", page);
+        // console.log("now in the:", page);
       }
       if (page === "AntCalendar") {
         this.isInMasterUnit = false;
         this.isInDate = true;
         this.isInLocation = false;
         this.currentPage = page;
-        console.log("now in the:", page);
+        // console.log("now in the:", page);
       }
     },
   },
