@@ -27,7 +27,7 @@
         <a href="##">See All</a>
       </div>
       <div class="filter">
-        <Button
+        <Selected
           v-for="(data, index) in time"
           :key="index"
           :api="data"
@@ -45,7 +45,7 @@
 // import HomeNavbar from "@/components/HomeNavbar.vue";
 import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
-import Button from "@/components/Button.vue";
+import Selected from "@/components/Buttons/Selected.vue";
 
 import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
@@ -53,7 +53,7 @@ export default {
   components: {
     // HomeNavbar,
     Card,
-    Button,
+    Selected,
     Carousel,
   },
   async created() {
