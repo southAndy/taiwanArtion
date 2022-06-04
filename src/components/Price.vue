@@ -7,13 +7,15 @@
     <div class="price_list">
       <h4>購票資訊</h4>
       <ol>
-        <li v-for="list in 4" :key="list">
-          <span class="price_list-category">一般票</span
-          ><span class="price_list-price">$490</span
-          ><span class="price_list-rule"
-            >>1. 3歲(含)以上兒童 2.
-            本國大專院校以下學生(不含碩博士、空中大學等)，需出示相關有效證件正本</span
-          >
+        <li v-for="list in withSpecificUIDAPI" :key="list">
+          <span class="price_list-category">{{
+            withSpecificUIDAPI[0].showInfo[0].onSales === "Y"
+              ? "需要購票"
+              : "不需要購票"
+          }}</span
+          ><span class="price_list-rule">{{
+            withSpecificUIDAPI[0].showInfo[0].price
+          }}</span>
         </li>
       </ol>
     </div>
@@ -21,6 +23,7 @@
 </template>
 <script>
 export default {
+  props: ["withSpecificUIDAPI"],
   name: "Detail_Price",
 };
 </script>
