@@ -6,11 +6,16 @@ import { getAPI } from "@/service/getAPI.js";
 export default createStore({
   state: () => ({
     api: [],
+    selected: null,
   }),
   getters: {
-    //todo contain image's apis
     withImageAPI(state) {
       return state?.api.filter((value) => value.imageUrl !== "");
+    },
+    withSpecificCityAPI(state) {
+      return state?.api.filter((data) =>
+        data?.showInfo[0]?.location.startsWith(state.selected)
+      );
     },
     //todo 篩選日期 --- week
     withinWeekAPI() {},
@@ -23,6 +28,10 @@ export default createStore({
     recievedAPI(state, api) {
       // console.log(api);
       state.api = api;
+    },
+    receivedSelected(state, selected) {
+      console.log(selected);
+      this.state.selected = selected;
     },
   },
   actions: {

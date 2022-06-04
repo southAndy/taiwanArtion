@@ -1,18 +1,26 @@
 <template>
   <div class="result_card">
     <div class="card_image">
-      <img src="@/assets/images/Frame89.png" alt="" />
+      <!-- <img src="@/assets/images/Frame89.png" alt="" /> -->
+      <img
+        :src="result.imageUrl || `@/assets/images/Frame89.png`"
+        alt="展覽圖片"
+      />
     </div>
     <div class="card_content">
       <div class="title">
         <!-- todo api replace -->
-        <h3>會動的文藝復興</h3>
-        <p>2020/03/21-4/20</p>
+        <h3>{{ result.title }}</h3>
+        <p>{{ result.startDate }}-{{ result.endDate }}</p>
       </div>
       <div class="content">
         <i class="content_icon"></i>
-        <p class="content_place">台南市,奇美博物館</p>
-        <p class="content_price">$300</p>
+        <p class="content_place">
+          {{ result.showInfo[0].location }},{{ result.showUnit }}
+        </p>
+        <p class="content_price">
+          {{ result.showInfo[0].price || "無票價資訊" }}
+        </p>
       </div>
     </div>
   </div>
@@ -20,9 +28,11 @@
 <script>
 export default {
   name: "Result",
+  props: ["result"],
 };
 </script>
 <style lang="scss" scoped>
+//mobile :390px i12-pro
 @use "@/assets/scss/base/reset";
 .result_card {
   background: #f5f5f5;
@@ -34,13 +44,21 @@ export default {
   margin: 0 auto;
   margin-bottom: 16px;
 
+  .card_image {
+    img {
+      width: 100%;
+    }
+  }
+
   .card_content {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
 
     .title {
+      flex-basis: 60%;
       align-self: center;
+      text-align: start;
       h3 {
         font-size: 18px;
         margin: 0;
@@ -52,6 +70,7 @@ export default {
       }
     }
     .content {
+      flex-basis: 40%;
       font-size: 12px;
       &_icon {
         background: url("@/assets/images/Vector拷貝.png") no-repeat;
