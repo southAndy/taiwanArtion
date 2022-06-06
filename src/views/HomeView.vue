@@ -36,13 +36,10 @@
       </div>
       <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
     </section>
-    <!-- <HomeNavbar /> -->
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-// import HomeNavbar from "@/components/HomeNavbar.vue";
 import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
@@ -51,10 +48,10 @@ import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
   name: "HomeView",
   components: {
-    // HomeNavbar,
     Card,
     Selected,
     Carousel,
+    // Banner,
   },
   async created() {
     // await this.$store.dispatch("filterAPI/getAPI");
