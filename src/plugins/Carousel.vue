@@ -31,7 +31,10 @@
         ></button>
       </div>
       <div class="carousel-inner container p-0 carousel_layout" v-if="api">
-        <router-link :to="{}" class="carousel-item w-100 h-100 active">
+        <router-link
+          :to="{ name: 'DetailView', params: { id: api[1]?.UID } }"
+          class="carousel-item items_size active"
+        >
           <img
             :src="api[1]?.imageUrl"
             class="d-block w-100"
@@ -39,12 +42,14 @@
             v-if="api"
           />
           <p class="title">
-            <!-- {{ api[`${Math.floor(Math.random() * 50)}`]?.title }} -->
             {{ api[1]?.title }}
           </p>
           <p>{{ api[1]?.startDate }} - {{ api[1]?.endDate }}</p>
         </router-link>
-        <router-link :to="{}" class="carousel-item h-100 w-100">
+        <router-link
+          :to="{ name: 'DetailView', params: { id: api[2]?.UID } }"
+          class="carousel-item items_size"
+        >
           <img
             :src="api[2]?.imageUrl"
             class="d-block w-100"
@@ -52,20 +57,21 @@
             v-if="api"
           />
           <p class="title">
-            <!-- {{ api[`${Math.floor(Math.random() * 50)}`]?.title }} -->
             {{ api[2]?.title }}
           </p>
           <p>{{ api[2]?.startDate }} - {{ api[2]?.endDate }}</p>
         </router-link>
-        <router-link :to="{}" class="carousel-item h-100">
+        <router-link
+          :to="{ name: 'DetailView', params: { id: api[3]?.UID } }"
+          class="carousel-item items_size"
+        >
           <img
             :src="api[3]?.imageUrl"
-            class="d-block w-100 h-100"
+            class="d-block w-100"
             alt=""
             v-if="api"
           />
           <p class="title">
-            <!-- {{ api[`${Math.floor(Math.random() * 50)}`]?.title }} -->
             {{ api[3]?.title }}
           </p>
           <p>{{ api[3]?.startDate }} - {{ api[3]?.endDate }}</p>
@@ -76,19 +82,13 @@
         type="button"
         data-bs-target="#carouselExampleIndicators"
         data-bs-slide="prev"
-      >
-        <!-- <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span> -->
-      </button>
+      ></button>
       <button
         class="carousel-control-next me-5"
         type="button"
         data-bs-target="#carouselExampleIndicators"
         data-bs-slide="next"
-      >
-        <!-- <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span> -->
-      </button>
+      ></button>
     </div>
   </div>
 </template>
@@ -101,10 +101,7 @@ export default {
       homeAPI: this.api,
     };
   },
-  computed: {
-    // radomSelectAPI() {
-    // },
-  },
+  computed: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -131,10 +128,14 @@ export default {
   button {
     text-align: center;
     marign: 0 auto;
-    color: aquamarine;
-    &:active {
-      background-color: aqua;
-    }
+  }
+}
+.items_size {
+  height: 390px;
+  width: 100%;
+  img {
+    height: 300px;
+    object-fit: cover;
   }
 }
 </style>
