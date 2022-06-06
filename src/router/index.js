@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import Home_Banner from "../views/Banner.vue";
 
 // import SearchMapView from "../views/SearchMapView.vue";
 import SearchView from "../views/SearchView.vue";
@@ -10,9 +11,13 @@ const router = createRouter({
   routes: [
     {
       path: "/",
+      name: "Home_Banner",
+      component: Home_Banner,
+    },
+    {
+      path: "/home",
       name: "HomeView",
       component: HomeView,
-      alias: "/home",
     },
     // {
     //   path: "/nearby",
