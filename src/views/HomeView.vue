@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <nav class="home_menu">
+    <!-- <nav class="home_menu">
       <li>
         <img src="@/assets/images/↳Color.png" alt="點擊選單" />
       </li>
@@ -9,7 +9,7 @@
           <img src="@/assets/images/icon.png" alt="搜尋" />
         </router-link>
       </li>
-    </nav>
+    </nav> -->
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -24,6 +24,7 @@
       <!-- 保有部分nest,也保有權重 -->
       <div class="title">
         <h3>近期展覽</h3>
+        <!-- todo 超連結 -->
         <a href="##">See All</a>
       </div>
       <div class="filter">
@@ -68,10 +69,21 @@ export default {
     ...mapActions([]),
     renewAPI(selected) {
       console.log("message", selected);
-      //
+      let currentTime = new Date();
+      //current year / month / day
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      let rightDay = currentTime.getDate();
+      console.log(rightYear, rightMonth, rightDay);
+      //api year / month / day
+      if (rightYear - 2022 >= 0) {
+        console.log("pass");
+        // if(月份-api>0){
+        // this.recievedAPI.filter((data,index)=>)
+        // return API.data
+      }
     },
   },
-
   computed: {
     // get api from vuex
     recievedAPI() {
