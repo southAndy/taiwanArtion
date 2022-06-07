@@ -17,58 +17,63 @@ export default {
 };
 </script>
 <template>
-  <div class="banner animation" @click="toHome">
+  <div class="banner">
     <div class="scroll_container">
-      <div class="scroll" v-for="iamge in recievedAPI" :key="iamge?.UID">
-        <img :src="iamge.imageUrl" alt="" />
-      </div>
+      <router-link
+        :to="{ name: 'DetailView', params: { id: api.UID } }"
+        class="scroll"
+        v-for="api in recievedAPI"
+        :key="api?.UID"
+      >
+        <img :src="api.imageUrl" alt="展覽海報" />
+      </router-link>
     </div>
-    <div class="circle">TaiwanArtion</div>
+    <div class="text">TaiwanArtion</div>
   </div>
 </template>
 
 <style lang="scss" scoped>
+@use "@/assets/scss/base/breakpoints";
 .banner {
   display: flex;
-  position: absolute;
-  background-color: antiquewhite;
   position: relative;
   //   transform  move imaage
   .scroll_container {
     display: flex;
-    overflow: scroll;
+    // overflow: scroll;
+    height: 100vh;
+    animation: 200s reverse linear infinite;
   }
   .scroll {
     display: flex;
     flex-wrap: wrap;
-    height: 390px;
-    width: 100%;
-    animation: scroll 1s 1s 3 alternate ease-in;
-
+    height: 100%;
+    margin-right: 10px;
+    // todo hover effect
     img {
       height: 100%;
-      witdth: 100%;
     }
   }
 
-  .circle {
+  .text {
     position: fixed;
     align-self: center;
     font-size: 50px;
-    height: 10vh;
     width: 100vw;
     mix-blend-mode: screen;
     background-color: white;
+
+    @include breakpoints.desktop {
+      font-size: 70px;
+    }
   }
-  @keyframes scroll {
+
+  @keyframes reverse {
     0% {
-      transform: translateX(-50%);
+      transform: translateX(0%);
     }
-    50% {
+    100% {
       transform: translateX(-100%);
-    }
-    75% {
-      transform: translateX(-150%);
     }
   }
 }
