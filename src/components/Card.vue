@@ -40,6 +40,7 @@ export default {
 <style lang="scss" scoped>
 @use "@/assets/scss/base/reset";
 @use "@/assets/scss/base/colors";
+@use "@/assets/scss/base/breakpoints";
 .card {
   display: flex;
   border-radius: 20px;
@@ -49,6 +50,9 @@ export default {
   margin-bottom: 15px;
 
   padding: 20px;
+  @include breakpoints.desktop {
+    flex-basis: 40%;
+  }
 
   a {
     display: flex;
