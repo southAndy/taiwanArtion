@@ -30,7 +30,8 @@ button {
   //button space
   margin-right: 5px;
   margin-bottom: 5px;
-  &:hover {
+  &:hover,
+  &:active {
     background-color: colors.$primary_color;
     color: white;
   }
