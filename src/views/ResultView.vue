@@ -12,7 +12,10 @@ export default {
   },
   computed: {
     receivedSpecificDatas() {
-      return this.$store?.state.selected;
+      return this.$store?.state.selected.filter((value) => {
+        value.showInfo[0].location = value.showInfo[0].location.slice(0, 3);
+        return value;
+      });
     },
   },
   methods: {},
@@ -43,6 +46,7 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
+@use "@/assets/scss/base/breakpoints";
 .result {
   padding: 16px;
   &_title {
@@ -52,6 +56,12 @@ export default {
   &_card {
     display: flex;
     flex-direction: column;
+    @include breakpoints.desktop {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
   }
 }
 </style>

@@ -19,7 +19,7 @@
           {{ result.showInfo[0].location }},{{ result.showUnit }}
         </p>
         <p class="content_price">
-          {{ result.showInfo[0].price || "無票價資訊" }}
+          {{ result.showInfo[0].price ? "需要購票" : "無票價資訊" }}
         </p>
       </div>
     </div>
@@ -54,13 +54,14 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 15px;
+    gap: 10px;
 
     .title {
       flex-basis: 60%;
       align-self: center;
       text-align: start;
       h3 {
-        font-size: 18px;
+        font-size: 14px;
         margin: 0;
       }
       p {
