@@ -14,10 +14,10 @@
       </div>
       <div class="location_city">
         <Selected
-          :api="city"
-          @update="updateAPI"
           v-for="city in locate.cities"
           :key="city"
+          :api="city"
+          @update="updateAPI"
         />
       </div>
     </section>
@@ -68,8 +68,9 @@ export default {
     },
     // todo common methods
     sendResult() {
-      console.log("sendResult");
-      this.$store.commit("receivedSelected", this.selected);
+      //當在相同頁面重新整理 call api
+      this.$store.dispatch("getAPI");
+      this.$store.commit("filterSpecificCities", this.selected);
       this.$router.push({
         name: "ResultView",
         query: { selected: this.selected },
