@@ -11,14 +11,13 @@ export default {
     Navbar_select,
   },
   computed: {
-    receivedCity() {
-      return this.$store.getters?.withSpecificCityAPI;
+    receivedSpecificDatas() {
+      return this.$store?.state.selected;
     },
   },
   methods: {},
-  created() {
-    this.$store.commit("receivedSelected", this.$route.query.selected);
-    this.$store.dispatch("getAPI");
+  async created() {
+    await this.$store.dispatch("getAPI");
   },
 };
 </script>
@@ -27,14 +26,14 @@ export default {
     <Search />
     <Navbar_select />
     <h3 class="result_title">
-      {{ this.$store.state.selected }}市,{{
-        `找到${receivedCity.length}件展覽!` || "共500件展覽"
+      {{ "臺南" }}市,{{
+        `找到${receivedSpecificDatas?.length}件展覽!` || "共500件展覽"
       }}
     </h3>
-    <div class="result_card" v-if="receivedCity">
+    <div class="result_card" v-if="receivedSpecificDatas">
       <router-link
         :to="{ name: 'DetailView', params: { id: result.UID } }"
-        v-for="result in receivedCity"
+        v-for="result in receivedSpecificDatas"
         :key="result"
       >
         <Result_Card :result="result" />

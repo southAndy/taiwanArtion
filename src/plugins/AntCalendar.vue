@@ -48,7 +48,8 @@
                 </a-radio-group>
               </a-col>
               <a-col>
-                <a-select
+                <!-- ! 跨年分暫停 -->
+                <!-- <a-select
                   size="small"
                   :dropdown-match-select-width="false"
                   class="my-year-select"
@@ -64,9 +65,8 @@
                     :key="String(val)"
                     class="year-item"
                   >
-                    {{ val }}
                   </a-select-option>
-                </a-select>
+                </a-select> -->
               </a-col>
               <a-col>
                 <a-select
@@ -86,6 +86,7 @@
                     :key="String(index)"
                     class="month-item"
                   >
+                    <!-- todo select month -->
                     {{ val }}
                   </a-select-option>
                 </a-select>
@@ -95,12 +96,32 @@
         </template>
       </a-calendar>
     </div>
+    <Send @click="sendResult(value)" />
+    <!-- <button @click="test(value)">確定</button> -->
   </div>
 </template>
 <script>
 import { defineComponent, ref } from "vue";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import Send from "@/components/Buttons/Send.vue";
 export default defineComponent({
+  components: { Send },
   setup() {
+    const router = useRouter();
+    const store = useStore();
+
+    function sendResult(value) {
+      console.log(value, value.$d);
+      store.commit("filterfilterSpecificDate", value.$d);
+      router.push({
+        name: "ResultView",
+        query: {
+          //ant-design value
+          selected: value.$d,
+        },
+      });
+    }
     const value = ref();
 
     const monthList = [
@@ -151,6 +172,7 @@ export default defineComponent({
       getYears,
       //custom part -----
       monthList,
+      sendResult,
     };
   },
 });

@@ -21,7 +21,10 @@
     </button>
   </nav>
   <div class="search_content">
-    <component :is="currentPage"></component>
+    <component
+      :is="currentPage"
+      :style="{ display: count ? 'none' : 'block' }"
+    ></component>
   </div>
 </template>
 <script>
@@ -44,6 +47,7 @@ export default {
       isInMasterUnit: false,
       isInDate: false,
       isActive: true,
+      count: true,
     };
   },
 
@@ -55,6 +59,7 @@ export default {
         this.isInDate = false;
         this.isInLocation = true;
         this.currentPage = page;
+        this.count = !this.count;
         // console.log("now in the:", page);
       }
       if (page === "MasterUnit") {
@@ -62,6 +67,8 @@ export default {
         this.isInDate = false;
         this.isInLocation = false;
         this.currentPage = page;
+        this.count = !this.count;
+
         // console.log("now in the:", page);
       }
       if (page === "AntCalendar") {
@@ -69,6 +76,8 @@ export default {
         this.isInDate = true;
         this.isInLocation = false;
         this.currentPage = page;
+        this.count = !this.count;
+
         // console.log("now in the:", page);
       }
     },
