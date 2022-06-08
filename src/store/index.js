@@ -49,7 +49,18 @@ export default createStore({
         data?.showUnit.includes(unit)
       );
     },
-
+    filterfilterSpecificDate(state, date) {
+      // //? 搜尋selecteddate以後展覽ing的資料
+      let selectedMonth = new Date(date).getMonth();
+      console.log(selectedMonth);
+      this.state.selected = this.state.api.filter((data) => {
+        //? 判斷api展覽日期
+        let apiDate = new Date(data.endDate).getMonth();
+        if (selectedMonth < apiDate) {
+          return data;
+        }
+      });
+    },
     // store api UID to state
     receivedUID(state, UID) {
       this.state.currentPageUID = UID;
