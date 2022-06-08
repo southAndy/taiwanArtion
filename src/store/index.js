@@ -18,6 +18,11 @@ export default createStore({
         data?.showInfo[0]?.location.startsWith(state.selected)
       );
     },
+    withMasterUnit(state) {
+      return state?.api.filter((data) =>
+        data?.showUnit.includes(state.selected)
+      );
+    },
     withSpecificUIDAPI(state) {
       return state?.api.filter((data) => data?.UID === state.currentPageUID);
     },
@@ -33,11 +38,18 @@ export default createStore({
     recievedAPI(state, api) {
       state.api = api;
     },
-    // todo 整合logic
     //store user selected parameter to state
-    receivedSelected(state, selected) {
-      this.state.selected = selected;
+    filterSpecificCities(state, city) {
+      this.state.selected = this.state.api.filter((data) =>
+        data?.showInfo[0]?.location.startsWith(city)
+      );
     },
+    filterSpecificMasterUnit(state, unit) {
+      this.state.selected = state?.api.filter((data) =>
+        data?.showUnit.includes(unit)
+      );
+    },
+
     // store api UID to state
     receivedUID(state, UID) {
       this.state.currentPageUID = UID;
