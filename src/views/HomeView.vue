@@ -35,7 +35,9 @@
           @update="renewAPI"
         />
       </div>
-      <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
+      <div class="content">
+        <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
+      </div>
     </section>
   </div>
 </template>
@@ -55,7 +57,6 @@ export default {
     // Banner,
   },
   async created() {
-    // await this.$store.dispatch("filterAPI/getAPI");
     await this.$store.dispatch("getAPI");
   },
   data() {
@@ -99,6 +100,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @use "@/assets/scss/base/reset.scss";
+@use "@/assets/scss/base/breakpoints";
 .home {
   display: flex;
   flex-direction: column;
@@ -149,6 +151,7 @@ export default {
       color: #757575;
     }
     .filter {
+      display: flex;
       text-align: start;
       margin-bottom: 16px;
 
@@ -158,6 +161,16 @@ export default {
         &:last-child {
           margin-right: 0;
         }
+      }
+      @include breakpoints.desktop {
+        justify-content: center;
+      }
+    }
+    .content {
+      @include breakpoints.desktop {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
       }
     }
   }
