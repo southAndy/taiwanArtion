@@ -6,12 +6,13 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test":"jest"
+    "test": "jest"
   },
   "dependencies": {
     "ant-design-vue": "^3.2.4",
     "bootstrap": "^5.1.3",
     "core-js": "^3.8.3",
+    "leaflet": "^1.8.0",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
