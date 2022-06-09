@@ -3,6 +3,14 @@
     <li>
       <img src="@/assets/images/↳Color.png" alt="點擊選單" />
     </li>
+    <div class="menu_desktop">
+      <li>
+        <router-link to="/search-map">附近展覽</router-link>
+      </li>
+      <li>
+        <router-link to="/search-map">分享展覽</router-link>
+      </li>
+    </div>
     <li>
       <router-link to="/search">
         <img src="@/assets/images/icon.png" alt="搜尋" />
@@ -14,6 +22,7 @@
 
 <style lang="scss">
 @use "@/assets/scss/base/reset.scss";
+@use "@/assets/scss/base/breakpoints";
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -27,5 +36,17 @@
   display: flex;
   justify-content: space-between;
   padding: 16px;
+  @include breakpoints.desktop {
+    justify-content: flex-end;
+    gap: 15px;
+  }
+  .menu_desktop {
+    @include breakpoints.desktop {
+      display: flex;
+    }
+  }
+  a {
+    color: black;
+  }
 }
 </style>

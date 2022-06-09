@@ -49,6 +49,11 @@ const router = createRouter({
       component: () => import("../views/DetailView.vue"),
     },
     {
+      path: "/search-map",
+      name: "SearchMap",
+      component: () => import("../views/SearchMapView.vue"),
+    },
+    {
       path: "/shared",
       name: "Shared",
       component: () => import("../views/SharedView.vue"),
