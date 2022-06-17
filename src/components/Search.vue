@@ -5,22 +5,37 @@
         class="search_filter_input"
         type="text"
         placeholder="        Search"
+        v-model="userInput"
+        @click="detectClick"
+        @keyup.enter="sendResult"
       />
       <div class="search_filter_input-icon">
-        <img src="@/assets/images/Vector拷貝3.png" alt="" />
+        <img
+          v-if="showInputIcon"
+          src="@/assets/images/Vector拷貝3.png"
+          alt=""
+        />
       </div>
     </div>
     <section @click="isExhibitionStart" class="search_filter_select">
-      是否已開展
+      {{ selected || "是否已開展" }}
       <div class="search_filter_select-icon">
-        <img src="@/assets/images/icon拷貝.png" alt="" />
+        <img
+          src="@/assets/images/icon拷貝.png"
+          alt="裝飾箭頭"
+          v-if="showIcon"
+        />
       </div>
+      <ol class="search_filter_select-menu" v-if="dropMenu">
+        <li
+          v-for="(option, index) in options"
+          :key="index"
+          @click="switchContent(option.text)"
+        >
+          {{ option.text }}
+        </li>
+      </ol>
     </section>
-    <ol class="search_filter_select-menu" v-if="dropMenu">
-      <li v-for="(option, index) in options" :key="index">
-        {{ option.text }}
-      </li>
-    </ol>
   </section>
 </template>
 <script>
@@ -29,13 +44,35 @@ export default {
   props: [],
   data() {
     return {
+      userInput: "",
       dropMenu: false,
       options: [{ text: "不限" }, { text: "已開展" }, { text: "尚未開展" }],
+      showInputIcon: true,
+      selected: "",
+      showIcon: true,
+      searchList: [],
     };
   },
   methods: {
+    detectClick() {
+      console.log("clicked");
+      this.showInputIcon = !this.showInputIcon;
+      this.$emit("isClicked", true);
+    },
     isExhibitionStart() {
       this.dropMenu = !this.dropMenu;
+    },
+    switchContent(content) {
+      this.selected = content;
+      this.showIcon = false;
+    },
+    sendResult() {
+      console.log("search:", this.userInput);
+      this.searchList.push(this.userInput);
+      let store = JSON.parse(this.searchList);
+      console.log(store);
+
+      localStorage.setItem("useSearch", store);
     },
   },
 };
@@ -62,11 +99,14 @@ export default {
   }
   &_select {
     display: flex;
+    justify-content: center;
+
     color: #b4b4b4;
     background: #ffffff;
     border: 1px solid #cdcdcd;
-    border-radius: 8px 8px 0 0;
+    border-radius: 10px;
     padding: 5px;
+    width: 120px;
     cursor: pointer;
     position: relative;
 
@@ -80,9 +120,10 @@ export default {
     }
     &-menu {
       position: absolute;
-      top: 8%;
-      left: 59%;
+      top: 105%;
+      left: 0%;
       padding: 0;
+      z-index: 1;
 
       li {
         width: 115.9px;

@@ -8,6 +8,9 @@ export default createStore({
     api: [],
     selected: null,
     currentPageUID: null,
+    specificRangeExhibitions: null,
+    latitude: 0,
+    longitude: 0,
   }),
   getters: {
     withImageAPI(state) {
@@ -61,6 +64,66 @@ export default createStore({
         }
       });
     },
+    //? homePage filter
+    openWithinWeek(state) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() <= 0) {
+          if (rightMonth <= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    openWithinMonth(state, range) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() >= 0) {
+          if (rightMonth + range >= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    openWithThreeMonth(state, range) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() >= 0) {
+          if (rightMonth + range >= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    //? update position
+    updatePosition(state, position) {
+      console.log("recieved", position);
+      state.latitude = position;
+    },
     // store api UID to state
     receivedUID(state, UID) {
       this.state.currentPageUID = UID;
@@ -69,6 +132,18 @@ export default createStore({
   actions: {
     async getAPI({ commit }) {
       commit("recievedAPI", await getAPI.getAllAPI());
+    },
+    async getCurrentPosition({ commit }) {
+      console.log("excuting..");
+      const userPosition = function () {
+        return navigator.geolocation.getCurrentPosition(
+          (position) => position.coords
+        );
+      };
+      let x = userPosition();
+
+      console.log(x);
+      commit("updatePosition", userPosition());
     },
   },
   modules: {
