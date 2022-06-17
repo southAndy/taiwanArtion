@@ -28,7 +28,9 @@ export default {
         <img :src="api.imageUrl" alt="展覽海報" />
       </router-link>
     </div>
-    <div class="text">TaiwanArtion</div>
+    <div class="text" @click="toHome">
+      <img src="@/assets/images/logo-062.png" alt="logo" />
+    </div>
   </div>
 </template>
 
@@ -61,10 +63,15 @@ export default {
     font-size: 50px;
     width: 100vw;
     mix-blend-mode: screen;
-    background-color: white;
+    background: radial-gradient(black, transparent);
 
     @include breakpoints.desktop {
       font-size: 70px;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
   }
 
