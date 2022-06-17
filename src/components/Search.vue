@@ -5,7 +5,7 @@
         class="search_filter_input"
         type="text"
         placeholder="        Search"
-        v-model="userInput"
+        v-model="userInput.keyword"
         @click="detectClick"
         @keyup.enter="sendResult"
       />
@@ -18,7 +18,7 @@
       </div>
     </div>
     <section @click="isExhibitionStart" class="search_filter_select">
-      {{ selected || "是否已開展" }}
+      {{ userInput.select || "是否已開展" }}
       <div class="search_filter_select-icon">
         <img
           src="@/assets/images/icon拷貝.png"
@@ -44,7 +44,10 @@ export default {
   props: [],
   data() {
     return {
-      userInput: "",
+      userInput: {
+        keyword: "",
+        select: "",
+      },
       dropMenu: false,
       options: [{ text: "不限" }, { text: "已開展" }, { text: "尚未開展" }],
       showInputIcon: true,
@@ -55,7 +58,6 @@ export default {
   },
   methods: {
     detectClick() {
-      console.log("clicked");
       this.showInputIcon = !this.showInputIcon;
       this.$emit("isClicked", true);
     },
@@ -63,16 +65,26 @@ export default {
       this.dropMenu = !this.dropMenu;
     },
     switchContent(content) {
-      this.selected = content;
+      this.userInput.select = content;
       this.showIcon = false;
     },
     sendResult() {
-      console.log("search:", this.userInput);
-      this.searchList.push(this.userInput);
-      let store = JSON.parse(this.searchList);
-      console.log(store);
-
-      localStorage.setItem("useSearch", store);
+      this.$store.dispatch("getAPI");
+      this.$store.commit("withKeyWord", this.userInput);
+      this.$router.push({
+        name: "ResultView",
+        query: {
+          keyword: this.userInput.keyword,
+          select: this.userInput.select,
+        },
+      });
+      //
+      // this.searchList.push(this.userInput);
+      //寫成json
+      // let store = json.parse(this.searchList)
+      // let store = JSON.parse(this.searchList);
+      // console.log(store);
+      // localStorage.setItem("useSearch", store);
     },
   },
 };

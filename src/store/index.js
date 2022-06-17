@@ -37,18 +37,36 @@ export default createStore({
     withinMonthsAPI() {},
   },
   mutations: {
+    withKeyWord(state, userInput) {
+      console.log("call withKeyWord", userInput);
+      state.selected = state?.api?.filter((data) => {
+        let defaultSelect = "";
+        if (userInput.select === defaultSelect || userInput.select === "不限") {
+          //
+          return data.descriptionFilterHtml.includes(userInput.keyword);
+        }
+        if (userInput.select === "已開展") {
+          //?關鍵字符合,且時間也符合
+          //todo 使用dayjs篩選
+        }
+        if (userInput.select === "尚未開展") {
+          //?關鍵字符合,且時間也符合
+          //todo 使用dayjs篩選
+        }
+      });
+    },
     //store fetched api to state
     recievedAPI(state, api) {
       state.api = api;
     },
     //store user selected parameter to state
     filterSpecificCities(state, city) {
-      this.state.selected = this.state.api.filter((data) =>
+      state.selected = state.api.filter((data) =>
         data?.showInfo[0]?.location.startsWith(city)
       );
     },
     filterSpecificMasterUnit(state, unit) {
-      this.state.selected = state?.api.filter((data) =>
+      state.selected = state?.api.filter((data) =>
         data?.showUnit.includes(unit)
       );
     },
@@ -56,7 +74,7 @@ export default createStore({
       // //? 搜尋selecteddate以後展覽ing的資料
       let selectedMonth = new Date(date).getMonth();
       console.log(selectedMonth);
-      this.state.selected = this.state.api.filter((data) => {
+      state.selected = state.api.filter((data) => {
         //? 判斷api展覽日期
         let apiDate = new Date(data.endDate).getMonth();
         if (selectedMonth < apiDate) {

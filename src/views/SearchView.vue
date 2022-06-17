@@ -16,11 +16,12 @@ export default {
     };
   },
   methods: {
-    // todo 確定搜尋種類
+    //? 確定搜尋種類
     sendSearch() {
       console.log("message");
       this.$router.push({ name: "ResultView" });
     },
+    //click
     isClicked(value) {
       console.log("mom clicked", value);
       this.showRecent = !this.showRecent;
