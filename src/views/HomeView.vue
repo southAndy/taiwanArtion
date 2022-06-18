@@ -8,7 +8,7 @@
         </div>
         <p class="carousel_description">看看最近有什麼最新展覽吧!</p>
       </div>
-      <Carousel :api="recievedAPI" v-if="recievedAPI" />
+      <Carousel :api="recievedAPI" />
     </section>
     <section class="home_recent-exhibition">
       <!-- 保有部分nest,也保有權重 -->
@@ -26,13 +26,13 @@
           @update="renewAPI"
         />
       </div>
-<<<<<<< Updated upstream
       <div class="content">
-        <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
+        <Card
+          v-for="value in recieveSpecificRange"
+          :key="value.UID"
+          :api="value"
+        />
       </div>
-=======
-      <Card v-for="value in Selected" :key="value.UID" :api="value" />
->>>>>>> Stashed changes
     </section>
   </div>
 </template>
@@ -42,7 +42,6 @@ import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
 
-// import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
   name: "HomeView",
   components: {
@@ -51,45 +50,21 @@ export default {
     Carousel,
   },
   async created() {
-    await this.$store.dispatch("getCurrentPosition");
+    // await this.$store.dispatch("getCurrentPosition");
     await this.$store.dispatch("getAPI");
   },
   data() {
     return {
       time: ["不限", "一週", "一個月", "三個月"],
-<<<<<<< Updated upstream
       selected: null,
-=======
       specificRangeExhibition: null,
->>>>>>> Stashed changes
     };
   },
   methods: {
     renewAPI(selected) {
-<<<<<<< Updated upstream
       console.log("message", selected);
       //根據使用者當前時間
-      let currentTime = new Date();
-
-      // if(selected==="三週")
-      // if(selected==="一個月")
-      // if(selected==="三個月")
-
       //current year / month / day
-      let rightMonth = currentTime.getMonth();
-      let rightDay = currentTime.getDate();
-      if (selected === "一週") {
-        //call api
-        this.selected = this.$store?.state.api?.filter((value) => {
-          let apiMonth = new Date(value.endDate).getMonth();
-          let apiDate = new Date(value.endDate).getDate();
-          if (rightMonth - apiMonth >= 0) {
-            if (rightDay - apiDate < 7) {
-              return value;
-            }
-          }
-        });
-=======
       if (selected === "一週") {
         this.$store.commit("openWithinWeek");
       }
@@ -98,25 +73,16 @@ export default {
       }
       if (selected === "三個月") {
         this.$store.commit("openWithThreeMonth", 3);
->>>>>>> Stashed changes
       }
-      console.log(rightMonth, rightDay);
-      if (selected === "三週") {
-        let y = 21;
-        this.$store.commit("");
-      }
-      //api year / month / day
     },
   },
   computed: {
     // get api from vuex
     recievedAPI() {
-<<<<<<< Updated upstream
       return this.$store.getters.withImageAPI;
-=======
-      // return this.$store.getters.withImageAPI;
+    },
+    recieveSpecificRange() {
       return this.$store.state.specificRangeExhibitions;
->>>>>>> Stashed changes
     },
   },
 };
