@@ -8,6 +8,9 @@ export default createStore({
     api: [],
     selected: null,
     currentPageUID: null,
+    specificRangeExhibitions: null,
+    latitude: 0,
+    longitude: 0,
   }),
   getters: {
     withImageAPI(state) {
@@ -34,18 +37,36 @@ export default createStore({
     withinMonthsAPI() {},
   },
   mutations: {
+    withKeyWord(state, userInput) {
+      console.log("call withKeyWord", userInput);
+      state.selected = state?.api?.filter((data) => {
+        let defaultSelect = "";
+        if (userInput.select === defaultSelect || userInput.select === "不限") {
+          //
+          return data.descriptionFilterHtml.includes(userInput.keyword);
+        }
+        if (userInput.select === "已開展") {
+          //?關鍵字符合,且時間也符合
+          //todo 使用dayjs篩選
+        }
+        if (userInput.select === "尚未開展") {
+          //?關鍵字符合,且時間也符合
+          //todo 使用dayjs篩選
+        }
+      });
+    },
     //store fetched api to state
     recievedAPI(state, api) {
       state.api = api;
     },
     //store user selected parameter to state
     filterSpecificCities(state, city) {
-      this.state.selected = this.state.api.filter((data) =>
+      state.selected = state.api.filter((data) =>
         data?.showInfo[0]?.location.startsWith(city)
       );
     },
     filterSpecificMasterUnit(state, unit) {
-      this.state.selected = state?.api.filter((data) =>
+      state.selected = state?.api.filter((data) =>
         data?.showUnit.includes(unit)
       );
     },
@@ -53,13 +74,73 @@ export default createStore({
       // //? 搜尋selecteddate以後展覽ing的資料
       let selectedMonth = new Date(date).getMonth();
       console.log(selectedMonth);
-      this.state.selected = this.state.api.filter((data) => {
+      state.selected = state.api.filter((data) => {
         //? 判斷api展覽日期
         let apiDate = new Date(data.endDate).getMonth();
         if (selectedMonth < apiDate) {
           return data;
         }
       });
+    },
+    //? homePage filter
+    openWithinWeek(state) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() <= 0) {
+          if (rightMonth <= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    openWithinMonth(state, range) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() >= 0) {
+          if (rightMonth + range >= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    openWithThreeMonth(state, range) {
+      //?current year / month / day
+      let currentTime = new Date();
+      let rightYear = currentTime.getFullYear();
+      let rightMonth = currentTime.getMonth();
+      // let rightDay = currentTime.getDate();
+
+      //?api year / month / day
+      state.specificRangeExhibitions = state.api.filter((value) => {
+        let apiDate = new Date(value.startDate);
+        console.log(apiDate);
+        if (rightYear - apiDate.getFullYear() >= 0) {
+          if (rightMonth + range >= apiDate.getMonth()) {
+            return value;
+          }
+        }
+      });
+    },
+    //? update position
+    updatePosition(state, position) {
+      console.log("recieved", position);
+      state.latitude = position;
     },
     // store api UID to state
     receivedUID(state, UID) {
@@ -69,6 +150,18 @@ export default createStore({
   actions: {
     async getAPI({ commit }) {
       commit("recievedAPI", await getAPI.getAllAPI());
+    },
+    async getCurrentPosition({ commit }) {
+      console.log("excuting..");
+      const userPosition = function () {
+        return navigator.geolocation.getCurrentPosition(
+          (position) => position.coords
+        );
+      };
+      let x = userPosition();
+
+      console.log(x);
+      commit("updatePosition", userPosition());
     },
   },
   modules: {
