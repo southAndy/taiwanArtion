@@ -33,7 +33,7 @@ export default {
         `找到${receivedSpecificDatas?.length}件展覽!` || "共500件展覽"
       }}
     </h3>
-    <div class="result_card" v-if="receivedSpecificDatas">
+    <div class="result_content" v-if="receivedSpecificDatas">
       <router-link
         :to="{ name: 'DetailView', params: { id: result.UID } }"
         v-for="result in receivedSpecificDatas"
@@ -53,7 +53,7 @@ export default {
     font-size: 16px;
     text-align: start;
   }
-  &_card {
+  &_content {
     display: flex;
     flex-direction: column;
     @include breakpoints.desktop {

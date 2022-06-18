@@ -1,15 +1,5 @@
 <template>
   <div class="home">
-    <!-- <nav class="home_menu">
-      <li>
-        <img src="@/assets/images/↳Color.png" alt="點擊選單" />
-      </li>
-      <li>
-        <router-link to="/search">
-          <img src="@/assets/images/icon.png" alt="搜尋" />
-        </router-link>
-      </li>
-    </nav> -->
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -52,7 +42,7 @@ import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
 
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
+// import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
   name: "HomeView",
   components: {
@@ -61,17 +51,22 @@ export default {
     Carousel,
   },
   async created() {
+    await this.$store.dispatch("getCurrentPosition");
     await this.$store.dispatch("getAPI");
   },
   data() {
     return {
       time: ["不限", "一週", "一個月", "三個月"],
+<<<<<<< Updated upstream
       selected: null,
+=======
+      specificRangeExhibition: null,
+>>>>>>> Stashed changes
     };
   },
-
   methods: {
     renewAPI(selected) {
+<<<<<<< Updated upstream
       console.log("message", selected);
       //根據使用者當前時間
       let currentTime = new Date();
@@ -94,6 +89,16 @@ export default {
             }
           }
         });
+=======
+      if (selected === "一週") {
+        this.$store.commit("openWithinWeek");
+      }
+      if (selected === "一個月") {
+        this.$store.commit("openWithinMonth", 1);
+      }
+      if (selected === "三個月") {
+        this.$store.commit("openWithThreeMonth", 3);
+>>>>>>> Stashed changes
       }
       console.log(rightMonth, rightDay);
       if (selected === "三週") {
@@ -106,12 +111,13 @@ export default {
   computed: {
     // get api from vuex
     recievedAPI() {
+<<<<<<< Updated upstream
       return this.$store.getters.withImageAPI;
+=======
+      // return this.$store.getters.withImageAPI;
+      return this.$store.state.specificRangeExhibitions;
+>>>>>>> Stashed changes
     },
-    ...mapState({
-      // test: (state) => state.filterAPI.test,
-    }),
-    ...mapGetters([]),
   },
 };
 </script>
