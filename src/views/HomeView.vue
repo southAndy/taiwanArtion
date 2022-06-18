@@ -28,6 +28,7 @@
         <a href="##">See All</a>
       </div>
       <div class="filter">
+        <!-- todo 篩選 -->
         <Selected
           v-for="(data, index) in time"
           :key="index"
@@ -35,9 +36,13 @@
           @update="renewAPI"
         />
       </div>
+<<<<<<< Updated upstream
       <div class="content">
         <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
       </div>
+=======
+      <Card v-for="value in Selected" :key="value.UID" :api="value" />
+>>>>>>> Stashed changes
     </section>
   </div>
 </template>
@@ -54,7 +59,6 @@ export default {
     Card,
     Selected,
     Carousel,
-    // Banner,
   },
   async created() {
     await this.$store.dispatch("getAPI");
@@ -62,33 +66,46 @@ export default {
   data() {
     return {
       time: ["不限", "一週", "一個月", "三個月"],
+      selected: null,
     };
   },
 
   methods: {
-    ...mapMutations([]),
-    ...mapActions([]),
     renewAPI(selected) {
       console.log("message", selected);
+      //根據使用者當前時間
       let currentTime = new Date();
+
+      // if(selected==="三週")
+      // if(selected==="一個月")
+      // if(selected==="三個月")
+
       //current year / month / day
-      let rightYear = currentTime.getFullYear();
       let rightMonth = currentTime.getMonth();
       let rightDay = currentTime.getDate();
-      console.log(rightYear, rightMonth, rightDay);
-      //api year / month / day
-      if (rightYear - 2022 >= 0) {
-        console.log("pass");
-        // if(月份-api>0){
-        // this.recievedAPI.filter((data,index)=>)
-        // return API.data
+      if (selected === "一週") {
+        //call api
+        this.selected = this.$store?.state.api?.filter((value) => {
+          let apiMonth = new Date(value.endDate).getMonth();
+          let apiDate = new Date(value.endDate).getDate();
+          if (rightMonth - apiMonth >= 0) {
+            if (rightDay - apiDate < 7) {
+              return value;
+            }
+          }
+        });
       }
+      console.log(rightMonth, rightDay);
+      if (selected === "三週") {
+        let y = 21;
+        this.$store.commit("");
+      }
+      //api year / month / day
     },
   },
   computed: {
     // get api from vuex
     recievedAPI() {
-      // console.log(this.$store.getters("withImageAPI"));
       return this.$store.getters.withImageAPI;
     },
     ...mapState({
