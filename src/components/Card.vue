@@ -2,7 +2,7 @@
   <div class="card">
     <router-link :to="{ name: 'DetailView', query: { uid: api.UID } }">
       <div class="card_image">
-        <img :src="api.imageUrl" alt="" />
+        <img :src="api.imageUrl || defaultImage" alt="展覽海報" />
       </div>
       <div class="card_content">
         <!-- ? title -->
@@ -32,6 +32,7 @@ export default {
   data() {
     return {
       homeAPI: this.api,
+      defaultImage: "@/assets/images/5248954-02.png",
     };
   },
   computed: {},
