@@ -1,31 +1,39 @@
 <script>
 import Search from "@/components/Search.vue";
 import Select_Navbar from "@/components/Navbar/Select.vue";
+import RecentSearch from "@/components/RecentSearch.vue";
 
 export default {
   name: "SearchView",
   components: {
     Search,
     Select_Navbar,
+    RecentSearch,
   },
   data() {
-    return {};
+    return {
+      showRecent: false,
+    };
   },
   methods: {
-    // todo 確定搜尋種類
+    //? 確定搜尋種類
     sendSearch() {
       console.log("message");
       this.$router.push({ name: "ResultView" });
+    },
+    //click
+    isClicked(value) {
+      console.log("mom clicked", value);
+      this.showRecent = !this.showRecent;
     },
   },
 };
 </script>
 <template>
   <div class="search">
-    <Search />
+    <Search @click="showRecent = !showRecent" />
     <Select_Navbar />
-    <!-- todo 同步變色 -->
-    <!-- <button class="search_send" @click="sendSearch">確定</button> -->
+    <RecentSearch v-show="showRecent" />
   </div>
 </template>
 <style lang="scss" scoped>
@@ -33,6 +41,7 @@ export default {
 @use "@/assets/scss/base/colors.scss";
 
 .search {
+  height: 100vh;
   padding: 16px 16px;
   background: #ffffff;
 

@@ -1,15 +1,5 @@
 <template>
   <div class="home">
-    <!-- <nav class="home_menu">
-      <li>
-        <img src="@/assets/images/↳Color.png" alt="點擊選單" />
-      </li>
-      <li>
-        <router-link to="/search">
-          <img src="@/assets/images/icon.png" alt="搜尋" />
-        </router-link>
-      </li>
-    </nav> -->
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -18,7 +8,7 @@
         </div>
         <p class="carousel_description">看看最近有什麼最新展覽吧!</p>
       </div>
-      <Carousel :api="recievedAPI" v-if="recievedAPI" />
+      <Carousel :api="recievedAPI" />
     </section>
     <section class="home_recent-exhibition">
       <!-- 保有部分nest,也保有權重 -->
@@ -28,6 +18,7 @@
         <a href="##">See All</a>
       </div>
       <div class="filter">
+        <!-- todo 篩選 -->
         <Selected
           v-for="(data, index) in time"
           :key="index"
@@ -36,7 +27,11 @@
         />
       </div>
       <div class="content">
-        <Card v-for="value in recievedAPI" :key="value.UID" :api="value" />
+        <Card
+          v-for="value in recieveSpecificRange"
+          :key="value.UID"
+          :api="value"
+        />
       </div>
     </section>
   </div>
@@ -47,54 +42,48 @@ import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
 
-import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 export default {
   name: "HomeView",
   components: {
     Card,
     Selected,
     Carousel,
-    // Banner,
   },
   async created() {
+    // await this.$store.dispatch("getCurrentPosition");
     await this.$store.dispatch("getAPI");
   },
   data() {
     return {
       time: ["不限", "一週", "一個月", "三個月"],
+      selected: null,
+      specificRangeExhibition: null,
     };
   },
-
   methods: {
-    ...mapMutations([]),
-    ...mapActions([]),
     renewAPI(selected) {
       console.log("message", selected);
-      let currentTime = new Date();
+      //根據使用者當前時間
       //current year / month / day
-      let rightYear = currentTime.getFullYear();
-      let rightMonth = currentTime.getMonth();
-      let rightDay = currentTime.getDate();
-      console.log(rightYear, rightMonth, rightDay);
-      //api year / month / day
-      if (rightYear - 2022 >= 0) {
-        console.log("pass");
-        // if(月份-api>0){
-        // this.recievedAPI.filter((data,index)=>)
-        // return API.data
+      if (selected === "一週") {
+        this.$store.commit("openWithinWeek");
+      }
+      if (selected === "一個月") {
+        this.$store.commit("openWithinMonth", 1);
+      }
+      if (selected === "三個月") {
+        this.$store.commit("openWithThreeMonth", 3);
       }
     },
   },
   computed: {
     // get api from vuex
     recievedAPI() {
-      // console.log(this.$store.getters("withImageAPI"));
       return this.$store.getters.withImageAPI;
     },
-    ...mapState({
-      // test: (state) => state.filterAPI.test,
-    }),
-    ...mapGetters([]),
+    recieveSpecificRange() {
+      return this.$store.state.specificRangeExhibitions;
+    },
   },
 };
 </script>

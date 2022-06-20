@@ -2,10 +2,7 @@
   <div class="result_card">
     <div class="card_image">
       <!-- <img src="@/assets/images/Frame89.png" alt="" /> -->
-      <img
-        :src="result.imageUrl || `@/assets/images/Frame89.png`"
-        alt="展覽圖片"
-      />
+      <img :src="result.imageUrl || defaultImage" alt="展覽圖片" />
     </div>
     <div class="card_content">
       <div class="title">
@@ -29,24 +26,35 @@
 export default {
   name: "Result",
   props: ["result"],
+  data() {
+    return {
+      defaultImage: require("../../assets/images/5248954-02.png"),
+    };
+  },
 };
 </script>
 <style lang="scss" scoped>
 //mobile :390px i12-pro
 @use "@/assets/scss/base/reset";
+@use "@/assets/scss/base/breakpoints";
 .result_card {
   background: #f5f5f5;
   display: flex;
   flex-direction: column;
-  padding: 16px;
   width: 360px;
+  padding: 16px;
   border-radius: 10px;
   margin: 0 auto;
   margin-bottom: 16px;
 
   .card_image {
+    @include breakpoints.desktop {
+      height: 350px;
+    }
     img {
       width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   }
 

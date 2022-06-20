@@ -1,8 +1,8 @@
 <script>
 export default {
   name: "Home_Banner",
-  created() {
-    this.$store.dispatch("getAPI");
+  async created() {
+    await this.$store.dispatch("getAPI");
   },
   computed: {
     recievedAPI() {
@@ -28,7 +28,10 @@ export default {
         <img :src="api.imageUrl" alt="展覽海報" />
       </router-link>
     </div>
-    <div class="text">TaiwanArtion</div>
+    <div class="logo" @click="toHome">
+      <img class="mobile" src="@/assets/images/logo-062.png" alt="logo" />
+      <img class="desktop" src="@/assets/images/logo-07-web.png" alt="logo" />
+    </div>
   </div>
 </template>
 
@@ -55,16 +58,34 @@ export default {
     }
   }
 
-  .text {
+  .logo {
     position: fixed;
     align-self: center;
     font-size: 50px;
     width: 100vw;
     mix-blend-mode: screen;
-    background-color: white;
+    background: radial-gradient(black, transparent);
 
     @include breakpoints.desktop {
       font-size: 70px;
+    }
+    .mobile {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      margin-bottom: 50%;
+      @include breakpoints.tablet {
+        display: none;
+      }
+    }
+    .desktop {
+      display: none;
+      @include breakpoints.tablet {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+      }
     }
   }
 
