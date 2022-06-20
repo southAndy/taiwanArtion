@@ -29,12 +29,6 @@ export default createStore({
     withSpecificUIDAPI(state) {
       return state?.api.filter((data) => data?.UID === state.currentPageUID);
     },
-    //todo 篩選日期 --- week
-    withinWeekAPI() {},
-    //todo 篩選日期 --- month
-    withinMonthAPI() {},
-    //todo 篩選日期 --- three month
-    withinMonthsAPI() {},
   },
   mutations: {
     withKeyWord(state, userInput) {
@@ -86,16 +80,17 @@ export default createStore({
     openWithinWeek(state) {
       //?current year / month / day
       let currentTime = new Date();
-      let rightYear = currentTime.getFullYear();
-      let rightMonth = currentTime.getMonth();
+      let currentYear = currentTime.getFullYear();
+      let currentMonth = currentTime.getMonth();
       // let rightDay = currentTime.getDate();
 
       //?api year / month / day
       state.specificRangeExhibitions = state.api.filter((value) => {
         let apiDate = new Date(value.startDate);
         console.log(apiDate);
-        if (rightYear - apiDate.getFullYear() <= 0) {
-          if (rightMonth <= apiDate.getMonth()) {
+        if (currentYear - apiDate.getFullYear() <= 0) {
+          //? 只要相同月份都會
+          if (currentMonth === apiDate.getMonth()) {
             return value;
           }
         }
