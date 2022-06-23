@@ -1,29 +1,23 @@
 <template>
   <nav class="search_type">
-    <!-- todo 優化buttons -->
     <button
-      :class="['search_type-list', { active: isInLocation }]"
-      @click="switchPage('Location')"
+      v-for="(list, index) in selectList"
+      :key="index"
+      :class="[
+        'search_type-list',
+        { active: list.elementName === currentPage },
+      ]"
+      @click="switchPage(list.elementName, index)"
     >
-      地點
-    </button>
-    <button
-      :class="['search_type-list', { active: isInMasterUnit }]"
-      @click="switchPage('MasterUnit')"
-    >
-      單位名稱
-    </button>
-    <button
-      :class="['search_type-list', { active: isInDate }]"
-      @click="switchPage('AntCalendar')"
-    >
-      日期
+      {{ list.name }}
     </button>
   </nav>
   <div class="search_content">
     <component
       :is="currentPage"
-      :style="{ display: count ? 'none' : 'block' }"
+      :style="{ display: isToggle ? 'none' : 'block' }"
+      :isToggle="isToggle"
+      @update="isToggle"
     ></component>
   </div>
 </template>
@@ -42,44 +36,40 @@ export default {
   data() {
     return {
       //控制component的值
-      currentPage: null,
-      isInLocation: true,
-      isInMasterUnit: false,
-      isInDate: false,
-      isActive: true,
-      count: true,
+      currentPage: "Location",
+      isToggle: false,
+      selectList: [
+        {
+          name: "地點",
+          elementName: "Location",
+          isActive: false,
+          hit: 0,
+        },
+        {
+          name: "單位名稱",
+          elementName: "MasterUnit",
+          hit: 0,
+
+          isActive: false,
+        },
+        {
+          name: "日期",
+          elementName: "AntCalendar",
+          isActive: false,
+          hit: 0,
+        },
+      ],
     };
   },
 
   methods: {
     //todo
-    switchPage(page) {
-      if (page === "Location") {
-        this.isInMasterUnit = false;
-        this.isInDate = false;
-        this.isInLocation = true;
-        this.currentPage = page;
-        this.count = !this.count;
-        // console.log("now in the:", page);
-      }
-      if (page === "MasterUnit") {
-        this.isInMasterUnit = true;
-        this.isInDate = false;
-        this.isInLocation = false;
-        this.currentPage = page;
-        this.count = !this.count;
-
-        // console.log("now in the:", page);
-      }
-      if (page === "AntCalendar") {
-        this.isInMasterUnit = false;
-        this.isInDate = true;
-        this.isInLocation = false;
-        this.currentPage = page;
-        this.count = !this.count;
-
-        // console.log("now in the:", page);
-      }
+    switchPage(page, currentIndex) {
+      console.log(page, currentIndex);
+      this.currentPage = page;
+      //每個list點擊第2次,預期關閉
+      // this.selectList[currentIndex].hit++;
+      // this.isToggle = this.selectList[currentIndex].hit;
     },
   },
 };
