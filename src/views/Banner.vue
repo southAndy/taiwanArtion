@@ -1,13 +1,24 @@
 <script>
 export default {
   name: "Home_Banner",
-  async created() {
-    await this.$store.dispatch("getAPI");
+  beforeCreate() {
+    this.$store.dispatch("getAPI");
+    console.log("beforeCreate");
   },
   computed: {
     recievedAPI() {
-      return this.$store.getters.withImageAPI;
+      console.log("computed");
+
+      return this.$store.getters?.withImageAPI;
     },
+    isAnimated() {
+      return this.$store.getters?.withImageAPI.length > 0 ? true : false;
+    },
+  },
+  data() {
+    return {
+      isAnimate: false,
+    };
   },
   methods: {
     toHome() {
@@ -18,7 +29,7 @@ export default {
 </script>
 <template>
   <div class="banner">
-    <div class="scroll_container">
+    <div :class="['scroll_container', { animate: isAnimated }]">
       <router-link
         :to="{ name: 'DetailView', params: { id: api.UID } }"
         class="scroll"
@@ -30,7 +41,6 @@ export default {
     </div>
     <div class="logo" @click="toHome">
       <img class="mobile" src="@/assets/images/logo-062.png" alt="logo" />
-      <img class="desktop" src="@/assets/images/logo-07-web.png" alt="logo" />
     </div>
   </div>
 </template>
@@ -40,16 +50,18 @@ export default {
 .banner {
   display: flex;
   position: relative;
+
   //   transform  move imaage
+  .animate {
+    animation: 150s reverse linear 20;
+  }
   .scroll_container {
     display: flex;
-    // overflow: scroll;
     height: 100vh;
-    animation: 200s reverse linear infinite;
   }
   .scroll {
     display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     height: 100%;
     margin-right: 10px;
     // todo hover effect
@@ -61,7 +73,6 @@ export default {
   .logo {
     position: fixed;
     align-self: center;
-    font-size: 50px;
     width: 100vw;
     mix-blend-mode: screen;
     background: radial-gradient(black, transparent);
