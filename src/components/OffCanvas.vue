@@ -3,6 +3,7 @@
     data-bs-toggle="offcanvas"
     data-bs-target="#offcanvasWithBothOptions"
     aria-controls="offcanvasWithBothOptions"
+    style="align-self: center"
   >
     <img src="@/assets/images/↳Color.png" alt="" />
   </div>
@@ -23,8 +24,8 @@
         aria-label="Close"
       ></button>
     </div>
-    <div class="offcanvas-body">
-      <div v-for="(list, index) in navbarList" :key="index">
+    <div class="offcanvas-body customize_setting_body">
+      <div class="item" v-for="(list, index) in navbarList" :key="index">
         <router-link
           :to="{ name: list.routerName }"
           :class="[{ developing: list.state }]"
@@ -48,6 +49,12 @@ export default {
           iconPath: "@/assets/images/",
         },
         {
+          value: "早找展覽",
+          routerName: "SearchView",
+          state: false,
+          iconPath: "@/assets/images/",
+        },
+        {
           value: "早找地圖",
           routerName: "SearchMapView",
           state: false,
@@ -66,9 +73,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 @use "@/assets/scss/base/reset";
+@use "@/assets/scss/base/colors";
 .customize_setting {
   cursor: pointer;
   width: 250px;
+
+  &_body {
+    padding: 0;
+
+    .item {
+      &:hover {
+        background-color: colors.$primary_color;
+        color: white;
+      }
+    }
+  }
 }
 
 .developing {

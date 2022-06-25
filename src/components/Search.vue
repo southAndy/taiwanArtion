@@ -1,5 +1,6 @@
 <template>
   <section class="search_filter_container">
+    <OffCanvasVue />
     <div class="search_filter">
       <input
         class="search_filter_input"
@@ -18,7 +19,7 @@
       </div>
     </div>
     <section @click="isExhibitionStart" class="search_filter_select">
-      {{ userInput.select || "是否已開展" }}
+      {{ userInput.select || "是否開展" }}
       <div class="search_filter_select-icon">
         <img
           src="@/assets/images/icon拷貝.png"
@@ -39,7 +40,9 @@
   </section>
 </template>
 <script>
+import OffCanvasVue from "./OffCanvas.vue";
 export default {
+  components: { OffCanvasVue },
   name: "SearchButton",
   props: [],
   data() {
@@ -92,21 +95,25 @@ export default {
 <style lang="scss" scoped>
 .search_filter_container {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  gap: 15px;
 }
 .search_filter {
+  flex-basis: 60%;
   position: relative;
+
   &_input {
     color: #b4b4b4;
-    background: #ffffff;
+    background: #f5f5f5;
     border: 1px solid #cdcdcd;
     border-radius: 8px;
     padding: 5px;
+    width: 100%;
 
     &-icon {
       position: absolute;
       top: 4px;
-      left: 10%;
+      left: 5%;
     }
   }
   &_select {
