@@ -29,6 +29,13 @@ export default createStore({
     withSpecificUIDAPI(state) {
       return state?.api.filter((data) => data?.UID === state.currentPageUID);
     },
+    withLatLngAPI(state) {
+      return state?.api.filter(
+        (data) =>
+          data.showInfo[0].latitude != null &&
+          data.showInfo[0].longitude != null
+      );
+    },
   },
   mutations: {
     withKeyWord(state, userInput) {
