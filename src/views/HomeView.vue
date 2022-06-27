@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <RouterNavbarVue />
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -38,6 +39,7 @@
 </template>
 
 <script>
+import RouterNavbarVue from "@/components/Navbar/RouterNavbar.vue";
 import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
@@ -48,6 +50,7 @@ export default {
     Card,
     Selected,
     Carousel,
+    RouterNavbarVue,
   },
   async created() {
     // await this.$store.dispatch("getCurrentPosition");

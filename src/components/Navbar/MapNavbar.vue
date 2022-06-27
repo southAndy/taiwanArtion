@@ -27,10 +27,8 @@ export default {
       console.log("d");
       this.NoUserInput = false;
     },
-    stopInput() {
-      console.log("up");
-      this.NoUserInput = true;
-      console.log("up1");
+    sendResult() {
+      this.$emit("update", this.userInput);
     },
   },
 };
@@ -57,7 +55,7 @@ export default {
     <input
       v-model="userInput"
       @click="detectInput"
-      @mouseup="stopInput"
+      @keyup.enter="sendResult"
       class="animate__slideInDown"
       type="text"
       placeholder="    search"
