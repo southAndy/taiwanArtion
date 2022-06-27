@@ -84,7 +84,6 @@ export default {
     .item {
       &:hover {
         background-color: colors.$primary_color;
-        color: white;
       }
     }
   }
