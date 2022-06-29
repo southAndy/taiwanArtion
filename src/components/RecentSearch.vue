@@ -5,14 +5,14 @@ export default {
 };
 </script>
 <template>
-  <div class="search">
-    <div class="search_title">
+  <div class="recent">
+    <div class="recent_title">
       <h2>最近搜尋紀錄</h2>
       <span>清除紀錄</span>
     </div>
     <router-link
       :to="{ name: 'ResultView' }"
-      class="search_list"
+      class="recent_list"
       v-for="list in 4"
       :key="list"
     >
@@ -22,17 +22,25 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
-.search {
+.recent {
   display: flex;
   flex-direction: column;
+  padding: 10px 8px;
+  position: absolute;
+  top: 48px;
+  left: 50px;
 
+  border: 1px solid #cdcdcd;
+  background-color: white;
+  border-radius: 0 0 20px 20px;
   &_title {
     display: flex;
-    justify-content: space-between;
+    gap: 11px;
 
-    h3 {
+    h2 {
       font-size: 18px;
       font-weight: 700;
+      margin: 0;
     }
   }
 

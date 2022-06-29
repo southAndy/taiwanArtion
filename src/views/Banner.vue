@@ -1,3 +1,29 @@
+<template>
+  <div class="banner">
+    <div class="loading_container" v-if="!isAnimated">
+      <div class="first"></div>
+      <div class="second"></div>
+      <div class="third"></div>
+      <div class="four"></div>
+    </div>
+    <div :class="['scroll_container', { animate: isAnimated }]">
+      <router-link
+        :to="{ name: 'DetailView', params: { id: api.UID } }"
+        class="scroll"
+        v-for="api in recievedAPI"
+        :key="api?.UID"
+      >
+        <img :src="api.imageUrl" alt="展覽海報" />
+      </router-link>
+    </div>
+    <div
+      :class="['logo', { mixcolor: isAnimated }, { runicon: !isAnimated }]"
+      @click="toHome"
+    >
+      <img class="mobile" src="@/assets/images/logo-062.png" alt="logo" />
+    </div>
+  </div>
+</template>
 <script>
 export default {
   name: "Home_Banner",
@@ -27,26 +53,10 @@ export default {
   },
 };
 </script>
-<template>
-  <div class="banner">
-    <div :class="['scroll_container', { animate: isAnimated }]">
-      <router-link
-        :to="{ name: 'DetailView', params: { id: api.UID } }"
-        class="scroll"
-        v-for="api in recievedAPI"
-        :key="api?.UID"
-      >
-        <img :src="api.imageUrl" alt="展覽海報" />
-      </router-link>
-    </div>
-    <div class="logo" @click="toHome">
-      <img class="mobile" src="@/assets/images/logo-062.png" alt="logo" />
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 @use "@/assets/scss/base/breakpoints";
+@use "@/assets/scss/base/loading";
 .banner {
   display: flex;
   position: relative;
@@ -54,6 +64,12 @@ export default {
   //   transform  move imaage
   .animate {
     animation: 150s reverse linear 20;
+  }
+  .mixcolor {
+    mix-blend-mode: screen;
+  }
+  .runicon {
+    animation: iconLoading 1.2s ease-in-out infinite;
   }
   .scroll_container {
     display: flex;
@@ -74,7 +90,6 @@ export default {
     position: fixed;
     align-self: center;
     width: 100vw;
-    mix-blend-mode: screen;
     background: radial-gradient(black, transparent);
 
     @include breakpoints.desktop {
@@ -107,6 +122,39 @@ export default {
     100% {
       transform: translateX(-100%);
     }
+  }
+}
+.loading_container {
+  display: flex;
+  gap: 10px;
+  width: 400px;
+  justify-content: center;
+
+  margin: 0 auto;
+  //mobile
+  position: fixed;
+  top: 55%;
+  left: 1%;
+  z-index: 20;
+  div {
+    width: 60px;
+    height: 10px;
+  }
+  .first {
+    border: 1px solid #3333;
+    animation: loading 1.2s ease-in-out infinite;
+  }
+  .second {
+    border: 1px solid #3333;
+    animation: loading 1.3s ease-in-out infinite;
+  }
+  .third {
+    border: 1px solid #3333;
+    animation: loading 1.4s ease-in-out infinite;
+  }
+  .four {
+    border: 1px solid #3333;
+    animation: loading 1.5s ease-in-out infinite;
   }
 }
 </style>

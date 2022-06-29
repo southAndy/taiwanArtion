@@ -1,12 +1,13 @@
 <template>
   <div class="master">
     <Selected
-      v-for="(value, index) in masterUnitList"
+      v-for="(unit, index) in masterUnitList"
       :key="index"
-      :api="value"
+      :api="unit"
       @update="updateAPI"
+      :class="{ selected: this.selected === unit }"
     >
-      {{ value }}
+      {{ unit }}
     </Selected>
     <Send @click="sendResult" :selected="this.selected" />
   </div>
@@ -44,9 +45,14 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@use "@/assets/scss/base/colors";
 .master {
   display: flex;
   flex-wrap: wrap;
   flex: 1;
+}
+.selected {
+  background-color: colors.$primary-color;
+  color: white;
 }
 </style>
