@@ -14,10 +14,11 @@
       </div>
       <div class="location_city">
         <Selected
-          v-for="city in locate.cities"
-          :key="city"
+          v-for="(city, index) in locate.cities"
+          :key="index"
           :api="city"
           @update="updateAPI"
+          :class="{ selected: this.selected === city }"
         />
       </div>
     </section>

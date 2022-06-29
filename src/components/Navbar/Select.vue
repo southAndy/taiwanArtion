@@ -13,25 +13,30 @@
     </button>
   </nav>
   <div class="search_content">
-    <component
-      :is="currentPage"
-      :style="{ display: isToggle ? 'none' : 'block' }"
-      :isToggle="isToggle"
-      @update="isToggle"
-    ></component>
+    <keep-alive :exclude="('Location', 'MasterUnit', 'CalendarMonthVue')">
+      <component
+        :is="currentPage"
+        :style="{ display: isToggle ? 'none' : 'block' }"
+        @update="isToggle"
+        :isToggle="isToggle"
+      ></component>
+    </keep-alive>
   </div>
 </template>
 <script>
 import Location from "@/components/Location.vue";
 import MasterUnit from "@/components/MasterUnit.vue";
-import AntCalendar from "@/plugins/AntCalendar.vue";
+//old calendar --antdesgin
+// import AntCalendar from "@/plugins/AntCalendar.vue";
+import CalendarMonthVue from "../Calendar/CalendarMonth.vue";
 
 export default {
   name: "Select",
   components: {
     Location,
     MasterUnit,
-    AntCalendar,
+    CalendarMonthVue,
+    // AntCalendar,
   },
   data() {
     return {
@@ -54,7 +59,7 @@ export default {
         },
         {
           name: "日期",
-          elementName: "AntCalendar",
+          elementName: "CalendarMonthVue",
           isActive: false,
           hit: 0,
         },
@@ -86,11 +91,6 @@ export default {
   &-list {
     border: none;
     background: none;
-
-    &:active {
-      background-color: colors.$primary_color;
-      color: white;
-    }
   }
 }
 .active {
