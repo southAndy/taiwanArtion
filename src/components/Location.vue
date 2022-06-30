@@ -63,11 +63,11 @@ export default {
     };
   },
   methods: {
-    // todo common methods
     updateAPI(selected) {
+      console.log(selected);
       this.selected = selected;
+      this.$store.commit("storeCity", this.selected);
     },
-    // todo common methods
     sendResult() {
       //當在相同頁面重新整理 call api
       this.$store.dispatch("getAPI");

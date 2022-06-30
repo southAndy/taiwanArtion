@@ -11,11 +11,12 @@
         <CalendarWeekdaysVue />
         <div class="calendar_month-list">
           <CalendarMonthDayItemVue
-            v-for="day in createCurrentMonthDays"
+            v-for="day in days"
             :key="day.date"
             :day="day"
             :is-today="today === day.date"
-            :class="{ active: today === day.date }"
+            :class="{ active: currentDay === day.date }"
+            @updateCurrentDay="updateCurrentDay"
           />
         </div>
       </div>
@@ -31,9 +32,10 @@ import weekOfYear from "dayjs/plugin/weekOfYear";
 dayjs.extend(weekday);
 dayjs.extend(weekOfYear);
 
+//calendar control
 import CalendarDateSelectorVue from "./CalendarDateSelector.vue";
 
-//calendar body
+//calendar body component
 import CalendarDateIndicatorVue from "./CalendarDateIndicator.vue";
 import CalendarWeekdaysVue from "./CalendarWeekdays.vue";
 import CalendarMonthDayItemVue from "./CalendarMonthDayItem.vue";
@@ -48,17 +50,10 @@ export default {
   data() {
     return {
       selectedDate: dayjs(),
+      currentDay: "",
     };
   },
   computed: {
-    renderDay() {
-      return [
-        { date: "2020-06-29", isCurrentMonth: false },
-        { date: "2020-06-30", isCurrentMonth: false },
-        { date: "2020-07-01", isCurrentMonth: true },
-        { date: "2020-07-02", isCurrentMonth: true },
-      ];
-    },
     today() {
       return dayjs().format("YYYY-MM-DD");
     },
@@ -77,15 +72,14 @@ export default {
       console.log("下個月", nextMonth);
       return 1;
     },
+    //利用dayIsMonth方法, 可以知道特定月份有幾天;
     numberOfDaysInMonth() {
-      //利用dayIsMonth方法, 可以知道特定月份有幾天;
       return dayjs(this.selectedDate).daysInMonth();
     },
     createCurrentMonthDays() {
-      //[...Array(this.numberOfDaysInMonth)] 根據不同的月份產生不同長度Array
+      //[...Array(this.numberOfDaysInMonth)] 根據不同的月份產生不同長度Array,ex:5=>31
       return [...Array(this.numberOfDaysInMonth)].map((day, index) => {
         //在每個內容加上對應的日期資料
-        console.log(dayjs().format("YYYY-MM-DD"));
         return {
           date: dayjs(`${this.year}-${this.month}-${index + 1}`).format(
             "YYYY-MM-DD"
@@ -94,6 +88,68 @@ export default {
         };
       });
     },
+    createPreviousMonthDays() {
+      //當月第一天是星期幾
+      const firstDayOfCurrentMonthWeekday = this.getWeek(
+        this.createCurrentMonthDays[0].date
+      );
+      //subtract(+:previous/-:next,單位): clone 指定月日()
+      const previousMonth = dayjs(`${this.year}-${this.month}-01`).subtract(
+        1,
+        "month"
+      );
+      const visibleNumberOfDaysFromPreviousMonth = firstDayOfCurrentMonthWeekday
+        ? firstDayOfCurrentMonthWeekday - 1
+        : 6;
+      //找到前月最後的週一是幾號
+      const previousMonthLastMondayDayOfMonth = dayjs(
+        this.createCurrentMonthDays[0].date
+      )
+        .subtract(visibleNumberOfDaysFromPreviousMonth, "day")
+        .date();
+      return [...Array(visibleNumberOfDaysFromPreviousMonth)].map(
+        (day, amountOfDays) => {
+          return {
+            date: dayjs(
+              `${previousMonth.year()}-${previousMonth.month() + 1}-${
+                previousMonthLastMondayDayOfMonth + amountOfDays
+              }`
+            ).format("YYYY-MM-DD"),
+            isCurrentMonth: false,
+          };
+        }
+      );
+    },
+    createNextMonthDays() {
+      const lastDaysOfCurrentMonthWeekday = this.getWeek(
+        this.createCurrentMonthDays[
+          `${this.year}-${this.month}-${this.createCurrentMonthDays.length}`
+        ]
+      );
+      const nextMonth = dayjs(`${this.year}-${this.month}-01`).add(1, "month");
+      //todo why??
+      const visibleNumberOfDaysFromNextMonth = lastDaysOfCurrentMonthWeekday
+        ? 7 - lastDaysOfCurrentMonthWeekday
+        : lastDaysOfCurrentMonthWeekday;
+      return [...Array(visibleNumberOfDaysFromNextMonth)].map(
+        (day, amountOfDays) => {
+          return {
+            date: dayjs(
+              `${nextMonth.year()}-${nextMonth.month() + 1}-${amountOfDays + 1}`
+            ).format("YYYY-MM-DD"),
+            isCurrentMonth: false,
+          };
+        }
+      );
+    },
+    //包括previous/current/next 的日期
+    days() {
+      return [
+        ...this.createPreviousMonthDays,
+        ...this.createCurrentMonthDays,
+        ...this.createNextMonthDays,
+      ];
+    },
   },
   methods: {
     selectDate(newSelectedDate) {
@@ -101,6 +157,10 @@ export default {
     },
     getWeek(date) {
       return dayjs(date).weekday();
+    },
+    updateCurrentDay(selectedDay) {
+      this.currentDay = selectedDay;
+      this.$store.commit("storeDate", this.currentDay);
     },
   },
 };
@@ -114,6 +174,8 @@ export default {
   &-list {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(5, 20%);
+    overflow: hidden;
   }
   .active {
     border: 1px solid #be875c;
