@@ -31,6 +31,7 @@ export default {
   methods: {
     updateAPI(selected) {
       this.selected = selected;
+      this.$store.commit("storeUnit", this.selected);
     },
     // todo common methods
     sendResult() {
