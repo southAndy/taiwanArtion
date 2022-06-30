@@ -98,7 +98,6 @@ export default {
         1,
         "month"
       );
-      //todo why 6?
       const visibleNumberOfDaysFromPreviousMonth = firstDayOfCurrentMonthWeekday
         ? firstDayOfCurrentMonthWeekday - 1
         : 6;
@@ -161,6 +160,7 @@ export default {
     },
     updateCurrentDay(selectedDay) {
       this.currentDay = selectedDay;
+      this.$store.commit("storeDate", this.currentDay);
     },
   },
 };
