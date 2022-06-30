@@ -21,6 +21,7 @@
       @click="toHome"
     >
       <img class="mobile" src="@/assets/images/logo-062.png" alt="logo" />
+      <img class="desktop" src="@/assets/images/logo-07-web.png" alt="logo" />
     </div>
   </div>
 </template>
@@ -139,6 +140,10 @@ export default {
   div {
     width: 60px;
     height: 10px;
+  }
+  @include breakpoints.desktop {
+    left: 35%;
+    top: 65%;
   }
   .first {
     border: 1px solid #3333;
