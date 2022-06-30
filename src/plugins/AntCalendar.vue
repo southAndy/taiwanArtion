@@ -8,14 +8,28 @@
           v-for="(month, index) in monthList"
           :key="index"
         >
-          <h4>{{ month.short }}</h4>
-          <!-- todo class="active" 的邏輯 -->
-          <p>{{ month.cn }}</p>
+          <h4 :class="{ fontactive: currentMonth === month.cn }">
+            {{ month.short }}
+          </h4>
+          <!-- todo calendar select -->
+          <p
+            @click="changeMonth(month.cn)"
+            :class="{ clicked: currentMonth === month.cn }"
+          >
+            {{ month.cn }}
+          </p>
         </div>
       </div>
     </div>
+    <div class="calendar_month">
+      <!-- todo calendar header -->
+      <div class="calendar_month-header"></div>
+      <!-- todo grid -->
+      <div class="day-header"></div>
+      <ol class="day"></ol>
+    </div>
     <!-- customer line -->
-    <div
+    <!-- <div
       style="
         width: 100%;
         border: 1px solid #d9d9d9;
@@ -48,8 +62,7 @@
                 </a-radio-group>
               </a-col>
               <a-col>
-                <!-- ! 跨年分暫停 -->
-                <!-- <a-select
+                <a-select
                   size="small"
                   :dropdown-match-select-width="false"
                   class="my-year-select"
@@ -66,7 +79,7 @@
                     class="year-item"
                   >
                   </a-select-option>
-                </a-select> -->
+                </a-select>
               </a-col>
               <a-col>
                 <a-select
@@ -86,7 +99,6 @@
                     :key="String(index)"
                     class="month-item"
                   >
-                    <!-- todo select month -->
                     {{ val }}
                   </a-select-option>
                 </a-select>
@@ -95,21 +107,26 @@
           </div>
         </template>
       </a-calendar>
-    </div>
-    <Send @click="sendResult(value)" />
-    <!-- <button @click="test(value)">確定</button> -->
+    </div> -->
+    <!-- <Send @click="sendResult(value)" /> -->
   </div>
 </template>
 <script>
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import Send from "@/components/Buttons/Send.vue";
+// import Send from "@/components/Buttons/Send.vue";
 export default defineComponent({
-  components: { Send },
+  // components: { Send },
   setup() {
+    //router
     const router = useRouter();
     const store = useStore();
+    let isClicked = ref(true);
+    let currentMonth = ref("1月");
+    function changeMonth(month) {
+      currentMonth.value = month;
+    }
 
     function sendResult(value) {
       console.log(value, value.$d);
@@ -173,6 +190,9 @@ export default defineComponent({
       //custom part -----
       monthList,
       sendResult,
+      isClicked,
+      changeMonth,
+      currentMonth,
     };
   },
 });
@@ -192,6 +212,7 @@ export default defineComponent({
       overflow: scroll;
 
       &-list {
+        flex-shrink: 0;
         width: 50px;
         height: 70px;
         margin-right: 15px;
@@ -206,9 +227,13 @@ export default defineComponent({
     }
   }
 }
-.active {
+.clicked {
   border: 1px solid #be875c;
   border-radius: 7px;
+  color: #be875c;
+  font-weight: 600;
+}
+.fontactive {
   color: #be875c;
 }
 </style>

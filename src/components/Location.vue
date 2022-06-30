@@ -14,10 +14,11 @@
       </div>
       <div class="location_city">
         <Selected
-          v-for="city in locate.cities"
-          :key="city"
+          v-for="(city, index) in locate.cities"
+          :key="index"
           :api="city"
           @update="updateAPI"
+          :class="{ selected: this.selected === city }"
         />
       </div>
     </section>
@@ -62,11 +63,11 @@ export default {
     };
   },
   methods: {
-    // todo common methods
     updateAPI(selected) {
+      console.log(selected);
       this.selected = selected;
+      this.$store.commit("storeCity", this.selected);
     },
-    // todo common methods
     sendResult() {
       //當在相同頁面重新整理 call api
       this.$store.dispatch("getAPI");

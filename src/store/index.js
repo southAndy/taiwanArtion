@@ -11,6 +11,11 @@ export default createStore({
     specificRangeExhibitions: null,
     latitude: 0,
     longitude: 0,
+    selectedList: {
+      city: "",
+      unit: "",
+      date: "",
+    },
   }),
   getters: {
     withImageAPI(state) {
@@ -56,7 +61,15 @@ export default createStore({
         }
       });
     },
-    //store fetched api to state
+    storeCity(state, selected) {
+      state.selectedList.city = selected;
+    },
+    storeUnit(state, selected) {
+      state.selectedList.unit = selected;
+    },
+    storeDate(state, selected) {
+      state.selectedList.date = selected;
+    }, //store fetched api to state
     recievedAPI(state, api) {
       state.api = api;
     },
@@ -89,7 +102,6 @@ export default createStore({
       let currentTime = new Date();
       let currentYear = currentTime.getFullYear();
       let currentMonth = currentTime.getMonth();
-      // let rightDay = currentTime.getDate();
 
       //?api year / month / day
       state.specificRangeExhibitions = state.api.filter((value) => {

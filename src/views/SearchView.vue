@@ -31,7 +31,7 @@ export default {
 </script>
 <template>
   <div class="search">
-    <Search @click="showRecent = !showRecent" />
+    <Search @input="showRecent = !showRecent" />
     <Select_Navbar />
     <RecentSearch v-show="showRecent" />
   </div>

@@ -7,7 +7,7 @@
         type="text"
         placeholder="        Search"
         v-model="userInput.keyword"
-        @click="detectClick"
+        @change="detectClick"
         @keyup.enter="sendResult"
       />
       <div class="search_filter_input-icon">
@@ -44,7 +44,6 @@ import OffCanvasVue from "./OffCanvas.vue";
 export default {
   components: { OffCanvasVue },
   name: "SearchButton",
-  props: [],
   data() {
     return {
       userInput: {
@@ -58,6 +57,9 @@ export default {
       showIcon: true,
       searchList: [],
     };
+  },
+  computed: {
+    detectInputState() {},
   },
   methods: {
     detectClick() {
