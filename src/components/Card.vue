@@ -20,7 +20,7 @@
       </div>
       <!-- ? price -->
       <span class="card_content-price">{{
-        api.showInfo[0].price || "免費入場"
+        api.showInfo[0].price != "" ? "需要付費" : "免費入場"
       }}</span>
     </router-link>
   </div>
