@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <router-link :to="{ name: 'DetailView', query: { uid: api.UID } }">
+    <router-link :to="{ name: 'DetailView', params: { id: api.UID } }">
       <div class="card_image">
         <img :src="api.imageUrl || defaultImage" alt="展覽海報" />
       </div>
@@ -32,7 +32,7 @@ export default {
   data() {
     return {
       homeAPI: this.api,
-      defaultImage: "@/assets/images/5248954-02.png",
+      defaultImage: require("@/assets/images/5248954-02.png"),
     };
   },
   computed: {},
