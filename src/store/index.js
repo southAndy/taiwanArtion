@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { filterAPI } from "./API/filterAPI";
 
 import { getAPI } from "@/service/getAPI.js";
+import dayjs from "dayjs";
 
 export default createStore({
   state: () => ({
@@ -11,13 +12,117 @@ export default createStore({
     specificRangeExhibitions: null,
     latitude: 0,
     longitude: 0,
-    selectedList: {
-      city: "",
-      unit: "",
-      date: "",
-    },
+    selectedList: {},
   }),
   getters: {
+    setCityForAPI(state) {
+      return state?.api.filter(
+        (data) => (data.city = data.showInfo[0].location.slice(0, 2))
+      );
+    },
+    setUnitForAPI(state) {
+      return state?.api?.filter((data) => {
+        if (
+          data.showUnit.includes("畫廊") ||
+          data.showUnit.includes("空間") ||
+          data.showUnit.includes("藝廊")
+        ) {
+          return (data.unit = "民間藝文空間");
+        }
+        if (data.showUnit.includes("線上")) {
+          return (data.unit = "線上展");
+        }
+        if (data.showUnit.includes("博物館")) {
+          return (data.unit = "博物館");
+        }
+        if (data.showUnit.includes("美術館")) {
+          return (data.unit = "美術館");
+        }
+      });
+    },
+    mutipleSelect(state, getters, rules = Object.keys(state.selectedList)) {
+      //多選
+      console.log(Object.keys(state.selectedList).length);
+      rules = Object.keys(state.selectedList);
+      if (rules.length === 3) {
+        console.log("ff");
+        return getters.setUnitForAPI?.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            data.city === state.selectedList.city &&
+            data.unit === state.selectedList.unit &&
+            apiEndDate.valueOf() > userSelectedDate.valueOf()
+          ) {
+            return data;
+          }
+        });
+      }
+      //複選
+      if (rules.length === 2) {
+        return getters.setUnitForAPI?.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            (data.city === state.selectedList.city &&
+              data.unit === state.selectedList.unit) ||
+            (data.unit === state.selectedList.unit &&
+              apiEndDate.valueOf() > userSelectedDate.valueOf()) ||
+            (data.city === state.selectedList.city &&
+              apiEndDate.valueOf() > userSelectedDate.valueOf())
+          ) {
+            return data;
+          }
+        });
+      }
+      //單選
+      if (rules.length === 1) {
+        return getters.setUnitForAPI?.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            data.city === state.selectedList.city ||
+            data.unit === state.selectedList.unit ||
+            apiEndDate.valueOf() > userSelectedDate.valueOf()
+          ) {
+            return data;
+          }
+        });
+      }
+      // return getters.setUnitForAPI?.filter((data) => {
+      //   let userSelectedDate = new Date(state.selectedList.date);
+      //   let apiEndDate = new Date(data.endDate);
+      //   //?全選
+      //   if (
+      //     data.city === state.selectedList.city &&
+      //     data.unit === state.selectedList.unit &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf()
+      //   ) {
+      //     console.log("mutiple");
+      //     return data;
+      //   }
+      //   //?複選
+      // if (
+      //   (data.city === state.selectedList.city &&
+      //     data.unit === state.selectedList.unit) ||
+      //   (data.unit === state.selectedList.unit &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf()) ||
+      //   (data.city === state.selectedList.city &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf())
+      // ) {
+      //     console.log("dobule");
+      //     return data;
+      //   }
+      //   //?單選情境
+      //   // if (
+      //   //   data.city === state.selectedList.city ||
+      //   //   data.unit === state.selectedList.unit ||
+      //   //   apiEndDate.valueOf() > userSelectedDate.valueOf()
+      //   // ) {
+      //   //   return data;
+      //   // }
+      // });
+    },
     withImageAPI(state) {
       return state?.api.filter((value) => value.imageUrl !== "");
     },
