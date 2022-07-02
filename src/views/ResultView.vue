@@ -17,6 +17,12 @@ export default {
         return value;
       });
     },
+    selectedAPI() {
+      return this.$store?.getters.mutipleSelect;
+    },
+    selectCity() {
+      return this.$store.state.selectedList.city;
+    },
   },
   methods: {},
   async created() {
@@ -29,14 +35,14 @@ export default {
     <Search />
     <Navbar_select />
     <h3 class="result_title">
-      {{ "臺南" }}市,{{
-        `找到${receivedSpecificDatas?.length}件展覽!` || "共500件展覽"
+      {{ selectCity }}市,{{
+        `找到${selectedAPI?.length}件展覽!` || "共500件展覽"
       }}
     </h3>
-    <div class="result_content" v-if="receivedSpecificDatas">
+    <div class="result_content" v-if="selectedAPI">
       <router-link
-        :to="{ name: 'DetailView', params: { id: result.UID } }"
-        v-for="result in receivedSpecificDatas"
+        :to="{ name: 'DetailView', query: { id: result.UID } }"
+        v-for="result in selectedAPI"
         :key="result"
       >
         <Result_Card :result="result" />
