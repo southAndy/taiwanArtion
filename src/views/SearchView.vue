@@ -10,6 +10,9 @@ export default {
     Select_Navbar,
     RecentSearch,
   },
+  created() {
+    this.$store.dispatch("getAPI");
+  },
   data() {
     return {
       showRecent: false,
