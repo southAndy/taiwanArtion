@@ -60,7 +60,7 @@ export default {
     },
   },
   created() {
-    this.$store.commit("receivedUID", this.$route.params.id);
+    this.$store.commit("receivedUID", this.$route.query.id);
     this.$store.dispatch("getAPI");
   },
 };
@@ -68,7 +68,10 @@ export default {
 <template>
   <div class="detail">
     <div class="detail_banner" v-if="withSpecificUIDAPI">
-      <img :src="withSpecificUIDAPI[0]?.imageUrl" alt="展覽海報" />
+      <img
+        :src="withSpecificUIDAPI[0]?.imageUrl || this.$store.state.defaultImage"
+        alt="展覽海報"
+      />
     </div>
     <a
       class="detail_calendar"
