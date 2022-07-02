@@ -2,7 +2,7 @@ import { createStore } from "vuex";
 import { filterAPI } from "./API/filterAPI";
 
 import { getAPI } from "@/service/getAPI.js";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 
 export default createStore({
   state: () => ({
@@ -21,12 +21,14 @@ export default createStore({
   }),
   getters: {
     setCityForAPI(state) {
-      return state?.api.filter(
-        (data) => (data.city = data.showInfo[0].location.slice(0, 2))
-      );
+      return state.api?.filter((data) => {
+        data.city = data.showInfo[0].location.slice(0, 2);
+        console.log(data.city);
+        return data;
+      });
     },
-    setUnitForAPI(state) {
-      return state?.api?.filter((data) => {
+    setUnitForAPI(state, getters) {
+      return getters.setCityForAPI?.filter((data) => {
         if (
           data.showUnit.includes("畫廊") ||
           data.showUnit.includes("空間") ||
@@ -45,10 +47,10 @@ export default createStore({
         }
       });
     },
-    mutipleSelect(state, getters, rules = Object.keys(state.selectedList)) {
+    mutipleSelect(state, getters) {
       //多選
       console.log(Object?.keys(state.selectedList).length);
-      rules = Object?.keys(state.selectedList);
+      let rules = Object.keys(state.selectedList);
       if (rules.length === 3) {
         console.log("3");
         return getters.setUnitForAPI?.filter((data) => {
@@ -65,7 +67,6 @@ export default createStore({
       }
       //複選
       if (rules.length === 2) {
-        console.log("2");
         return getters.setUnitForAPI?.filter((data) => {
           let userSelectedDate = new Date(state.selectedList.date);
           let apiEndDate = new Date(data.endDate);
@@ -83,9 +84,7 @@ export default createStore({
       }
       //單選
       if (rules.length === 1) {
-        console.log("1");
-
-        return getters.setUnitForAPI?.filter((data) => {
+        return getters.setUnitForAPI.filter((data) => {
           let userSelectedDate = new Date(state.selectedList.date);
           let apiEndDate = new Date(data.endDate);
           if (
@@ -96,6 +95,17 @@ export default createStore({
             return data;
           }
         });
+        // return getters.setUnitForAPI?.filter((data) => {
+        //   let userSelectedDate = new Date(state.selectedList.date);
+        //   let apiEndDate = new Date(data.endDate);
+        //   if (
+        //     data.city === state.selectedList.city ||
+        //     data.unit === state.selectedList.unit ||
+        //     apiEndDate.valueOf() > userSelectedDate.valueOf()
+        //   ) {
+        //     return data;
+        //   }
+        // });
       }
       // return getters.setUnitForAPI?.filter((data) => {
       //   let userSelectedDate = new Date(state.selectedList.date);

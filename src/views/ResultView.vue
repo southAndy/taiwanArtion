@@ -1,3 +1,24 @@
+<template>
+  <div class="result">
+    <Search />
+    <Navbar_select />
+    <h3 class="result_title">
+      {{ selectCity }}市,{{
+        `找到${selectedAPI.length}件展覽!` || "共500件展覽"
+      }}
+    </h3>
+    <div class="result_content" v-if="selectedAPI">
+      <router-link
+        :to="{ name: 'DetailView', query: { id: result.UID } }"
+        v-for="result in selectedAPI"
+        :key="result.UID"
+      >
+        <Result_Card :result="result" />
+      </router-link>
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
 <script>
 import Result_Card from "@/components/Cards/Result.vue";
 import Search from "@/components/Search.vue";
@@ -11,14 +32,9 @@ export default {
     Navbar_select,
   },
   computed: {
-    receivedSpecificDatas() {
-      return this.$store?.state.selected.filter((value) => {
-        value.showInfo[0].location = value.showInfo[0].location.slice(0, 3);
-        return value;
-      });
-    },
     selectedAPI() {
-      return this.$store?.getters.mutipleSelect;
+      console.log("excuting");
+      return this.$store?.getters.mutipleSelect || [];
     },
     selectCity() {
       return this.$store.state.selectedList.city;
@@ -30,27 +46,6 @@ export default {
   },
 };
 </script>
-<template>
-  <div class="result">
-    <Search />
-    <Navbar_select />
-    <h3 class="result_title">
-      {{ selectCity }}市,{{
-        `找到${selectedAPI?.length}件展覽!` || "共500件展覽"
-      }}
-    </h3>
-    <div class="result_content" v-if="selectedAPI">
-      <router-link
-        :to="{ name: 'DetailView', query: { id: result.UID } }"
-        v-for="result in selectedAPI"
-        :key="result"
-      >
-        <Result_Card :result="result" />
-      </router-link>
-      <router-view></router-view>
-    </div>
-  </div>
-</template>
 <style lang="scss" scoped>
 @use "@/assets/scss/base/breakpoints";
 .result {
