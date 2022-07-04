@@ -107,7 +107,7 @@ export default {
   }
 }
 .search_content {
-  height: 520px;
+  height: 100vh;
 }
 .active {
   color: colors.$primary_color;
