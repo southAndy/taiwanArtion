@@ -9,28 +9,26 @@
     >
       {{ unit }}
     </Selected>
-    <Send @click="sendResult" :selected="this.selected" />
   </div>
 </template>
 <script>
 import Selected from "@/components/Buttons/Selected.vue";
-import Send from "@/components/Buttons/Send.vue";
 
 export default {
   name: "MasterUnit",
   components: {
     Selected,
-    Send,
   },
   data() {
     return {
-      masterUnitList: ["文創園區", "美術館", "博物館", "藝文中心"],
+      masterUnitList: ["博物館", "民間藝文空間", "美術館", "線上展"],
       selected: null,
     };
   },
   methods: {
     updateAPI(selected) {
       this.selected = selected;
+      this.$store.commit("storeUnit", this.selected);
     },
     // todo common methods
     sendResult() {

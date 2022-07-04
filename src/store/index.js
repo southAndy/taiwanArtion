@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import { filterAPI } from "./API/filterAPI";
 
 import { getAPI } from "@/service/getAPI.js";
+// import dayjs from "dayjs";
 
 export default createStore({
   state: () => ({
@@ -11,8 +12,135 @@ export default createStore({
     specificRangeExhibitions: null,
     latitude: 0,
     longitude: 0,
+    selectedList: {},
+    defaultImage: require("@/assets/images/5248954-02.png"),
+    logoList: {
+      desktop: "",
+      mobile: "",
+    },
+    isToggle: true,
+    isSelected: false,
   }),
   getters: {
+    setCityForAPI(state) {
+      return state.api?.filter((data) => {
+        data.city = data.showInfo[0].location.slice(0, 2);
+        return data;
+      });
+    },
+    setUnitForAPI(state, getters) {
+      return getters.setCityForAPI?.filter((data) => {
+        if (
+          data.showUnit.includes("畫廊") ||
+          data.showUnit.includes("空間") ||
+          data.showUnit.includes("藝廊")
+        ) {
+          return (data.unit = "民間藝文空間");
+        }
+        if (data.showUnit.includes("線上")) {
+          return (data.unit = "線上展");
+        }
+        if (data.showUnit.includes("博物館")) {
+          return (data.unit = "博物館");
+        }
+        if (data.showUnit.includes("美術館")) {
+          return (data.unit = "美術館");
+        }
+      });
+    },
+    mutipleSelect(state, getters) {
+      //多選
+      let rules = Object.keys(state.selectedList);
+      if (rules.length === 3) {
+        console.log("3");
+        return getters.setUnitForAPI?.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            data.city === state.selectedList.city &&
+            data.unit === state.selectedList.unit &&
+            apiEndDate.valueOf() > userSelectedDate.valueOf()
+          ) {
+            return data;
+          }
+        });
+      }
+      //複選
+      if (rules.length === 2) {
+        return getters.setUnitForAPI?.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            (data.city === state.selectedList.city &&
+              data.unit === state.selectedList.unit) ||
+            (data.unit === state.selectedList.unit &&
+              apiEndDate.valueOf() > userSelectedDate.valueOf()) ||
+            (data.city === state.selectedList.city &&
+              apiEndDate.valueOf() > userSelectedDate.valueOf())
+          ) {
+            return data;
+          }
+        });
+      }
+      //單選
+      if (rules.length === 1) {
+        return getters.setUnitForAPI.filter((data) => {
+          let userSelectedDate = new Date(state.selectedList.date);
+          let apiEndDate = new Date(data.endDate);
+          if (
+            data.city === state.selectedList.city ||
+            data.unit === state.selectedList.unit ||
+            apiEndDate.valueOf() > userSelectedDate.valueOf()
+          ) {
+            return data;
+          }
+        });
+        // return getters.setUnitForAPI?.filter((data) => {
+        //   let userSelectedDate = new Date(state.selectedList.date);
+        //   let apiEndDate = new Date(data.endDate);
+        //   if (
+        //     data.city === state.selectedList.city ||
+        //     data.unit === state.selectedList.unit ||
+        //     apiEndDate.valueOf() > userSelectedDate.valueOf()
+        //   ) {
+        //     return data;
+        //   }
+        // });
+      }
+      // return getters.setUnitForAPI?.filter((data) => {
+      //   let userSelectedDate = new Date(state.selectedList.date);
+      //   let apiEndDate = new Date(data.endDate);
+      //   //?全選
+      //   if (
+      //     data.city === state.selectedList.city &&
+      //     data.unit === state.selectedList.unit &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf()
+      //   ) {
+      //     console.log("mutiple");
+      //     return data;
+      //   }
+      //   //?複選
+      // if (
+      //   (data.city === state.selectedList.city &&
+      //     data.unit === state.selectedList.unit) ||
+      //   (data.unit === state.selectedList.unit &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf()) ||
+      //   (data.city === state.selectedList.city &&
+      //     apiEndDate.valueOf() > userSelectedDate.valueOf())
+      // ) {
+      //     console.log("dobule");
+      //     return data;
+      //   }
+      //   //?單選情境
+      // if (
+      //   data.city === state.selectedList.city ||
+      //   data.unit === state.selectedList.unit ||
+      //   apiEndDate.valueOf() > userSelectedDate.valueOf()
+      // ) {
+      //   return data;
+      // }
+      // });
+    },
     withImageAPI(state) {
       return state?.api.filter((value) => value.imageUrl !== "");
     },
@@ -38,6 +166,12 @@ export default createStore({
     },
   },
   mutations: {
+    closeToggle(state) {
+      state.isToggle = false;
+    },
+    openToggle(state) {
+      state.isToggle = true;
+    },
     withKeyWord(state, userInput) {
       console.log("call withKeyWord", userInput);
       state.selected = state?.api?.filter((data) => {
@@ -56,7 +190,15 @@ export default createStore({
         }
       });
     },
-    //store fetched api to state
+    storeCity(state, selected) {
+      state.selectedList.city = selected;
+    },
+    storeUnit(state, selected) {
+      state.selectedList.unit = selected;
+    },
+    storeDate(state, selected) {
+      state.selectedList.date = selected;
+    }, //store fetched api to state
     recievedAPI(state, api) {
       state.api = api;
     },
@@ -89,7 +231,6 @@ export default createStore({
       let currentTime = new Date();
       let currentYear = currentTime.getFullYear();
       let currentMonth = currentTime.getMonth();
-      // let rightDay = currentTime.getDate();
 
       //?api year / month / day
       state.specificRangeExhibitions = state.api.filter((value) => {

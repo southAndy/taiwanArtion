@@ -18,5 +18,6 @@ export default {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   padding: 0;
+  margin-top: 20px;
 }
 </style>

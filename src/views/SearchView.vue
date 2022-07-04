@@ -1,3 +1,10 @@
+<template>
+  <div class="search">
+    <Search @input="showRecent = !showRecent" />
+    <Select_Navbar />
+    <RecentSearch v-show="showRecent" />
+  </div>
+</template>
 <script>
 import Search from "@/components/Search.vue";
 import Select_Navbar from "@/components/Navbar/Select.vue";
@@ -10,32 +17,27 @@ export default {
     Select_Navbar,
     RecentSearch,
   },
+  created() {
+    this.$store.dispatch("getAPI");
+  },
   data() {
     return {
       showRecent: false,
     };
   },
   methods: {
-    //? 確定搜尋種類
-    sendSearch() {
-      console.log("message");
-      this.$router.push({ name: "ResultView" });
-    },
-    //click
-    isClicked(value) {
-      console.log("mom clicked", value);
-      this.showRecent = !this.showRecent;
-    },
+    // sendSearch() {
+    //   console.log("excuting");
+    //   this.$store.commit("closeToggle");
+    //   this.$router.push({
+    //     name: "ResultView",
+    //     query: { city: "高雄", unit: "博物館", date: "2022-06-28" },
+    //   });
+    // },
   },
 };
 </script>
-<template>
-  <div class="search">
-    <Search @input="showRecent = !showRecent" />
-    <Select_Navbar />
-    <RecentSearch v-show="showRecent" />
-  </div>
-</template>
+
 <style lang="scss" scoped>
 @use "@/assets/scss/base/reset.scss";
 @use "@/assets/scss/base/colors.scss";

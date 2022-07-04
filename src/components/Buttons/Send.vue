@@ -1,5 +1,9 @@
 <template>
-  <button @click="sendResult" :class="['send', { selected: this.selected }]">
+  <button
+    @click="sendResult"
+    :disabled="!calSelectedLength"
+    :class="['send', { selected: calSelectedLength }]"
+  >
     確定
   </button>
 </template>
@@ -7,14 +11,12 @@
 export default {
   name: "SendResult",
   props: ["selected"],
-  // props: {
-  //   selected: String,
-  // },
-  // methods: {
-  //   sendResult() {
-  //     this.$emit("entered", true);
-  //   },
-  // },
+  computed: {
+    //偵查使用者點選狀態
+    calSelectedLength() {
+      return Object.keys(this.$store.state.selectedList).length;
+    },
+  },
 };
 </script>
 <style lang="scss">
