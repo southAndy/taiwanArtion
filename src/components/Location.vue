@@ -18,22 +18,19 @@
           :key="index"
           :api="city"
           @update="updateAPI"
-          :class="{ selected: this.selected === city }"
+          :class="{ selected: this.detectCurrentCity === city }"
         />
       </div>
     </section>
-    <Send @click="sendResult" :class="{ selected: this.selected }" />
   </div>
 </template>
 <script>
 import Selected from "@/components/Buttons/Selected.vue";
-import Send from "@/components/Buttons/Send.vue";
 
 export default {
   name: "Search_Location",
   components: {
     Selected,
-    Send,
   },
   data() {
     return {
@@ -59,23 +56,16 @@ export default {
           cities: ["澎湖", "金門", "馬祖", "綠島", "蘭嶼"],
         },
       ],
-      selected: null,
     };
   },
-  methods: {
-    // todo common methods
-    updateAPI(selected) {
-      this.selected = selected;
+  computed: {
+    detectCurrentCity() {
+      return this.$store.state.selectedList.city;
     },
-    // todo common methods
-    sendResult() {
-      //當在相同頁面重新整理 call api
-      this.$store.dispatch("getAPI");
-      this.$store.commit("filterSpecificCities", this.selected);
-      this.$router.push({
-        name: "ResultView",
-        query: { selected: this.selected },
-      });
+  },
+  methods: {
+    updateAPI(selected) {
+      this.$store.commit("storeCity", selected);
     },
   },
 };

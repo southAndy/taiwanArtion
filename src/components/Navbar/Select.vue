@@ -12,23 +12,24 @@
       {{ list.name }}
     </button>
   </nav>
-  <div class="search_content">
+  <div class="search_content" :style="{ display: isToggle ? 'block' : 'none' }">
     <keep-alive :exclude="('Location', 'MasterUnit', 'CalendarMonthVue')">
       <component
         :is="currentPage"
-        :style="{ display: isToggle ? 'none' : 'block' }"
         @update="isToggle"
         :isToggle="isToggle"
       ></component>
     </keep-alive>
+    <send-vue @click="sendSearch" />
   </div>
 </template>
 <script>
 import Location from "@/components/Location.vue";
 import MasterUnit from "@/components/MasterUnit.vue";
+import CalendarMonthVue from "../Calendar/CalendarMonth.vue";
+import SendVue from "../Buttons/Send.vue";
 //old calendar --antdesgin
 // import AntCalendar from "@/plugins/AntCalendar.vue";
-import CalendarMonthVue from "../Calendar/CalendarMonth.vue";
 
 export default {
   name: "Select",
@@ -36,13 +37,13 @@ export default {
     Location,
     MasterUnit,
     CalendarMonthVue,
+    SendVue,
     // AntCalendar,
   },
   data() {
     return {
       //控制component的值
       currentPage: "Location",
-      isToggle: false,
       selectList: [
         {
           name: "地點",
@@ -66,15 +67,27 @@ export default {
       ],
     };
   },
-
+  computed: {
+    isToggle() {
+      return this.$store.state.isToggle;
+    },
+  },
   methods: {
-    //todo
     switchPage(page, currentIndex) {
       console.log(page, currentIndex);
       this.currentPage = page;
+      this.$store.commit("openToggle");
       //每個list點擊第2次,預期關閉
       // this.selectList[currentIndex].hit++;
       // this.isToggle = this.selectList[currentIndex].hit;
+    },
+    sendSearch() {
+      console.log("excuting");
+      this.$store.commit("closeToggle");
+      this.$router.push({
+        name: "ResultView",
+        query: { city: "高雄", unit: "博物館", date: "2022-06-28" },
+      });
     },
   },
 };
@@ -92,6 +105,9 @@ export default {
     border: none;
     background: none;
   }
+}
+.search_content {
+  height: 100vh;
 }
 .active {
   color: colors.$primary_color;
