@@ -18,12 +18,13 @@ export default createStore({
       desktop: "",
       mobile: "",
     },
+    isToggle: true,
+    isSelected: false,
   }),
   getters: {
     setCityForAPI(state) {
       return state.api?.filter((data) => {
         data.city = data.showInfo[0].location.slice(0, 2);
-        console.log(data.city);
         return data;
       });
     },
@@ -49,7 +50,6 @@ export default createStore({
     },
     mutipleSelect(state, getters) {
       //多選
-      console.log(Object?.keys(state.selectedList).length);
       let rules = Object.keys(state.selectedList);
       if (rules.length === 3) {
         console.log("3");
@@ -132,13 +132,13 @@ export default createStore({
       //     return data;
       //   }
       //   //?單選情境
-      //   // if (
-      //   //   data.city === state.selectedList.city ||
-      //   //   data.unit === state.selectedList.unit ||
-      //   //   apiEndDate.valueOf() > userSelectedDate.valueOf()
-      //   // ) {
-      //   //   return data;
-      //   // }
+      // if (
+      //   data.city === state.selectedList.city ||
+      //   data.unit === state.selectedList.unit ||
+      //   apiEndDate.valueOf() > userSelectedDate.valueOf()
+      // ) {
+      //   return data;
+      // }
       // });
     },
     withImageAPI(state) {
@@ -166,6 +166,12 @@ export default createStore({
     },
   },
   mutations: {
+    closeToggle(state) {
+      state.isToggle = false;
+    },
+    openToggle(state) {
+      state.isToggle = true;
+    },
     withKeyWord(state, userInput) {
       console.log("call withKeyWord", userInput);
       state.selected = state?.api?.filter((data) => {
