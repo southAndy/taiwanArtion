@@ -50,7 +50,7 @@ export default createStore({
     },
     mutipleSelect(state, getters) {
       //多選
-      let rules = Object.keys(state.selectedList);
+      let rules = Object?.keys(state.selectedList);
       if (rules.length === 3) {
         console.log("3");
         return getters.setUnitForAPI?.filter((data) => {
@@ -157,8 +157,8 @@ export default createStore({
     withSpecificUIDAPI(state) {
       return state?.api.filter((data) => data?.UID === state.currentPageUID);
     },
-    withLatLngAPI(state) {
-      return state?.api.filter(
+    withLatLngAPI(state, getters) {
+      return getters.setUnitForAPI?.filter(
         (data) =>
           data.showInfo[0].latitude != null &&
           data.showInfo[0].longitude != null
