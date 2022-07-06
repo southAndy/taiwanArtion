@@ -1,11 +1,22 @@
 <template>
-  <Map_Navbar @update="update" @click="returnCenter" />
+  <Map_Navbar />
   <div id="map">
     <section class="toggle">
       <h4 class="toggle_title">
         {{ "顯示列表" }}
       </h4>
-      <!-- todo <card/> -->
+      <div>
+        <CardVue
+          :ref="data.UID"
+          class="card"
+          v-for="data in getExhibition"
+          :key="data.UID"
+          :api="data"
+        />
+      </div>
+      <div class="set" @click="backCenter">
+        <img src="@/assets/images/seticon.png" alt="定位" />
+      </div>
     </section>
   </div>
 </template>
@@ -13,11 +24,13 @@
 import L from "leaflet";
 
 import Map_Navbar from "@/components/Navbar/MapNavbar.vue";
+import CardVue from "@/components/Card.vue";
 
 export default {
   name: "searchMapView",
   components: {
     Map_Navbar,
+    CardVue,
   },
   data() {
     return {
@@ -29,31 +42,24 @@ export default {
       openStreetMap: {},
     };
   },
-  beforeCreate() {
-    //載入API
-    // this.$store.dispatch("getAPI");
-  },
   async mounted() {
-    var map = L.map("map").setView(
-      [this.defaultLocation.lat, this.defaultLocation.lng],
-      15
-    );
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-      attribution: "© OpenStreetMap",
-    }).addTo(map);
-    this.openStreetMap = map;
+    //取得使用者定位
+    // this.getCurrentPosition();
+    let map = this.getMap(this.defaultLocation.lat, this.defaultLocation.lng);
+    // var map = L.map("map").setView(
+    //   [this.defaultLocation.lat, this.defaultLocation.lng],
+    //   15
+    // );
+    // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    //   maxZoom: 19,
+    //   attribution: "© OpenStreetMap",
+    // }).addTo(map);
+    // this.openStreetMap = map;
     let marker = L.marker([
       this.defaultLocation.lat,
       this.defaultLocation.lng,
     ]).addTo(map);
     marker.bindPopup("<b>哈囉!</b><br>哩京罵底加!.").openPopup();
-
-    // this.getMap(this.defaultLocation.lat, this.defaultLocation.lng);
-    // await this.$store.dispatch("getAPI");
-    // this.setCenter(this.defaultLocation.lat, this.defaultLocation.lng);
-    // this.markerPosition(this.$store.getters.withLatLngAPI);
-    // this.setMarkers(this.$store.getters.withLatLngAPI);
   },
   computed: {
     clickedIcon() {
@@ -78,10 +84,58 @@ export default {
         popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor
       });
     },
+    getExhibition() {
+      return this.$store.getters.withLatLngAPI;
+    },
   },
   methods: {
+    //取得當前定位
+    //todo 解決secure origin
+    getCurrentPosition() {
+      console.log("getting place");
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0,
+      };
+      function success(pos) {
+        var crd = pos.coords;
+
+        console.log("Your current position is:");
+        console.log("Latitude : " + crd.latitude);
+        console.log("Longitude: " + crd.longitude);
+        console.log("More or less " + crd.accuracy + " meters.");
+      }
+      function error(err) {
+        console.warn("ERROR(" + err.code + "): " + err.message);
+      }
+      navigator.geolocation.getCurrentPosition(success, error, options);
+    },
+    //取得leaflet地圖
+    getMap(lat, lng, zoom = 15) {
+      //設定中心點座標
+      let openStreetMap = L.map("map", {
+        center: [lat, lng],
+        zoom: zoom,
+        //沒有設定,toggle會造成error
+        zoomAnimation: false,
+        fadeAnimation: true,
+        makerZoomAnimation: true,
+      });
+      //設定引用圖層來源:openstreet
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(openStreetMap);
+      this.openStreetMap = openStreetMap;
+      return openStreetMap;
+    },
     //回去中心
-    returnCenter() {},
+    backCenter() {
+      this.openStreetMap
+        .setZoom(15)
+        .panTo([this.defaultLocation.lat, this.defaultLocation.lng]);
+    },
     update(userInput) {
       console.log(userInput);
       //將kw存入state
@@ -100,6 +154,7 @@ export default {
       //   )
       //   .openOn(this.openStreetMap);
     },
+    //座標顯示內容
     popUp(exhibition) {
       return `
       <div class="exhibitionCard" >
@@ -193,25 +248,6 @@ export default {
       // this.openPopup(markers);
       // return;
     },
-    //取得leaflet地圖
-    getMap(lat, lng, zoom = 15) {
-      //設定中心點座標
-      let openStreetMap = L.map("map", {
-        center: [lat, lng],
-        zoom: zoom,
-        // zoomControl: true,
-        zoomAnimation: false,
-        fadeAnimation: true,
-        makerZoomAnimation: true,
-      });
-      //設定引用圖層來源:openstreet
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: "© OpenStreetMap",
-      }).addTo(openStreetMap);
-      this.openStreetMap = openStreetMap;
-      console.log(this.openStreetMap);
-    },
   },
 };
 </script>
@@ -236,7 +272,7 @@ export default {
   height: 1000px;
   width: 100vw;
   position: fixed;
-  z-index: 9999;
+  z-index: 900;
   bottom: 0;
   //預設位置
   transform: translateY(95%);
@@ -244,7 +280,7 @@ export default {
   border-radius: 20px;
 
   &:hover {
-    transform: translateY(80%);
+    // transform: translateY(80%);
     scroll-behavior: smooth;
   }
 
@@ -252,5 +288,14 @@ export default {
     font-size: 16px;
     align-self: center;
   }
+}
+.card {
+  margin: 0;
+  z-index: 1000;
+}
+.set {
+  position: absolute;
+  right: 5%;
+  top: -5%;
 }
 </style>

@@ -1,38 +1,3 @@
-<script>
-import OffCanvas from "@/components/OffCanvas.vue";
-
-export default {
-  name: "Map_Navbar",
-  components: { OffCanvas },
-  data() {
-    return {
-      //切換active
-      navbarState: {
-        currentNavbar: 0,
-        currentSelect: 0,
-      },
-      isToggle: false,
-      NoUserInput: true,
-      list: ["尋找展覽", "尋找地點"],
-      select: ["縣市", "日期"],
-      //input
-      userInput: null,
-    };
-  },
-  methods: {
-    toggleList() {
-      this.isToggle = !this.isToggle;
-    },
-    detectInput() {
-      console.log("d");
-      this.NoUserInput = false;
-    },
-    sendResult() {
-      this.$emit("update", this.userInput);
-    },
-  },
-};
-</script>
 <template>
   <section class="navbar_container">
     <nav class="navbar">
@@ -78,6 +43,42 @@ export default {
     </div>
   </div>
 </template>
+<script>
+import OffCanvas from "@/components/OffCanvas.vue";
+
+export default {
+  name: "Map_Navbar",
+  components: { OffCanvas },
+  data() {
+    return {
+      //切換active
+      navbarState: {
+        currentNavbar: 0,
+        currentSelect: 0,
+      },
+      isToggle: false,
+      NoUserInput: true,
+      list: ["尋找展覽", "尋找地點"],
+      select: ["縣市", "日期"],
+      //input
+      userInput: null,
+    };
+  },
+  methods: {
+    toggleList() {
+      this.isToggle = !this.isToggle;
+    },
+    detectInput() {
+      console.log("d");
+      this.NoUserInput = false;
+    },
+    sendResult() {
+      // this.$emit("update", this.userInput);
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .navbar_container {
   display: flex;
