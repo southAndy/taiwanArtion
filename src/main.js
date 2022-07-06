@@ -5,9 +5,10 @@ import store from "./store";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap";
-
-//todo 引入ant-desgin
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
+import drag from "v-drag";
 
-createApp(App).use(Antd).use(store).use(router).mount("#app");
+//
+
+createApp(App).use(Antd).use(drag).use(store).use(router).mount("#app");
