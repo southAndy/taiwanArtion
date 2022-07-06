@@ -26,3 +26,10 @@ ps:記得引入js/css
 `L.marker()./circle().toAdd()`
 
 ## custom icon
+
+設置地圖中心 -- `setView`
+`L.setView([lat,lng],{animation options})`
+
+- `getCenter()`:
+  - goal:回到預設中心位置
+  - return:lat

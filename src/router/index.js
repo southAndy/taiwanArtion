@@ -4,7 +4,9 @@ import Home_Banner from "../views/Banner.vue";
 
 // import SearchMapView from "../views/SearchMapView.vue";
 import SearchView from "../views/SearchView.vue";
-// import SharedView from "../views/SharedView.vue";
+
+//import vuex
+import store from "@/store";
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -19,15 +21,6 @@ const router = createRouter({
       name: "HomeView",
       component: HomeView,
     },
-    // {
-    //   path: "/nearby",
-    //   name: "nearBy",
-    //   // route level code-splitting
-    //   // this generates a separate chunk (about.[hash].js) for this route
-    //   // which is lazy-loaded when the route is visited.
-    //   component: () =>
-    //     import(/* webpackChunkName: "about" */ "../views/nearByView.vue"),
-    // },
     {
       path: "/search",
       name: "SearchView",
@@ -60,6 +53,11 @@ const router = createRouter({
       component: () => import("../views/SharedView.vue"),
     },
   ],
+});
+router.beforeEach((to) => {
+  if (to.name === "SearchMapView") {
+    store.dispatch("getAPI");
+  }
 });
 
 export default router;
