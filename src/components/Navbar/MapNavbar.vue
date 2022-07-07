@@ -16,7 +16,6 @@
     </li>
   </section>
   <div :class="['select']" v-show="isToggle">
-    <!-- <pre>{{ userInput }}</pre> -->
     <input
       v-model="userInput"
       @click="detectInput"
@@ -66,7 +65,9 @@ export default {
   },
   methods: {
     toggleList() {
+      console.log("toggleMapNavbar", this);
       this.isToggle = !this.isToggle;
+      console.log(this.isToggle);
     },
     detectInput() {
       console.log("d");
