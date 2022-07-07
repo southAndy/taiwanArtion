@@ -18,39 +18,58 @@ export default createStore({
       desktop: "",
       mobile: "",
     },
-    isToggle: true,
-    isSelected: false,
   }),
   getters: {
     setCityForAPI(state) {
-      return state.api?.filter((data) => {
-        data.city = data.showInfo[0].location.slice(0, 2);
-        return data;
+      return state.api?.map((data) => {
+        return {
+          ...data,
+          city: data.showInfo[0].location.slice(0, 2),
+        };
       });
     },
     setUnitForAPI(state, getters) {
-      return getters.setCityForAPI?.filter((data) => {
-        if (
-          data.showUnit.includes("畫廊") ||
-          data.showUnit.includes("空間") ||
-          data.showUnit.includes("藝廊")
-        ) {
-          return (data.unit = "民間藝文空間");
-        }
-        if (data.showUnit.includes("線上")) {
-          return (data.unit = "線上展");
-        }
-        if (data.showUnit.includes("博物館")) {
-          return (data.unit = "博物館");
-        }
-        if (data.showUnit.includes("美術館")) {
-          return (data.unit = "美術館");
-        }
-      });
+      return getters.setCityForAPI
+        ?.filter((data) => {
+          return ["畫廊", "空間", "藝廊", "線上", "博物館", "美術館"].some(
+            (tag) => data.showUnit.includes(tag)
+          );
+        })
+        ?.map((data) => {
+          if (
+            data.showUnit.includes("畫廊") ||
+            data.showUnit.includes("空間") ||
+            data.showUnit.includes("藝廊")
+          ) {
+            return {
+              ...data,
+              unit: "民間藝文空間",
+            };
+          }
+          if (data.showUnit.includes("線上")) {
+            return {
+              ...data,
+              unit: "線上展",
+            };
+          }
+          if (data.showUnit.includes("博物館")) {
+            return {
+              ...data,
+              unit: "博物館",
+            };
+          }
+          if (data.showUnit.includes("美術館")) {
+            return {
+              ...data,
+              unit: "美術館",
+            };
+          }
+        });
     },
     mutipleSelect(state, getters) {
       //多選
-      let rules = Object?.keys(state.selectedList);
+      console.log(Object?.keys(state.selectedList).length);
+      let rules = Object.keys(state.selectedList);
       if (rules.length === 3) {
         console.log("3");
         return getters.setUnitForAPI?.filter((data) => {
@@ -132,13 +151,13 @@ export default createStore({
       //     return data;
       //   }
       //   //?單選情境
-      // if (
-      //   data.city === state.selectedList.city ||
-      //   data.unit === state.selectedList.unit ||
-      //   apiEndDate.valueOf() > userSelectedDate.valueOf()
-      // ) {
-      //   return data;
-      // }
+      //   // if (
+      //   //   data.city === state.selectedList.city ||
+      //   //   data.unit === state.selectedList.unit ||
+      //   //   apiEndDate.valueOf() > userSelectedDate.valueOf()
+      //   // ) {
+      //   //   return data;
+      //   // }
       // });
     },
     withImageAPI(state) {
@@ -166,12 +185,6 @@ export default createStore({
     },
   },
   mutations: {
-    closeToggle(state) {
-      state.isToggle = false;
-    },
-    openToggle(state) {
-      state.isToggle = true;
-    },
     withKeyWord(state, userInput) {
       console.log("call withKeyWord", userInput);
       state.selected = state?.api?.filter((data) => {
