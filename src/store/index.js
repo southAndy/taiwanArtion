@@ -18,6 +18,7 @@ export default createStore({
       desktop: "",
       mobile: "",
     },
+    isToggle: true,
   }),
   getters: {
     setCityForAPI(state) {
@@ -68,8 +69,8 @@ export default createStore({
     },
     mutipleSelect(state, getters) {
       //多選
-      console.log(Object?.keys(state.selectedList).length);
-      let rules = Object.keys(state.selectedList);
+      console.log(Object?.keys(state?.selectedList).length);
+      let rules = Object?.keys(state?.selectedList);
       if (rules.length === 3) {
         console.log("3");
         return getters.setUnitForAPI?.filter((data) => {
@@ -185,6 +186,12 @@ export default createStore({
     },
   },
   mutations: {
+    closeToggle(state) {
+      state.isToggle = false;
+    },
+    openToggle(state) {
+      state.isToggle = true;
+    },
     withKeyWord(state, userInput) {
       console.log("call withKeyWord", userInput);
       state.selected = state?.api?.filter((data) => {
