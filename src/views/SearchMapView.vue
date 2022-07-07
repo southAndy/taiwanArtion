@@ -1,23 +1,23 @@
 <template>
   <Map_Navbar />
-  <div id="map">
-    <section class="toggle">
-      <h4 class="toggle_title">
-        {{ "顯示列表" }}
-      </h4>
-      <div>
-        <CardVue
-          :ref="data.UID"
-          class="card"
-          v-for="data in getExhibition"
-          :key="data.UID"
-          :api="data"
-        />
-      </div>
-      <div class="set" @click="backCenter">
-        <img src="@/assets/images/seticon.png" alt="定位" />
-      </div>
-    </section>
+  <div id="map"></div>
+  <section class="toggle" v-drag:y v-if="getExhibition.length">
+    <h4 class="toggle_title">
+      {{ "顯示列表" }}
+    </h4>
+    <!-- ?toggle表單 -->
+    <div v-drag>
+      <CardVue
+        class="card"
+        v-for="data in getExhibition"
+        :key="data.UID"
+        :api="data"
+      />
+    </div>
+    <!-- ?定位icon -->
+  </section>
+  <div class="set" @click="backCenter">
+    <img src="@/assets/images/seticon.png" alt="定位" />
   </div>
 </template>
 <script>
@@ -45,16 +45,16 @@ export default {
   async mounted() {
     //取得使用者定位
     // this.getCurrentPosition();
-    let map = this.getMap(this.defaultLocation.lat, this.defaultLocation.lng);
-    // var map = L.map("map").setView(
-    //   [this.defaultLocation.lat, this.defaultLocation.lng],
-    //   15
-    // );
-    // L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    //   maxZoom: 19,
-    //   attribution: "© OpenStreetMap",
-    // }).addTo(map);
-    // this.openStreetMap = map;
+    // let map = this.getMap(this.defaultLocation.lat, this.defaultLocation.lng);
+    var map = L.map("map").setView(
+      [this.defaultLocation.lat, this.defaultLocation.lng],
+      15
+    );
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "© OpenStreetMap",
+    }).addTo(map);
+    this.openStreetMap = map;
     let marker = L.marker([
       this.defaultLocation.lat,
       this.defaultLocation.lng,
@@ -254,6 +254,9 @@ export default {
 
 <style lang="scss" scoped>
 @use "@/assets/scss/base/leaftlet";
+* {
+  touch-action: none;
+}
 #map {
   height: 90vh;
   width: 100vw;
@@ -271,10 +274,10 @@ export default {
   flex-direction: column;
   height: 1000px;
   width: 100vw;
-  position: fixed;
   z-index: 900;
+  position: fixed;
   bottom: 0;
-  //預設位置
+  // 預設位置
   transform: translateY(95%);
   background: white;
   border-radius: 20px;
@@ -296,6 +299,8 @@ export default {
 .set {
   position: absolute;
   right: 5%;
-  top: -5%;
+  /* top: 12%; */
+  bottom: 10%;
+  z-index: 800;
 }
 </style>
