@@ -95,9 +95,24 @@ export default {
       </div>
     </div> -->
     <div class="detail_menu">
-      <button @click="changePage('Information')">展覽資訊</button>
-      <button @click="changePage('Price')">票價</button>
-      <button @click="changePage('Introduce')">展覽介紹</button>
+      <button
+        :class="[{ active: currentMenu === 'Information' }]"
+        @click="changePage('Information')"
+      >
+        展覽資訊
+      </button>
+      <button
+        :class="[{ active: currentMenu === 'Price' }]"
+        @click="changePage('Price')"
+      >
+        票價
+      </button>
+      <button
+        :class="[{ active: currentMenu === 'Introduce' }]"
+        @click="changePage('Introduce')"
+      >
+        展覽介紹
+      </button>
     </div>
     <div class="detail_content">
       <component :is="currentMenu" :withSpecificUIDAPI="withSpecificUIDAPI" />
@@ -105,7 +120,8 @@ export default {
   </div>
 </template>
 <style lang="scss" scoped>
-@use "@/assets/scss/base/reset";
+@use "@/assets/scss/base/reset.scss";
+@use "@/assets/scss/base/colors.scss";
 
 .detail {
   position: relative;
@@ -164,6 +180,10 @@ export default {
   }
   &_content {
     padding: 16px;
+  }
+  .active {
+    color: colors.$primary_color;
+    border-bottom: 1px solid colors.$primary_color;
   }
 }
 </style>

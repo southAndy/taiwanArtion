@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <router-link :to="{ name: 'DetailView', params: { id: api.UID } }">
+    <router-link :to="{ name: 'DetailView', query: { id: api.UID } }">
       <div class="card_image">
         <img :src="api.imageUrl || defaultImage" alt="展覽海報" />
       </div>
