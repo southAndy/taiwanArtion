@@ -57,6 +57,7 @@ const router = createRouter({
 //如果進入的是Map,發API
 router.beforeEach((to) => {
   if (to.name === "SearchMapView") {
+    console.log("enter");
     store.dispatch("getAPI");
   }
 });
