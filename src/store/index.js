@@ -69,8 +69,8 @@ export default createStore({
     },
     mutipleSelect(state, getters) {
       //多選
-      console.log(Object?.keys(state?.selectedList).length);
-      let rules = Object?.keys(state?.selectedList);
+      console.log(Object.keys(state.selectedList).length);
+      let rules = Object.keys(state.selectedList);
       if (rules.length === 3) {
         console.log("3");
         return getters.setUnitForAPI?.filter((data) => {

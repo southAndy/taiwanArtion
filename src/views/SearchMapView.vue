@@ -1,14 +1,15 @@
 <template>
   <Map_Navbar />
   <div id="map"></div>
-  <section class="toggle" v-drag:y v-if="getExhibition.length">
-    <h4 class="toggle_title">
+  <section :class="['toggle', { show: showList }]" v-if="getExhibition.length">
+    <h4 class="toggle_title" @click="showMenu">
       {{ "顯示列表" }}
     </h4>
     <!-- ?toggle表單 -->
-    <div v-drag>
+    <div :class="['card']">
       <CardVue
-        class="card"
+        @click="showItem"
+        :class="['card_list', { 'show-item': shwoItem }]"
         v-for="data in getExhibition"
         :key="data.UID"
         :api="data"
@@ -34,6 +35,8 @@ export default {
   },
   data() {
     return {
+      shwoItem: false,
+      showList: false,
       defaultLocation: {
         lat: 25.073119414483664,
         lng: 121.52471779799832,
@@ -89,6 +92,39 @@ export default {
     },
   },
   methods: {
+    showMenu() {
+      console.log("testing");
+      this.showList = !this.showList;
+    },
+    mousedown(e) {
+      window.addEventListener("mousemove", mousemove);
+      window.addEventListener("mouseup", mouseup);
+      let prevY = e.clientY;
+      console.log(`現在位置:${prevY}`);
+
+      function mousemove(e) {
+        console.log("moving", e.clientY);
+
+        //? where is the mouse now
+        const newY = e.clientY;
+        let listSize = e.offsetY;
+        // const rect = e.target.getBoundingClientRect();
+        console.log("now place", prevY, newY, listSize);
+        let list = document.querySelector(".toggle");
+        let moveDistance = prevY + newY - listSize;
+        console.log(114, moveDistance);
+        list.style.transform = `translateY(${moveDistance}px)`;
+      }
+      function mouseup() {
+        // remove event listener
+        console.log("up");
+        window.removeEventListener("mousemove", mousemove);
+        window.removeEventListener("mouseup", mouseup);
+      }
+    },
+    showItem() {
+      this.showItem = !this.showItem;
+    },
     //取得當前定位
     //todo 解決secure origin
     getCurrentPosition() {
@@ -136,13 +172,13 @@ export default {
         .setZoom(15)
         .panTo([this.defaultLocation.lat, this.defaultLocation.lng]);
     },
-    update(userInput) {
-      console.log(userInput);
-      //將kw存入state
-      //呼叫篩選
-      // this.getMap(對應lat, 對應lng);
-      //渲染card
-    },
+    // update(userInput) {
+    //   console.log(userInput);
+    //   //將kw存入state
+    //   //呼叫篩選
+    //   // this.getMap(對應lat, 對應lng);
+    //   //渲染card
+    // },
     showPlaceInformation(e) {
       console.log(e.target, "clicked");
       //
@@ -275,7 +311,7 @@ export default {
   height: 1000px;
   width: 100vw;
   z-index: 900;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   // 預設位置
   transform: translateY(95%);
@@ -293,8 +329,17 @@ export default {
   }
 }
 .card {
-  margin: 0;
-  z-index: 1000;
+  overflow: scroll;
+  height: 40%;
+
+  &_list {
+    margin: 0;
+    z-index: 1000;
+    &:hover {
+      height: 300px;
+      flex-shrink: 0;
+    }
+  }
 }
 .set {
   position: absolute;
@@ -302,5 +347,12 @@ export default {
   /* top: 12%; */
   bottom: 10%;
   z-index: 800;
+}
+.show {
+  transform: translateY(50%);
+}
+.show-item {
+  height: 300px;
+  flex-shrink: 0;
 }
 </style>
