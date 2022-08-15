@@ -312,6 +312,7 @@ export default createStore({
   },
   actions: {
     async getAPI({ commit }) {
+      // commit("recievedAPI", await getAPI.getAllAPI());
       commit("recievedAPI", await getAPI.getAllAPI());
     },
     async getCurrentPosition({ commit }) {

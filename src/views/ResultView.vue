@@ -48,6 +48,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @use "@/assets/scss/base/breakpoints";
+
 .result {
   padding: 16px;
   &_title {
