@@ -1,6 +1,6 @@
 <template>
-  <div class="home">
-    <RouterNavbarVue />
+  <main class="home">
+      <RouterNavbarVue />
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -35,7 +35,7 @@
         />
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -102,19 +102,20 @@ export default {
   //作為navbar參考
   position: relative;
 
-  &_menu {
-    display: flex;
-    justify-content: space-between;
-    padding: 35px 0;
-  }
+  
   &_carousel {
     text-align: start;
 
     margin-bottom: 35px;
-
+    @include breakpoints.desktop{
+        gap:20px;
+      }
     .carousel_header {
       display: flex;
       flex-wrap: wrap;
+      @include breakpoints.desktop{
+        margin-left:120px;
+      }
       .carousel_title {
         display: inline-block;
         font-size: 32px;
@@ -132,7 +133,12 @@ export default {
       .carousel_description {
         flex-basis: 100%;
         color: #757575;
+        @include breakpoints.desktop{
+          font-size:24px;
+          margin-top:17px;
+        }
       }
+      
     }
   }
   &_recent-exhibition {
