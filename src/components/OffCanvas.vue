@@ -79,9 +79,13 @@ export default {
   width: 250px;
 
   &_body {
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 1rem 1rem;
 
     .item {
+      font-size:20px;
       &:hover {
         background-color: colors.$primary_color;
       }
