@@ -21,6 +21,7 @@ export default createStore({
     isToggle: true,
   }),
   getters: {
+    //todo 展覽時間的計算（倒數幾天 / 開始時間 / 結束時間)
     setCityForAPI(state) {
       return state.api?.map((data) => {
         return {

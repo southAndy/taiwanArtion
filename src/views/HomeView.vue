@@ -1,6 +1,6 @@
 <template>
   <main class="home">
-      <RouterNavbarVue />
+    <RouterNavbarVue />
     <section class="home_carousel">
       <div class="carousel_header">
         <h2 class="carousel_title">沒有想法嗎?</h2>
@@ -9,7 +9,8 @@
         </div>
         <p class="carousel_description">看看最近有什麼最新展覽吧!</p>
       </div>
-      <Carousel :api="recievedAPI" />
+      <SwiperSComponent :api="recievedAPI" />
+      <!-- <Carousel :api="recievedAPI" /> -->
     </section>
     <section class="home_recent-exhibition">
       <!-- 保有部分nest,也保有權重 -->
@@ -40,22 +41,28 @@
 
 <script>
 import RouterNavbarVue from "@/components/Navbar/RouterNavbar.vue";
-import Carousel from "@/plugins/Carousel.vue";
+// import Carousel from "@/plugins/Carousel.vue";
 import Card from "@/components/Card.vue";
 import Selected from "@/components/Buttons/Selected.vue";
+import SwiperSComponent from "@/plugins/Swiper.vue";
 
 export default {
   name: "HomeView",
   components: {
     Card,
     Selected,
-    Carousel,
+    // Carousel,
     RouterNavbarVue,
+    SwiperSComponent,
   },
   async created() {
     // await this.$store.dispatch("getCurrentPosition");
     await this.$store.dispatch("getAPI");
   },
+  async mounted() {
+    await this.$store.dispatch("getAPI");
+  },
+
   data() {
     return {
       time: ["不限", "一週", "一個月", "三個月"],
@@ -102,19 +109,19 @@ export default {
   //作為navbar參考
   position: relative;
 
-  
   &_carousel {
     text-align: start;
 
     margin-bottom: 35px;
-    @include breakpoints.desktop{
-        gap:20px;
-      }
+    @include breakpoints.desktop {
+      gap: 20px;
+    }
     .carousel_header {
       display: flex;
       flex-wrap: wrap;
-      @include breakpoints.desktop{
-        margin-left:120px;
+      @include breakpoints.desktop {
+        margin-left: 120px;
+        margin-bottom: 40px;
       }
       .carousel_title {
         display: inline-block;
@@ -133,12 +140,11 @@ export default {
       .carousel_description {
         flex-basis: 100%;
         color: #757575;
-        @include breakpoints.desktop{
-          font-size:24px;
-          margin-top:17px;
+        @include breakpoints.desktop {
+          font-size: 24px;
+          margin-top: 17px;
         }
       }
-      
     }
   }
   &_recent-exhibition {
