@@ -10,6 +10,8 @@ import "bootstrap";
 import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.css";
 
-//
+//swiper
+// import 'swiper/swiper-bundle.css';
+// import Swiper from 'swiper/bundle';
 
 createApp(App).use(Antd).use(store).use(router).mount("#app");
