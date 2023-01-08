@@ -1,8 +1,13 @@
+import Header from '../../container/Header'
+
 import './home.scss'
 
 const homePage = ()=>{
     return (
-        <div className='test'>this is home</div>
+        <>
+            <Header/>
+            <div className='test'>this is home</div>
+        </>
     )
 }
 
