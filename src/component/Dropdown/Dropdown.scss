@@ -1,8 +1,10 @@
 .dropdown{
     display: flex;
     align-items: center;
-    padding: 7px 0;
 
     width: 124px;
     height: 32px;
+    &-title{
+        margin-right: 7px;
+    }
 }
