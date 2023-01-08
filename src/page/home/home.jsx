@@ -6,7 +6,6 @@ const homePage = ()=>{
     return (
         <>
             <Header/>
-            <div className='test'>this is home</div>
         </>
     )
 }

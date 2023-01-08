@@ -4,9 +4,9 @@ const Dropdown = ({menu,icon})=>{
     return(
         <>
             <div className="dropdown">
-                <div>{menu}</div>
-                <div>
-                    <img src={icon?icon:'##'} alt="下拉按鈕" />
+                <div className='dropdown-title'>{menu}</div>
+                <div className='dropdown-icon'>
+                    <img src={icon?icon:'##'}  />
                 </div>
             </div>
             {/* 點擊顯示內容 */}
