@@ -1,12 +1,13 @@
 //本身設定
 import './Header.scss'
 //引入元件
-import Dropdown from '../component/Dropdown/Dropdown'
+import Dropdown from '../../component/Dropdown/Dropdown'
 
 //images
 import searchIcon from "../assets/images/search-icon.png"
 import dropdownIcon from "../assets/images/Vector.png"
 import fakeUserIcon from '../assets/images/Ellipse22.png'
+import notifyIcon from "../assets/images/notify159.png"
 
 const Header = ()=>{
     return (
@@ -20,14 +21,14 @@ const Header = ()=>{
                 <Dropdown className='filter-item' menu={'選擇展區'} icon={dropdownIcon}/>
                 <Dropdown className='filter-item' menu={'開始日期'} icon={dropdownIcon}/>
                 <Dropdown className='filter-item' menu={'結束日期'} icon={dropdownIcon}/>
-                <div>
+                <div className='filter-item_button'>
                     <img src={searchIcon} alt="搜尋樣式" />
                 </div>
             </div>
-            <a href="##">所有展覽</a>
-            <a href="##">附近展覽</a>
+            <a className='menu' href="##">所有展覽</a>
+            <a className='menu' href="##">附近展覽</a>
             {/* //todo 鈴鐺按鈕 */}
-            <Dropdown/>
+            <Dropdown icon={notifyIcon}/>
             <Dropdown icon={fakeUserIcon}/>
         </header>
     )
