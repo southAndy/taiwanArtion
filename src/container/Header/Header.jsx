@@ -4,10 +4,10 @@ import './Header.scss'
 import Dropdown from '../../component/Dropdown/Dropdown'
 
 //images
-import searchIcon from "../assets/images/search-icon.png"
-import dropdownIcon from "../assets/images/Vector.png"
-import fakeUserIcon from '../assets/images/Ellipse22.png'
-import notifyIcon from "../assets/images/notify159.png"
+import searchIcon from "../../assets/images/search-icon.png"
+import dropdownIcon from "../../assets/images/Vector.png"
+import fakeUserIcon from '../../assets/images/Ellipse22.png'
+import notifyIcon from "../../assets/images/notify159.png"
 
 const Header = ()=>{
     return (
@@ -15,7 +15,7 @@ const Header = ()=>{
             <a className='logo' href="##">
                 <img src="/src/assets/images/logo-05 3.png" alt="網站logo" />
             </a>
-            <div className=' filter filter-box'>
+            <div className='filter filter-box'>
                 <Dropdown className='filter-item' menu={'輸入展覽名稱'} icon={dropdownIcon} />
                 <Dropdown className='filter-item' menu={'選擇地區'} icon={dropdownIcon}/>
                 <Dropdown className='filter-item' menu={'選擇展區'} icon={dropdownIcon}/>
