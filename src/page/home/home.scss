@@ -1,0 +1,15 @@
+.months{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    gap:1px;
+    &-item{
+        cursor: pointer;
+        box-sizing: border-box;
+        width: 110px;
+        padding: 10px;
+        background-color: #986F4F;
+        color:#FFFFFF
+    }
+}
