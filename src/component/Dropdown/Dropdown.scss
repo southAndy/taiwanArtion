@@ -1,0 +1,11 @@
+.dropdown{
+    display: flex;
+    align-items: center;
+
+    max-width: 124px;
+    height: 32px;
+    &-title{
+        margin-right: 7px;
+        color:#B0B0B0
+    }
+}
