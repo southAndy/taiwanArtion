@@ -13,3 +13,37 @@
         color:#FFFFFF
     }
 }
+.category{
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 0 40px;
+    text-align: center;
+    
+    &-item{
+        height: 78px;
+        width: 56px;
+        margin: 0;
+        margin-right: 60px;
+
+        p{
+            margin: 0;
+            white-space: nowrap
+        }
+    }
+}
+.exhibition{
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+
+    &-card{
+        display: flex;
+        gap:56px;
+        overflow: hidden;
+    }
+}
+
+main{
+    padding: 0 40px;
+}
