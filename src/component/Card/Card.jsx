@@ -6,15 +6,15 @@ import locationIcon from "../../assets/images/icon03.png"
 const Card = ()=>{
     return(
         <>
-            <section className="exhibition">
-                <div className="exhibition-image">
+            <section className="card">
+                <div className="card-image">
                     <img src={""} alt="" />
                 </div>
-                <div className="exhibition-title">
+                <div className="card-title">
                     <h4>{"會動的文藝復興"}</h4>
                     <div className="tag">{'雕塑'}</div>
                 </div>
-                <div className="exhibition-detail">
+                <div className="card-detail">
                     <div className="date">
                         <div className="date-image">
                             <img src={calendarIcon} alt="" />
