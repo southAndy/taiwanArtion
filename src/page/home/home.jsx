@@ -1,5 +1,9 @@
+import { useEffect,useState } from 'react';
+
+import axios from 'axios';
+
 import Header from '../../container/Header/Header'
-import Scrolls from '../../plugins/Swiper/Swiper'
+import SwiperSlide from '../../plugins/Swiper/swiper-slide'
 import Card from "../../component/Card/Card";
 import NewSection from '../../container/News/New';
 
@@ -24,12 +28,23 @@ const HomePage = ()=>{
     let categoryIcons = [{file:category1,name:'雕塑'},{file:category2,name:'裝置藝術'},{file:category3,name:'歷史古物'},{file:category4,name:'裝置藝術'},{file:category5,name:'影音'},{file:category6,name:'設計'},{file:category7,name:'書法'},{file:category8,name:'裝置藝術'},{file:category9,name:'裝置藝術'},{file:category10,name:'繪畫'}]
     let tempExhibition =['1','2','3','4','5']
     let tempResult = Array.from(20).fill(9);
-    console.log(27,tempResult);
+
+    let [exhibitionList,getList] = useState([])
     
+    //呼叫展覽API
+    useEffect(()=>{
+
+        async function fetchData(){
+            let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6')
+            getList(()=>exhibitionList=response.data)
+        }
+        fetchData()
+        
+    })
     return (
         <>
             <Header/>
-            <Scrolls/>
+            <SwiperSlide/>
             <div className="months">
                 {monthList.map((month)=>{
                     return (<div className='months-item'>{month}</div>)
@@ -53,8 +68,8 @@ const HomePage = ()=>{
                         <h3>熱門展覽</h3>
                     </div>
                     <div className='exhibition-card'>
-                        {tempExhibition.map((item,index)=>{
-                            return (<Card key={index}/>)
+                        {exhibitionList.map((item)=>{
+                            return (<Card key={item.UID} title={item.title} location={item.showInfo[0].location.slice(0,3)}/>)
                         })}
                     </div>
                 </section>
@@ -63,7 +78,7 @@ const HomePage = ()=>{
                     <h4>所有展覽</h4>
                     <section>
                         {monthList.map((item,index)=>{
-                            return (<Card key={index}/>)
+                            return <Card key={index}/>
                         })}
                     </section>
                 </section>
