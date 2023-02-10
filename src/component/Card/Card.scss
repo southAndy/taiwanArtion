@@ -25,6 +25,10 @@
         //TODO fake bg
         background: linear-gradient(360deg, #666666 6.75%, rgba(162, 158, 158, 0.583333) 63.75%, rgba(81, 81, 81, 0) 100%);
         border-radius: 10px;
+        img{
+            height: 100%;
+            width: 100%;
+        }
     }
     &-title{
         display: flex;

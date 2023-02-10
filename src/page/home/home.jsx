@@ -1,5 +1,10 @@
+import { useEffect, useState, useMemo } from 'react';
+
+import axios from 'axios';
+import dayjs from 'dayjs'
+
 import Header from '../../container/Header/Header'
-import Scrolls from '../../plugins/Swiper/Swiper'
+import SwiperSlide from '../../plugins/Swiper/swiper-slide'
 import Card from "../../component/Card/Card";
 import NewSection from '../../container/News/New';
 
@@ -18,32 +23,65 @@ import category8 from "../../assets/images/categoryicon8.png";
 import category9 from "../../assets/images/categoryicon9.png";
 import category10 from "../../assets/images/categoryicon10.png";
 
-const HomePage = ()=>{
+const HomePage = () => {
 
-    const monthList =['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月','全部'];
-    let categoryIcons = [{file:category1,name:'雕塑'},{file:category2,name:'裝置藝術'},{file:category3,name:'歷史古物'},{file:category4,name:'裝置藝術'},{file:category5,name:'影音'},{file:category6,name:'設計'},{file:category7,name:'書法'},{file:category8,name:'裝置藝術'},{file:category9,name:'裝置藝術'},{file:category10,name:'繪畫'}]
-    let tempExhibition =['1','2','3','4','5']
+    const monthList = [{ name: '一月', value: 1 }, { name: '二月', value: 2 }, { name: '三月', value: 3 }, { name: '四月', value: 4 }, { name: '五月', value: 5 }, { name: '六月', value: 6 }, { name: '七月', value: 7 }, { name: '八月', value: 8 }, { name: '九月', value: 9 }, { name: '十月', value: 10 }, { name: '十一月', value: 11 }, { name: '十二月', value: 12 }, { name: '全部', value: 'all' }];
+
+    let categoryIcons = [{ file: category10, name: '繪畫' }, { file: category1, name: '雕塑' },
+    { file: category7, name: '書法' }, { file: category6, name: '設計' }, { file: category8, name: '文學' }, { file: category6, name: '攝影' },
+    { file: category3, name: '歷史古物' }, { file: category4, name: '裝置藝術' }, { file: category5, name: '影音' }]
+    let tempExhibition = ['1', '2', '3', '4', '5']
     let tempResult = Array.from(20).fill(9);
-    console.log(27,tempResult);
-    
+
+    //? 展覽資料 state
+    let [exhibitionList, setList] = useState([])
+    let [currentMonth, setMonth] = useState('all')
+    let [category, setCategory] = useState(null)
+
+    let selectedExhibition = useMemo(() => {
+        //  return exhibitionList.filter((exhibition)=> (currentMonth==='all' || dayjs(exhibition.startDate).isAfter(dayjs()) && (!category)))
+        return exhibitionList.filter((data)=>data.imageUrl!='')
+    }, [exhibitionList,currentMonth, category])
+
+    useEffect(() => {
+        console.log(selectedExhibition)
+    }, [selectedExhibition])
+
+
+    //? 呼叫展覽API
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6')
+                setList(() => exhibitionList = response.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchData()
+    }, [])
+
+    const setValue = (newValue) => {
+        value = newValue
+    }
     return (
         <>
-            <Header/>
-            <Scrolls/>
+            <Header />
+            <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/>
             <div className="months">
-                {monthList.map((month)=>{
-                    return (<div className='months-item'>{month}</div>)
+                {monthList.map((month, index) => {
+                    return (<div onClick={() => setMonth(month.value)} className='months-item' key={index}>{month.name}</div>)
                 })}
             </div>
             <section className='category'>
-                {categoryIcons.map((category,index)=>{
+                {categoryIcons.map((category, index) => {
                     return (
-                       <div className='category-item' key={index}>
-                         <div>
-                            <img src={category.file} />
+                        <div className='category-item' key={index}>
+                            <div>
+                                <img src={category.file} />
+                            </div>
+                            <p>{category.name}</p>
                         </div>
-                        <p>{category.name}</p>
-                       </div>
                     )
                 })}
             </section>
@@ -53,17 +91,17 @@ const HomePage = ()=>{
                         <h3>熱門展覽</h3>
                     </div>
                     <div className='exhibition-card'>
-                        {tempExhibition.map((item,index)=>{
-                            return (<Card key={index}/>)
+                        {selectedExhibition.map((item) => {
+                            return (<Card key={item.UID} dataArr={item} />)
                         })}
                     </div>
                 </section>
-                <NewSection/>
+                <NewSection />
                 <section className='result'>
                     <h4>所有展覽</h4>
                     <section>
-                        {monthList.map((item,index)=>{
-                            return (<Card key={index}/>)
+                        {selectedExhibition.map((item, index) => {
+                            return <Card key={index} dataArr={item}/>
                         })}
                     </section>
                 </section>

@@ -16,14 +16,14 @@
 .category{
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin: 40px 0;
     padding: 0 40px;
     text-align: center;
     
     &-item{
         height: 78px;
         width: 56px;
-        margin: 0;
+        margin: 0 auto;
         margin-right: 60px;
 
         p{
