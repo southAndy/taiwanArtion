@@ -3,15 +3,15 @@ import calendarIcon from "../../assets/images/categoryicon.png"
 import timeIcon from "../../assets/images/icon02.png"
 import locationIcon from "../../assets/images/icon03.png"
 
-const Card = ({title,image,category,location})=>{
+const Card = ({dataArr})=>{
     return(
         <>
             <section className="card">
                 <div className="card-image">
-                    <img src={""} alt="" />
+                    <img src={dataArr?.imageUrl} alt="" />
                 </div>
                 <div className="card-title">
-                    <h4>{ title || "會動的文藝復興"}</h4>
+                    <h4>{ dataArr?.title || "會動的文藝復興"}</h4>
                     <div className="tag">{'雕塑'}</div>
                 </div>
                 <div className="card-detail">
@@ -31,7 +31,7 @@ const Card = ({title,image,category,location})=>{
                         <div className="location-image">
                             <img src={locationIcon} alt="" />
                         </div>
-                        <span>{location||"台南市"}</span>
+                        <span>{dataArr?.location||"台南市"}</span>
                     </div>
                 </div>
             </section>
