@@ -1,14 +1,17 @@
 import { Navigation,  A11y } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+// customer css
+import './Swipers.scss'
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-export default () => {
+export default ({dataArr= []}) => {
+  console.log(dataArr)
   return (
     <Swiper
-      // install Swiper modules
+    className='swipers'
       modules={[Navigation, A11y]}
       spaceBetween={50}
       slidesPerView={3}
@@ -16,11 +19,16 @@ export default () => {
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log('slide change')}
     >
-      <SwiperSlide>Slide 1</SwiperSlide>
-      <SwiperSlide>Slide 2</SwiperSlide>
-      <SwiperSlide>Slide 3</SwiperSlide>
-      <SwiperSlide>Slide 4</SwiperSlide>
-      <SwiperSlide>Slide 5</SwiperSlide>
+      {(dataArr.map((data)=>{
+        return (<SwiperSlide key={data.id}>
+          <a href="##" className='slide'>
+            <div className='slide-image'>
+              <img src={data.imageUrl||'#'} alt={data||'展覽圖片'} />
+            </div>
+          </a>
+        </SwiperSlide>)
+
+      }))}
     </Swiper>
   );
 };
