@@ -7,6 +7,9 @@ import Header from '../../container/Header/Header'
 import SwiperSlide from '../../plugins/Swiper/swiper-slide'
 import Card from "../../component/Card/Card";
 import NewSection from '../../container/News/New';
+import Modal from '../../component/modal/Modal';
+
+
 
 
 import './home.scss'
@@ -37,6 +40,9 @@ const HomePage = () => {
     let [exhibitionList, setList] = useState([])
     let [currentMonth, setMonth] = useState('all')
     let [category, setCategory] = useState(null)
+    //管理彈窗
+    let [isShowModal,setModal] = useState(false)
+    let [isClick,setClick]=useState(false)
 
     let selectedExhibition = useMemo(() => {
         //  return exhibitionList.filter((exhibition)=> (currentMonth==='all' || dayjs(exhibition.startDate).isAfter(dayjs()) && (!category)))
@@ -45,6 +51,7 @@ const HomePage = () => {
 
     useEffect(() => {
         console.log(selectedExhibition)
+        
     }, [selectedExhibition])
 
 
@@ -66,7 +73,8 @@ const HomePage = () => {
     }
     return (
         <>
-            <Header />
+            <Modal isClick={isClick}/>
+            <Header setClick={setClick}/>
             <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/>
             <div className="months">
                 {monthList.map((month, index) => {
