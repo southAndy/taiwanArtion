@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 
+//third-part
 import axios from 'axios';
 import dayjs from 'dayjs'
 
@@ -7,6 +8,11 @@ import Header from '../../container/Header/Header'
 import SwiperSlide from '../../plugins/Swiper/swiper-slide'
 import Card from "../../component/Card/Card";
 import NewSection from '../../container/News/New';
+import Modal from '../../component/modal/Modal';
+
+
+import db from "../../../firebase.config";
+import { collection,getDocs } from 'firebase/firestore';
 
 
 import './home.scss'
@@ -37,6 +43,9 @@ const HomePage = () => {
     let [exhibitionList, setList] = useState([])
     let [currentMonth, setMonth] = useState('all')
     let [category, setCategory] = useState(null)
+    //管理彈窗
+    let [isShowModal,setModal] = useState(false)
+    let [isClick,setClick]=useState(false)
 
     let selectedExhibition = useMemo(() => {
         //  return exhibitionList.filter((exhibition)=> (currentMonth==='all' || dayjs(exhibition.startDate).isAfter(dayjs()) && (!category)))
@@ -45,6 +54,7 @@ const HomePage = () => {
 
     useEffect(() => {
         console.log(selectedExhibition)
+        
     }, [selectedExhibition])
 
 
@@ -52,8 +62,16 @@ const HomePage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6')
-                setList(() => exhibitionList = response.data)
+                // let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6').then((data)=>{
+                //     console.log(data);
+                //     data.data.forEach((data,index)=>{
+                //         addDoc(collection(db, "exhibitions"),data)
+                //     })
+                // })
+                //todo 從 firestore 取出資料，並存入 state 中
+                let data = await getDocs(collection(db,'exhibitions'));
+                console.log(data.docs[0]._document.data.value.mapValue.fields);
+                // setList(() => exhibitionList = response.data)
             } catch (error) {
                 console.log(error)
             }
@@ -66,7 +84,8 @@ const HomePage = () => {
     }
     return (
         <>
-            <Header />
+            <Modal isClick={isClick} setClick={setClick}/>
+            <Header setClick={setClick}/>
             <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/>
             <div className="months">
                 {monthList.map((month, index) => {
