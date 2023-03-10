@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 
+//third-part
 import axios from 'axios';
 import dayjs from 'dayjs'
 
@@ -10,6 +11,8 @@ import NewSection from '../../container/News/New';
 import Modal from '../../component/modal/Modal';
 
 
+import db from "../../../firebase.config";
+import { collection,addDoc } from 'firebase/firestore';
 
 
 import './home.scss'
@@ -59,8 +62,15 @@ const HomePage = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6')
-                setList(() => exhibitionList = response.data)
+                let response = await axios.get('https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6').then((data)=>{
+                    // const docRef = await addDoc(collection(db, "exhibitions"), data[0]);
+                    console.log(data);
+                    data.data.forEach((data,index)=>{
+                        addDoc(collection(db, "exhibitions"),data)
+                    })
+                })
+                //todo 將資料存入firestore
+                // setList(() => exhibitionList = response.data)
             } catch (error) {
                 console.log(error)
             }
@@ -73,7 +83,7 @@ const HomePage = () => {
     }
     return (
         <>
-            <Modal isClick={isClick}/>
+            <Modal isClick={isClick} setClick={setClick}/>
             <Header setClick={setClick}/>
             <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/>
             <div className="months">
