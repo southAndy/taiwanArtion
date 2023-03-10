@@ -1,14 +1,23 @@
-// import styled from "styled-components";
+import styled from "styled-components";
 import './moda.scss';
 import loginIcon from "../../assets/images/4672493-02.png"
 import fbIcon from "../../assets/images/social-icons/社群icon.png"
 import googleIcon from "../../assets/images/social-icons/社群icon拷貝.png"
 
+
+const styledButton=styled.button`
+    color:red;
+`
+
+
 let iconList = [fbIcon,googleIcon]
 //todo vite 疑似沒有內建支援 styled-components
-const Modal =({isClick})=>{
+const Modal =({isClick,setClick})=>{
+    function test(){
+        console.log('hi');
+    }
     return (
-        <section className={isClick?'show':'invisible'} >
+        <section  className={isClick?'show':'invisible'} >
             <div className='modal'>
                 <div className='modal-banner'>
                     <img src={loginIcon} alt="登入圖樣" />
@@ -25,8 +34,8 @@ const Modal =({isClick})=>{
                         })}
                     </div>
                     <div className='member'>
-                        <div className='register'>註冊</div>
-                        <div className='login'>登入</div>
+                        <div className='register' >註冊</div>
+                        <div className='login' >登入</div>
                     </div>
                 </div>
             </div>
