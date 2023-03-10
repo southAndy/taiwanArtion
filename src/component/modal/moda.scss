@@ -8,6 +8,9 @@
     position: absolute;
     z-index: 20;
 }
+.invisible{
+    display: none;
+}
 
 .modal{
     width: 540px;
@@ -67,6 +70,12 @@
                 height: 40px;
                 background: #F5F5F5;
                     border-radius: 10px;
+
+                &:hover{
+                    cursor: pointer;
+                    background-color: #BE875C;
+                    color:white
+                }
             }
         }
     }
