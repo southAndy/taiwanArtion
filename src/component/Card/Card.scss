@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     width: 354px;
-    height: 301px;
+    min-height: 301px;
     box-sizing: border-box;
 
     &-image{
@@ -32,9 +32,11 @@
     }
     &-title{
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: center;
+        align-items: baseline;
         text-align: center;
+
+        min-height: 48px;
 
         margin: 15px 0;
         h4{
@@ -42,13 +44,14 @@
             font-size: 18px;
             //TODO 新增共用預設屬性後移除
             margin: 0;
+            margin-right: 5px;
         }
         .tag{
             
             padding: 0px;
             gap: 10px;
-            width: 56px;
-            height: 24px;            
+            min-width: 56px;
+            min-height: 24px;            
             color:#ffff;
             background: #FFB03B;
             border-radius: 25px;
