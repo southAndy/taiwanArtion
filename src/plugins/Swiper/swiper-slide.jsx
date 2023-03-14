@@ -20,8 +20,9 @@ export default ({dataArr= []}) => {
       onSlideChange={() => console.log('slide change')}
     >
       {(dataArr.map((data)=>{
-        return (<SwiperSlide key={data.id}>
-          <a href="##" className='slide'>
+        return (
+        <SwiperSlide key={data.id} className='slide'>
+          <a href="https://www.google.com/" >
             <div className='slide-image'>
               <img src={data.imageUrl||'#'} alt={data||'展覽圖片'} />
             </div>
