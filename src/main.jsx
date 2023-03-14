@@ -11,11 +11,23 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import DeatilPage from './page/deatil-page'
+import NearbyPage from './page/nearby-page'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage/>,
+    errorElement:<ErrorPage/>
+  },
+   {
+    path: "/deatil",
+    element: <DeatilPage/>,
+    errorElement:<ErrorPage/>
+  },
+  {
+    path: "/nearby",
+    element: <NearbyPage/>,
     errorElement:<ErrorPage/>
   },
 ]);
