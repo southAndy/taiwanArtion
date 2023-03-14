@@ -3,6 +3,7 @@ import './Header.scss'
 //引入元件
 import Dropdown from '../../component/Dropdown/Dropdown'
 
+import {Link} from "react-router-dom"
 
 //images
 import searchIcon from "../../assets/images/search-icon.png"
@@ -26,9 +27,9 @@ const Header = ({setClick})=>{
                     <img src={searchIcon} alt="搜尋樣式" />
                 </div>
             </div>
-            <a className='menu' href="##">所有展覽</a>
-            <a className='menu' href="##">附近展覽</a>
-            {/* //todo 鈴鐺按鈕 */}
+            <Link to={`/nearby`}>附近展覽</Link>
+            <Link to={`/detail`}>所有展覽</Link>
+            {/* //todo 當登入狀態顯示鈴鐺按鈕 */}
             <Dropdown icon={notifyIcon}/>
             {/* <Dropdown icon={fakeUserIcon}/> */}
             <div onClick={()=>setClick((val)=>val=!val)}>註冊 / 登入</div>

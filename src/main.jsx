@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     errorElement:<ErrorPage/>
   },
    {
-    path: "/deatil",
+    path: "/detail",
     element: <DeatilPage/>,
     errorElement:<ErrorPage/>
   },
