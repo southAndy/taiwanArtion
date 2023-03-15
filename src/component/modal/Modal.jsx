@@ -10,6 +10,7 @@ const styledButton=styled.button`
 `
 
 
+
 let iconList = [fbIcon,googleIcon]
 //todo vite 疑似沒有內建支援 styled-components
 const Modal =({isClick,setClick})=>{
