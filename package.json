@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.13",
     "@mui/x-date-pickers": "^5.0.14",
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",
