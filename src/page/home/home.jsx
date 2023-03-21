@@ -30,7 +30,6 @@ import category7 from "../../assets/images/categoryicon7.png";
 import category8 from "../../assets/images/categoryicon8.png";
 import category9 from "../../assets/images/categoryicon9.png";
 import category10 from "../../assets/images/categoryicon10.png";
-import DateSelecter from '../../plugins/date-picker';
 
 const HomePage = () => {
 
@@ -74,7 +73,6 @@ const HomePage = () => {
     function test(){}
     return (
         <>
-            <DateSelecter/>
             <Modal isClick={isClick} setClick={setClick}/>
             <Header setClick={setClick}/>
             <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/>

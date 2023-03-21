@@ -41,7 +41,7 @@ const Header = ({setClick})=>{
             {/* //todo 當登入狀態顯示鈴鐺按鈕 */}
             <Dropdown icon={notifyIcon}/>
             {/* <Dropdown icon={fakeUserIcon}/> */}
-            <div onClick={()=>setClick((val)=>val=!val)}>註冊 / 登入</div>
+            <div className='login' onClick={()=>setClick((val)=>val=!val)}>註冊 / 登入</div>
         </header>
     )
 }
