@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 // import App from './App'
 import './index.css'
 
-// import HomePage from './page/home/home'
+import HomePage from './page/home/home'
 
 // import ErrorPage from './page/error'
 
@@ -17,7 +17,7 @@ import {
 const router = createBrowserRouter([
   {
     path:'/',
-    element:<>123</>
+    element:<HomePage/>
   }
 ])
 // const router = createBrowserRouter([
@@ -41,8 +41,7 @@ const rootElement = document.getElementById('root');
 if(rootElement){
   ReactDOM.createRoot(rootElement).render(
   <React.StrictMode>
-    <div>123</div>
-    {/* <RouterProvider router={router}/>     */}
+    {<RouterProvider router={router}/>     }
   </React.StrictMode>,
 )
 }
