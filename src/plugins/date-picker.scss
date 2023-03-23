@@ -1,0 +1,10 @@
+.date{
+    display: none;
+    &-show{
+        position: absolute;
+        top:80%;
+        left: 40%;
+        z-index: 20;
+    background-color: white;
+    }
+}
