@@ -44,7 +44,14 @@
         gap:56px;
     }
 }
-
-main{
-    padding: 0 40px;
+.result{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    
+    section{
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
+

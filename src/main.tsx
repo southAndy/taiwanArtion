@@ -3,17 +3,22 @@ import ReactDOM from "react-dom/client";
 // import App from './App'
 import "./index.css";
 
-import HomePage from "./page/home/home";
+import HomePage from "./page/home/Home";
+import ErrorPage from "./page/error";
+import DeatilPage from "./page/deatil-page";
 
-// import ErrorPage from './page/error'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import DeatilPage from './page/deatil-page'
 // import NearbyPage from './page/nearby-page'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+  },
+  {
+    path: "/detail",
+    element: <DeatilPage />,
+    errorElement: <ErrorPage />,
   },
 ]);
 // const router = createBrowserRouter([
