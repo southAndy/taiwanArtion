@@ -36,11 +36,12 @@
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+    width: 100vw;
+    overflow-x: scroll;
 
     &-card{
         display: flex;
         gap:56px;
-        overflow: hidden;
     }
 }
 

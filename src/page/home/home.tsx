@@ -5,27 +5,16 @@ import React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import "./home.scss";
-import SwiperSlide from "../../plugins/Swiper/swiper-slide";
+// import SwiperSlide from "../../plugins/Swiper/swiper-slide";
 
 import Header from "../../container/Header/Header";
 import Card from "../../component/Card/Card";
 import NewSection from "../../container/News/New";
 import Modal from "../../component/modal/Modal";
+import { Link } from "react-router-dom";
 
 // import db from "../../../firebase.config";
 // import { collection, getDocs } from "firebase/firestore";
-
-// import { categoryList } from '../../assets/images/imageList.png';
-// import category1 from "../../assets/images/categoryicon1.png";
-// import category2 from "../../assets/images/categoryicon2.png";
-// import category3 from "../../assets/images/categoryicon3.png";
-// import category4 from "../../assets/images/categoryicon4.png";
-// import category5 from "../../assets/images/categoryicon5.png";
-// import category6 from "../../assets/images/categoryicon6.png";
-// import category7 from "../../assets/images/categoryicon7.png";
-// import category8 from "../../assets/images/categoryicon8.png";
-// import category9 from "../../assets/images/categoryicon9.png";
-// import category10 from "../../assets/images/categoryicon10.png";
 
 const categoryIcons: string[] = [];
 
@@ -34,7 +23,7 @@ const HomePage = () => {
     name: String;
     number: Number;
   }
-  const monthList = [
+  const monthList: { name: String; value: Number }[] = [
     { name: "一月", value: 1 },
     { name: "二月", value: 2 },
     { name: "三月", value: 3 },
@@ -48,15 +37,10 @@ const HomePage = () => {
     { name: "十一月", value: 11 },
     { name: "十二月", value: 12 },
   ];
-  // let categoryIcons = [{ file: category10, name: '繪畫' }, { file: category1, name: '雕塑' },
-  // { file: category7, name: '書法' }, { file: category6, name: '設計' }, { file: category8, name: '文學' }, { file: category6, name: '攝影' },
-  // { file: category3, name: '歷史古物' }, { file: category4, name: '裝置藝術' }, { file: category5, name: '影音' }]
+
   let tempExhibition = ["1", "2", "3", "4", "5"];
-  // let tempResult = Array.from(20).fill(9);
   let [exhibitionList, setList] = useState([]);
   let [currentMonth, setMonth] = useState(3);
-  //todo 根據資料類別篩選,如：雕塑類
-  // let [category, setCategory] = useState(null)
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
   let selectedExhibition = useMemo(() => {
@@ -81,9 +65,9 @@ const HomePage = () => {
   }, []);
   return (
     <>
-      {/* <Modal isClick={isClick} setClick={setClick}/> */}
+      <Modal isClick={isClick} setClick={setClick} />
       <Header setClick={setClick} />
-      <SwiperSlide dataArr={selectedExhibition.slice(0, 5)} />
+      {/* <SwiperSlide dataArr={selectedExhibition.slice(0, 5)} /> */}
       <div className="months">
         {monthList.map((month, index) => {
           return (
@@ -114,7 +98,11 @@ const HomePage = () => {
           </div>
           <div className="exhibition-card">
             {selectedExhibition.map((item) => {
-              return <Card key={item.UID} dataArr={item} />;
+              return (
+                <Link to={"/detail"}>
+                  <Card key={item.UID} dataArr={item} />
+                </Link>
+              );
             })}
           </div>
         </section>
