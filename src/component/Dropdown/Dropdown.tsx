@@ -1,16 +1,29 @@
-import './Dropdown.scss'
+import "./Dropdown.scss";
 
-const Dropdown = ({menu,icon,isShowModal,setShowModal})=>{
-    return(
-        <>
-            <div className="dropdown" onClick={()=>setShowModal(!isShowModal)}>
-                <div className='dropdown-title'>{menu}</div>
-                <div className='dropdown-icon'>
-                    <img src={icon?icon:'##'}  />
-                </div>
-            </div>
-        </>
-    )
+interface Props {
+  dropName: String;
+  dropMenu: Array; //todo 如果列表資料長度不一，ts怎定義
+  isShowDrop: Boolean;
+  updateDrop: Function;
 }
 
-export default Dropdown
+const Dropdown = ({ dropMenu, dropName, isShowDrop, updateDrop }: Props) => {
+  return (
+    <>
+      <div className="dropdown">
+        <div className="dropdown-title">{dropName}</div>
+        <div className={isShowDrop ? "drop-menu" : "invisible"}>
+          {dropMenu.map((menu: String, index: Number) => {
+            return (
+              <div className="dropdown-menu" key={index}>
+                {menu}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default Dropdown;
