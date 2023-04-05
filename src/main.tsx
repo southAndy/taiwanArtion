@@ -1,25 +1,21 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from "react";
+import ReactDOM from "react-dom/client";
 // import App from './App'
-import './index.css'
+import "./index.css";
 
-import HomePage from './page/home/home'
+import HomePage from "./page/home/home";
 
 // import ErrorPage from './page/error'
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import DeatilPage from './page/deatil-page'
 // import NearbyPage from './page/nearby-page'
 
 const router = createBrowserRouter([
   {
-    path:'/',
-    element:<HomePage/>
-  }
-])
+    path: "/",
+    element: <HomePage />,
+  },
+]);
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -37,17 +33,15 @@ const router = createBrowserRouter([
 //     errorElement:<ErrorPage/>
 //   },
 // ]);
-const rootElement = document.getElementById('root');
-if(rootElement){
+const rootElement = document.getElementById("root");
+if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
-  <React.StrictMode>
-    {<RouterProvider router={router}/>     }
-  </React.StrictMode>,
-)
+    <React.StrictMode>{<RouterProvider router={router} />}</React.StrictMode>
+  );
 }
 
 // ReactDOM.createRoot(document.getElementById('root')).render(
 //   <React.StrictMode>
-//     <RouterProvider router={router}/>    
+//     <RouterProvider router={router}/>
 //   </React.StrictMode>,
 // )

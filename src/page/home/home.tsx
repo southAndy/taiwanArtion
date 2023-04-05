@@ -5,15 +5,15 @@ import React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import "./home.scss";
-// import SwiperSlide from '../../plugins/Swiper/swiper-slide'
+import SwiperSlide from "../../plugins/Swiper/swiper-slide";
 
-// import Header from '../../container/Header/Header'
-// import Card from "../../component/Card/Card";
-// import NewSection from '../../container/News/New';
-// import Modal from '../../component/modal/Modal';
+import Header from "../../container/Header/Header";
+import Card from "../../component/Card/Card";
+import NewSection from "../../container/News/New";
+import Modal from "../../component/modal/Modal";
 
 // import db from "../../../firebase.config";
-// import { collection,getDocs } from 'firebase/firestore';
+// import { collection, getDocs } from "firebase/firestore";
 
 // import { categoryList } from '../../assets/images/imageList.png';
 // import category1 from "../../assets/images/categoryicon1.png";
@@ -59,13 +59,9 @@ const HomePage = () => {
   // let [category, setCategory] = useState(null)
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
-  // let selectedExhibition = useMemo(() => {
-  //     return exhibitionList.filter((data)=>data.imageUrl !=='')
-  // }, [exhibitionList,currentMonth])
-  // useEffect(() => {
-  //     console.log(selectedExhibition)
-
-  // }, [selectedExhibition])
+  let selectedExhibition = useMemo(() => {
+    return exhibitionList.filter((data) => data.imageUrl !== "");
+  }, [exhibitionList, currentMonth]);
 
   useEffect(() => {
     async function fetchData() {
@@ -86,8 +82,8 @@ const HomePage = () => {
   return (
     <>
       {/* <Modal isClick={isClick} setClick={setClick}/> */}
-      {/* <Header setClick={setClick}/> */}
-      {/* <SwiperSlide dataArr={selectedExhibition.slice(0,5)}/> */}
+      <Header setClick={setClick} />
+      <SwiperSlide dataArr={selectedExhibition.slice(0, 5)} />
       <div className="months">
         {monthList.map((month, index) => {
           return (
@@ -117,18 +113,18 @@ const HomePage = () => {
             <h3>熱門展覽</h3>
           </div>
           <div className="exhibition-card">
-            {/* {selectedExhibition.map((item) => {
-                            return (<Card key={item.UID} dataArr={item} />)
-                        })} */}
+            {selectedExhibition.map((item) => {
+              return <Card key={item.UID} dataArr={item} />;
+            })}
           </div>
         </section>
         {/* <NewSection /> */}
         <section className="result">
           <h4>所有展覽</h4>
           <section>
-            {/* {selectedExhibition.map((item, index) => {
-                            return <Card key={index} dataArr={item}/>
-                        })} */}
+            {selectedExhibition.map((item, index) => {
+              return <Card key={index} dataArr={item} />;
+            })}
           </section>
         </section>
       </main>
