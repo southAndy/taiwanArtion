@@ -36,14 +36,22 @@
     display: flex;
     flex-direction: column;
     margin-top: 40px;
+    width: 100vw;
+    overflow-x: scroll;
 
     &-card{
         display: flex;
         gap:56px;
-        overflow: hidden;
+    }
+}
+.result{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    
+    section{
+        display: flex;
+        flex-wrap: wrap;
     }
 }
 
-main{
-    padding: 0 40px;
-}
