@@ -1,7 +1,8 @@
 .dropdown{
     display: flex;
     align-items: center;
-
+    width: 100px;
+    height: 100px;
     max-width: 124px;
     height: 32px;
     &-title{
@@ -13,4 +14,12 @@
             display: block;
         }
     }
+    &-menu{
+        display: flex;
+        width: 100px;
+    }
+}
+
+.invisible{
+    display: none;
 }
