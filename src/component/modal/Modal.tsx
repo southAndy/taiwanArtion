@@ -4,6 +4,8 @@ import loginIcon from "../../assets/images/4672493-02.png";
 import fbIcon from "../../assets/images/social-icons/社群icon.png";
 import googleIcon from "../../assets/images/social-icons/社群icon拷貝.png";
 
+import Register from "../../container/Register";
+
 const styledButton = styled.button`
   color: red;
 `;
