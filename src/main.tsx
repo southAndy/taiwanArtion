@@ -6,6 +6,7 @@ import "./index.css";
 import HomePage from "./page/home/Home";
 import ErrorPage from "./page/error";
 import DeatilPage from "./page/deatil-page";
+import ResultPage from "./page/result-page";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import NearbyPage from './page/nearby-page'
@@ -14,10 +15,20 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
+    children: [
+      {
+        path: "",
+      },
+    ],
   },
   {
     path: "/detail",
     element: <DeatilPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/result/:keyword",
+    element: <ResultPage />,
     errorElement: <ErrorPage />,
   },
 ]);
