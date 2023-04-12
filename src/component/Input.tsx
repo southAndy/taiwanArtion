@@ -8,11 +8,15 @@ const StyledInput = styled.input`
     border: none;
   }
 `;
+interface Props {
+  keyword: String;
+  setKeyword: Function;
+}
 
-export default function Input({}: String, { setKeyword }: Function) {
+export default function Input({ keyword, setKeyword }: Props) {
   function handleInput(event: { target: HTMLInputElement }) {
-    console.log("hi", event.target.value);
-    setKeyword();
+    setKeyword((keyword = event.target.value));
+    console.log("user input", keyword);
   }
   return (
     <>
