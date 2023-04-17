@@ -16,7 +16,6 @@ interface Props {
 export default function Input({ keyword, setKeyword }: Props) {
   function handleInput(event: { target: HTMLInputElement }) {
     setKeyword((keyword = event.target.value));
-    console.log("user input", keyword);
   }
   return (
     <>

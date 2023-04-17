@@ -15,14 +15,14 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
-    children: [
-      {
-        path: "",
-      },
-    ],
+    // children: [
+    //   {
+    //     path: "",
+    //   },
+    // ],
   },
   {
-    path: "/detail",
+    path: "/detail/:dataID",
     element: <DeatilPage />,
     errorElement: <ErrorPage />,
   },
