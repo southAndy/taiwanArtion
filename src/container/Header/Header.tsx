@@ -1,6 +1,7 @@
 //本身設定
 import "./Header.scss";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import Dropdown from "../../component/Dropdown/Dropdown";
 // import DateSelecter from "../../plugins/date-picker";
@@ -16,6 +17,8 @@ import Input from "../../component/Input";
 
 const Header = ({ setClick }) => {
   let [isShowModal, setShowMoal] = useState(false);
+  let [keyword, setKeyword] = useState("");
+  let navigate = useNavigate();
   let museumType: Array<String> = ["博物館", "文創園區"];
   return (
     <header className="header-container">
@@ -23,7 +26,7 @@ const Header = ({ setClick }) => {
         <img src="/src/assets/images/logo-05 3.png" alt="網站logo" />
       </Link>
       <div className="filter filter-box">
-        <Input />
+        <Input keyword={keyword} setKeyword={setKeyword} />
         {/* <DateSelecter /> */}
         {/* <Dropdown
           className="filter-item"
@@ -49,7 +52,10 @@ const Header = ({ setClick }) => {
           menu={"結束日期"}
           icon={dropdownIcon}
         /> */}
-        <div className="filter-item_button">
+        <div
+          onClick={() => navigate(`/result/${keyword}`)}
+          className="filter-item_button"
+        >
           <img src={searchIcon} alt="搜尋樣式" />
         </div>
       </div>
