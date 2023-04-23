@@ -23,7 +23,7 @@ const HomePage = () => {
     name: String;
     number: Number;
   }
-  const monthList: { name: String; value: Number }[] = [
+  const monthList: { name: string; value: number }[] = [
     { name: "一月", value: 1 },
     { name: "二月", value: 2 },
     { name: "三月", value: 3 },
@@ -40,7 +40,7 @@ const HomePage = () => {
 
   type exhibitionType = {
     title: string;
-    descriptionFilterHtml: String;
+    descriptionFilterHtml: string;
     UID: string;
     imageUrl: string;
     discountInfo: string;
@@ -49,7 +49,7 @@ const HomePage = () => {
     showUnit: string;
   };
 
-  let [exhibitionList, setList] = useState([]);
+  let [exhibitionList, setList] = useState<exhibitionType[]>([]);
   let [currentMonth, setMonth] = useState(3);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
@@ -79,7 +79,7 @@ const HomePage = () => {
     <>
       <Modal isClick={isClick} setClick={setClick} />
       <Header setClick={setClick} />
-      <SwiperSlide dataArr={selectedExhibition.slice(0, 5)} />
+      <SwiperSlide dataArr={selectedExhibition} />
       <div className="months">
         {monthList.map((month, index) => {
           return (
