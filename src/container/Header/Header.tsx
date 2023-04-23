@@ -1,9 +1,9 @@
 //本身設定
 import "./Header.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Dropdown from "../../component/Dropdown/Dropdown";
+import Dropdown from "../../component/Dropdown";
 // import DateSelecter from "../../plugins/date-picker";
 
 import { Link } from "react-router-dom";
@@ -17,28 +17,28 @@ import Input from "../../component/Input";
 
 const Header = ({ setClick }) => {
   let [isShowModal, setShowMoal] = useState(false);
-  let [keyword, setKeyword] = useState("");
+  let [keyword, setKeyword] = useState({ type: "" });
   let navigate = useNavigate();
-  let museumType: Array<String> = ["博物館", "文創園區"];
+  let museumType: string[] = ["博物館", "文創園區", "美術館"];
+  useEffect(() => {
+    console.log(keyword);
+  }, [keyword]);
   return (
     <header className="header-container">
       <Link to={"/"} className="logo">
         <img src="/src/assets/images/logo-05 3.png" alt="網站logo" />
       </Link>
       <div className="filter filter-box">
-        <Input keyword={keyword} setKeyword={setKeyword} />
+        {/* <Input keyword={keyword} setKeyword={setKeyword} /> */}
         {/* <DateSelecter /> */}
-        {/* <Dropdown
-          className="filter-item"
-          menu={"選擇地區"}
-          icon={dropdownIcon}
-        /> */}
+        <Dropdown dropName={"選擇地區"} />
         <Dropdown
-          dropName={"場館類型"}
+          dropName={"選擇展區"}
           dropMenu={museumType}
           isShowDrop={isShowModal}
           updateDrop={setShowMoal}
-          className="filter-item"
+          keyword={keyword}
+          selectedOption={setKeyword}
         />
         {/* <Dropdown
           className="filter-item"
