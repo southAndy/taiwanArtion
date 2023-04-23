@@ -35,6 +35,7 @@
 .exhibition{
     display: flex;
     flex-direction: column;
+    justify-content: center;
     margin-top: 40px;
     width: 100vw;
     overflow-x: scroll;
@@ -46,11 +47,13 @@
 }
 .result{
     display: flex;
+    justify-content: center;
     flex-direction: column;
     width: 100vw;
-    
+
     section{
         display: flex;
+        justify-content: center;
         flex-wrap: wrap;
     }
 }

@@ -5,7 +5,7 @@ import React from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import "./home.scss";
-// import SwiperSlide from "../../plugins/Swiper/swiper-slide";
+import SwiperSlide from "../../plugins/Swiper/swiper-slide";
 
 import Header from "../../container/Header/Header";
 import Card from "../../component/Card/Card";
@@ -23,7 +23,7 @@ const HomePage = () => {
     name: String;
     number: Number;
   }
-  const monthList: { name: String; value: Number }[] = [
+  const monthList: { name: string; value: number }[] = [
     { name: "一月", value: 1 },
     { name: "二月", value: 2 },
     { name: "三月", value: 3 },
@@ -38,13 +38,25 @@ const HomePage = () => {
     { name: "十二月", value: 12 },
   ];
 
-  let tempExhibition = ["1", "2", "3", "4", "5"];
-  let [exhibitionList, setList] = useState([]);
+  type exhibitionType = {
+    title: string;
+    descriptionFilterHtml: string;
+    UID: string;
+    imageUrl: string;
+    discountInfo: string;
+    startDate: string;
+    endDate: string;
+    showUnit: string;
+  };
+
+  let [exhibitionList, setList] = useState<exhibitionType[]>([]);
   let [currentMonth, setMonth] = useState(3);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
   let selectedExhibition = useMemo(() => {
-    return exhibitionList.filter((data) => data.imageUrl !== "");
+    return exhibitionList.filter(
+      (data: exhibitionType) => data.imageUrl !== ""
+    );
   }, [exhibitionList, currentMonth]);
 
   useEffect(() => {
@@ -67,7 +79,7 @@ const HomePage = () => {
     <>
       <Modal isClick={isClick} setClick={setClick} />
       <Header setClick={setClick} />
-      {/* <SwiperSlide dataArr={selectedExhibition.slice(0, 5)} /> */}
+      <SwiperSlide dataArr={selectedExhibition} />
       <div className="months">
         {monthList.map((month, index) => {
           return (
@@ -99,7 +111,7 @@ const HomePage = () => {
           <div className="exhibition-card">
             {selectedExhibition.map((item) => {
               return (
-                <Link to={"/detail"}>
+                <Link to={`/detail/${item.UID}`}>
                   <Card key={item.UID} dataArr={item} />
                 </Link>
               );

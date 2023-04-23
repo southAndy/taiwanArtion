@@ -1,0 +1,38 @@
+.banner{
+    &-image{
+        width: 1356.75px;
+        height: 711px;
+        border-radius: 10px;
+        position: relative;
+    }
+    &-title{
+        color:white;
+        cursor: pointer;
+        position: absolute;
+        top:50%;
+        left:2%;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 36px;
+        line-height: 48px;
+    }
+}
+
+.menu{
+    display: flex;
+    &-item{
+        padding: 20px;
+    }
+}
+
+.info{
+    &-title{
+        color:#986f4f;
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+    }
+    &-menu{
+
+    }
+}
