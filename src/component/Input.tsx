@@ -3,9 +3,13 @@ import styled, { css } from "styled-components";
 
 //todo use scss inside styled
 const StyledInput = styled.input`
+  width: 90px;
   border: none;
-  &:focus-visible {
-    border: none;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: #b0b0b0;
   }
 `;
 interface Props {
