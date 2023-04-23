@@ -17,9 +17,14 @@ import Input from "../../component/Input";
 
 const Header = ({ setClick }) => {
   let [isShowModal, setShowMoal] = useState(false);
-  let [keyword, setKeyword] = useState({ type: "" });
+  let [isShowCity, setCityDrop] = useState<boolean>(false);
+  let [keyword, setKeyword] = useState<string>("");
+  let [city, setCurrentCity] = useState<string>("");
   let navigate = useNavigate();
   let museumType: string[] = ["博物館", "文創園區", "美術館"];
+  let cityList: string[] = ["台北", "新北", "台中", "台南", "高雄"];
+
+  //todo 確認 keyword 參數狀態後移除
   useEffect(() => {
     console.log(keyword);
   }, [keyword]);
@@ -31,7 +36,14 @@ const Header = ({ setClick }) => {
       <div className="filter filter-box">
         {/* <Input keyword={keyword} setKeyword={setKeyword} /> */}
         {/* <DateSelecter /> */}
-        <Dropdown dropName={"選擇地區"} />
+        <Dropdown
+          dropName={"選擇城市"}
+          dropMenu={cityList}
+          keyword={city}
+          selectedOption={setCurrentCity}
+          isShowDrop={isShowCity}
+          updateDrop={setCityDrop}
+        />
         <Dropdown
           dropName={"選擇展區"}
           dropMenu={museumType}

@@ -44,7 +44,7 @@ type Props = {
   isShowDrop: boolean;
   updateDrop: Function;
   selectedOption: Function;
-  keyword: { type: string };
+  keyword: string;
 };
 
 const Dropdown = ({
@@ -59,14 +59,14 @@ const Dropdown = ({
     <>
       <DropdownContainer>
         <DropdownTitle onClick={() => updateDrop(!isShowDrop)}>
-          {keyword?.type ? keyword?.type : dropName}
+          {keyword ? keyword : dropName}
         </DropdownTitle>
         <DropMenuList showList={isShowDrop}>
           {dropMenu?.map((menu: string, index: number) => (
             <DropMenu
               onClick={() =>
-                selectedOption((payload: { type: string }) => {
-                  payload.type = menu;
+                selectedOption((payload: string) => {
+                  payload = menu;
                   //開關下拉
                   updateDrop(false);
                   return payload;
