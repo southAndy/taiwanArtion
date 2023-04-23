@@ -29,9 +29,9 @@ const Modal = ({ isClick, setClick }: Props) => {
         <div className="modal-info">
           <h3 className="title">或者使用以下帳號登入/註冊</h3>
           <div className="social">
-            {iconList.map((ele) => {
+            {iconList.map((ele, index) => {
               return (
-                <div className="social-item">
+                <div key={index} className="social-item">
                   <img src={ele} alt="" />
                 </div>
               );

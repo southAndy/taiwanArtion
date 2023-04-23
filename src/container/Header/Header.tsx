@@ -20,6 +20,7 @@ const Header = ({ setClick }) => {
   let [isShowCity, setCityDrop] = useState<boolean>(false);
   let [keyword, setKeyword] = useState<string>("");
   let [city, setCurrentCity] = useState<string>("");
+  let [exhibitionType, setExhibitionType] = useState<string>("");
   let navigate = useNavigate();
   let museumType: string[] = ["博物館", "文創園區", "美術館"];
   let cityList: string[] = ["台北", "新北", "台中", "台南", "高雄"];
@@ -34,7 +35,7 @@ const Header = ({ setClick }) => {
         <img src="/src/assets/images/logo-05 3.png" alt="網站logo" />
       </Link>
       <div className="filter filter-box">
-        {/* <Input keyword={keyword} setKeyword={setKeyword} /> */}
+        <Input keyword={keyword} setKeyword={setKeyword} />
         {/* <DateSelecter /> */}
         <Dropdown
           dropName={"選擇城市"}
@@ -49,8 +50,8 @@ const Header = ({ setClick }) => {
           dropMenu={museumType}
           isShowDrop={isShowModal}
           updateDrop={setShowMoal}
-          keyword={keyword}
-          selectedOption={setKeyword}
+          keyword={exhibitionType}
+          selectedOption={setExhibitionType}
         />
         {/* <Dropdown
           className="filter-item"
