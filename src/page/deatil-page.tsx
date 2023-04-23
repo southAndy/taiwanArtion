@@ -22,7 +22,7 @@ type exhibitionType = {
 //   font-size: 24px;
 // `;
 
-export default function DeatilPage() {
+export default function DetailPage() {
   let [exhibition, setExhibition] = useState<exhibitionType[]>([]);
   let params = useParams();
 
@@ -45,7 +45,6 @@ export default function DeatilPage() {
   let currentData = useMemo(() => {
     return exhibition.filter((item) => item.UID === params.dataID);
   }, [exhibition]);
-  console.log(currentData);
 
   return (
     <>
