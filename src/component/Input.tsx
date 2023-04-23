@@ -1,11 +1,16 @@
 import { DOMElement, useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "@emotion/styled";
 
 //todo use scss inside styled
 const StyledInput = styled.input`
+  box-shadow: 1px 0px 0px #dadada;
+  width: 90px;
   border: none;
-  &:focus-visible {
-    border: none;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: #b0b0b0;
   }
 `;
 interface Props {
@@ -16,7 +21,6 @@ interface Props {
 export default function Input({ keyword, setKeyword }: Props) {
   function handleInput(event: { target: HTMLInputElement }) {
     setKeyword((keyword = event.target.value));
-    console.log("user input", keyword);
   }
   return (
     <>

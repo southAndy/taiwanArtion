@@ -1,8 +1,9 @@
 //本身設定
 import "./Header.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-import Dropdown from "../../component/Dropdown/Dropdown";
+import Dropdown from "../../component/Dropdown";
 // import DateSelecter from "../../plugins/date-picker";
 
 import { Link } from "react-router-dom";
@@ -16,26 +17,41 @@ import Input from "../../component/Input";
 
 const Header = ({ setClick }) => {
   let [isShowModal, setShowMoal] = useState(false);
-  let museumType: Array<String> = ["博物館", "文創園區"];
+  let [isShowCity, setCityDrop] = useState<boolean>(false);
+  let [keyword, setKeyword] = useState<string>("");
+  let [city, setCurrentCity] = useState<string>("");
+  let [exhibitionType, setExhibitionType] = useState<string>("");
+  let navigate = useNavigate();
+  let museumType: string[] = ["博物館", "文創園區", "美術館"];
+  let cityList: string[] = ["台北", "新北", "台中", "台南", "高雄"];
+
+  //todo 確認 keyword 參數狀態後移除
+  useEffect(() => {
+    console.log(keyword);
+  }, [keyword]);
   return (
     <header className="header-container">
       <Link to={"/"} className="logo">
         <img src="/src/assets/images/logo-05 3.png" alt="網站logo" />
       </Link>
       <div className="filter filter-box">
-        <Input />
+        <Input keyword={keyword} setKeyword={setKeyword} />
         {/* <DateSelecter /> */}
-        {/* <Dropdown
-          className="filter-item"
-          menu={"選擇地區"}
-          icon={dropdownIcon}
-        /> */}
         <Dropdown
-          dropName={"場館類型"}
+          dropName={"選擇城市"}
+          dropMenu={cityList}
+          keyword={city}
+          selectedOption={setCurrentCity}
+          isShowDrop={isShowCity}
+          updateDrop={setCityDrop}
+        />
+        <Dropdown
+          dropName={"選擇展區"}
           dropMenu={museumType}
           isShowDrop={isShowModal}
           updateDrop={setShowMoal}
-          className="filter-item"
+          keyword={exhibitionType}
+          selectedOption={setExhibitionType}
         />
         {/* <Dropdown
           className="filter-item"
@@ -49,7 +65,10 @@ const Header = ({ setClick }) => {
           menu={"結束日期"}
           icon={dropdownIcon}
         /> */}
-        <div className="filter-item_button">
+        <div
+          onClick={() => navigate(`/result/${keyword}`)}
+          className="filter-item_button"
+        >
           <img src={searchIcon} alt="搜尋樣式" />
         </div>
       </div>
