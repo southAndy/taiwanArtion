@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // customer css
 import "./Swipers.scss";
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
@@ -14,7 +15,7 @@ export default ({ dataArr = [] }) => {
       className="swipers"
       modules={[Navigation, A11y]}
       spaceBetween={50}
-      slidesPerView={6}
+      slidesPerView={3}
       navigation
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
