@@ -15,6 +15,22 @@ import { Link } from "react-router-dom";
 
 // import db from "../../../firebase.config";
 // import { collection, getDocs } from "firebase/firestore";
+import styled from "@emotion/styled";
+
+const StyledMonthBox = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 1px;
+`;
+const StyledMonthText = styled.p`
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  background-color: #986f4f;
+  color: #ffffff;
+`;
 
 const categoryIcons: string[] = [];
 
@@ -79,20 +95,17 @@ const HomePage = () => {
     <>
       <Modal isClick={isClick} setClick={setClick} />
       <Header setClick={setClick} />
+      <StyledMonthBox>
+        {monthList.map((month, index) => (
+          <StyledMonthText key={index}>{month.name}</StyledMonthText>
+        ))}
+      </StyledMonthBox>
+      {/* <div className="months">
+        {monthList.map((month, index) => (
+          <StyledMonthText key={index}>{month.name}</StyledMonthText>
+        ))}
+      </div> */}
       <SwiperSlide dataArr={selectedExhibition} />
-      <div className="months">
-        {monthList.map((month, index) => {
-          return (
-            <div
-              onClick={() => setMonth(month.value)}
-              className="months-item"
-              key={index}
-            >
-              {month.name}
-            </div>
-          );
-        })}
-      </div>
       <section className="category">
         {categoryIcons.map((category, index) => {
           return (
