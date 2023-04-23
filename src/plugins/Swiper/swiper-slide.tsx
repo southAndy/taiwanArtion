@@ -14,7 +14,7 @@ export default ({ dataArr = [] }) => {
       className="swipers"
       modules={[Navigation, A11y]}
       spaceBetween={50}
-      slidesPerView={3}
+      slidesPerView={6}
       navigation
       onSwiper={(swiper) => console.log(swiper)}
       onSlideChange={() => console.log("slide change")}
