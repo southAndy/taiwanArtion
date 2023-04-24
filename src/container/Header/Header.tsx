@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Dropdown from "../../component/Dropdown";
-// import DateSelecter from "../../plugins/date-picker";
+import DateSelecter from "../../plugins/date-picker";
 
 import { Link } from "react-router-dom";
 
@@ -53,18 +53,12 @@ const Header = ({ setClick }) => {
           keyword={exhibitionType}
           selectedOption={setExhibitionType}
         />
-        {/* <Dropdown
-          className="filter-item"
-          menu={"開始日期"}
-          icon={dropdownIcon}
+        <Dropdown
+          dropName={"開始日期"}
           isShowModal={isShowModal}
           setShowModal={setShowMoal}
         />
-        <Dropdown
-          className="filter-item"
-          menu={"結束日期"}
-          icon={dropdownIcon}
-        /> */}
+        <Dropdown dropName={"結束日期"} />
         <div
           onClick={() => navigate(`/result/${keyword}`)}
           className="filter-item_button"
