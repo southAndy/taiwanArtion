@@ -12,14 +12,51 @@ interface Props {
   isClick: Boolean;
   setClick: Function;
 }
+type switchMode = {
+  setMode: Function;
+  mode: number;
+};
 
 const Login = () => {
   return <div>123</div>;
 };
 
+const DefaultModal = ({ mode, setMode }: switchMode) => {
+  return (
+    <section>
+      <div className="modal">
+        <div className="modal-banner">
+          <div>x</div>
+          <img src={loginIcon} alt="登入圖樣" />
+        </div>
+        <div className="modal-info">
+          <h3 className="title">或者使用以下帳號登入/註冊</h3>
+          <div className="social">
+            {iconList.map((ele, index) => {
+              return (
+                <div key={index} className="social-item">
+                  <img src={ele} alt="" />
+                </div>
+              );
+            })}
+          </div>
+          <div className="member">
+            <div className="register" onClick={() => setMode(1)}>
+              註冊
+            </div>
+            <div className="login" onClick={() => setMode(0)}>
+              登入
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 let iconList = [fbIcon, googleIcon];
 const Modal = ({ isClick, setClick }: Props) => {
-  let [currentMode, setMode] = useState<number>(0);
+  let [currentMode, setMode] = useState<number>(2);
   const steps = [<Login />, <RegisterModal />];
   const renderStep = () => {
     switch (currentMode) {
@@ -28,40 +65,10 @@ const Modal = ({ isClick, setClick }: Props) => {
       case 1:
         return steps[1];
       default:
-        return null;
+        return <DefaultModal setMode={setMode} mode={currentMode} />;
     }
   };
-  return (
-    // <section className={isClick ? "show" : "invisible"}>
-    //   <div className="modal">
-    //     <div className="modal-banner">
-    //       <div onClick={() => setClick(false)}>x</div>
-    //       <img src={loginIcon} alt="登入圖樣" />
-    //     </div>
-    //     <div className="modal-info">
-    //       <h3 className="title">或者使用以下帳號登入/註冊</h3>
-    //       <div className="social">
-    //         {iconList.map((ele, index) => {
-    //           return (
-    //             <div key={index} className="social-item">
-    //               <img src={ele} alt="" />
-    //             </div>
-    //           );
-    //         })}
-    //       </div>
-    //       <div className="member">
-    //         <div className="register" onClick={() => setMode("register")}>
-    //           註冊
-    //         </div>
-    //         <div className="login" onClick={() => setMode("login")}>
-    //           登入
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </section>
-    <div className={isClick ? "show" : "invisible"}>{renderStep()}</div>
-  );
+  return <div className={isClick ? "show" : "invisible"}>{renderStep()}</div>;
 };
 
 export default Modal;
