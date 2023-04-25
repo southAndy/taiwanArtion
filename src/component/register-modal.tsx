@@ -86,16 +86,21 @@ const ConfirmButton = styled.button`
   }
 `;
 
-//todo 在這邊分出四個步驟的元素
-
-type Props = {};
 const verifyModal = () => {
   let [currentStep, setStep] = useState<number>(0);
-  let steps = ["手機認證", "帳號密碼", "信箱認證", "完成註冊"];
+  let [isSendVerify, setVerifyState] = useState<boolean>(false);
+  let [resetTime, setResetTime] = useState<number>(60);
+  let stepsText = ["手機認證", "帳號密碼", "信箱認證", "完成註冊"];
 
-  function alertMessage() {
-    console.log("pressed");
+  function submitVerifyMessage() {
+    setVerifyState(true);
+    //todo 實現倒數60秒計算
+    setTimeout(() => {
+      setResetTime((s) => s - 1);
+      setVerifyState(false);
+    }, 3000);
   }
+  //todo 在這邊分出四個步驟的元素
   return (
     <ModalContainer>
       <RegisterHeader>
@@ -103,10 +108,12 @@ const verifyModal = () => {
       </RegisterHeader>
 
       <RegisterStepBox>
-        {steps.map((item, index) => {
+        {stepsText.map((item, index) => {
           return (
-            <RegisterStep>
-              <RegisterStepCount isActive={index === 0 ? true : false}>
+            <RegisterStep key={index}>
+              <RegisterStepCount
+                isActive={currentStep === index ? true : false}
+              >
                 {index + 1}
               </RegisterStepCount>
               <RegisterStepText>{item}</RegisterStepText>
@@ -115,16 +122,26 @@ const verifyModal = () => {
         })}
       </RegisterStepBox>
       <RegisterDescription>
-        為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。
+        {isSendVerify
+          ? "已發送手機驗證碼至0912*********手機,請輸入手機驗證碼並送出驗證。"
+          : "為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。"}
       </RegisterDescription>
       <PhoneTitle>手機號碼</PhoneTitle>
       <PhoneBox>
-        <PhoneInput placeholder="請輸入手機號碼" />
-        <ConfirmButton widths={"96px"} size="12px">
-          寄送驗證碼
+        {isSendVerify ? (
+          <PhoneInput placeholder="請輸入手機驗證碼" />
+        ) : (
+          <PhoneInput placeholder="請輸入手機號碼" />
+        )}
+        <ConfirmButton
+          onClick={() => submitVerifyMessage()}
+          widths={"96px"}
+          size="12px"
+        >
+          {isSendVerify ? `${resetTime}秒後重新點擊` : "寄送驗證碼"}
         </ConfirmButton>
       </PhoneBox>
-      <ConfirmButton widths="460px" onClick={() => alertMessage()}>
+      <ConfirmButton onClick={() => setStep((step) => step + 1)} widths="460px">
         下一步
       </ConfirmButton>
     </ModalContainer>
