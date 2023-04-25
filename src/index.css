@@ -28,6 +28,9 @@ body {
   /* display: flex; */
   box-sizing: border-box;
 }
+p{
+  margin: 0;
+}
 
 h1 {
   font-size: 3.2em;
