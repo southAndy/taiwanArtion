@@ -28,7 +28,8 @@
     "styled-components": "^5.3.6",
     "swiper": "^8.4.5",
     "tailwindcss": "^3.2.4",
-    "vite-plugin-moment-to-dayjs": "^1.0.7"
+    "vite-plugin-moment-to-dayjs": "^1.0.7",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
