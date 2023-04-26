@@ -2,6 +2,8 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import "../assets/sass/color.scss";
 
+import UserInfo from "../component/user-input";
+
 const ModalContainer = styled.section`
   width: 30vw;
   height: 50vh;
@@ -68,8 +70,12 @@ const PhoneInput = styled.input`
   background: #ffffff;
   border: 1px solid #dedede;
   border-radius: 10px;
-  margin-bottom: 40px;
   margin-right: 15px;
+`;
+
+const RegisterBottomBox = styled.section`
+  display: flex;
+  margin: 40px 0;
 `;
 
 const ConfirmButton = styled.button`
@@ -92,6 +98,43 @@ const verifyModal = () => {
   let [resetTime, setResetTime] = useState<number>(60);
   let stepsText = ["手機認證", "帳號密碼", "信箱認證", "完成註冊"];
 
+  let PhoneVerifyPage = () => {
+    return (
+      <>
+        <RegisterDescription>
+          {isSendVerify
+            ? "已發送手機驗證碼至0912*********手機,請輸入手機驗證碼並送出驗證。"
+            : "為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。"}
+        </RegisterDescription>
+        <PhoneTitle>手機號碼</PhoneTitle>
+        <PhoneBox>
+          {isSendVerify ? (
+            <PhoneInput placeholder="請輸入手機驗證碼" />
+          ) : (
+            <PhoneInput placeholder="請輸入手機號碼" />
+          )}
+          <ConfirmButton
+            onClick={() => submitVerifyMessage()}
+            widths={"96px"}
+            size="12px"
+          >
+            {isSendVerify ? `${resetTime}秒後重新點擊` : "寄送驗證碼"}
+          </ConfirmButton>
+        </PhoneBox>
+      </>
+    );
+  };
+  let CreateUserInfoPage = () => {
+    return (
+      <>
+        <UserInfo />
+      </>
+    );
+  };
+  //todo 在這邊分出四個步驟的元素
+
+  let stepPageList = [<PhoneVerifyPage />, <CreateUserInfoPage />];
+
   function submitVerifyMessage() {
     setVerifyState(true);
     //todo 實現倒數60秒計算
@@ -100,13 +143,12 @@ const verifyModal = () => {
       setVerifyState(false);
     }, 3000);
   }
-  //todo 在這邊分出四個步驟的元素
+  const confirBox = "margin-top:40px;";
   return (
     <ModalContainer>
       <RegisterHeader>
         <RegisterTitle>會員註冊</RegisterTitle>
       </RegisterHeader>
-
       <RegisterStepBox>
         {stepsText.map((item, index) => {
           return (
@@ -121,29 +163,15 @@ const verifyModal = () => {
           );
         })}
       </RegisterStepBox>
-      <RegisterDescription>
-        {isSendVerify
-          ? "已發送手機驗證碼至0912*********手機,請輸入手機驗證碼並送出驗證。"
-          : "為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。"}
-      </RegisterDescription>
-      <PhoneTitle>手機號碼</PhoneTitle>
-      <PhoneBox>
-        {isSendVerify ? (
-          <PhoneInput placeholder="請輸入手機驗證碼" />
-        ) : (
-          <PhoneInput placeholder="請輸入手機號碼" />
-        )}
+      {stepPageList[currentStep]}
+      <RegisterBottomBox>
         <ConfirmButton
-          onClick={() => submitVerifyMessage()}
-          widths={"96px"}
-          size="12px"
+          onClick={() => setStep((step) => step + 1)}
+          widths="460px"
         >
-          {isSendVerify ? `${resetTime}秒後重新點擊` : "寄送驗證碼"}
+          下一步
         </ConfirmButton>
-      </PhoneBox>
-      <ConfirmButton onClick={() => setStep((step) => step + 1)} widths="460px">
-        下一步
-      </ConfirmButton>
+      </RegisterBottomBox>
     </ModalContainer>
   );
 };
