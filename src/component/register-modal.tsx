@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../assets/sass/color.scss";
-
 import UserInfo from "../component/user-input";
+import styled from "@emotion/styled";
+// import { getAuth } from "firebase/auth";
 
 const ModalContainer = styled.section`
   width: 30vw;
@@ -95,15 +95,23 @@ const ConfirmButton = styled.button`
 const verifyModal = () => {
   let [currentStep, setStep] = useState<number>(0);
   let [isSendVerify, setVerifyState] = useState<boolean>(false);
-  let [resetTime, setResetTime] = useState<number>(60);
+  let [phoneNumber, setPhoneNumber] = useState<number>();
+  let [resetTime, setResetTime] = useState<number>(0);
   let stepsText = ["手機認證", "帳號密碼", "信箱認證", "完成註冊"];
+
+  useEffect(() => {
+    if (resetTime <= 0) return;
+    setTimeout(() => {
+      setResetTime((number) => number - 1);
+    }, 1000);
+  }, [resetTime]);
 
   let PhoneVerifyPage = () => {
     return (
       <>
         <RegisterDescription>
           {isSendVerify
-            ? "已發送手機驗證碼至0912*********手機,請輸入手機驗證碼並送出驗證。"
+            ? `已發送手機驗證碼至${phoneNumber}手機,請輸入手機驗證碼並送出驗證。`
             : "為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。"}
         </RegisterDescription>
         <PhoneTitle>手機號碼</PhoneTitle>
@@ -136,14 +144,13 @@ const verifyModal = () => {
   let stepPageList = [<PhoneVerifyPage />, <CreateUserInfoPage />];
 
   function submitVerifyMessage() {
+    //todo 執行手機驗證
+    // getAuth();
     setVerifyState(true);
-    //todo 實現倒數60秒計算
-    setTimeout(() => {
-      setResetTime((s) => s - 1);
-      setVerifyState(false);
-    }, 3000);
+    if (resetTime <= 0) {
+      setResetTime(60);
+    }
   }
-  const confirBox = "margin-top:40px;";
   return (
     <ModalContainer>
       <RegisterHeader>
