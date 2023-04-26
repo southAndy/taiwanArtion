@@ -15,11 +15,14 @@
     }
 
     .login{
-        background-color: #986F4F;
+        background-color: gray;
         border-radius: 20px;
         padding: 10px;
         cursor: pointer;
         color:#DEDEDE
+    }
+    .login:hover{
+        background-color: #986F4F;
     }
 
 }

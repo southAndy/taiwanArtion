@@ -2,11 +2,10 @@
 import "./Header.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Dropdown from "../../component/Dropdown";
 import DateSelecter from "../../plugins/date-picker";
-
-import { Link } from "react-router-dom";
 
 //images
 import searchIcon from "../../assets/images/search-icon.png";
@@ -14,6 +13,21 @@ import dropdownIcon from "../../assets/images/Vector.png";
 import fakeUserIcon from "../../assets/images/Ellipse22.png";
 import notifyIcon from "../../assets/images/notify159.png";
 import Input from "../../component/Input";
+
+import styled from "@emotion/styled";
+const StyledHeader = styled.header`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+  //為了IOS 14.5以下裝置所設計
+  margin-right: 16px;
+  padding: 20px 40px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+`;
 
 const Header = ({ setClick }) => {
   let [isShowModal, setShowMoal] = useState(false);
