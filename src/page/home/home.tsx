@@ -4,18 +4,17 @@ import React from "react";
 //third-part
 import axios from "axios";
 import dayjs from "dayjs";
-import "./home.scss";
 import SwiperSlide from "../../plugins/Swiper/swiper-slide";
+import styled from "@emotion/styled";
+// import { collection, getDocs } from "firebase/firestore";
 
+//component
 import Header from "../../container/Header/Header";
 import Card from "../../component/Card/Card";
-import NewSection from "../../container/News/New";
 import Modal from "../../component/modal/Modal";
 import { Link } from "react-router-dom";
 
-// import db from "../../../firebase.config";
-// import { collection, getDocs } from "firebase/firestore";
-import styled from "@emotion/styled";
+import "./home.scss";
 
 const StyledMonthBox = styled.div`
   display: flex;
@@ -28,11 +27,13 @@ const StyledMonthText = styled.p`
   box-sizing: border-box;
   width: 100%;
   padding: 10px;
-  background-color: #986f4f;
+  background-color: ${(props: { isActive: boolean }) =>
+    props.isActive ? "#be875c" : "#986f4f;"};
   color: #ffffff;
+  &:hover {
+    background: #be875c;
+  }
 `;
-
-const categoryIcons: string[] = [];
 
 const HomePage = () => {
   interface Month {
@@ -69,11 +70,6 @@ const HomePage = () => {
   let [currentMonth, setMonth] = useState(3);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
-  let selectedExhibition = useMemo(() => {
-    return exhibitionList.filter(
-      (data: exhibitionType) => data.imageUrl !== ""
-    );
-  }, [exhibitionList, currentMonth]);
 
   useEffect(() => {
     async function fetchData() {
@@ -82,7 +78,7 @@ const HomePage = () => {
           "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6"
         );
         setList(() => (exhibitionList = response.data));
-        //從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
+        //todo: 從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
         // let data = await getDocs(collection(db,'exhibitions'));
         // setList(() => exhibitionList = data.docs)
       } catch (error) {
@@ -91,31 +87,39 @@ const HomePage = () => {
     }
     fetchData();
   }, []);
+
+  //todo 監測資料狀態
+  useEffect(() => {
+    console.log(`updated: ${currentMonth}`);
+    console.log(selectedExhibition);
+  }, [currentMonth]);
+
+  let selectedExhibition = useMemo(() => {
+    let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
+    let formatDate = dayjs(currentDate).format("YYYY-MM");
+    return exhibitionList.filter((data: exhibitionType) => {
+      let beginMonth = dayjs(formatDate);
+      if (beginMonth.isBefore(data.startDate, "month")) {
+        return data;
+      }
+    });
+  }, [exhibitionList, currentMonth]);
   return (
     <>
       <Modal isClick={isClick} setClick={setClick} />
       <Header setClick={setClick} exhibitionList={exhibitionList} />
       <StyledMonthBox>
         {monthList.map((month, index) => (
-          <StyledMonthText key={index}>{month.name}</StyledMonthText>
+          <StyledMonthText
+            onClick={() => setMonth(month.value)}
+            isActive={currentMonth === month.value}
+            key={index}
+          >
+            {month.name}
+          </StyledMonthText>
         ))}
       </StyledMonthBox>
-      {/* <div className="months">
-        {monthList.map((month, index) => (
-          <StyledMonthText key={index}>{month.name}</StyledMonthText>
-        ))}
-      </div> */}
       <SwiperSlide dataArr={selectedExhibition} />
-      <section className="category">
-        {categoryIcons.map((category, index) => {
-          return (
-            <div className="category-item" key={index}>
-              <div>1</div>
-              <p>2</p>
-            </div>
-          );
-        })}
-      </section>
       <main>
         <section className="exhibition">
           <div>
@@ -131,7 +135,6 @@ const HomePage = () => {
             })}
           </div>
         </section>
-        {/* <NewSection /> */}
         <section className="result">
           <h4>所有展覽</h4>
           <section>
