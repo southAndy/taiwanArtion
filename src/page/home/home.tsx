@@ -94,7 +94,7 @@ const HomePage = () => {
   return (
     <>
       <Modal isClick={isClick} setClick={setClick} />
-      <Header setClick={setClick} />
+      <Header setClick={setClick} exhibition={exhibitionList} />
       <StyledMonthBox>
         {monthList.map((month, index) => (
           <StyledMonthText key={index}>{month.name}</StyledMonthText>
@@ -122,9 +122,9 @@ const HomePage = () => {
             <h3>熱門展覽</h3>
           </div>
           <div className="exhibition-card">
-            {selectedExhibition.map((item) => {
+            {selectedExhibition.map((item, index) => {
               return (
-                <Link to={`/detail/${item.UID}`}>
+                <Link to={`/detail/${item.UID}`} key={index}>
                   <Card key={item.UID} dataArr={item} />
                 </Link>
               );
