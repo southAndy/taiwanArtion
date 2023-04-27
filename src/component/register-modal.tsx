@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import "../assets/sass/color.scss";
 import UserInfo from "../component/user-input";
 import styled from "@emotion/styled";
-// import { getAuth } from "firebase/auth";
+import {
+  getAuth,
+  ApplicationVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 
 const ModalContainer = styled.section`
   width: 30vw;
