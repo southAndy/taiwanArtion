@@ -1,6 +1,6 @@
 //本身設定
 import "./Header.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -29,7 +29,66 @@ const StyledHeader = styled.header`
   position: relative;
 `;
 
-const Header = ({ setClick }) => {
+type ResultProps = {
+  userInput: string;
+  exhibitionList: {
+    title: string;
+    descriptionFilterHtml: string;
+    UID: string;
+    imageUrl: string;
+    discountInfo: string;
+    startDate: string;
+    endDate: string;
+    showUnit: string;
+  }[];
+};
+const ResultBox = styled.section`
+  display: ${(props: { userInput: string }) =>
+    props.userInput !== "" ? "block" : "none"};
+  position: absolute;
+  top: 81%;
+  left: 20%;
+  z-index: 2;
+  width: 466px;
+  border-radius: 20px;
+  padding: 20px;
+  height: auto;
+  background: #ffffff;
+  box-shadow: 2px -1px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+`;
+const ResultDropdown = ({ userInput, exhibitionList }: ResultProps) => {
+  return (
+    <>
+      <ResultBox userInput={userInput}>
+        {exhibitionList?.map((matched, index) => {
+          return (
+            <Link to={`/detail/${matched.UID}`}>
+              <p>{matched.title}</p>
+              <p>{"台南"}</p>
+            </Link>
+          );
+        })}
+      </ResultBox>
+    </>
+  );
+};
+
+type headerProps = {
+  exhibitionList: {
+    title: string;
+    descriptionFilterHtml: string;
+    UID: string;
+    imageUrl: string;
+    discountInfo: string;
+    startDate: string;
+    endDate: string;
+    showUnit: string;
+  }[];
+  setClick: Function;
+};
+
+const Header = ({ setClick, exhibitionList }: headerProps) => {
   let [isShowModal, setShowMoal] = useState(false);
   let [isShowCity, setCityDrop] = useState<boolean>(false);
   let [keyword, setKeyword] = useState<string>("");
@@ -39,10 +98,25 @@ const Header = ({ setClick }) => {
   let museumType: string[] = ["博物館", "文創園區", "美術館"];
   let cityList: string[] = ["台北", "新北", "台中", "台南", "高雄"];
 
+  //? 進行展覽搜尋
+  let matchedExhibitionList = useMemo(() => {
+    let matchedResult;
+    matchedResult = exhibitionList?.filter((exhibition, index) => {
+      return exhibition.title.startsWith(keyword);
+    });
+    console.log("符合搜尋結果", matchedResult);
+    if (matchedResult.length === 0) {
+      return [];
+    } else {
+      return matchedResult;
+    }
+  }, [keyword]);
+
   //todo 確認 keyword 參數狀態後移除
   useEffect(() => {
     console.log(keyword);
-  }, [keyword]);
+  }, [matchedExhibitionList]);
+
   return (
     <header className="header-container">
       <Link to={"/"} className="logo">
@@ -50,6 +124,10 @@ const Header = ({ setClick }) => {
       </Link>
       <div className="filter filter-box">
         <Input keyword={keyword} setKeyword={setKeyword} />
+        <ResultDropdown
+          userInput={keyword}
+          exhibitionList={matchedExhibitionList}
+        />
         {/* <DateSelecter /> */}
         <Dropdown
           dropName={"選擇城市"}
@@ -69,8 +147,8 @@ const Header = ({ setClick }) => {
         />
         <Dropdown
           dropName={"開始日期"}
-          isShowModal={isShowModal}
-          setShowModal={setShowMoal}
+          isShowDrop={isShowModal}
+          updateDrop={setShowMoal}
         />
         <Dropdown dropName={"結束日期"} />
         <div
