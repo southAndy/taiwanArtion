@@ -50,12 +50,22 @@ const ResultBox = styled.section`
   left: 20%;
   z-index: 2;
   width: 466px;
+  max-height: 376px;
+  overflow: scroll;
   border-radius: 20px;
   padding: 20px;
-  height: auto;
   background: #ffffff;
   box-shadow: 2px -1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+`;
+const ResultImageBox = styled.div`
+  display: block;
+  width: 40px;
+  height: 40px;
+`;
+const StyledImage = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 const ResultDropdown = ({ userInput, exhibitionList }: ResultProps) => {
   return (
@@ -63,9 +73,14 @@ const ResultDropdown = ({ userInput, exhibitionList }: ResultProps) => {
       <ResultBox userInput={userInput}>
         {exhibitionList?.map((matched, index) => {
           return (
-            <Link to={`/detail/${matched.UID}`}>
-              <p>{matched.title}</p>
-              <p>{"台南"}</p>
+            <Link to={`/detail/${matched.UID}`} className="result-drop">
+              <ResultImageBox>
+                <StyledImage src={matched.imageUrl} alt="" />
+              </ResultImageBox>
+              <div>
+                <p>{matched.title}</p>
+                <p>{"台南"}</p>
+              </div>
             </Link>
           );
         })}
