@@ -40,11 +40,11 @@ const DropMenu = styled.div`
 
 type Props = {
   dropName: string;
-  dropMenu: string[];
-  isShowDrop: boolean;
-  updateDrop: Function;
-  selectedOption: Function;
-  keyword: string;
+  dropMenu?: string[];
+  isShowDrop?: boolean;
+  updateDrop?: Function;
+  selectedOption?: Function;
+  keyword?: string;
 };
 
 const Dropdown = ({
