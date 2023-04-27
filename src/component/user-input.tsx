@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
-import { Formik, Field, Form } from "formik";
+import { Formik, Field, Form, useFormik, FormikProps } from "formik";
 import * as yup from "yup";
 
 const StyledInput = styled.input`
@@ -36,14 +36,6 @@ type Values = {
 const UserInfo = () => {
   return (
     <>
-      {/* <UserInfoBox>
-        <StyledLabel>帳號</StyledLabel>
-        <StyledInput type="text" placeholder="4-21碼小寫英文.數字" />
-      </UserInfoBox>
-      <UserInfoBox>
-        <StyledLabel>密碼</StyledLabel>
-        <StyledInput type="password" placeholder="6-18位數密碼,請區分大小寫" />
-      </UserInfoBox> */}
       <Formik
         initialValues={{ account: "", password: "" }}
         onSubmit={(value: Values) => alert(value)}
@@ -54,13 +46,17 @@ const UserInfo = () => {
             .required("Required"),
         })}
       >
-        <Form>
-          <label htmlFor="account">帳號</label>
-          <Field name="account" placeholder="4-21碼小寫英文.數字" />
-          <label htmlFor="password">密碼</label>
-          <Field name="password" placeholder="6-18位數密碼,請區分大小寫" />
-          <button type="submit">送出</button>
-        </Form>
+        {(props: FormikProps<any>) => {
+          return (
+            <Form>
+              <label htmlFor="account">帳號</label>
+              <Field name="account" placeholder="4-21碼小寫英文.數字" />
+              <label htmlFor="password">密碼</label>
+              <Field name="password" placeholder="6-18位數密碼,請區分大小寫" />
+              <button type="submit">送出</button>
+            </Form>
+          );
+        }}
       </Formik>
     </>
   );
