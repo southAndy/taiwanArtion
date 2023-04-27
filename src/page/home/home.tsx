@@ -94,7 +94,7 @@ const HomePage = () => {
   return (
     <>
       <Modal isClick={isClick} setClick={setClick} />
-      <Header setClick={setClick} exhibition={exhibitionList} />
+      <Header setClick={setClick} exhibitionList={exhibitionList} />
       <StyledMonthBox>
         {monthList.map((month, index) => (
           <StyledMonthText key={index}>{month.name}</StyledMonthText>
