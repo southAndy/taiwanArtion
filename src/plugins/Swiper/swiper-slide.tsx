@@ -9,7 +9,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 export default ({ dataArr = [] }) => {
-  console.log(dataArr);
   return (
     <Swiper
       className="swipers"
@@ -17,8 +16,6 @@ export default ({ dataArr = [] }) => {
       spaceBetween={50}
       slidesPerView={3}
       navigation
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
     >
       {dataArr.map((data) => {
         return (
