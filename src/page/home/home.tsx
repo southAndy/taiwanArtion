@@ -15,6 +15,7 @@ import Modal from "../../component/modal/Modal";
 import { Link } from "react-router-dom";
 
 import "./home.scss";
+import "../../assets/sass/animation.scss";
 
 const StyledMonthBox = styled.div`
   display: flex;
@@ -95,6 +96,10 @@ const HomePage = () => {
   }, [currentMonth]);
 
   let selectedExhibition = useMemo(() => {
+    if (!exhibitionList.length) {
+      return [{}, {}, {}];
+    }
+    //篩選展覽日期
     let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
     let formatDate = dayjs(currentDate).format("YYYY-MM");
     return exhibitionList.filter((data: exhibitionType) => {

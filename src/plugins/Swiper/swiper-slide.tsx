@@ -1,8 +1,10 @@
 import { Navigation, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useState, useEffect } from "react";
 
 // customer css
 import "./Swipers.scss";
+import "../../assets/sass/animation.scss";
 
 // Import Swiper styles
 import "swiper/css";
@@ -16,13 +18,17 @@ export default ({ dataArr = [] }) => {
       spaceBetween={50}
       slidesPerView={3}
       navigation
+      loop={true}
     >
-      {dataArr.map((data) => {
+      {dataArr.map((data: { id: string; imageUrl: string }) => {
         return (
           <SwiperSlide key={data.id} className="slide">
-            <a href="https://www.google.com/">
-              <div className="slide-image">
-                <img src={data.imageUrl || "#"} alt={data || "展覽圖片"} />
+            <a
+              className={data.imageUrl ? "" : "lds-ring"}
+              href="https://www.google.com/"
+            >
+              <div>
+                <img src={data.imageUrl || ""} />
               </div>
             </a>
           </SwiperSlide>
