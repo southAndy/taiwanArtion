@@ -10,7 +10,7 @@ import {
 
 const ModalContainer = styled.section`
   width: 30vw;
-  height: 50vh;
+  min-height: 50vh;
   padding: 40px;
   background: white;
   box-shadow: 0px 4px 20px rgba(99, 99, 99, 0.2);
