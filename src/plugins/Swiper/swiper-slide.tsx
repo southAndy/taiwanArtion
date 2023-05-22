@@ -23,10 +23,7 @@ export default ({ dataArr = [] }) => {
       {dataArr.map((data: { id: string; imageUrl: string }) => {
         return (
           <SwiperSlide key={data.id} className="slide">
-            <a
-              className={data.imageUrl ? "" : "lds-ring"}
-              href="https://www.google.com/"
-            >
+            <a className={data.imageUrl ? "" : "skeleton"} href="##">
               <div>
                 <img src={data.imageUrl || ""} />
               </div>
