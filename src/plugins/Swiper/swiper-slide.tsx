@@ -10,7 +10,7 @@ import "../../assets/sass/animation.scss";
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default ({ dataArr = [] }) => {
+export default ({ isLoading = true, data = [] }) => {
   return (
     <Swiper
       className="swipers"
@@ -20,12 +20,16 @@ export default ({ dataArr = [] }) => {
       navigation
       loop={true}
     >
-      {dataArr.map((data: { id: string; imageUrl: string }) => {
+      {data.map((data: { id: string; imageUrl: string }, index: number) => {
         return (
-          <SwiperSlide key={data.id} className="slide">
+          <SwiperSlide key={index} className="slide">
             <a className={data.imageUrl ? "" : "skeleton"} href="##">
-              <div>
-                <img src={data.imageUrl || ""} />
+              <div className="slide-image">
+                {/* todo:補上假圖 */}
+                <img
+                  src={data.imageUrl || ""}
+                  className={isLoading ? "hide" : "slide-image"}
+                />
               </div>
             </a>
           </SwiperSlide>
