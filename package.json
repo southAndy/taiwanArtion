@@ -18,6 +18,7 @@
     "date-fns": "^2.29.3",
     "dayjs": "^1.11.7",
     "firebase": "^9.15.0",
+    "formik": "^2.2.9",
     "moment": "^2.29.4",
     "prettier": "^2.8.4",
     "react": "^18.2.0",
@@ -27,7 +28,8 @@
     "styled-components": "^5.3.6",
     "swiper": "^8.4.5",
     "tailwindcss": "^3.2.4",
-    "vite-plugin-moment-to-dayjs": "^1.0.7"
+    "vite-plugin-moment-to-dayjs": "^1.0.7",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
@@ -44,5 +46,8 @@
     "typescript": "^5.0.4",
     "vite": "^4.0.0",
     "vite-plugin-checker": "^0.5.6"
+  },
+  "volta": {
+    "node": "14.21.3"
   }
 }
