@@ -9,7 +9,7 @@ import DeatilPage from "./page/deatil-page";
 import ResultPage from "./page/result-page";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-// import NearbyPage from './page/nearby-page'
+import MapPage from "./page/map-page";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +20,11 @@ const router = createBrowserRouter([
     //     path: "",
     //   },
     // ],
+  },
+  {
+    path: "/map",
+    element: <MapPage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/detail/:dataID",
