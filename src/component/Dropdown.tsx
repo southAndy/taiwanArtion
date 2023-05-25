@@ -18,7 +18,7 @@ const DropdownTitle = styled.p`
 `;
 
 const DropMenuList = styled.div`
-  display: ${(props: { showList: Boolean }) =>
+  display: ${(props: { showList: boolean }) =>
     props.showList ? "block" : "none"};
   width: 128px;
   max-height: 232px;
@@ -40,11 +40,11 @@ const DropMenu = styled.div`
 
 type Props = {
   dropName: string;
-  dropMenu: string[];
-  isShowDrop: boolean;
-  updateDrop: Function;
-  selectedOption: Function;
-  keyword: string;
+  dropMenu?: string[];
+  isShowDrop?: boolean;
+  updateDrop?: Function;
+  selectedOption?: Function;
+  keyword?: string;
 };
 
 const Dropdown = ({

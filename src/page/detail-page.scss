@@ -1,16 +1,21 @@
+a{
+    // margin-bottom: 30px;
+}
+
 .banner{
+    display: flex;
+    justify-content: center;
     &-image{
-        width: 1356.75px;
+        width: 1360px;
         height: 711px;
         border-radius: 10px;
         position: relative;
     }
     &-title{
-        color:white;
         cursor: pointer;
         position: absolute;
-        top:50%;
-        left:2%;
+        top:70%;
+        left:5%;
         font-style: normal;
         font-weight: 700;
         font-size: 36px;
@@ -20,19 +25,13 @@
 
 .menu{
     display: flex;
+    border-bottom: 1px solid;
     &-item{
         padding: 20px;
+        margin-right: 2px;
     }
-}
-
-.info{
-    &-title{
-        color:#986f4f;
-        font-style: normal;
-        font-weight: 700;
-        font-size: 24px;
-    }
-    &-menu{
-
+    .active{
+        color: #986F4F;
+        border-bottom: 5px #986F4F solid;
     }
 }

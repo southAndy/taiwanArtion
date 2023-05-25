@@ -1,30 +1,35 @@
 import { Navigation, A11y } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useState, useEffect } from "react";
 
 // customer css
 import "./Swipers.scss";
+import "../../assets/sass/animation.scss";
+
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/navigation";
 
-export default ({ dataArr = [] }) => {
-  console.log(dataArr);
+export default ({ isLoading = true, data = [] }) => {
   return (
     <Swiper
       className="swipers"
       modules={[Navigation, A11y]}
       spaceBetween={50}
-      slidesPerView={6}
+      slidesPerView={3}
       navigation
-      onSwiper={(swiper) => console.log(swiper)}
-      onSlideChange={() => console.log("slide change")}
+      loop={true}
     >
-      {dataArr.map((data) => {
+      {data.map((data: { id: string; imageUrl: string }, index: number) => {
         return (
-          <SwiperSlide key={data.id} className="slide">
-            <a href="https://www.google.com/">
+          <SwiperSlide key={index} className="slide">
+            <a className={data.imageUrl ? "" : "skeleton"} href="##">
               <div className="slide-image">
-                <img src={data.imageUrl || "#"} alt={data || "展覽圖片"} />
+                {/* todo:補上假圖 */}
+                <img
+                  src={data.imageUrl || ""}
+                  className={isLoading ? "hide" : "slide-image"}
+                />
               </div>
             </a>
           </SwiperSlide>

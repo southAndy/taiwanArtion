@@ -24,7 +24,7 @@ export default function Input({ keyword, setKeyword }: Props) {
   }
   return (
     <>
-      <StyledInput onInput={handleInput} placeholder="輸入展覽名稱" />
+      <StyledInput onChange={handleInput} placeholder="輸入展覽名稱" />
     </>
   );
 }

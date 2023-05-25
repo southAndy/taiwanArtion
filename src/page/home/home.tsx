@@ -4,19 +4,37 @@ import React from "react";
 //third-part
 import axios from "axios";
 import dayjs from "dayjs";
-import "./home.scss";
 import SwiperSlide from "../../plugins/Swiper/swiper-slide";
+import styled from "@emotion/styled";
+// import { collection, getDocs } from "firebase/firestore";
 
+//component
 import Header from "../../container/Header/Header";
 import Card from "../../component/Card/Card";
-import NewSection from "../../container/News/New";
 import Modal from "../../component/modal/Modal";
 import { Link } from "react-router-dom";
 
-// import db from "../../../firebase.config";
-// import { collection, getDocs } from "firebase/firestore";
+import "./home.scss";
+import "../../assets/sass/animation.scss";
 
-const categoryIcons: string[] = [];
+const StyledMonthBox = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+  gap: 1px;
+`;
+const StyledMonthText = styled.p`
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  background-color: ${(props: { isActive: boolean }) =>
+    props.isActive ? "#be875c" : "#986f4f;"};
+  color: #ffffff;
+  &:hover {
+    background: #be875c;
+  }
+`;
 
 const HomePage = () => {
   interface Month {
@@ -49,15 +67,12 @@ const HomePage = () => {
     showUnit: string;
   };
 
+  //global-state
   let [exhibitionList, setList] = useState<exhibitionType[]>([]);
+  let [isLoading, setLoading] = useState(true);
   let [currentMonth, setMonth] = useState(3);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
-  let selectedExhibition = useMemo(() => {
-    return exhibitionList.filter(
-      (data: exhibitionType) => data.imageUrl !== ""
-    );
-  }, [exhibitionList, currentMonth]);
 
   useEffect(() => {
     async function fetchData() {
@@ -66,59 +81,72 @@ const HomePage = () => {
           "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6"
         );
         setList(() => (exhibitionList = response.data));
+        //todo
         //從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
-        // let data = await getDocs(collection(db,'exhibitions'));
-        // setList(() => exhibitionList = data.docs)
+        // let data = await getDocs(collection(db, "exhibitions"));
+        // setList(() => (exhibitionList = data.docs));
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading((state: boolean) => (state = false));
       }
     }
     fetchData();
   }, []);
+
+  //?監測資料狀態
+  useEffect(() => {
+    // console.log(`updated: ${currentMonth}`);
+    // console.log(selectedExhibition);
+    // console.log(isLoading);
+  }, [currentMonth, isLoading]);
+
+  //? 展覽資料處理
+  let selectedExhibition = useMemo(() => {
+    if (!exhibitionList.length) {
+      return [{}, {}, {}];
+    }
+    //篩選展覽日期
+    let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
+    let formatDate = dayjs(currentDate).format("YYYY-MM");
+    return exhibitionList.filter((data: exhibitionType) => {
+      let beginMonth = dayjs(formatDate);
+      if (beginMonth.isBefore(data.startDate, "month")) {
+        return data;
+      }
+    });
+  }, [exhibitionList, currentMonth]);
   return (
     <>
       <Modal isClick={isClick} setClick={setClick} />
-      <Header setClick={setClick} />
-      <SwiperSlide dataArr={selectedExhibition} />
-      <div className="months">
-        {monthList.map((month, index) => {
-          return (
-            <div
-              onClick={() => setMonth(month.value)}
-              className="months-item"
-              key={index}
-            >
-              {month.name}
-            </div>
-          );
-        })}
-      </div>
-      <section className="category">
-        {categoryIcons.map((category, index) => {
-          return (
-            <div className="category-item" key={index}>
-              <div>1</div>
-              <p>2</p>
-            </div>
-          );
-        })}
-      </section>
+      <Header setClick={setClick} exhibitionList={exhibitionList} />
+      <StyledMonthBox>
+        {monthList.map((month, index) => (
+          <StyledMonthText
+            onClick={() => setMonth(month.value)}
+            isActive={currentMonth === month.value}
+            key={index}
+          >
+            {month.name}
+          </StyledMonthText>
+        ))}
+      </StyledMonthBox>
+      <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
       <main>
         <section className="exhibition">
           <div>
             <h3>熱門展覽</h3>
           </div>
           <div className="exhibition-card">
-            {selectedExhibition.map((item) => {
+            {selectedExhibition.map((item, index) => {
               return (
-                <Link to={`/detail/${item.UID}`}>
+                <Link to={`/detail/${item.UID}`} key={index}>
                   <Card key={item.UID} dataArr={item} />
                 </Link>
               );
             })}
           </div>
         </section>
-        {/* <NewSection /> */}
         <section className="result">
           <h4>所有展覽</h4>
           <section>

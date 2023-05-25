@@ -9,6 +9,7 @@
 .slide {
     display: flex;
     gap:32px;
+    height: 100%;
     background-color: gray;
     &-image{
         width: 100%;
@@ -20,4 +21,7 @@
             height: 100%;
         }
     }
+}
+.hide{
+    display: none;
 }
