@@ -119,18 +119,12 @@ const Header = ({ setClick, exhibitionList }: headerProps) => {
     matchedResult = exhibitionList?.filter((exhibition, index) => {
       return exhibition.title.startsWith(keyword);
     });
-    console.log("符合搜尋結果", matchedResult);
     if (matchedResult.length === 0) {
       return [];
     } else {
       return matchedResult;
     }
   }, [keyword]);
-
-  //todo 確認 keyword 參數狀態後移除
-  useEffect(() => {
-    console.log(keyword);
-  }, [matchedExhibitionList]);
 
   return (
     <header className="header-container">
