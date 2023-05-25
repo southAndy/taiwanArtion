@@ -67,7 +67,9 @@ const HomePage = () => {
     showUnit: string;
   };
 
+  //global-state
   let [exhibitionList, setList] = useState<exhibitionType[]>([]);
+  let [isLoading, setLoading] = useState(true);
   let [currentMonth, setMonth] = useState(3);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
@@ -79,22 +81,27 @@ const HomePage = () => {
           "https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6"
         );
         setList(() => (exhibitionList = response.data));
-        //todo: 從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
-        // let data = await getDocs(collection(db,'exhibitions'));
-        // setList(() => exhibitionList = data.docs)
+        //todo
+        //從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
+        // let data = await getDocs(collection(db, "exhibitions"));
+        // setList(() => (exhibitionList = data.docs));
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading((state: boolean) => (state = false));
       }
     }
     fetchData();
   }, []);
 
-  //todo 監測資料狀態
+  //?監測資料狀態
   useEffect(() => {
-    console.log(`updated: ${currentMonth}`);
-    console.log(selectedExhibition);
-  }, [currentMonth]);
+    // console.log(`updated: ${currentMonth}`);
+    // console.log(selectedExhibition);
+    // console.log(isLoading);
+  }, [currentMonth, isLoading]);
 
+  //? 展覽資料處理
   let selectedExhibition = useMemo(() => {
     if (!exhibitionList.length) {
       return [{}, {}, {}];
@@ -124,7 +131,7 @@ const HomePage = () => {
           </StyledMonthText>
         ))}
       </StyledMonthBox>
-      <SwiperSlide dataArr={selectedExhibition} />
+      <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
       <main>
         <section className="exhibition">
           <div>
