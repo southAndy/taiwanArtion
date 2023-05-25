@@ -21,7 +21,7 @@
     &-image{
         min-width: 322px;
         height: 202px;
-        border: 1px solid gray;
+        // border: 1px solid gray;
         //TODO fake bg
         background: linear-gradient(360deg, #666666 6.75%, rgba(162, 158, 158, 0.583333) 63.75%, rgba(81, 81, 81, 0) 100%);
         border-radius: 10px;
@@ -41,6 +41,8 @@
 
         margin: 15px 0;
         h4{
+            height:20px;
+            width:100%;
             font-weight: 700;
             font-size: 18px;
             //TODO 新增共用預設屬性後移除
@@ -104,4 +106,8 @@
                 }
         }
     }
+}
+
+.hide{
+    display: none;
 }
