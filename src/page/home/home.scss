@@ -37,7 +37,11 @@
     flex-direction: column;
     justify-content: center;
     margin-top: 40px;
-    width: 100vw;
+    // width: 100vw;
+    width: 300px;
+    width: 1800px;
+    
+    padding:0 40px;
     overflow-x: scroll;
 
     &-card{
@@ -49,7 +53,8 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
+    padding: 0 40px;
 
     section{
         display: flex;

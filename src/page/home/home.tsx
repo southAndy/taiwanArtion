@@ -103,18 +103,20 @@ const HomePage = () => {
 
   //? 展覽資料處理
   let selectedExhibition = useMemo(() => {
-    if (!exhibitionList.length) {
-      return [{}, {}, {}];
+    if (exhibitionList.length === 0) {
+      //? 預設顯示展覽數量
+      return [{}, {}, {}, {}, {}];
+    } else {
+      //? 篩選展覽日期
+      let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
+      let formatDate = dayjs(currentDate).format("YYYY-MM");
+      return exhibitionList.filter((data: exhibitionType) => {
+        let beginMonth = dayjs(formatDate);
+        if (beginMonth.isBefore(data.startDate, "month")) {
+          return data;
+        }
+      });
     }
-    //篩選展覽日期
-    let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
-    let formatDate = dayjs(currentDate).format("YYYY-MM");
-    return exhibitionList.filter((data: exhibitionType) => {
-      let beginMonth = dayjs(formatDate);
-      if (beginMonth.isBefore(data.startDate, "month")) {
-        return data;
-      }
-    });
   }, [exhibitionList, currentMonth]);
   return (
     <>
@@ -141,7 +143,7 @@ const HomePage = () => {
             {selectedExhibition.map((item, index) => {
               return (
                 <Link to={`/detail/${item.UID}`} key={index}>
-                  <Card key={item.UID} dataArr={item} />
+                  <Card key={item.UID} data={item} isLoading={isLoading} />
                 </Link>
               );
             })}
@@ -151,7 +153,7 @@ const HomePage = () => {
           <h4>所有展覽</h4>
           <section>
             {selectedExhibition.map((item, index) => {
-              return <Card key={index} dataArr={item} />;
+              return <Card key={index} data={item} isLoading={isLoading} />;
             })}
           </section>
         </section>
