@@ -70,7 +70,7 @@ const HomePage = () => {
   //global-state
   let [exhibitionList, setList] = useState<exhibitionType[]>([]);
   let [isLoading, setLoading] = useState(true);
-  let [currentMonth, setMonth] = useState(3);
+  let [currentMonth, setMonth] = useState(new Date().getMonth() + 1);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
 
@@ -140,7 +140,7 @@ const HomePage = () => {
             <h3>熱門展覽</h3>
           </div>
           <div className="exhibition-card">
-            {selectedExhibition.map((item, index) => {
+            {selectedExhibition.map((item, index: number) => {
               return (
                 <Link to={`/detail/${item.UID}`} key={index}>
                   <Card key={item.UID} data={item} isLoading={isLoading} />
