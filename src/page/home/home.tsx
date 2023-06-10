@@ -6,7 +6,6 @@ import axios from "axios";
 import dayjs from "dayjs";
 import SwiperSlide from "../../plugins/Swiper/swiper-slide";
 import styled from "@emotion/styled";
-// import { collection, getDocs } from "firebase/firestore";
 
 //component
 import Header from "../../container/Header/Header";
@@ -15,8 +14,6 @@ import Modal from "../../component/modal/Modal";
 import { Link } from "react-router-dom";
 
 import "./home.scss";
-import "../../assets/sass/animation.scss";
-
 const StyledMonthBox = styled.div`
   display: flex;
   align-items: center;
@@ -70,7 +67,7 @@ const HomePage = () => {
   //global-state
   let [exhibitionList, setList] = useState<exhibitionType[]>([]);
   let [isLoading, setLoading] = useState(true);
-  let [currentMonth, setMonth] = useState(3);
+  let [currentMonth, setMonth] = useState(new Date().getMonth() + 1);
   let [isShowModal, setModal] = useState(false);
   let [isClick, setClick] = useState(false);
 
@@ -103,18 +100,20 @@ const HomePage = () => {
 
   //? 展覽資料處理
   let selectedExhibition = useMemo(() => {
-    if (!exhibitionList.length) {
-      return [{}, {}, {}];
+    if (exhibitionList.length === 0) {
+      //? 預設顯示展覽數量
+      return [{}, {}, {}, {}, {}];
+    } else {
+      //? 篩選展覽日期
+      let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
+      let formatDate = dayjs(currentDate).format("YYYY-MM");
+      return exhibitionList.filter((data: exhibitionType) => {
+        let beginMonth = dayjs(formatDate);
+        if (beginMonth.isBefore(data.startDate, "month")) {
+          return data;
+        }
+      });
     }
-    //篩選展覽日期
-    let currentDate = `${new Date().getFullYear()}-${currentMonth}`;
-    let formatDate = dayjs(currentDate).format("YYYY-MM");
-    return exhibitionList.filter((data: exhibitionType) => {
-      let beginMonth = dayjs(formatDate);
-      if (beginMonth.isBefore(data.startDate, "month")) {
-        return data;
-      }
-    });
   }, [exhibitionList, currentMonth]);
   return (
     <>
@@ -132,16 +131,16 @@ const HomePage = () => {
         ))}
       </StyledMonthBox>
       <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
-      <main>
+      <main className="content">
         <section className="exhibition">
           <div>
             <h3>熱門展覽</h3>
           </div>
           <div className="exhibition-card">
-            {selectedExhibition.map((item, index) => {
+            {selectedExhibition.map((item, index: number) => {
               return (
                 <Link to={`/detail/${item.UID}`} key={index}>
-                  <Card key={item.UID} dataArr={item} />
+                  <Card key={item.UID} data={item} isLoading={isLoading} />
                 </Link>
               );
             })}
@@ -151,7 +150,7 @@ const HomePage = () => {
           <h4>所有展覽</h4>
           <section>
             {selectedExhibition.map((item, index) => {
-              return <Card key={index} dataArr={item} />;
+              return <Card key={index} data={item} isLoading={isLoading} />;
             })}
           </section>
         </section>
