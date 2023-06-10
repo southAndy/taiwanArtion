@@ -6,7 +6,6 @@ import axios from "axios";
 import dayjs from "dayjs";
 import SwiperSlide from "../../plugins/Swiper/swiper-slide";
 import styled from "@emotion/styled";
-// import { collection, getDocs } from "firebase/firestore";
 
 //component
 import Header from "../../container/Header/Header";
@@ -15,8 +14,6 @@ import Modal from "../../component/modal/Modal";
 import { Link } from "react-router-dom";
 
 import "./home.scss";
-import "../../assets/sass/animation.scss";
-
 const StyledMonthBox = styled.div`
   display: flex;
   align-items: center;

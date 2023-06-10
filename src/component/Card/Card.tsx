@@ -1,5 +1,5 @@
 import "./Card.scss";
-import "../../assets/sass/animation.scss";
+// import "../../assets/sass/animation.scss";
 
 import calendarIcon from "../../assets/images/categoryicon.png";
 import timeIcon from "../../assets/images/icon02.png";

@@ -1,25 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-// import App from './App'
-import "./index.css";
-
-import HomePage from "./page/home/Home";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import HomePage from "./page/home/home";
 import ErrorPage from "./page/error";
 import DeatilPage from "./page/deatil-page";
 import ResultPage from "./page/result-page";
-
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MapPage from "./page/map-page";
+import "./assets/scss/main.scss";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage />,
-    // children: [
-    //   {
-    //     path: "",
-    //   },
-    // ],
   },
   {
     path: "/map",
@@ -37,32 +29,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
 ]);
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <HomePage/>,
-//     errorElement:<ErrorPage/>
-//   },
-//    {
-//     path: "/detail",
-//     element: <DeatilPage/>,
-//     errorElement:<ErrorPage/>
-//   },
-//   {
-//     path: "/nearby",
-//     element: <NearbyPage/>,
-//     errorElement:<ErrorPage/>
-//   },
-// ]);
 const rootElement = document.getElementById("root");
 if (rootElement) {
   ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>{<RouterProvider router={router} />}</React.StrictMode>
   );
 }
-
-// ReactDOM.createRoot(document.getElementById('root')).render(
-//   <React.StrictMode>
-//     <RouterProvider router={router}/>
-//   </React.StrictMode>,
-// )
