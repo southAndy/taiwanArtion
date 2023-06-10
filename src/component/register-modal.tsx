@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import "../assets/sass/color.scss";
 import UserInfo from "../component/user-input";
 import styled from "@emotion/styled";
 import {

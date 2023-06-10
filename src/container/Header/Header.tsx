@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import Dropdown from "../../component/Dropdown";
-import DateSelecter from "../../plugins/date-picker";
 
 //images
 import searchIcon from "../../assets/images/search-icon.png";
@@ -67,6 +66,10 @@ const StyledImage = styled.img`
   width: 100%;
   height: 100%;
 `;
+
+function test() {
+  console.log("open calender");
+}
 const ResultDropdown = ({ userInput, exhibitionList }: ResultProps) => {
   return (
     <>
@@ -137,7 +140,6 @@ const Header = ({ setClick, exhibitionList }: headerProps) => {
           userInput={keyword}
           exhibitionList={matchedExhibitionList}
         />
-        {/* <DateSelecter /> */}
         <Dropdown
           dropName={"選擇城市"}
           dropMenu={cityList}
@@ -154,11 +156,7 @@ const Header = ({ setClick, exhibitionList }: headerProps) => {
           keyword={exhibitionType}
           selectedOption={setExhibitionType}
         />
-        <Dropdown
-          dropName={"開始日期"}
-          isShowDrop={isShowModal}
-          updateDrop={setShowMoal}
-        />
+        <Dropdown dropName={"開始日期"} />
         <Dropdown dropName={"結束日期"} />
         <div
           onClick={() => navigate(`/result/${keyword}`)}
@@ -167,8 +165,8 @@ const Header = ({ setClick, exhibitionList }: headerProps) => {
           <img src={searchIcon} alt="搜尋樣式" />
         </div>
       </div>
-      <Link to={`/nearby`}>附近展覽</Link>
       <Link to={`/detail`}>所有展覽</Link>
+      <Link to={`/nearby`}>附近展覽</Link>
       {/* //todo 當登入狀態顯示鈴鐺按鈕 */}
       {/* <Dropdown icon={notifyIcon} /> */}
       {/* <Dropdown icon={fakeUserIcon}/> */}
