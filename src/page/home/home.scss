@@ -32,34 +32,37 @@
         }
     }
 }
-.exhibition{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-top: 40px;
-    // width: 100vw;
-    width: 300px;
-    width: 1800px;
-    
-    padding:0 40px;
-    overflow-x: scroll;
-
-    &-card{
-        display: flex;
-        gap:56px;
-    }
-}
-.result{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    width: 100%;
+.content{
+    max-width: 1440px;
     padding: 0 40px;
-
-    section{
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
+    .exhibition {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            margin-top: 40px;    
+            overflow-x: hidden;
+    
+            &-card {
+                display: flex;
+                gap: 56px;
+                overflow-x: scroll;
+            }
+        }
+    
+    .result {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+    
+            section {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 25px;
+            }
+        }
 }
+
 
