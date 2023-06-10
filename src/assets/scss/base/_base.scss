@@ -1,5 +1,14 @@
 body{
     min-height: auto;
 }
+p{
+    margin: 0;
+}
+h4{
+    margin: 0;
+}
 
-//TODO 新增通用屬性的移除, ex: p => margin
+a{
+    color:black;
+    text-decoration: none;
+}

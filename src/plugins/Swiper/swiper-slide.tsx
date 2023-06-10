@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 // customer css
 import "./Swipers.scss";
-import "../../assets/sass/animation.scss";
 
 // Import Swiper styles
 import "swiper/css";
