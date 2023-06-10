@@ -8,6 +8,8 @@ import axios from "axios";
 import "./detail-page.scss";
 import styled from "@emotion/styled";
 
+import EvaluateCard from "../component/evaluate/evaluate-card";
+
 const DetailTitle = styled.h3`
   border-left: 10px solid #986f4f;
   // border-radius: 10px 10px;
@@ -152,6 +154,7 @@ export default function DetailPage() {
           </section>
           <section className="info">
             <DetailTitle>展覽評價</DetailTitle>
+            <EvaluateCard />
           </section>
         </article>
       </DetailContainer>

@@ -165,8 +165,8 @@ const Header = ({ setClick, exhibitionList }: headerProps) => {
           <img src={searchIcon} alt="搜尋樣式" />
         </div>
       </div>
-      <Link to={`/nearby`}>附近展覽</Link>
       <Link to={`/detail`}>所有展覽</Link>
+      <Link to={`/nearby`}>附近展覽</Link>
       {/* //todo 當登入狀態顯示鈴鐺按鈕 */}
       {/* <Dropdown icon={notifyIcon} /> */}
       {/* <Dropdown icon={fakeUserIcon}/> */}

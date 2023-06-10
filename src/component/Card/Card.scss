@@ -14,7 +14,7 @@
 .card{
     display: flex;
     flex-direction: column;
-    width: 354px;
+    max-width: 323px;
     min-height: 301px;
     box-sizing: border-box;
 
@@ -36,9 +36,7 @@
         justify-content: center;
         align-items: baseline;
         text-align: center;
-
         min-height: 48px;
-
         margin: 15px 0;
         h4{
             height:20px;
@@ -47,7 +45,6 @@
             font-size: 18px;
             //TODO 新增共用預設屬性後移除
             margin: 0;
-            margin-right: 5px;
         }
         .tag{
             

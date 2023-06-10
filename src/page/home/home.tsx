@@ -134,7 +134,7 @@ const HomePage = () => {
         ))}
       </StyledMonthBox>
       <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
-      <main>
+      <main className="content">
         <section className="exhibition">
           <div>
             <h3>熱門展覽</h3>
