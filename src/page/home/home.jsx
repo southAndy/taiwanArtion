@@ -101,7 +101,7 @@ const HomePage = () => {
    return (
       <>
          <Modal isClick={isClick} setClick={setClick} />
-         {/* <Header setClick={setClick} exhibitionList={exhibitionList} />
+         <Header setClick={setClick} exhibitionList={exhibitionList} />
          <StyledMonthBox>
             {monthList.map((month, index) => (
                <StyledMonthText
@@ -112,9 +112,9 @@ const HomePage = () => {
                   {month.name}
                </StyledMonthText>
             ))}
-         </StyledMonthBox> */}
+         </StyledMonthBox>
          <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
-         {/* <main className='content'>
+         <main className='content'>
             <section className='exhibition'>
                <div>
                   <h3>熱門展覽</h3>
@@ -137,7 +137,7 @@ const HomePage = () => {
                   })}
                </section>
             </section>
-         </main> */}
+         </main>
       </>
    )
 }
