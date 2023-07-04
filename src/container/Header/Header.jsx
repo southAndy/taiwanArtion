@@ -79,10 +79,10 @@ const ResultDropdown = ({ userInput, exhibitionList }) => {
 
 const Header = ({ setClick, exhibitionList }) => {
    let [isShowModal, setShowMoal] = useState(false)
-   let [isShowCity, setCityDrop] = useState < boolean > false
-   let [keyword, setKeyword] = useState < string > ''
-   let [city, setCurrentCity] = useState < string > ''
-   let [exhibitionType, setExhibitionType] = useState < string > ''
+   let [isShowCity, setCityDrop] = useState(false)
+   let [keyword, setKeyword] = useState('')
+   let [city, setCurrentCity] = useState('')
+   let [exhibitionType, setExhibitionType] = useState('')
    let navigate = useNavigate()
    let museumType = ['博物館', '文創園區', '美術館']
    let cityList = ['台北', '新北', '台中', '台南', '高雄']
