@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import UserInfo from "../component/user-input";
+import UserInfo from "./user-input";
 import styled from "@emotion/styled";
 import {
   getAuth,
