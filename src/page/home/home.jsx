@@ -25,14 +25,14 @@ const StyledMonthText = styled.p`
    box-sizing: border-box;
    width: 100%;
    padding: 10px;
-   background-color: ${(props: { isActive: boolean }) => (props.isActive ? '#be875c' : '#986f4f;')};
+   background-color: ${(props) => (props.isActive ? '#be875c' : '#986f4f;')};
    color: #ffffff;
    &:hover {
       background: #be875c;
    }
 `
 const HomePage = () => {
-   const monthList: { name: string; value: number }[] = [
+   const monthList = [
       { name: '一月', value: 1 },
       { name: '二月', value: 2 },
       { name: '三月', value: 3 },
@@ -47,19 +47,8 @@ const HomePage = () => {
       { name: '十二月', value: 12 },
    ]
 
-   type exhibitionType = {
-      title: string
-      descriptionFilterHtml: string
-      UID: string
-      imageUrl: string
-      discountInfo: string
-      startDate: string
-      endDate: string
-      showUnit: string
-   }
-
    //global-state
-   let [exhibitionList, setList] = useState<exhibitionType[]>([])
+   let [exhibitionList, setList] = useState([])
    const [isLoading, setLoading] = useState(true)
    const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
    const [isShowModal, setModal] = useState(false)
@@ -79,7 +68,7 @@ const HomePage = () => {
          } catch (error) {
             console.log(error)
          } finally {
-            setLoading((state: boolean) => (state = false))
+            setLoading((state) => (state = false))
          }
       }
       fetchData()
@@ -101,7 +90,7 @@ const HomePage = () => {
          //? 篩選展覽日期
          const currentDate = `${new Date().getFullYear()}-${currentMonth}`
          const formatDate = dayjs(currentDate).format('YYYY-MM')
-         return exhibitionList.filter((data: exhibitionType) => {
+         return exhibitionList.filter((data) => {
             const beginMonth = dayjs(formatDate)
             if (beginMonth.isBefore(data.startDate, 'month')) {
                return data
@@ -112,7 +101,7 @@ const HomePage = () => {
    return (
       <>
          <Modal isClick={isClick} setClick={setClick} />
-         <Header setClick={setClick} exhibitionList={exhibitionList} />
+         {/* <Header setClick={setClick} exhibitionList={exhibitionList} />
          <StyledMonthBox>
             {monthList.map((month, index) => (
                <StyledMonthText
@@ -123,15 +112,15 @@ const HomePage = () => {
                   {month.name}
                </StyledMonthText>
             ))}
-         </StyledMonthBox>
+         </StyledMonthBox> */}
          <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
-         <main className='content'>
+         {/* <main className='content'>
             <section className='exhibition'>
                <div>
                   <h3>熱門展覽</h3>
                </div>
                <div className='exhibition-card'>
-                  {selectedExhibition.map((item, index: number) => {
+                  {selectedExhibition.map((item, index) => {
                      return (
                         <Link to={`/detail/${item.UID}`} key={index}>
                            <Card key={item.UID} data={item} isLoading={isLoading} />
@@ -148,7 +137,7 @@ const HomePage = () => {
                   })}
                </section>
             </section>
-         </main>
+         </main> */}
       </>
    )
 }

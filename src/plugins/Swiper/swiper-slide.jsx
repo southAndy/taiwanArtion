@@ -5,15 +5,8 @@ import { Link } from 'react-router-dom'
 
 // customer css
 import './Swipers.scss'
-
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
-
-type Props = {
-   isLoading: boolean
-   data: object
-}
 
 export default ({ isLoading, data }) => {
    return (
@@ -25,7 +18,7 @@ export default ({ isLoading, data }) => {
          navigation={!isLoading}
          loop={true}
       >
-         {data.map((list: { id: string; imageUrl: string }, index: number) => {
+         {data.map((list, index) => {
             return (
                <SwiperSlide key={index} className='slide'>
                   <Link
