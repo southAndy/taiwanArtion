@@ -34,9 +34,6 @@ const DetailBanner = styled.section`
 const DetailOption = styled.p`
    padding: 20px;
    cursor: pointer;
-   border-bottom: ${(props: { isActive: boolean }) =>
-      props.isActive ? '5px #986F4F solid' : 'none'};
-   color: ${(props: { isActive: boolean }) => (props.isActive ? '#986F4F' : 'black')};
 `
 
 const BannerImage = styled.img`
@@ -46,21 +43,10 @@ const BannerImage = styled.img`
    position: relative;
 `
 
-type exhibitionType = {
-   title: string
-   descriptionFilterHtml: string
-   UID: string
-   imageUrl: string
-   discountInfo: string
-   startDate: string
-   endDate: string
-   showUnit: string
-}
-
 export default function DetailPage() {
-   let [exhibition, setExhibition] = useState<exhibitionType[]>([])
+   let [exhibition, setExhibition] = useState([])
    const params = useParams()
-   const [currentOption, setCurrentOption] = useState<number>(0)
+   const [currentOption, setCurrentOption] = useState(0)
    //todo recall api to get page's data
    useEffect(() => {
       async function fetchData() {
