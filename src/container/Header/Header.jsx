@@ -5,13 +5,10 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 import Dropdown from '../../component/Dropdown'
+import Input from '../../component/Input'
 
 //images
-import searchIcon from '../../assets/images/search-icon.png'
-import dropdownIcon from '../../assets/images/Vector.png'
-import fakeUserIcon from '../../assets/images/Ellipse22.png'
-import notifyIcon from '../../assets/images/notify159.png'
-import Input from '../../component/Input'
+import { searchIcon, dropdownIcon, fakeUserIcon, notifyIcon } from '../../assets/images/index'
 
 import styled from '@emotion/styled'
 const StyledHeader = styled.header`
@@ -29,6 +26,7 @@ const StyledHeader = styled.header`
 `
 
 const ResultBox = styled.section`
+   display: ${(props) => (props.userInput ? 'block' : 'none')};
    position: absolute;
    top: 81%;
    left: 20%;
@@ -52,16 +50,13 @@ const StyledImage = styled.img`
    height: 100%;
 `
 
-function test() {
-   console.log('open calender')
-}
 const ResultDropdown = ({ userInput, exhibitionList }) => {
    return (
       <>
          <ResultBox userInput={userInput}>
             {exhibitionList?.map((matched, index) => {
                return (
-                  <Link to={`/detail/${matched.UID}`} className='result-drop'>
+                  <Link to={`/detail/${matched.UID}`} key={index} className='result-drop'>
                      <ResultImageBox>
                         <StyledImage src={matched.imageUrl} alt='' />
                      </ResultImageBox>
@@ -78,16 +73,19 @@ const ResultDropdown = ({ userInput, exhibitionList }) => {
 }
 
 const Header = ({ setClick, exhibitionList }) => {
-   let [isShowModal, setShowMoal] = useState(false)
-   let [isShowCity, setCityDrop] = useState(false)
-   let [keyword, setKeyword] = useState('')
-   let [city, setCurrentCity] = useState('')
-   let [exhibitionType, setExhibitionType] = useState('')
    let navigate = useNavigate()
-   let museumType = ['博物館', '文創園區', '美術館']
-   let cityList = ['台北', '新北', '台中', '台南', '高雄']
 
-   //? 進行展覽搜尋
+   // 搜尋欄位狀態
+   const [keyword, setKeyword] = useState('')
+   const [city, setCurrentCity] = useState('')
+   const [exhibitionType, setExhibitionType] = useState('')
+   const [startDate, setStartDate] = useState('')
+   const [endDate, setEndDate] = useState('')
+
+   const museumTypeList = ['博物館', '文創園區', '美術館']
+   const cityList = ['台北', '新北', '台中', '台南', '高雄']
+
+   // 進行展覽搜尋
    let matchedExhibitionList = useMemo(() => {
       let matchedResult
       matchedResult = exhibitionList?.filter((exhibition, index) => {
@@ -101,44 +99,33 @@ const Header = ({ setClick, exhibitionList }) => {
    }, [keyword])
 
    return (
-      <header className='header-container'>
-         <Link to={'/'} className='logo'>
-            <img src='/src/assets/images/logo-05 3.png' alt='網站logo' />
-         </Link>
-         <div className='filter filter-box'>
-            <Input keyword={keyword} setKeyword={setKeyword} />
-            <ResultDropdown userInput={keyword} exhibitionList={matchedExhibitionList} />
-            <Dropdown
-               dropName={'選擇城市'}
-               dropMenu={cityList}
-               keyword={city}
-               selectedOption={setCurrentCity}
-               isShowDrop={isShowCity}
-               updateDrop={setCityDrop}
-            />
-            <Dropdown
-               dropName={'選擇展區'}
-               dropMenu={museumType}
-               isShowDrop={isShowModal}
-               updateDrop={setShowMoal}
-               keyword={exhibitionType}
-               selectedOption={setExhibitionType}
-            />
-            <Dropdown dropName={'開始日期'} />
-            <Dropdown dropName={'結束日期'} />
-            <div onClick={() => navigate(`/result/${keyword}`)} className='filter-item_button'>
-               <img src={searchIcon} alt='搜尋樣式' />
+      <>
+         <header className='header-container'>
+            <Link to={'/'} className='logo'>
+               <img src='/src/assets/images/logo-05 3.png' alt='網站logo' />
+            </Link>
+            <div className='filter filter-box'>
+               <Input keyword={keyword} setKeyword={setKeyword} />
+               <ResultDropdown userInput={keyword} exhibitionList={matchedExhibitionList} />
+               <Dropdown title={city} menu={cityList} setOption={setCurrentCity} />
+               <Dropdown
+                  title={exhibitionType}
+                  menu={museumTypeList}
+                  setOption={setExhibitionType}
+               />
+               <Dropdown title={startDate} setOption={setStartDate} menu={['開始日期']} />
+               <Dropdown title={endDate} setOption={setEndDate} menu={['結束日期']} />
+               <div onClick={() => navigate(`/result/${keyword}`)} className='filter-item_button'>
+                  <img src={searchIcon} alt='搜尋樣式' />
+               </div>
             </div>
-         </div>
-         <Link to={`/detail`}>所有展覽</Link>
-         <Link to={`/nearby`}>附近展覽</Link>
-         {/* //todo 當登入狀態顯示鈴鐺按鈕 */}
-         {/* <Dropdown icon={notifyIcon} /> */}
-         {/* <Dropdown icon={fakeUserIcon}/> */}
-         <div className='login' onClick={() => setClick((val) => (val = !val))}>
-            註冊 / 登入
-         </div>
-      </header>
+            <Link to={`/detail`}>所有展覽</Link>
+            <Link to={`/nearby`}>附近展覽</Link>
+            <div className='login' onClick={() => setClick((val) => (val = !val))}>
+               註冊 / 登入
+            </div>
+         </header>
+      </>
    )
 }
 
