@@ -36,10 +36,12 @@ const HomePage = () => {
    const monthList = fakeMonthList
 
    const [exhibitionList, setList] = useState([])
+   const [ownAPI, setOwnAPI] = useState([])
    const [isLoading, setLoading] = useState(true)
    const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
    const [isShowModal, setModal] = useState(false)
    const [isClick, setClick] = useState(false)
+   const [isShow, setShow] = useState(false)
 
    // 初次載入去抓資料
    useEffect(() => {
@@ -48,6 +50,11 @@ const HomePage = () => {
             let response = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
+            // let ownAPI = await axios.get(
+            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com',
+            // )
+            // console.log(ownAPI.data)
+            // setOwnAPI(() => ownAPI.data)
             // 近一步處理資料，過濾沒有圖片的展覽
             const hasImageData = response.data.filter((data) => data.imageUrl !== '')
             setList(() => hasImageData)
@@ -79,6 +86,7 @@ const HomePage = () => {
    }, [exhibitionList, currentMonth])
    return (
       <>
+         {ownAPI}
          <Modal isClick={isClick} setClick={setClick} />
          <Header setClick={setClick} exhibitionList={exhibitionList} />
          <StyledMonthBox>
