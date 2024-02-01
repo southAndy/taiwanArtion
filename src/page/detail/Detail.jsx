@@ -55,6 +55,7 @@ export default function DetailPage() {
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
             //todo 改從全域資料庫取
+            console.log(response.data)
             setExhibition(() => response.data)
             //? 引入地圖
          } catch (error) {
