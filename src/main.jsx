@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomePage from './page/home/home'
-import ErrorPage from './page/error'
-import DeatilPage from './page/deatil-page'
-import ResultPage from './page/result-page'
-import MapPage from './page/map-page'
+import HomePage from './pages/home/Home'
+import ErrorPage from './pages/Error'
+import DeatilPage from './pages/Detail'
+import ResultPage from './pages/Result'
+import MapPage from './pages/Map'
 import './assets/scss/main.scss'
 
 const router = createBrowserRouter([
