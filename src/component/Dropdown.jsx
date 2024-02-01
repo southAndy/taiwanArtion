@@ -16,6 +16,9 @@ const DropdownContainer = styled.div`
 `
 const DropdownTitle = styled.p`
    color: #b0b0b0;
+   &:hover {
+      color: #be875c;
+   }
 `
 
 const DropMenuList = styled.div`
