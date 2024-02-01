@@ -12,10 +12,6 @@ export default function ResultPage() {
             let response = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
-            // setList(() => (exhibitionList = response.data));
-            //從 firestore 取出資料，並存入 state 中, firestore 資料架構：data.docs[0]._document.data.value.mapValue.fields => 單筆資料
-            // let data = await getDocs(collection(db,'exhibitions'));
-            // setList(() => exhibitionList = data.docs)
             console.log(response.data)
             setTemp((temp = response.data))
          } catch (error) {
