@@ -55,7 +55,7 @@ export default function DetailPage() {
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
             //todo 改從全域資料庫取
-            setExhibition(() => (exhibition = response.data))
+            setExhibition(() => response.data)
             //? 引入地圖
          } catch (error) {
             console.log(error)
@@ -65,12 +65,8 @@ export default function DetailPage() {
    }, [])
 
    const currentData = useMemo(() => {
-      console.log(exhibition)
-
-      return exhibition.filter((item) => item.UID === params.dataID)
+      return exhibition.filter((item) => item.UID === params.dataID && item.imageUrl !== '')
    }, [exhibition])
-   // let getCurrentOption = useMemo(()=>,[currentOption])
-
    return (
       <>
          <DetailContainer>
