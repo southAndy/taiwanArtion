@@ -7,6 +7,7 @@ import DeatilPage from './pages/Detail/Detail'
 import ResultPage from './pages/Result/Result'
 import MapPage from './pages/Map/Map'
 import './assets/scss/main.scss'
+import Header from './container/Header/Header'
 
 const router = createBrowserRouter([
    {
@@ -19,7 +20,7 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
    },
    {
-      path: '/detail/:dataID',
+      path: '/detail/:id',
       element: <DeatilPage />,
       errorElement: <ErrorPage />,
    },
@@ -32,6 +33,9 @@ const router = createBrowserRouter([
 const rootElement = document.getElementById('root')
 if (rootElement) {
    ReactDOM.createRoot(rootElement).render(
-      <React.StrictMode>{<RouterProvider router={router} />}</React.StrictMode>,
+      <RouterProvider router={router}>
+         <Header />
+         {router}
+      </RouterProvider>,
    )
 }

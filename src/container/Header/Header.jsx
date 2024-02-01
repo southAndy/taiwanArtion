@@ -119,8 +119,8 @@ const Header = ({ setClick, exhibitionList }) => {
                   <img src={searchIcon} alt='搜尋樣式' />
                </div>
             </div>
-            <Link to={`/detail`}>所有展覽</Link>
-            <Link to={`/nearby`}>附近展覽</Link>
+            <Link>所有展覽</Link>
+            <Link to={'/map'}>附近展覽</Link>
             <div className='login' onClick={() => setClick((val) => (val = !val))}>
                註冊 / 登入
             </div>
