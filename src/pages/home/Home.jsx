@@ -1,17 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
-import React from 'react'
+import { Link } from 'react-router-dom'
 
 //third-part
 import axios from 'axios'
 import dayjs from 'dayjs'
 import SwiperSlide from '../../plugins/Swiper/swiper-slide'
 import styled from '@emotion/styled'
-//component
 
+//component
 import Header from '../../container/Header/Header'
 import Card from '../../component/Card/Card'
 import Modal from '../../component/modal/Modal'
-import { Link } from 'react-router-dom'
 
 //assets
 import './home.scss'
@@ -42,24 +41,25 @@ const HomePage = () => {
    const [isShowModal, setModal] = useState(false)
    const [isClick, setClick] = useState(false)
 
+   // 初次載入去抓資料
    useEffect(() => {
       async function fetchData() {
          try {
-            const response = await axios.get(
+            let response = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
-            setList(() => (exhibitionList = response.data))
+            // 近一步處理資料，過濾沒有圖片的展覽
+            const hasImageData = response.data.filter((data) => data.imageUrl !== '')
+            setList(() => hasImageData)
          } catch (error) {
             console.log(error)
          } finally {
-            setLoading((state) => (state = false))
+            //終止載入效果
+            setLoading(() => false)
          }
       }
       fetchData()
    }, [])
-
-   useEffect(() => {}, [currentMonth, isLoading])
-
    //? 展覽資料處理
    const selectedExhibition = useMemo(() => {
       if (exhibitionList.length === 0) {
