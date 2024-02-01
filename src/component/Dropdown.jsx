@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styled from '@emotion/styled'
 
 const DropdownContainer = styled.div`
@@ -18,6 +19,7 @@ const DropdownTitle = styled.p`
 `
 
 const DropMenuList = styled.div`
+   display: ${(props) => (props.show ? 'block' : 'none')};
    width: 128px;
    max-height: 232px;
    position: absolute;
@@ -36,26 +38,21 @@ const DropMenu = styled.div`
    }
 `
 
-const Dropdown = ({ dropMenu, dropName, isShowDrop, updateDrop, selectedOption, keyword }) => {
+const Dropdown = ({ menu, title, setOption }) => {
+   const [isShowDrop, setIsShowDrop] = useState(false)
+   const selectOption = (e) => {
+      setOption((n) => e.target.innerText)
+      setIsShowDrop((n) => !n)
+   }
    return (
       <>
          <DropdownContainer>
-            <DropdownTitle onClick={() => updateDrop(!isShowDrop)}>
-               {keyword ? keyword : dropName}
+            <DropdownTitle onClick={() => setIsShowDrop((n) => !n)}>
+               {title ? title : menu[0]}
             </DropdownTitle>
-            <DropMenuList showList={isShowDrop}>
-               {dropMenu?.map((menu, index) => (
-                  <DropMenu
-                     onClick={() =>
-                        selectedOption((payload) => {
-                           payload = menu
-                           //開關下拉
-                           updateDrop(false)
-                           return payload
-                        })
-                     }
-                     key={index}
-                  >
+            <DropMenuList show={isShowDrop}>
+               {menu.map((menu, index) => (
+                  <DropMenu key={index} onClick={selectOption}>
                      {menu}
                   </DropMenu>
                ))}
