@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import HomePage from './page/Home/Home'
+import HomePage from './page/home/home'
 import ErrorPage from './page/Errors/Error'
-import DeatilPage from './page/Detais/Detail'
+import DetailPage from './page/Detail/Detail'
 import ResultPage from './page/Result/Result'
 import MapPage from './page/Map/Map'
 import './assets/scss/main.scss'
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
    },
    {
       path: '/detail/:id',
-      element: <DeatilPage />,
+      element: <DetailPage />,
       errorElement: <ErrorPage />,
    },
    {

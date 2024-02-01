@@ -49,11 +49,11 @@ const HomePage = () => {
             let response = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
-            let ownAPI = await axios.get(
-               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com',
-            )
-            console.log(ownAPI.data)
-            setOwnAPI(() => ownAPI.data)
+            // let ownAPI = await axios.get(
+            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com',
+            // )
+            // console.log(ownAPI.data)
+            // setOwnAPI(() => ownAPI.data)
             // 近一步處理資料，過濾沒有圖片的展覽
             const hasImageData = response.data.filter((data) => data.imageUrl !== '')
             setList(() => hasImageData)
