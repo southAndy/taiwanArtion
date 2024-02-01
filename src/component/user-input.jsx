@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from '@emotion/styled'
 // import { Formik, Field, Form, useFormik, FormikProps } from 'formik'
-import * as yup from 'yup'
+// import * as yup from 'yup'
 
 const StyledInput = styled.input`
    padding: 10px 24px;
