@@ -41,6 +41,7 @@ const HomePage = () => {
    const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
    const [isShowModal, setModal] = useState(false)
    const [isClick, setClick] = useState(false)
+   const [isShow, setShow] = useState(false)
 
    // 初次載入去抓資料
    useEffect(() => {
