@@ -1,14 +1,14 @@
 [
-   { "name": "一月", "value": 1 },
-   { "name": "二月", "value": 2 },
-   { "name": "三月", "value": 3 },
-   { "name": "四月", "value": 4 },
-   { "name": "五月", "value": 5 },
-   { "name": "六月", "value": 6 },
-   { "name": "七月", "value": 7 },
-   { "name": "八月", "value": 8 },
-   { "name": "九月", "value": 9 },
-   { "name": "十月", "value": 10 },
-   { "name": "十一月", "value": 11 },
-   { "name": "十二月", "value": 12 }
+   { "name": "一月", "number": 1, "en": "Jan" },
+   { "name": "二月", "number": 2, "en": "Feb" },
+   { "name": "三月", "number": 3, "en": "Mar" },
+   { "name": "四月", "number": 4, "en": "Apr" },
+   { "name": "五月", "number": 5, "en": "May" },
+   { "name": "六月", "number": 6, "en": "Jun" },
+   { "name": "七月", "number": 7, "en": "Jul" },
+   { "name": "八月", "number": 8, "en": "Aug" },
+   { "name": "九月", "number": 9, "en": "Sep" },
+   { "name": "十月", "number": 10, "en": "Oct" },
+   { "name": "十一月", "number": 11, "en": "Nov" },
+   { "name": "十二月", "number": 12, "en": "Dec" }
 ]
