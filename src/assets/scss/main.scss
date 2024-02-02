@@ -1,3 +1,20 @@
-@use "./animation/animation";
-@use "./base/base";
-@use "./base//color";
+@use './animation/animation';
+@use './base/base';
+@use './base//color';
+
+// todo 修復 sass 功能
+* {
+   box-sizing: border-box;
+}
+p {
+   margin: 0;
+}
+h4 {
+   margin: 0;
+}
+
+a {
+   color: black;
+   text-decoration: none;
+   cursor: pointer;
+}
