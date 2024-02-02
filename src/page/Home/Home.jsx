@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 //third-part
 import axios from 'axios'
 import dayjs from 'dayjs'
-import SwiperSlide from '../../plugins/Swiper/swiper-slide'
+import SwiperSlide from '../../plugins/Swiper/SwiperSlide'
 import styled from '@emotion/styled'
 
 //component

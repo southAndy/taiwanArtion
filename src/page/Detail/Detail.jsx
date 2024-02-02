@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 
-import { MapContainer, TileLayer, useMap } from 'react-leaflet'
-import { Marker, Popup } from 'react-leaflet'
+// import { MapContainer, TileLayer, useMap } from 'react-leaflet'
+// import { Marker, Popup } from 'react-leaflet'
 import axios from 'axios'
 
 import './detail-page.scss'
@@ -108,7 +108,7 @@ export default function DetailPage() {
                   <div>
                      {currentData[0]?.showInfo[0]?.latitude ? (
                         <div id={currentData[0]?.UID} className='map'>
-                           <MapContainer
+                           {/* <MapContainer
                               center={[
                                  currentData[0]?.showInfo[0]?.latitude,
                                  currentData[0]?.showInfo[0]?.longitude,
@@ -125,7 +125,7 @@ export default function DetailPage() {
                                     A pretty CSS3 popup. <br /> Easily customizable.
                                  </Popup>
                               </Marker>
-                           </MapContainer>
+                           </MapContainer> */}
                         </div>
                      ) : (
                         <div></div>
