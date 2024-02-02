@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 //third-part
 import axios from 'axios'
@@ -9,21 +9,27 @@ import styled from '@emotion/styled'
 
 //component
 import Header from '../../container/Header/Header'
-import Card from '../../component/Card/Card'
-import Modal from '../../component/modal/Modal'
+// import Card from '../../component/Card/Card'
+// import Modal from '../../component/modal/Modal'
 
 //assets
 import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
+
 const StyledMonthBox = styled.div`
    display: flex;
    align-items: center;
    text-align: center;
    gap: 1px;
+   overflow: scroll;
+   padding: 0 20px;
 `
 const StyledMonthText = styled.p`
+   display: flex;
+   flex-direction: column;
    cursor: pointer;
    box-sizing: border-box;
+   white-space: nowrap;
    width: 100%;
    padding: 10px;
    background-color: ${(props) => (props.isActive ? '#be875c' : '#986f4f;')};
@@ -86,10 +92,27 @@ const HomePage = () => {
    }, [exhibitionList, currentMonth])
    return (
       <>
-         {ownAPI}
-         <Modal isClick={isClick} setClick={setClick} />
-         <Header setClick={setClick} exhibitionList={exhibitionList} />
-         <StyledMonthBox>
+         {/* <Modal isClick={isClick} setClick={setClick} /> */}
+         <Header />
+         <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
+         <section className='month'>
+            <h3>{2023}年</h3>
+            <StyledMonthBox>
+               {monthList.map((month, index) => {
+                  return (
+                     <StyledMonthText
+                        onClick={() => setMonth(month.value)}
+                        isActive={currentMonth === month.value}
+                        key={index}
+                     >
+                        <p>{month.number}月</p>
+                        <p>{month.en}</p>
+                     </StyledMonthText>
+                  )
+               })}
+            </StyledMonthBox>
+         </section>
+         {/* <StyledMonthBox>
             {monthList.map((month, index) => (
                <StyledMonthText
                   onClick={() => setMonth(month.value)}
@@ -99,9 +122,8 @@ const HomePage = () => {
                   {month.name}
                </StyledMonthText>
             ))}
-         </StyledMonthBox>
-         <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
-         <main className='content'>
+         </StyledMonthBox> */}
+         {/* <main className='content'>
             <section className='exhibition'>
                <div>
                   <h3>熱門展覽</h3>
@@ -124,7 +146,7 @@ const HomePage = () => {
                   })}
                </section>
             </section>
-         </main>
+         </main> */}
       </>
    )
 }
