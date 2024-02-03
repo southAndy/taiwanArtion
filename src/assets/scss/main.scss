@@ -2,6 +2,12 @@
 @use './base/base';
 @use './base//color';
 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* 你的自定義樣式可以放在這裡 */
+
 // todo 修復 sass 功能
 * {
    box-sizing: border-box;
