@@ -10,6 +10,7 @@ import 'swiper/css/effect-cards'
 import { EffectCards } from 'swiper/modules'
 
 import { sampleExhibition } from '../../assets/images'
+import { Link } from 'react-router-dom'
 
 export default function App() {
    return (
@@ -21,13 +22,13 @@ export default function App() {
             className='flex h-[300px] w-[250px] p-5'
          >
             <SwiperSlide className='flex items-center justify-center text-lg bg-red-50'>
-               <div className='flex flex-col items-center'>
+               <Link to={'/detail/sample'} className='flex flex-col items-center'>
                   <div className='w-[270px] h-[170px]'>
                      <img src={sampleExhibition} alt='' />
                   </div>
                   <h3>未來身體——超自然雕像</h3>
                   <p>2021.10.1-2022.1.2</p>
-               </div>
+               </Link>
             </SwiperSlide>
             <SwiperSlide className='flex items-center justify-center text-lg bg-green-50'>
                Slide 2

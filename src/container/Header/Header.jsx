@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { logoIcon, searchIcon } from '../../assets/images/index'
+import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
 import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
@@ -19,6 +19,8 @@ const HeaderContainer = styled.header`
 const HeaderCategory = styled.div`
    display: flex;
    justify-content: space-between;
+   gap: 20px;
+   cursor: pointer;
 `
 
 const Header = () => {
@@ -26,14 +28,16 @@ const Header = () => {
 
    return (
       <HeaderContainer>
-         <Link to='/'>
-            <img src={logoIcon} alt='' />
+         <Link className='h-[40px] w-[120px]' to='/'>
+            <img src={logoIcon} alt='網站圖樣' />
          </Link>
          <HeaderCategory>
-            <div onClick={() => setIsShowModal((n) => !n)}>
-               <img src={searchIcon} alt='' />
+            <div className='w-[18px] h-[18px]' onClick={() => setIsShowModal((n) => !n)}>
+               <img src={headerSearch} alt='搜尋圖樣' />
             </div>
-            <div>{/* <img src={} alt="" /> */}</div>
+            <div>
+               <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
+            </div>
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />

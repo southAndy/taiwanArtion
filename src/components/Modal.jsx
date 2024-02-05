@@ -4,7 +4,7 @@ import { useEffect } from 'react'
 const StyledModalBackground = styled.div`
    display: ${({ showModal }) => (showModal ? 'block' : 'none')};
    position: absolute;
-   top: 10%;
+   top: 9%;
    left: 0;
    background-color: rgba(0, 0, 0, 0.2);
    width: 100vw;
@@ -15,7 +15,7 @@ const StyledModalContent = styled.div`
    background: ${({ bgColor }) => bgColor || '#fff'};
    height: ${({ height }) => height || '295px'};
    width: ${({ width }) => width || '100%'};
-   border-radius: ${({ borderRadius }) => borderRadius || '0'};
+   border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
    padding: 24px;
    position: absolute;
    top: ${({ top }) => top || '0%'};
