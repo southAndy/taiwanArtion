@@ -16,6 +16,7 @@ const StyledModalContent = styled.div`
    height: ${({ height }) => height || '295px'};
    width: ${({ width }) => width || '100%'};
    border-radius: ${({ borderRadius }) => borderRadius || '0'};
+   padding: 24px;
    position: absolute;
    top: ${({ top }) => top || '0%'};
    bottom: ${({ bottom }) => bottom || '0%'};

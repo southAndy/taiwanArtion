@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { logoIcon, searchIcon } from '../../assets/images/index'
 import styled from '@emotion/styled'
-import Modal from '../../component/Modal'
+import Modal from '../../components/Modal'
 
 const HeaderContainer = styled.header`
    display: flex;
