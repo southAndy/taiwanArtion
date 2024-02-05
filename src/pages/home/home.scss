@@ -1,0 +1,69 @@
+// .months {
+//    display: flex;
+//    justify-content: space-around;
+//    align-items: center;
+//    text-align: center;
+//    gap: 1px;
+//    &-item {
+//       cursor: pointer;
+//       box-sizing: border-box;
+//       width: 110px;
+//       padding: 10px;
+//       background-color: #986f4f;
+//       color: #ffffff;
+//    }
+// }
+// .category {
+//    display: flex;
+//    justify-content: center;
+//    margin: 40px 0;
+//    padding: 0 40px;
+//    text-align: center;
+
+//    &-item {
+//       height: 78px;
+//       width: 56px;
+//       margin: 0 auto;
+//       margin-right: 60px;
+
+//       p {
+//          margin: 0;
+//          white-space: nowrap;
+//       }
+//    }
+// }
+// .content {
+//    max-width: 1440px;
+//    margin: 0 auto;
+//    padding: 0 40px;
+//    .exhibition {
+//       display: flex;
+//       flex-direction: column;
+//       justify-content: center;
+//       width: 100%;
+//       margin: 40px auto;
+//       overflow: scroll;
+//       &::-webkit-scrollbar {
+//          display: none;
+//       }
+
+//       &-card {
+//          display: flex;
+//          gap: 56px;
+//       }
+//    }
+
+//    .result {
+//       display: flex;
+//       justify-content: center;
+//       flex-direction: column;
+//       width: 100%;
+
+//       section {
+//          display: flex;
+//          justify-content: center;
+//          flex-wrap: wrap;
+//          gap: 25px;
+//       }
+//    }
+// }
