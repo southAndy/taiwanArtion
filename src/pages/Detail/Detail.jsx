@@ -8,7 +8,7 @@ import axios from 'axios'
 import './detail-page.scss'
 import styled from '@emotion/styled'
 
-import EvaluateCard from '../../component/evaluate/evaluate-card'
+import EvaluateCard from '../../components/evaluate/evaluate-card'
 
 const DetailTitle = styled.h3`
    border-left: 10px solid #986f4f;
