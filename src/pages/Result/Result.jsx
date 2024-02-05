@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import axios from 'axios'
-
-import Card from '../../component/Card/Card'
+import Card from '../../components/Card/Card'
 
 export default function ResultPage() {
    let [temp, setTemp] = useState([])
