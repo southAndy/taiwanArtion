@@ -9,11 +9,18 @@ const DefaultMenu = () => {
 const ExhibitionMenu = () => {
    return <div>ExhibitionMenu</div>
 }
+const DateMenu = () => {
+   return <div>DateMenu</div>
+}
 
-export default function Default() {
+const PriceMenu = () => {
+   return <div>PriceMenu</div>
+}
+
+export default function Menu() {
    const menuNameList = ['縣市', '展覽館', '日期', '票價']
    const [currentMenu, setMenuList] = useState()
-   const menuList = [<City />, <ExhibitionMenu />]
+   const menuList = [<City />, <ExhibitionMenu />, <DateMenu />, <PriceMenu />]
    function renderMenu() {
       switch (currentMenu) {
          case 0:
@@ -21,9 +28,9 @@ export default function Default() {
          case 1:
             return menuList[1]
          case 2:
-            return <div>日期</div>
+            return menuList[2]
          case 3:
-            return <div>票價</div>
+            return menuList[3]
          default:
             return <DefaultMenu />
       }
