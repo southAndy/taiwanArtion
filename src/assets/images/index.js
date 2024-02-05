@@ -1,4 +1,6 @@
 import searchIcon from '../../assets/images/search-icon.png'
+import headerSearch from '../../assets/images/header-search.png'
+import headerMenu from '../../assets/images/menu-mobile.png'
 import dropdownIcon from '../../assets/images/Vector.png'
 import fakeUserIcon from '../../assets/images/Ellipse22.png'
 import notifyIcon from '../../assets/images/notify159.png'
@@ -17,6 +19,7 @@ import hotBg from '../../assets/images/hot-bg.png'
 import locationIcon from '../../assets/images/locationicon.png'
 import loveIcon from '../../assets/images/loveicon.png'
 import sampleBg from '../../assets/images/sample.png'
+import sampleExhibition from '../../assets/images/sample-exhibition.png'
 
 export {
    searchIcon,
@@ -38,4 +41,7 @@ export {
    locationIcon,
    loveIcon,
    sampleBg,
+   headerSearch,
+   headerMenu,
+   sampleExhibition,
 }
