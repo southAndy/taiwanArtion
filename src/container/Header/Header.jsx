@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { logoIcon, searchIcon } from '../../assets/images/index'
 import styled from '@emotion/styled'
+import Modal from '../../component/Modal'
 
 const HeaderContainer = styled.header`
    display: flex;
@@ -20,17 +21,21 @@ const HeaderCategory = styled.div`
 `
 
 const Header = () => {
+   const [isShowModal, setIsShowModal] = useState(false)
    return (
       <HeaderContainer>
          <Link to='/'>
             <img src={logoIcon} alt='' />
          </Link>
          <HeaderCategory>
-            <div>
+            <div onClick={() => setIsShowModal((n) => !n)}>
                <img src={searchIcon} alt='' />
             </div>
             <div>{/* <img src={} alt="" /> */}</div>
          </HeaderCategory>
+         <Modal isShow={isShowModal} setShow={setIsShowModal}>
+            <input type='text' />
+         </Modal>
       </HeaderContainer>
    )
 }
