@@ -1,14 +1,12 @@
 import { useState } from 'react'
 import Input from '../../components/Input/Input'
 import { CityMenu } from './CityMenu'
+import { ExhibitionMenu } from './ExhibitionMenu'
 
 const DefaultMenu = () => {
    return <div>DefaultMenu</div>
 }
 
-const ExhibitionMenu = () => {
-   return <div>ExhibitionMenu</div>
-}
 const DateMenu = () => {
    return <div>DateMenu</div>
 }
