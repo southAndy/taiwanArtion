@@ -13,11 +13,13 @@ const StyledModalBackground = styled.div`
 `
 const StyledModalContent = styled.div`
    background: ${({ bgColor }) => bgColor || '#fff'};
-   height: ${({ height }) => height || '295px'};
+   height: ${({ height }) => height || 'auto'};
+   max-height: ${({ maxHeight }) => maxHeight || '85%'};
    width: ${({ width }) => width || '100%'};
+   position: absolute;
+   overflow: scroll;
    border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
    padding: 24px;
-   position: absolute;
    top: ${({ top }) => top || '0%'};
    bottom: ${({ bottom }) => bottom || '0%'};
    left: ${({ left }) => left || '0%'};
