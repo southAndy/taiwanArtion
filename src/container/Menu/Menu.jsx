@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Input from '../../components/Input/Input'
 import { CityMenu } from './CityMenu'
 import { ExhibitionMenu } from './ExhibitionMenu'
+import { PayMenu } from './PayMenu'
 
 const DefaultMenu = () => {
    return <div>DefaultMenu</div>
@@ -11,14 +12,10 @@ const DateMenu = () => {
    return <div>DateMenu</div>
 }
 
-const PriceMenu = () => {
-   return <div>PriceMenu</div>
-}
-
 export default function Menu() {
    const menuNameList = ['縣市', '展覽館', '日期', '票價']
    const [currentMenu, setMenuList] = useState()
-   const menuList = [<CityMenu />, <ExhibitionMenu />, <DateMenu />, <PriceMenu />]
+   const menuList = [<CityMenu />, <ExhibitionMenu />, <DateMenu />, <PayMenu />]
    function renderMenu() {
       switch (currentMenu) {
          case 0:
