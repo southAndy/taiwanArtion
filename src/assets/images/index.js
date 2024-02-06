@@ -21,6 +21,11 @@ import loveIcon from '../../assets/images/loveicon.png'
 import sampleBg from '../../assets/images/sample.png'
 import sampleExhibition from '../../assets/images/sample-exhibition.png'
 import locateIcon from '../../assets/images/locate.png'
+import lineIcon from '../../assets/images/lineicon.png'
+import facebookIcon from '../../assets/images/facebookicon.png'
+import googleIcon from '../../assets/images/googleicon.png'
+import loginBanner from '../../assets/images/login-banner.png'
+import loginBannerMobile from '../../assets/images/banner-mobile.png'
 
 export {
    searchIcon,
@@ -46,4 +51,9 @@ export {
    headerMenu,
    sampleExhibition,
    locateIcon,
+   googleIcon,
+   facebookIcon,
+   lineIcon,
+   loginBanner,
+   loginBannerMobile,
 }

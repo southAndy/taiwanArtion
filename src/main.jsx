@@ -5,6 +5,7 @@ import HomePage from './pages/home/home'
 import ErrorPage from './pages/Errors/Error'
 import DetailPage from './pages/Detail/Detail'
 import ResultPage from './pages/Result/Result'
+import LoginPage from './container/Login'
 // import MapPage from './page/Map/Map'
 import './assets/scss/main.scss'
 import Header from './container/Header/Header'
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
    {
       path: '/result/:keyword',
       element: <ResultPage />,
+      errorElement: <ErrorPage />,
+   },
+   {
+      path: '/login',
+      element: <LoginPage />,
       errorElement: <ErrorPage />,
    },
 ])
