@@ -20,6 +20,7 @@ import locationIcon from '../../assets/images/locationicon.png'
 import loveIcon from '../../assets/images/loveicon.png'
 import sampleBg from '../../assets/images/sample.png'
 import sampleExhibition from '../../assets/images/sample-exhibition.png'
+import locateIcon from '../../assets/images/locate.png'
 
 export {
    searchIcon,
@@ -44,4 +45,5 @@ export {
    headerSearch,
    headerMenu,
    sampleExhibition,
+   locateIcon,
 }
