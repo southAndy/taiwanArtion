@@ -26,6 +26,7 @@ import facebookIcon from '../../assets/images/facebookicon.png'
 import googleIcon from '../../assets/images/googleicon.png'
 import loginBanner from '../../assets/images/login-banner.png'
 import loginBannerMobile from '../../assets/images/banner-mobile.png'
+import vectorIcon from '../images/Vector.png'
 
 export {
    searchIcon,
@@ -56,4 +57,5 @@ export {
    lineIcon,
    loginBanner,
    loginBannerMobile,
+   vectorIcon,
 }
