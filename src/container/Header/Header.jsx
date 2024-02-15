@@ -47,7 +47,7 @@ const Header = () => {
             <div className='flex flex-col items-center gap-6'>
                <Link>附近展覽</Link>
                <Link>所有展覽</Link>
-               <Link to={'/login'}>註冊/登入</Link>
+               <Link to={'/account'}>註冊/登入</Link>
             </div>
          </Modal>
       </HeaderContainer>
