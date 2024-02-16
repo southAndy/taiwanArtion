@@ -38,8 +38,14 @@ const firstStep = () => {
                shape={'12px'}
                placeholder={'請輸入手機號碼'}
                setValue={setUserPhone}
+               className='flex-initial w-[70px]'
             />
-            <Button content={content} isClick={isSent} setClick={setSent} />
+            <Button
+               content={content}
+               isClick={isSent}
+               setClick={setSent}
+               className='flex-initial w-[30px]'
+            />
          </section>
       </>
    )

@@ -27,6 +27,8 @@ import googleIcon from '../../assets/images/googleicon.png'
 import loginBanner from '../../assets/images/login-banner.png'
 import loginBannerMobile from '../../assets/images/banner-mobile.png'
 import vectorIcon from '../images/Vector.png'
+import registerInfoIcon from '../images/register-icon.png'
+import uncheckIcon from '../images/uncheck-icon.png'
 
 export {
    searchIcon,
@@ -58,4 +60,6 @@ export {
    loginBanner,
    loginBannerMobile,
    vectorIcon,
+   registerInfoIcon,
+   uncheckIcon,
 }
