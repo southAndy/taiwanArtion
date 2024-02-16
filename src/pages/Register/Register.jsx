@@ -7,6 +7,8 @@ import Header from '../../container/Header/Header'
 import FirstStep from '../../container/Register/FirstStep'
 import Button from '../../components/Button'
 import SecondStep from '../../container/Register/SecondStep'
+import ThirdStep from '../../container/Register/thirdStep'
+import FinishStep from '../../container/Register/FinishStep'
 
 //todo 共用樣式
 const StyledLoginBanner = styled.section`
@@ -35,6 +37,8 @@ const StepButton = styled.button`
    padding: 8px 24px;
    border-radius: 12px;
    border: none;
+   width: 100%;
+   margin-top: 24px;
    &:hover {
       background-color: #be875c;
       color: #ffffff;
@@ -42,9 +46,8 @@ const StepButton = styled.button`
 `
 
 const Register = () => {
-   const [step, setStep] = useState(1)
-   const totalSteps = 4
-   const steps = [FirstStep, SecondStep]
+   const [step, setStep] = useState(0)
+   const steps = [FirstStep, SecondStep, ThirdStep, FinishStep]
    function renderSteps() {
       return (
          <>
@@ -63,9 +66,11 @@ const Register = () => {
    const renderContent = () => {
       switch (step) {
          case 1:
-            return <FirstStep />
-         case 2:
             return <SecondStep />
+         case 2:
+            return <ThirdStep />
+         case 3:
+            return <FinishStep />
          default:
             return <FirstStep />
       }
