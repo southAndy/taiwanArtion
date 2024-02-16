@@ -3,7 +3,7 @@ import Header from './Header/Header'
 import styled from 'styled-components'
 import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets/images/index'
 import Input from '../components/Input/Input'
-import { Button } from '../components/Button'
+import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 
 const StyledLoginBanner = styled.section`
