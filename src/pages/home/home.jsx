@@ -102,6 +102,13 @@ const StyledExhibitionType = styled.div`
    }
 `
 
+const StyledFooter = styled.footer`
+   background: #7b4d29;
+   color: #fff;
+   white-space: nowrap;
+   padding: 20px 72px;
+`
+
 const ExhibitionCard = ({ data }) => {
    return (
       <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
@@ -237,6 +244,7 @@ const HomePage = () => {
             </TypeWrapper>
             <AllExhibitionCard />
          </StyledAllExhibitionWrapper>
+         <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>
    )
 }
