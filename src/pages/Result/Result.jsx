@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../../container/Header/Header'
+import Modal from '../../components/Modal'
 import styled from 'styled-components'
 import {
    hotBg,
@@ -35,12 +36,21 @@ const StyledExhibitionLink = styled(Link)`
    border-radius: 10px;
    margin-bottom: 24px;
 `
+const StyledFilterText = styled.p`
+   font-size: 16px;
+   &:hover {
+      color: #ffb800;
+   }
+`
 
 export default function ResultPage() {
    const [total, setTotal] = useState(0)
-   //當前的篩選條件
+   const [isShow, setIsShow] = useState(false)
    const [currentType, setCurrentType] = useState('')
 
+   const showModalHandler = () => {
+      setIsShow((prev) => !prev)
+   }
    return (
       <>
          <Header />
@@ -54,8 +64,8 @@ export default function ResultPage() {
             <div className='cursor-pointer flex items-center gap-10 text-[#929292]'>
                <div>搜尋結果</div>
                <div>距離最近</div>
-               <div className='w-[36px] h-[36px]'>
-                  <img src={filterIcon} alt='' />
+               <div className='w-[36px] h-[36px] ml-auto' onClick={showModalHandler}>
+                  <img src={filterIcon} alt='進階搜尋圖示' />
                </div>
             </div>
          </StyledLoginBanner>
@@ -78,7 +88,7 @@ export default function ResultPage() {
                               </div>
                               <div className='flex items-center gap-2'>
                                  <div className='w-[20px] h-[20px]'>
-                                    <img src={locateIcon} alt='' />
+                                    <img src={locateIcon} alt='展覽地點圖示，點即可查看位置' />
                                  </div>
                                  <p>台北市</p>
                               </div>
@@ -86,8 +96,8 @@ export default function ResultPage() {
                         </div>
                         <div className='flex'>
                            <p>5</p>
-                           <div className='w-[20px] h-[20px] '>
-                              <img src={commentStarIcon} alt='' />
+                           <div className='w-[20px] h-[20px]'>
+                              <img src={commentStarIcon} alt='查看評論，外型為星星樣式' />
                            </div>
                            <p>(1234)</p>
                         </div>
@@ -96,6 +106,18 @@ export default function ResultPage() {
                )
             })}
          </section>
+         <Modal
+            isShow={isShow}
+            setShow={setIsShow}
+            position={{ t: '25%' }}
+            size={{ w: '100%', h: '125px' }}
+            shape={'10px'}
+         >
+            <div className='flex flex-col items-center gap-3 cursor-pointer'>
+               <StyledFilterText>熱門搜尋</StyledFilterText>
+               <StyledFilterText>最多人收藏</StyledFilterText>
+            </div>
+         </Modal>
       </>
    )
 }

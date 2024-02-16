@@ -32,6 +32,7 @@ const Modal = ({
    setShow,
    position = { l: 0, r: 0, t: 0, b: 0 },
    size = { w: 0, z: 0 },
+   shape,
 }) => {
    useEffect(() => {
       if (isShow) {
@@ -59,6 +60,7 @@ const Modal = ({
             bottom={position.b}
             left={position.l}
             right={position.r}
+            borderRadius={shape}
          >
             {children}
          </StyledModalContent>
