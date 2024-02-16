@@ -31,6 +31,8 @@ import registerInfoIcon from '../images/register-icon.png'
 import uncheckIcon from '../images/uncheck-icon.png'
 import sampleResult from '../images/sample-result.png'
 import calendarIcon from '../images/calendar-icon.png'
+import filterIcon from '../images/filter.png'
+import commentStarIcon from '../images/star.png'
 
 export {
    searchIcon,
@@ -66,4 +68,6 @@ export {
    uncheckIcon,
    sampleResult,
    calendarIcon,
+   filterIcon,
+   commentStarIcon,
 }
