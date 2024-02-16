@@ -31,10 +31,10 @@ const LoginPage = () => {
       <>
          <Header />
          <section>
-            <div>
+            <div className='max-h-[220px] h-[200px] w-[100%]'>
                <img src={loginBannerMobile} alt='' />
             </div>
-            <div className='p-6'>
+            <div className='p-6 '>
                <StyledLoginTitle>歡迎來到早找展覽</StyledLoginTitle>
                <p className='text-[14px] mt-1'>開始探索下一段展覽之旅吧！</p>
                <div className='login flex flex-col gap-2 mt-10'>
