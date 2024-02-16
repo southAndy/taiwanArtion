@@ -11,9 +11,10 @@ const StyledInput = styled.input.attrs((props) => {
    font-size: 14px;
 `
 
-const Input = ({ children, placeholder, content, size, shape, setContent, isError }) => {
+const Input = ({ children, placeholder, value, size, shape, setValue, isError }) => {
    const handleChange = (e) => {
-      console.log(e)
+      console.log(e.target.value)
+      setValue(() => e.target.value)
    }
    return (
       <StyledInput
@@ -21,7 +22,7 @@ const Input = ({ children, placeholder, content, size, shape, setContent, isErro
          shape={shape}
          isError={isError}
          placeholder={placeholder}
-         value={content}
+         value={value}
          onChange={handleChange}
       />
    )
