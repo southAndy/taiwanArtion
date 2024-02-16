@@ -17,13 +17,18 @@ const StyledButton = styled.button.attrs({
    }
 `
 
-const Button = ({ children, content, textColor, buttonBackground, isClick, setClick }) => {
+const Button = ({ children, content, textColor, buttonBackground, margin, isClick, setClick }) => {
    const handleClick = () => {
       console.log('isClick:', isClick)
       setClick((n) => !isClick)
    }
    return (
-      <StyledButton color={textColor} bgColor={buttonBackground} onClick={handleClick}>
+      <StyledButton
+         color={textColor}
+         bgColor={buttonBackground}
+         margin={margin}
+         onClick={handleClick}
+      >
          {content}
       </StyledButton>
    )
