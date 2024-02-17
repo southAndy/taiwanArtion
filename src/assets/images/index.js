@@ -34,7 +34,9 @@ import calendarIcon from '../images/calendar-icon.png'
 import filterIcon from '../images/filter.png'
 import commentStarIcon from '../images/star.png'
 import detailSampleBg from '../images/image.png'
-
+import unStarIcon from '../images/unstar-icon.png'
+import shareIcon from '../images/share-icon.png'
+import likeIcon from '../images/like-icon.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -72,4 +74,7 @@ export {
    filterIcon,
    commentStarIcon,
    detailSampleBg,
+   unStarIcon,
+   shareIcon,
+   likeIcon,
 }
