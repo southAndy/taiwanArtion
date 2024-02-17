@@ -56,10 +56,10 @@ export default function ResultPage() {
          <Header />
          <StyledLoginBanner>
             <StyledTitle className='text-md whitespace-nowrap'>
-               <Link to='/account' className='w-[18px] h-[10px]'>
+               <Link to='/' className='w-[18px] h-[10px]'>
                   <img src={vectorIcon} alt='回到上一頁箭頭' />
                </Link>
-               找到共{244}筆展覽資訊
+               找到共{5}筆展覽資訊
             </StyledTitle>
             <div className='cursor-pointer flex items-center gap-10 text-[#929292]'>
                <div>搜尋結果</div>
