@@ -10,8 +10,10 @@
     "style": "standard"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.6",
-    "@emotion/styled": "^11.10.6",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.10",
+    "@mui/x-date-pickers": "^6.19.4",
     "autoprefixer": "^10.4.17",
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",

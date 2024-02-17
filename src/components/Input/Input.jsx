@@ -5,17 +5,27 @@ const StyledInput = styled.input.attrs((props) => {
    type: props.type ?? 'text'
 })`
    width: 100%;
-   border-radius: 16px;
-   border: 1px solid #c2c2c2;
-   padding: 16px;
+   border-radius: ${(props) => props.shape ?? '16px'};
+   border: ${(props) => (props.isError ? '1px solid #D31C1C' : '1px solid #e0e0e0')};
+   padding: ${(props) => props.size ?? '16px'};
    font-size: 14px;
 `
 
-const Input = ({ placeholder, content, setContent }) => {
+const Input = ({ children, placeholder, value, size, shape, setValue, isError }) => {
    const handleChange = (e) => {
-      console.log(e)
+      console.log(e.target.value)
+      setValue(() => e.target.value)
    }
-   return <StyledInput placeholder={placeholder} value={content} onChange={handleChange} />
+   return (
+      <StyledInput
+         size={size}
+         shape={shape}
+         isError={isError}
+         placeholder={placeholder}
+         value={value}
+         onChange={handleChange}
+      />
+   )
 }
 
 export default Input
