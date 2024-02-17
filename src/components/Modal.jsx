@@ -13,7 +13,7 @@ const StyledModalBackground = styled.div`
 `
 const StyledModalContent = styled.div`
    background: ${({ bgColor }) => bgColor || '#fff'};
-   height: ${({ height }) => height || 'auto'};
+   height: ${({ height }) => height || '600px'};
    max-height: ${({ maxHeight }) => maxHeight || '85%'};
    width: ${({ width }) => width || '100%'};
    position: absolute;

@@ -6,6 +6,7 @@ const StyledCityItem = styled.div`
    align-items: center;
    padding: 8px 15px;
    border-radius: 12px;
+   font-size: 14px;
    background: ${(props) => (props.isSelect ? '#BE8152' : '#EEEEEE')};
    color: ${(props) => (props.isSelect ? 'red' : 'black')};
    cursor: pointer;
@@ -17,7 +18,7 @@ const StyledCityItem = styled.div`
 const StyledTitle = styled.h3`
    margin-top: 1.5rem;
    font-weight: 700;
-   font-size: 24px;
+   font-size: 18px;
    margin: ${(props) => props.margin ?? '0'};
 `
 
