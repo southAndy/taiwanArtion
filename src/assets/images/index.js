@@ -16,11 +16,27 @@ import categoryicon8 from '../../assets/images/categoryicon8.png'
 import categoryicon9 from '../../assets/images/categoryicon9.png'
 import categoryicon10 from '../../assets/images/categoryicon10.png'
 import hotBg from '../../assets/images/hot-bg.png'
-import locationIcon from '../../assets/images/locationicon.png'
-import loveIcon from '../../assets/images/loveicon.png'
+import locationIcon from '../../assets/images/locate-icon.png'
+import loveIcon from '../../assets/images/love-icon.png'
 import sampleBg from '../../assets/images/sample.png'
 import sampleExhibition from '../../assets/images/sample-exhibition.png'
-
+import locateIcon from '../../assets/images/locate.png'
+import lineIcon from '../../assets/images/lineicon.png'
+import facebookIcon from '../../assets/images/facebookicon.png'
+import googleIcon from '../../assets/images/googleicon.png'
+import loginBanner from '../../assets/images/login-banner.png'
+import loginBannerMobile from '../../assets/images/banner-mobile.png'
+import vectorIcon from '../images/Vector.png'
+import registerInfoIcon from '../images/register-icon.png'
+import uncheckIcon from '../images/uncheck-icon.png'
+import sampleResult from '../images/sample-result.png'
+import calendarIcon from '../images/calendar-icon.png'
+import filterIcon from '../images/filter.png'
+import commentStarIcon from '../images/star.png'
+import detailSampleBg from '../images/image.png'
+import unStarIcon from '../images/unstar-icon.png'
+import shareIcon from '../images/share-icon.png'
+import likeIcon from '../images/like-icon.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -44,4 +60,21 @@ export {
    headerSearch,
    headerMenu,
    sampleExhibition,
+   locateIcon,
+   googleIcon,
+   facebookIcon,
+   lineIcon,
+   loginBanner,
+   loginBannerMobile,
+   vectorIcon,
+   registerInfoIcon,
+   uncheckIcon,
+   sampleResult,
+   calendarIcon,
+   filterIcon,
+   commentStarIcon,
+   detailSampleBg,
+   unStarIcon,
+   shareIcon,
+   likeIcon,
 }

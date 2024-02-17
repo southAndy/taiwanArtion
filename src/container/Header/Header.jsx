@@ -25,6 +25,7 @@ const HeaderCategory = styled.div`
 
 const Header = () => {
    const [isShowModal, setIsShowModal] = useState(false)
+   const [isShowMenu, setMenu] = useState(false)
 
    return (
       <HeaderContainer>
@@ -35,12 +36,19 @@ const Header = () => {
             <div className='w-[18px] h-[18px]' onClick={() => setIsShowModal((n) => !n)}>
                <img src={headerSearch} alt='搜尋圖樣' />
             </div>
-            <div>
+            <div onClick={() => setMenu((n) => !n)}>
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />
+         </Modal>
+         <Modal isShow={isShowMenu} setShow={setMenu}>
+            <div className='flex flex-col items-center gap-6'>
+               <Link>附近展覽</Link>
+               <Link>所有展覽</Link>
+               <Link to={'/account'}>註冊/登入</Link>
+            </div>
          </Modal>
       </HeaderContainer>
    )

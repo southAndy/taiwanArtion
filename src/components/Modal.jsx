@@ -13,11 +13,13 @@ const StyledModalBackground = styled.div`
 `
 const StyledModalContent = styled.div`
    background: ${({ bgColor }) => bgColor || '#fff'};
-   height: ${({ height }) => height || '295px'};
+   height: ${({ height }) => height || '600px'};
+   max-height: ${({ maxHeight }) => maxHeight || '85%'};
    width: ${({ width }) => width || '100%'};
+   position: absolute;
+   overflow: scroll;
    border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
    padding: 24px;
-   position: absolute;
    top: ${({ top }) => top || '0%'};
    bottom: ${({ bottom }) => bottom || '0%'};
    left: ${({ left }) => left || '0%'};
@@ -30,6 +32,7 @@ const Modal = ({
    setShow,
    position = { l: 0, r: 0, t: 0, b: 0 },
    size = { w: 0, z: 0 },
+   shape,
 }) => {
    useEffect(() => {
       if (isShow) {
@@ -57,6 +60,7 @@ const Modal = ({
             bottom={position.b}
             left={position.l}
             right={position.r}
+            borderRadius={shape}
          >
             {children}
          </StyledModalContent>
