@@ -72,7 +72,7 @@ export default function ResultPage() {
          <section className=' rounded-xl p-6'>
             {[1, 2, 3, 4].map((item, index) => {
                return (
-                  <StyledExhibitionLink key={index} to={'/detail'}>
+                  <StyledExhibitionLink key={index} to={'/detail/123'}>
                      <div className=''>
                         <img src={sampleResult} alt='' />
                      </div>
