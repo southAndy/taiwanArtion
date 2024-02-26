@@ -7,6 +7,8 @@ import SwiperSlide from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
 import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
+import { increment } from '../../store/testSlice'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {
    categoryicon1,
@@ -159,6 +161,11 @@ const HomePage = () => {
    const [isClick, setClick] = useState(false)
    const [isShow, setShow] = useState(false)
 
+   //redux
+   const value = useSelector((state) => state.test.value)
+   const dispatch = useDispatch()
+   console.log(value, '全域狀態')
+
    // 初次載入去抓資料
    useEffect(() => {
       async function fetchData() {
@@ -195,12 +202,19 @@ const HomePage = () => {
          })
       }
    }, [exhibitionList, currentMonth])
+
+   //test
+   const handleIncrement = () => {
+      dispatch(increment())
+   }
    return (
       <>
          <Header />
          <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
          <StyledMonthWrapper>
-            <h3 className='pb-2'>{2023}年</h3>
+            <h3 className='pb-2' onClick={handleIncrement}>
+               {2023}年
+            </h3>
             <StyledMonthBox>
                {monthList.map((month, index) => {
                   return (

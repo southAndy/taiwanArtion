@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Input from '../../components/Input/Input'
 import Button from '../../components/Button'
+import axios from 'axios'
 const firstStep = () => {
    const [isSent, setSent] = useState(false)
    const [userPhone, setUserPhone] = useState(null)
@@ -26,6 +27,12 @@ const firstStep = () => {
    useEffect(() => {
       content = '已寄送驗證碼'
       console.log('isSent:', isSent)
+      if (isSent) {
+         console.log('送出手機號碼:')
+         axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/phone', {
+            phone: userPhone,
+         })
+      }
    }, [isSent])
 
    return (
