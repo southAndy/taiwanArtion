@@ -1,10 +1,12 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Header from './Header/Header'
 import styled from 'styled-components'
 import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets/images/index'
 import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
+import axios from 'axios'
 
 const StyledLoginBanner = styled.section`
    display: flex;
@@ -24,12 +26,41 @@ const StyledContent = styled.section`
    padding: 24px;
 `
 const StyledImageBox = styled.div`
+   cursor: pointer;
    height: 40px;
    width: 40px;
-   cursor: pointer;
 `
 
 const Login = () => {
+   const navigate = useNavigate()
+   const sendLoginRequest = () => {
+      console.log('sendLoginRequest')
+      const username = 'admin'
+      const password = 'admin2'
+      try {
+         // axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login', {
+         //    username: 'admin',
+         //    password: 'admin',
+         // })
+         //成功的話跳轉到後台
+         if (username === 'admin' && password === 'admin') {
+            //todo  登入狀態改為 true ，並且存入 redux
+
+            navigate(`/backstage/${username}`)
+         } else {
+            //失敗的話顯示錯誤訊息
+            alert('帳號或密碼錯誤')
+         }
+      } catch (e) {
+         console.log(e)
+      }
+   }
+   const loginLine = () => {
+      const channel_id = '2003688268'
+      const homePage = 'https://64b0-223-137-89-96.ngrok-free.app/'
+      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channel_id}&redirect_uri=${homePage}&state=12345abcde&scope=profile&nonce=09876xyz`
+      window.location.href = lineLoginUrl
+   }
    return (
       <>
          <Header />
@@ -60,6 +91,9 @@ const Login = () => {
                <Link to='/forget-password' className='text-end text-[#A9622A] cursor-pointer'>
                   忘記密碼？
                </Link>
+               {/* <button type='button' onClick={sendLoginRequest}>
+                  登入
+               </button> */}
                <Button className=' mb-8' content={'登入'} />
             </form>
             <section className='flex flex-col items-center gap-4 '>
@@ -69,7 +103,7 @@ const Login = () => {
                      註冊帳號
                   </Link>
                </div>
-               <p>或者使用以下帳號登入/註冊</p>
+               <p className=' cursor-pointer'>或者使用以下方式登入</p>
                <div className='flex gap-6'>
                   <StyledImageBox>
                      <img src={facebookIcon} alt='' />
@@ -77,7 +111,7 @@ const Login = () => {
                   <StyledImageBox>
                      <img src={googleIcon} alt='' />
                   </StyledImageBox>
-                  <StyledImageBox>
+                  <StyledImageBox onClick={loginLine}>
                      <img src={lineIcon} alt='' />
                   </StyledImageBox>
                </div>
