@@ -7,8 +7,6 @@ import SwiperSlide from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
 import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
-import { increment } from '../../store/testSlice'
-import { useDispatch, useSelector } from 'react-redux'
 
 import {
    categoryicon1,
@@ -160,11 +158,6 @@ const HomePage = () => {
    const [isShowModal, setModal] = useState(false)
    const [isClick, setClick] = useState(false)
    const [isShow, setShow] = useState(false)
-
-   //redux
-   const value = useSelector((state) => state.test.value)
-   const dispatch = useDispatch()
-   console.log(value, '全域狀態')
 
    // 初次載入去抓資料
    useEffect(() => {
