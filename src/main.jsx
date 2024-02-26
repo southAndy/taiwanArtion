@@ -14,16 +14,9 @@ import './assets/scss/main.scss'
 import Header from './container/Header/Header'
 import app from '../firebase.config'
 
-//redux
 import { Provider } from 'react-redux'
-import { createSlice, configureStore } from '@reduxjs/toolkit'
-import testSlice from './store/testSlice'
-
-const store = configureStore({
-   reducer: {
-      test: testSlice,
-   },
-})
+//redux instance
+import store from './store'
 
 const router = createBrowserRouter([
    {
