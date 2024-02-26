@@ -12,7 +12,7 @@ import Backstage from './pages/Backstage/Backstage'
 // import MapPage from './page/Map/Map'
 import './assets/scss/main.scss'
 import Header from './container/Header/Header'
-import app from '../firebase.config'
+// import app from '../firebase.config'
 
 import { Provider } from 'react-redux'
 //redux instance
