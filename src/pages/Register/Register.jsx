@@ -7,7 +7,7 @@ import Header from '../../container/Header/Header'
 import FirstStep from '../../container/Register/FirstStep'
 import Button from '../../components/Button'
 import SecondStep from '../../container/Register/SecondStep'
-import ThirdStep from '../../container/Register/thirdStep'
+import ThirdStep from '../../container/Register/ThirdStep'
 import FinishStep from '../../container/Register/FinishStep'
 
 //todo 共用樣式
