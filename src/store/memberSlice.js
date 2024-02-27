@@ -11,6 +11,8 @@ const memberSlice = createSlice({
          phone: '',
          address: '',
          birthday: '',
+         interests: [],
+         comments: [],
       },
       loginTime: '',
       isLogin: false,
@@ -18,6 +20,9 @@ const memberSlice = createSlice({
    reducers: {
       setMemberInfo(state, action) {
          state.memberInfo = action.payload
+      },
+      setMemberInterests(state, action) {
+         state.memberInfo.interests = action.payload
       },
       setLoginTime(state, action) {
          state.loginTime = action.payload
@@ -27,5 +32,5 @@ const memberSlice = createSlice({
       },
    },
 })
-export const { setMemberInfo, setLoginTime, setIsLogin } = memberSlice.actions
+export const { setMemberInfo, setLoginTime, setIsLogin, setMemberInterests } = memberSlice.actions
 export default memberSlice.reducer
