@@ -60,12 +60,14 @@ const Login = () => {
    }
    const loginLine = () => {
       const channel_id = '2003812489'
-      const homePage = 'https://taiwan-artion.onrender.com'
+      const homePage = 'https://2439-111-241-166-18.ngrok-free.app/?isLogin=true'
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channel_id}&redirect_uri=${homePage}&state=12345abcde&scope=profile&nonce=09876xyz`
 
       //登入成功後，將登入狀態改為 true ，並且存入 redux
       dispatch(setIsLogin(true))
       window.location.href = lineLoginUrl
+      //將登入成功存入 cookie
+      document.cookie = 'isLogin=true'
    }
    return (
       <>

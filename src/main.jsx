@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
    },
    {
-      path: '/backstage/:username',
+      path: '/backstage/',
       element: <Backstage />,
       errorElement: <ErrorPage />,
    },

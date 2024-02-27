@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMemberInterests } from '../../store/memberSlice'
 import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
 import {
@@ -60,7 +62,7 @@ const StyledInfoTitle = styled.a`
    padding-left: 4px;
    margin-bottom: 16px;
 `
-const StyledInfoComment = styled.p`
+const StyledInfoComment = styled.section`
    display: flex;
    flex-direction: column;
    gap: 16px;
@@ -90,27 +92,29 @@ const StyledToolBar = styled.div`
 export default function DetailPage() {
    let [exhibition, setExhibition] = useState([])
    const params = useParams()
+   const navigate = useNavigate()
    const [currentOption, setCurrentOption] = useState(0)
-   // useEffect(() => {
-   //    async function fetchData() {
-   //       try {
-   //          const response = await axios.get(
-   //             'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
-   //          )
-   //          //todo 改從全域資料庫取
-   //          console.log(response.data)
-   //          setExhibition(() => response.data)
-   //          //? 引入地圖
-   //       } catch (error) {
-   //          console.log(error)
-   //       }
-   //    }
-   //    fetchData()
-   // }, [])
-
+   // 是否收藏此展覽
+   const [isStore, setIsStore] = useState(false)
+   const dispatch = useDispatch()
+   const isLogin = useSelector((state) => state.member.isLogin)
+   const interestList = useSelector((state) => state.member.interests)
    const currentData = useMemo(() => {
       return exhibition.filter((item) => item.UID === params.dataID && item.imageUrl !== '')
    }, [exhibition])
+
+   const storeExhibition = () => {
+      //先判斷是否登入
+      if (isLogin) {
+         // 如果登入，可以將此展覽加入收藏
+         setIsStore(true)
+         //加入會員的收藏清單
+         dispatch(setMemberInterests(['ID12354E']))
+      } else {
+         // 如果沒登入，跳轉到登入頁面
+         navigate('/login')
+      }
+   }
    return (
       <>
          <Header />
@@ -208,7 +212,7 @@ export default function DetailPage() {
                         <div className='flex gap-1'>
                            {[1, 2, 3, 4, 5].map((item, index) => {
                               return (
-                                 <div className='w-[24px] h-[24px]'>
+                                 <div key={index} className='w-[24px] h-[24px]'>
                                     <img
                                        src={unStarIcon}
                                        alt='此展覽評論星星數，星星越多代表評價越好'
@@ -257,7 +261,10 @@ export default function DetailPage() {
             </StyledInfo>
          </DetailContainer>
          <StyledToolBar>
-            <div className='flex flex-col items-center gap-1 cursor-pointer'>
+            <div
+               className='flex flex-col items-center gap-1 cursor-pointer'
+               onClick={storeExhibition}
+            >
                <div className='w-[18px] h-[18px] '>
                   <img src={loveIcon} alt='收藏此展覽按鈕' />
                </div>

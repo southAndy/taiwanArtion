@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { setIsLogin } from '../../store/memberSlice'
 import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
 import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
@@ -45,12 +46,25 @@ const Header = () => {
          link: '/backstage',
       },
    ])
+   const dispatch = useDispatch()
    const isLogin = useSelector((state) => state.member.isLogin)
 
    useEffect(() => {
-      console.log('isLogin', isLogin)
+      // 讀取 cookie，判斷是否登入
+      const cookie = document.cookie
+      // 拆出 isLogin 的值
+      const arrayCookie = cookie.split(';')
+      const cookieLogin = arrayCookie.find((item) => item.startsWith(' isLogin='))
+      console.log(cookieLogin)
+      if (cookieLogin) {
+         const isLogin = Boolean(cookieLogin.split('=')[1])
+         dispatch(setIsLogin(isLogin))
+      } else {
+         dispatch(setIsLogin(false))
+      }
+      //狀態存入 redux
       //todo 如果登入狀態改變，就刪減選單的顯示
-      if (isLogin) {
+      if (cookieLogin) {
          const loginMenu = menu.filter((item) => item.title !== '註冊/登入')
          setMenuContent(() => loginMenu)
       } else {
@@ -78,13 +92,10 @@ const Header = () => {
          <Modal isShow={isShowMenu} setShow={setMenu}>
             <div className='flex flex-col items-center gap-6'>
                {menu.map((item, index) => (
-                  <Link key={index} to={item.link}>
+                  <Link key={index} to={item.link} keys={index}>
                      {item.title}
                   </Link>
                ))}
-               {/* <Link>附近展覽</Link>
-               <Link>所有展覽</Link>
-               <Link to={'/account'}>註冊/登入</Link> */}
             </div>
          </Modal>
       </HeaderContainer>
