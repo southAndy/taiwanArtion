@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
 import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
@@ -26,6 +27,37 @@ const HeaderCategory = styled.div`
 const Header = () => {
    const [isShowModal, setIsShowModal] = useState(false)
    const [isShowMenu, setMenu] = useState(false)
+   const [menu, setMenuContent] = useState([
+      {
+         title: '附近展覽',
+         link: '/nearby',
+      },
+      {
+         title: '所有展覽',
+         link: '/all',
+      },
+      {
+         title: '註冊/登入',
+         link: '/account',
+      },
+      {
+         title: '個人頁面',
+         link: '/backstage',
+      },
+   ])
+   const isLogin = useSelector((state) => state.member.isLogin)
+
+   useEffect(() => {
+      console.log('isLogin', isLogin)
+      //todo 如果登入狀態改變，就刪減選單的顯示
+      if (isLogin) {
+         const loginMenu = menu.filter((item) => item.title !== '註冊/登入')
+         setMenuContent(() => loginMenu)
+      } else {
+         const logoutMenu = menu.filter((item) => item.title !== '個人頁面')
+         setMenuContent(() => logoutMenu)
+      }
+   }, [isLogin])
 
    return (
       <HeaderContainer>
@@ -45,9 +77,14 @@ const Header = () => {
          </Modal>
          <Modal isShow={isShowMenu} setShow={setMenu}>
             <div className='flex flex-col items-center gap-6'>
-               <Link>附近展覽</Link>
+               {menu.map((item, index) => (
+                  <Link key={index} to={item.link}>
+                     {item.title}
+                  </Link>
+               ))}
+               {/* <Link>附近展覽</Link>
                <Link>所有展覽</Link>
-               <Link to={'/account'}>註冊/登入</Link>
+               <Link to={'/account'}>註冊/登入</Link> */}
             </div>
          </Modal>
       </HeaderContainer>

@@ -1,5 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
 import styled from 'styled-components'
 import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets/images/index'
@@ -33,6 +35,7 @@ const StyledImageBox = styled.div`
 
 const Login = () => {
    const navigate = useNavigate()
+   const dispatch = useDispatch()
    const sendLoginRequest = () => {
       console.log('sendLoginRequest')
       const username = 'admin'
@@ -56,9 +59,12 @@ const Login = () => {
       }
    }
    const loginLine = () => {
-      const channel_id = '2003688268'
+      const channel_id = '2003812489'
       const homePage = 'https://taiwan-artion.onrender.com'
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channel_id}&redirect_uri=${homePage}&state=12345abcde&scope=profile&nonce=09876xyz`
+
+      //登入成功後，將登入狀態改為 true ，並且存入 redux
+      dispatch(setIsLogin(true))
       window.location.href = lineLoginUrl
    }
    return (
