@@ -57,7 +57,7 @@ const Login = () => {
    }
    const loginLine = () => {
       const channel_id = '2003688268'
-      const homePage = 'https://64b0-223-137-89-96.ngrok-free.app/'
+      const homePage = 'https://taiwan-artion.onrender.com'
       const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channel_id}&redirect_uri=${homePage}&state=12345abcde&scope=profile&nonce=09876xyz`
       window.location.href = lineLoginUrl
    }
