@@ -19,7 +19,6 @@ if (rootElement) {
             <Header />
             {router}
          </RouterProvider>
-         ,
       </Provider>,
    )
 }
