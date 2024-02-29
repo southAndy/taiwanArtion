@@ -110,7 +110,8 @@ const Login = () => {
                <Link to='/forget-password' className='text-end text-[#A9622A] cursor-pointer'>
                   忘記密碼？
                </Link>
-               <Button setClick={setIsLogin} className=' mb-8' content={'登入'} />
+               {/* <Button setClick={setIsLogin} className=' mb-8' content={'登入'} /> */}
+               <button onClick={sendLoginRequest}>登入</button>
             </form>
             <section className='flex flex-col items-center gap-4 '>
                <div>
