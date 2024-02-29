@@ -9,16 +9,16 @@ import Button from '../../components/Button'
 import SecondStep from '../../container/Register/SecondStep'
 import ThirdStep from '../../container/Register/ThirdStep'
 import FinishStep from '../../container/Register/FinishStep'
-
+import { Step, Stepper, StepLabel } from '@mui/material'
 //todo 共用樣式
 const StyledLoginBanner = styled.section`
    display: flex;
+   flex-direction: column;
    align-items: center;
    justify-content: start;
-   gap: 90px;
+   gap: 20px;
    padding: 20px;
    background-image: url(${hotBg});
-   height: 100px;
 `
 
 const StyledTitle = styled.h3`
@@ -47,6 +47,7 @@ const StepButton = styled.button`
 
 const Register = () => {
    const [step, setStep] = useState(0)
+   const stepContent = ['手機驗證', '帳號密碼', '信箱驗證', '完成註冊']
    const steps = [FirstStep, SecondStep, ThirdStep, FinishStep]
    function renderSteps() {
       return (
@@ -88,6 +89,13 @@ const Register = () => {
             </Link>
             <StyledTitle className='text-md'>會員註冊</StyledTitle>
             <div></div>
+            <Stepper activeStep={step} alternativeLabel>
+               {stepContent.map((label) => (
+                  <Step key={label}>
+                     <StepLabel>{label}</StepLabel>
+                  </Step>
+               ))}
+            </Stepper>
          </StyledLoginBanner>
          <StyledContent>{renderSteps()}</StyledContent>
       </>
