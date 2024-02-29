@@ -111,7 +111,9 @@ const Login = () => {
                   忘記密碼？
                </Link>
                {/* <Button setClick={setIsLogin} className=' mb-8' content={'登入'} /> */}
-               <button onClick={sendLoginRequest}>登入</button>
+               <button type='button' onClick={sendLoginRequest}>
+                  登入
+               </button>
             </form>
             <section className='flex flex-col items-center gap-4 '>
                <div>
