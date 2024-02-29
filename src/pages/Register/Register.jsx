@@ -84,11 +84,12 @@ const Register = () => {
       <>
          <Header />
          <StyledLoginBanner>
-            <Link to='/account' className='w-[18px] h-[10px]'>
-               <img src={vectorIcon} alt='回到上一頁箭頭' />
-            </Link>
-            <StyledTitle className='text-md'>會員註冊</StyledTitle>
-            <div></div>
+            <div className='flex items-center'>
+               <Link to='/account' className='w-[18px] h-[10px]'>
+                  <img src={vectorIcon} alt='回到上一頁箭頭' />
+               </Link>
+               <StyledTitle className='text-md'>會員註冊</StyledTitle>
+            </div>
             <Stepper activeStep={step} alternativeLabel>
                {stepContent.map((label) => (
                   <Step key={label}>
