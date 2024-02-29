@@ -1,11 +1,15 @@
 import React from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Input from '../../components/Input/Input'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { registerInfoIcon, uncheckIcon } from '../../assets/images'
+import axios from 'axios'
 const secondStep = () => {
+   const [account, setAccount] = useState('')
+   const [password, setPassword] = useState('')
    const ruleList = [
       '至少一個小寫字母',
       '至少一個大寫字母',
@@ -23,6 +27,23 @@ const secondStep = () => {
    } = useForm({
       resolver: yupResolver(schema),
    })
+   useEffect(() => {
+      console.log(account)
+      const validateAccount = async () => {
+         try {
+            let res = await axios.post(
+               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
+               {
+                  account: account,
+               },
+            )
+            console.log(res)
+         } catch (e) {
+            console.log(e)
+         }
+      }
+      validateAccount()
+   }, [account])
    return (
       <>
          <form
@@ -36,7 +57,8 @@ const secondStep = () => {
                   帳號
                </label>
                <Input
-                  {...register('account', { required: '帳號必填' })}
+                  // {...register('account', { required: '帳號必填' })}
+                  setValue={setAccount}
                   size={'12px 16px'}
                   shape={'12px'}
                   placeholder={'4-21碼小寫英文.數字'}
@@ -48,15 +70,14 @@ const secondStep = () => {
                   密碼
                </label>
                <Input
-                  {...register('password', { required: '76' })}
+                  // {...register('password', { required: '76' })}
+                  setValue={setPassword}
                   size={'12px 16px'}
                   shape={'12px'}
                   placeholder={'6-18位數密碼,請區分大小寫'}
-                  formState={'error'}
                />
                <p className='text-red-500'>{errors?.password?.message}</p>
             </div>
-
             <button type='submit'>click</button>
          </form>
          <section>
