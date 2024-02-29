@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setIsLogin } from '../store/memberSlice'
@@ -34,22 +35,26 @@ const StyledImageBox = styled.div`
 `
 
 const Login = () => {
+   const [username, setUsername] = useState('')
+   const [password, setPassword] = useState('')
+   //todo 調整 button 元件 props
+   const [isLogin, setIsLogin] = useState(false)
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const sendLoginRequest = () => {
+   const sendLoginRequest = async () => {
       console.log('sendLoginRequest')
-      const username = 'admin'
-      const password = 'admin2'
+      const username = username
+      const password = password
       try {
-         // axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login', {
-         //    username: 'admin',
-         //    password: 'admin',
-         // })
+         axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login', {
+            username: 'admin',
+            password: 'admin',
+         })
+
          //成功的話跳轉到後台
          if (username === 'admin' && password === 'admin') {
-            //todo  登入狀態改為 true ，並且存入 redux
-
-            navigate(`/backstage/${username}`)
+            //登入狀態改為 true
+            document.cookie = 'isLogin=true'
          } else {
             //失敗的話顯示錯誤訊息
             alert('帳號或密碼錯誤')
@@ -84,13 +89,19 @@ const Login = () => {
                   <label htmlFor='email' className='font-medium mb-2'>
                      帳號
                   </label>
-                  <Input size={'12px 16px'} shape={'12px'} placeholder={'4-21碼小寫英文.數字'} />
+                  <Input
+                     setValue={setUsername}
+                     size={'12px 16px'}
+                     shape={'12px'}
+                     placeholder={'4-21碼小寫英文.數字'}
+                  />
                </div>
                <div className='flex flex-col'>
                   <label htmlFor='password' className='mb-2 font-medium'>
                      密碼
                   </label>
                   <Input
+                     setValue={setPassword}
                      size={'12px 16px'}
                      shape={'12px'}
                      placeholder={'6-18位數密碼,請區分大小寫'}
@@ -99,10 +110,7 @@ const Login = () => {
                <Link to='/forget-password' className='text-end text-[#A9622A] cursor-pointer'>
                   忘記密碼？
                </Link>
-               {/* <button type='button' onClick={sendLoginRequest}>
-                  登入
-               </button> */}
-               <Button className=' mb-8' content={'登入'} />
+               <Button setClick={setIsLogin} className=' mb-8' content={'登入'} />
             </form>
             <section className='flex flex-col items-center gap-4 '>
                <div>
