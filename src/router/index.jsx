@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter } from 'react-router-dom'
 import HomePage from '../pages/home/home'
 import ErrorPage from '../pages/Errors/Error'
 import DetailPage from '../pages/Detail/Detail'
@@ -12,36 +12,37 @@ const router = createBrowserRouter([
    {
       path: '/',
       element: <HomePage />,
+      errorElement: <ErrorPage />,
+      children: [],
    },
    {
       path: '/detail/:id',
       element: <DetailPage />,
-      errorElement: <ErrorPage />,
    },
    {
       path: '/result/:keyword',
       element: <ResultPage />,
-      errorElement: <ErrorPage />,
    },
    {
       path: '/account',
       element: <AccountPage />,
-      errorElement: <ErrorPage />,
    },
    {
       path: '/login',
       element: <LoginPage />,
-      errorElement: <ErrorPage />,
+      // 新增檢查權限
+      shouldRevalidate: (route) => {
+         console.log(route)
+         return true
+      },
    },
    {
       path: '/register',
       element: <Register />,
-      errorElement: <ErrorPage />,
    },
    {
       path: '/backstage/',
       element: <Backstage />,
-      errorElement: <ErrorPage />,
    },
 ])
 
