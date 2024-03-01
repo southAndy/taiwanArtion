@@ -1,19 +1,14 @@
-import {useRouteError} from "react-router-dom";
-import styled,{css} from "styled-components";
+import { useRouteError, Link } from 'react-router-dom'
 
-export default function ErrorPage  (){
-    const error = useRouteError()
-    console.log(error);
+export default function ErrorPage() {
+   const error = useRouteError()
+   console.log(error, 5)
 
-    return (
-        <div id="error">
-            <h1>Oops</h1>
-            <p>Sorry, an unexcpected error has occured</p>
-            <p>
-                {error.statusText || error.message}
-            </p>
-            <h3>是否要回到首頁？</h3>
-            <a href={'/'}>Home</a>
-        </div>
-    )
+   return (
+      <div id='error'>
+         <h1>Oops</h1>
+         <h3>是否要回到首頁？</h3>
+         <Link to='/'>首頁</Link>
+      </div>
+   )
 }
