@@ -55,6 +55,8 @@ const Login = () => {
          if (username === 'admin' && password === 'admin') {
             //登入狀態改為 true
             document.cookie = 'isLogin=true'
+            dispatch(setIsLogin(true))
+            navigate('/backstage')
          } else {
             //失敗的話顯示錯誤訊息
             alert('帳號或密碼錯誤')
