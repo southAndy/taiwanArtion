@@ -43,8 +43,8 @@ const Login = () => {
    const dispatch = useDispatch()
    const sendLoginRequest = async () => {
       console.log('sendLoginRequest')
-      const username = username
-      const password = password
+      // const username = username
+      // const password = password
       try {
          axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login', {
             username: 'admin',
