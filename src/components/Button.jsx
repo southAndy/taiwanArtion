@@ -4,23 +4,31 @@ import styled from 'styled-components'
 const StyledButton = styled.button.attrs({
    type: 'button',
 })`
-   color: ${(props) => props.color ?? '#333'};
-   background-color: ${(props) => props.bgColor ?? '#EEEEEE'};
+   color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
+   background-color: ${(props) => (props.disabled ? '#EEEEEE' : ' #be875c')};
    border-radius: 12px;
    width: 100%;
    border: ${(props) => (props.border ? props.border : 'none')};
    padding: 8px 24px;
    margin: ${(props) => props.margin ?? '0'};
-   &:hover {
-      background-color: #be875c;
-      color: #ffffff;
+   &:disabled {
+      background-color: #eeeeee;
+      color: #3333;
    }
 `
 
-const Button = ({ children, content, textColor, buttonBackground, margin, isClick, setClick }) => {
+const Button = ({
+   children,
+   content,
+   disabled,
+   textColor,
+   buttonBackground,
+   margin,
+   isClick,
+   setClick,
+}) => {
    const handleClick = () => {
-      console.log('isClick:', isClick)
-      setClick((n) => !isClick)
+      setClick((n) => !n)
    }
    return (
       <StyledButton
@@ -28,6 +36,7 @@ const Button = ({ children, content, textColor, buttonBackground, margin, isClic
          bgColor={buttonBackground}
          margin={margin}
          onClick={handleClick}
+         disabled={disabled}
       >
          {content}
       </StyledButton>
