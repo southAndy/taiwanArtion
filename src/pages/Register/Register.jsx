@@ -31,29 +31,24 @@ const StyledContent = styled.section`
    padding: 24px;
 `
 
-const StepButton = styled.button`
-   color: #333;
-   background-color: #eeeeee;
-   padding: 8px 24px;
-   border-radius: 12px;
-   border: none;
-   width: 100%;
-   margin-top: 24px;
-   &:hover {
-      background-color: #be875c;
-      color: #ffffff;
-   }
-`
-
 const Register = () => {
    const [step, setStep] = useState(0)
    const stepContent = ['手機驗證', '帳號密碼', '信箱驗證', '完成註冊']
+   const [isClick, setClick] = useState(false)
    const steps = [FirstStep, SecondStep, ThirdStep, FinishStep]
+   const [stepStatus, setStepStatus] = useState([false, false, false, false])
    function renderSteps() {
       return (
          <>
             {renderContent()}
-            <StepButton onClick={handleNextStep}>下一步</StepButton>
+            <Button
+               setClick={setClick}
+               disabled={stepStatus[step] !== true}
+               content={'下一步'}
+               margin={'40px 0 0 0'}
+            >
+               下一步
+            </Button>
          </>
       )
    }
@@ -73,12 +68,18 @@ const Register = () => {
          case 3:
             return <FinishStep />
          default:
-            return <FirstStep />
+            return <FirstStep setStatus={setStepStatus} />
       }
    }
    useEffect(() => {
-      console.log('step:', step)
-   }, [step])
+      if (isClick) {
+         if (step === 3) {
+            return
+         }
+         handleNextStep()
+         setClick(false)
+      }
+   }, [isClick])
 
    return (
       <>
@@ -93,7 +94,7 @@ const Register = () => {
             <Stepper activeStep={step} alternativeLabel>
                {stepContent.map((label) => (
                   <Step key={label}>
-                     <StepLabel>{label}</StepLabel>
+                     <StepLabel className='text-[#A9622A] font-bold'>{label}</StepLabel>
                   </Step>
                ))}
             </Stepper>
