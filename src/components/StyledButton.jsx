@@ -1,3 +1,5 @@
+import styled from 'styled-components'
+
 const StyledButton = styled.button.attrs({
    type: 'button',
 })`
@@ -13,4 +15,5 @@ const StyledButton = styled.button.attrs({
       color: #3333;
    }
 `
+
 export default StyledButton
