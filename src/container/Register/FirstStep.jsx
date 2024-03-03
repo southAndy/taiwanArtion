@@ -5,16 +5,28 @@ import Button from '../../components/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import { warnIcon } from '../../assets/images'
 // import axios from 'axios'
 
 const firstStep = ({ setStatus }) => {
    const [isSent, setSent] = useState(false)
-   const [countdown, setCountdown] = useState(10)
+   const [countdown, setCountdown] = useState(60)
    const [userPhone, setUserPhone] = useState('')
    const [userCode, setUserCode] = useState('')
    let content = '發送驗證碼'
    const schema = yup.object().shape({
-      userPhone: yup.string().required().max(10, '手機號碼長度不正確'),
+      userPhone: yup
+         .string()
+         .required('此欄位為必填')
+         .length(10, '手機號碼長度不正確')
+         .test('phone-rule', '請輸入正確的手機格式', (value) => {
+            if (value) {
+               console.log(value)
+               return value.startsWith('09')
+            } else {
+               return false
+            }
+         }),
       userCode: yup.string().required().max(6, '驗證碼長度不正確'),
    })
    const {
@@ -23,17 +35,18 @@ const firstStep = ({ setStatus }) => {
       formState: { errors },
    } = useForm({
       resolver: yupResolver(schema),
+      mode: 'onBlur',
    })
 
    const showContent = () => {
       if (isSent) {
          return (
-            <>
+            <form onSubmit={handleSubmit()}>
                <p className='text-medium mb-6 text-sm h-[40px]'>
                   已發送手機驗證碼至{userPhone}手機,請輸入手機驗證碼並送出驗證。
                </p>
                <h3 className='mb-5 font-bold text-lg'>{content}</h3>
-               <form className='flex gap-2' onSubmit={handleSubmit()}>
+               <section className='flex gap-2' onSubmit={handleSubmit()}>
                   <StyledInput
                      {...register('userCode')}
                      size={'12px 16px'}
@@ -45,23 +58,24 @@ const firstStep = ({ setStatus }) => {
                         handleSubmit()
                      }}
                      value={userCode}
+                     maxLength='6'
                   />
                   <Button
                      content={`${countdown}秒後重新發送`}
                      setClick={setSent}
                      disabled={countdown !== 0}
                   />
-               </form>
-            </>
+               </section>
+            </form>
          )
       } else {
          return (
-            <>
+            <form onSubmit={handleSubmit()}>
                <p className='text-medium mb-6 text-sm h-[40px]'>
                   為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。
                </p>
                <h3 className='mb-5 font-bold text-lg'>手機號碼</h3>
-               <form className='flex gap-2' onSubmit={handleSubmit((data) => data)}>
+               <section className='flex gap-2'>
                   <StyledInput
                      {...register('userPhone')}
                      size={'12px 16px'}
@@ -72,16 +86,26 @@ const firstStep = ({ setStatus }) => {
                         setUserPhone(e.target.value)
                      }}
                      value={userPhone}
+                     maxLength='10'
                   />
-                  {errors.userPhone?.message}
                   <Button
                      content={content}
                      setClick={setSent}
-                     disabled={userPhone.length !== 10}
+                     disabled={errors.userPhone || userPhone.length !== 10}
                      className='flex-initial w-[30px]'
                   />
-               </form>
-            </>
+               </section>
+               {errors.userPhone ? (
+                  <div className='flex gap-1 mt-2'>
+                     <div className='w-[20px] h-[20px]'>
+                        <img src={warnIcon} alt='' />
+                     </div>
+                     <span className='text-[#D31C1C]'>{errors.userPhone?.message}</span>
+                  </div>
+               ) : (
+                  ''
+               )}
+            </form>
          )
       }
    }
