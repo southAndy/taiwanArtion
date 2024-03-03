@@ -1,13 +1,21 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import Input from '../../components/Input/Input'
 import StyledInput from '../../components/StyledInput'
-import { set, useForm } from 'react-hook-form'
+import styled from 'styled-components'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { registerInfoIcon, uncheckIcon, warnIcon } from '../../assets/images'
+import { registerInfoIcon, uncheckIcon, warnIcon, checkIcon } from '../../assets/images'
 import axios from 'axios'
+
+const StyledPasswordText = styled.div`
+   display: flex;
+   gap: 8px;
+   align-items: center;
+   color: ${(props) => (props.matched ? '#A9622A' : '#C2C2C2')};
+   font-size: 14px;
+`
 
 const secondStep = () => {
    const [account, setAccount] = useState('')
@@ -27,47 +35,31 @@ const secondStep = () => {
          .string()
          .required()
          .test('test', '不符合密碼強度', () => {
-            setScore(0)
+            let localScore = 0
+            let localMatchTips = [false, false, false, false]
+            setMatchTips(localMatchTips)
             //密碼至少包含一個小寫字母
             if (password.match(/[a-z]/)) {
-               setScore((n) => n + 25)
-               //修改 matchTips index0 的值
-               setMatchTips((prev) => {
-                  const newTips = [...prev]
-                  newTips[0] = true
-                  return newTips
-               })
+               localScore += 25
+               localMatchTips[0] = true
             }
             //密碼至少包含一個大寫字母
             if (password.match(/[A-Z]/)) {
-               setScore((n) => n + 25)
-               //修改 matchTips index1 的值
-               // setMatchTips((prev) => {
-               //    const newTips = [...prev]
-               //    newTips[1] = true
-               //    return newTips
-               // })
+               localScore += 25
+               localMatchTips[1] = true
             }
             if (password.length >= 8 && password.length <= 16) {
-               setScore((n) => n + 25)
-               //修改 matchTips index2 的值
-               // setMatchTips((prev) => {
-               //    const newTips = [...prev]
-               //    newTips[2] = true
-               //    return newTips
-               // })
+               localScore += 25
+               localMatchTips[2] = true
             }
             //加入至少一個特殊標點符號
             if (password.match(/[\W_]/)) {
-               setScore((n) => n + 25)
-               //修改 matchTips index3 的值
-               // setMatchTips((prev) => {
-               //    const newTips = [...prev]
-               //    newTips[3] = true
-               //    return newTips
-               // })
+               localScore += 25
+               localMatchTips[3] = true
             }
-            return score >= 100
+            setScore(localScore)
+            setMatchTips(localMatchTips)
+            return localScore >= 100
          }),
    })
    const {
@@ -116,16 +108,18 @@ const secondStep = () => {
                   placeholder={'6-18位數密碼,請區分大小寫'}
                   onChange={(e) => setPassword(e.target.value)}
                />
-               {errors.password ? (
-                  <div className='flex gap-1 mt-2'>
-                     <div className='w-[20px] h-[20px]'>
-                        <img src={warnIcon} alt='' />
-                     </div>
-                     <span className='text-[#D31C1C]'>{errors.password?.message}</span>
-                  </div>
-               ) : (
-                  ''
-               )}
+               <div className='flex gap-1 mt-2 h-[20px]'>
+                  {errors.password ? (
+                     <>
+                        <div className='w-[20px] h-[20px]'>
+                           <img src={warnIcon} alt='是否符合密碼條件圖樣' />
+                        </div>
+                        <span className='text-[#D31C1C]'>{errors.password?.message}</span>
+                     </>
+                  ) : (
+                     ''
+                  )}
+               </div>
             </div>
          </form>
          <section>
@@ -136,12 +130,12 @@ const secondStep = () => {
                密碼提示
             </h3>
             {ruleList.map((text, index) => (
-               <div className='flex gap-2 items-center text-[#C2C2C2]' key={text}>
+               <StyledPasswordText key={text} matched={matchTips[index]}>
                   <div className='w-[20px] h-[20px]'>
-                     <img src={uncheckIcon} alt='' />
+                     <img src={matchTips[index] ? checkIcon : uncheckIcon} alt='' />
                   </div>
                   {text}
-               </div>
+               </StyledPasswordText>
             ))}
             <div>
                <div className='mt-4 text-[#453434]'>密碼強度</div>
