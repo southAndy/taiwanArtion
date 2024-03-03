@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button.attrs({
@@ -17,29 +16,4 @@ const StyledButton = styled.button.attrs({
    }
 `
 
-const Button = ({
-   children,
-   content,
-   disabled,
-   textColor,
-   buttonBackground,
-   margin,
-   isClick,
-   setClick,
-}) => {
-   const handleClick = () => {
-      setClick((n) => !n)
-   }
-   return (
-      <StyledButton
-         color={textColor}
-         bgColor={buttonBackground}
-         margin={margin}
-         onClick={handleClick}
-         disabled={disabled}
-      >
-         {content}
-      </StyledButton>
-   )
-}
-export default Button
+export default StyledButton

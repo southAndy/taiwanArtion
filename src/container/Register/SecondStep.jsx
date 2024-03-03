@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Input from '../../components/Input/Input'
+import StyledInput from '../../components/StyledInput'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -29,20 +30,20 @@ const secondStep = () => {
    })
    useEffect(() => {
       console.log(account)
-      const validateAccount = async () => {
-         try {
-            let res = await axios.post(
-               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
-               {
-                  account: account,
-               },
-            )
-            console.log(res)
-         } catch (e) {
-            console.log(e)
-         }
-      }
-      validateAccount()
+      // const validateAccount = async () => {
+      //    try {
+      //       let res = await axios.post(
+      //          'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
+      //          {
+      //             account: account,
+      //          },
+      //       )
+      //       console.log(res)
+      //    } catch (e) {
+      //       console.log(e)
+      //    }
+      // }
+      // validateAccount()
    }, [account])
    return (
       <>
@@ -56,12 +57,12 @@ const secondStep = () => {
                <label htmlFor='email' className='font-medium mb-2'>
                   帳號
                </label>
-               <Input
-                  // {...register('account', { required: '帳號必填' })}
-                  setValue={setAccount}
+               <StyledInput
+                  {...register('account', { required: '帳號必填' })}
                   size={'12px 16px'}
                   shape={'12px'}
                   placeholder={'4-21碼小寫英文.數字'}
+                  onChange={(e) => setAccount(e.target.value)}
                />
                <p className='text-red-500'>{errors?.account?.message}</p>
             </div>
@@ -69,8 +70,8 @@ const secondStep = () => {
                <label htmlFor='password' className='mb-2 font-medium'>
                   密碼
                </label>
-               <Input
-                  // {...register('password', { required: '76' })}
+               <StyledInput
+                  {...register('password', { required: '76' })}
                   setValue={setPassword}
                   size={'12px 16px'}
                   shape={'12px'}

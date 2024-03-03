@@ -20,22 +20,4 @@ const StyledInput = styled.input.attrs((props) => {
    &: ;
 `
 
-const Input = ({ children, placeholder, value, size, shape, setValue, isError, formState }) => {
-   const handleChange = (e) => {
-      setValue(() => e.target.value)
-   }
-   return (
-      <StyledInput
-         onChange={handleChange}
-         size={size}
-         shape={shape}
-         isError={isError}
-         placeholder={placeholder}
-         formState={formState}
-         value={value}
-         disabled={formState === 'loading' || formState === 'disabled'}
-      />
-   )
-}
-
-export default Input
+export default StyledInput
