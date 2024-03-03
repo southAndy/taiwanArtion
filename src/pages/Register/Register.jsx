@@ -59,6 +59,12 @@ const Register = () => {
          navigate('/account')
       } else {
          setStep((n) => n - 1)
+         // 將上一步的狀態改為false
+         setStepStatus((n) => {
+            const newState = [...n]
+            newState[step - 1] = false
+            return newState
+         })
       }
    }
    const handleNextStep = () => {
@@ -67,7 +73,7 @@ const Register = () => {
    const renderContent = () => {
       switch (step) {
          case 1:
-            return <SecondStep />
+            return <SecondStep setStatus={setStepStatus} />
          case 2:
             return <ThirdStep />
          case 3:
