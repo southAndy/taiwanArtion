@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../../assets/images/index'
-import { Link } from 'react-router-dom'
+import { Link, Router } from 'react-router-dom'
 import Header from '../../container/Header/Header'
 import FirstStep from '../../container/Register/FirstStep'
 import Button from '../../components/Button'
@@ -37,6 +38,7 @@ const Register = () => {
    const [isClick, setClick] = useState(false)
    const steps = [FirstStep, SecondStep, ThirdStep, FinishStep]
    const [stepStatus, setStepStatus] = useState([false, false, false, false])
+   const navigate = useNavigate()
    function renderSteps() {
       return (
          <>
@@ -54,7 +56,11 @@ const Register = () => {
    }
 
    const handlePrevStep = () => {
-      setStep((n) => n - 1)
+      if (step === 0) {
+         navigate('/account')
+      } else {
+         setStep((n) => n - 1)
+      }
    }
    const handleNextStep = () => {
       setStep((n) => n + 1)
@@ -86,10 +92,13 @@ const Register = () => {
          <Header />
          <StyledLoginBanner>
             <div className='flex items-center'>
-               <Link to='/account' className='w-[18px] h-[10px]'>
+               <div
+                  className='w-[18px] h-[10px] absolute left-4 cursor-pointer'
+                  onClick={handlePrevStep}
+               >
                   <img src={vectorIcon} alt='回到上一頁箭頭' />
-               </Link>
-               <StyledTitle className='text-md'>會員註冊</StyledTitle>
+               </div>
+               <StyledTitle className='text-md text-[#535353]'>會員註冊</StyledTitle>
             </div>
             <Stepper activeStep={step} alternativeLabel>
                {stepContent.map((label) => (
