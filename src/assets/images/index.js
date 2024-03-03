@@ -29,6 +29,7 @@ import loginBannerMobile from '../../assets/images/banner-mobile.png'
 import vectorIcon from '../images/Vector.png'
 import registerInfoIcon from '../images/register-icon.png'
 import uncheckIcon from '../images/uncheck-icon.png'
+import checkIcon from '../images/checked-icon.png'
 import sampleResult from '../images/sample-result.png'
 import calendarIcon from '../images/calendar-icon.png'
 import filterIcon from '../images/filter.png'
@@ -70,6 +71,7 @@ export {
    vectorIcon,
    registerInfoIcon,
    uncheckIcon,
+   checkIcon,
    sampleResult,
    calendarIcon,
    filterIcon,
