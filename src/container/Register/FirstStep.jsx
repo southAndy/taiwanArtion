@@ -53,7 +53,12 @@ const firstStep = ({ setStatus }) => {
                      placeholder={'請輸入驗證碼'}
                      onChange={(e) => {
                         setUserCode(e.target.value)
-                        setStatus((n) => [true, ...n.slice(1)])
+
+                        setStatus((n) => {
+                           const newState = [...n]
+                           newState[0] = true
+                           return newState
+                        })
                         handleSubmit()
                      }}
                      value={userCode}
