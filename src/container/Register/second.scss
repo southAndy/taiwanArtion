@@ -1,0 +1,15 @@
+progress {
+   // 進度條的整體樣式
+   border-radius: 10px;
+}
+
+progress::-webkit-progress-bar {
+   border-radius: 10px;
+}
+
+/* 通过 ::-webkit-progress-value 选择器设置进度条填充的样式 */
+progress::-webkit-progress-value {
+   // 設置進度條填充的樣式
+   border-radius: 10px;
+   //    background-color: #f25f5c;
+}
