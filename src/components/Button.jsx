@@ -15,6 +15,7 @@ const StyledButton = styled.button.attrs({
       background-color: #eeeeee;
       color: #3333;
    }
+   white-space: nowrap;
 `
 
 const Button = ({
