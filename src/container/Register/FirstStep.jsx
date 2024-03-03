@@ -21,7 +21,6 @@ const firstStep = ({ setStatus }) => {
          .length(10, '手機號碼長度不正確')
          .test('phone-rule', '請輸入正確的手機格式', (value) => {
             if (value) {
-               console.log(value)
                return value.startsWith('09')
             } else {
                return false
@@ -113,7 +112,6 @@ const firstStep = ({ setStatus }) => {
    useEffect(() => {
       content = '已寄送驗證碼'
       if (isSent) {
-         console.log('sent')
          handleSubmit()
          //todo 加入手機驗證碼API
          // axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/phone', {
