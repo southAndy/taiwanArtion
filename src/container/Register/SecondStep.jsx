@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { registerInfoIcon, uncheckIcon, warnIcon } from '../../assets/images'
 import axios from 'axios'
+import '../Register/second.scss'
 
 const secondStep = () => {
    const [account, setAccount] = useState('')
@@ -94,7 +95,7 @@ const secondStep = () => {
                   onChange={(e) => setAccount(e.target.value)}
                />
                {errors.account ? (
-                  <div className='flex gap-1 mt-2'>
+                  <div className='flex  items-center gap-1 mt-2'>
                      <div className='w-[20px] h-[20px]'>
                         <img src={warnIcon} alt='' />
                      </div>
@@ -110,12 +111,14 @@ const secondStep = () => {
                </label>
                <StyledInput
                   {...register('password', { required: '76' })}
+                  type={'password'}
                   setValue={setPassword}
                   size={'12px 16px'}
                   shape={'12px'}
                   placeholder={'6-18位數密碼,請區分大小寫'}
                   onChange={(e) => setPassword(e.target.value)}
                />
+<<<<<<< Updated upstream
                {errors.password ? (
                   <div className='flex gap-1 mt-2'>
                      <div className='w-[20px] h-[20px]'>
@@ -126,6 +129,20 @@ const secondStep = () => {
                ) : (
                   ''
                )}
+=======
+               <div className='flex gap-1 items-center mt-2 h-[20px]'>
+                  {errors.password ? (
+                     <>
+                        <div className='w-[20px] h-[20px]'>
+                           <img src={warnIcon} alt='是否符合密碼條件圖樣' />
+                        </div>
+                        <span className='text-[#D31C1C]'>{errors.password?.message}</span>
+                     </>
+                  ) : (
+                     ''
+                  )}
+               </div>
+>>>>>>> Stashed changes
             </div>
          </form>
          <section>
@@ -145,7 +162,7 @@ const secondStep = () => {
             ))}
             <div>
                <div className='mt-4 text-[#453434]'>密碼強度</div>
-               <progress id='score' className='w-[100%]' value={score} max='100'></progress>
+               <progress className='w-[100%] rounded-xl' value={score} max='100'></progress>
             </div>
          </section>
       </>
