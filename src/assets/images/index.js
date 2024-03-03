@@ -37,6 +37,7 @@ import detailSampleBg from '../images/image.png'
 import unStarIcon from '../images/unstar-icon.png'
 import shareIcon from '../images/share-icon.png'
 import likeIcon from '../images/like-icon.png'
+import warnIcon from '../images/warn-icon.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -77,4 +78,5 @@ export {
    unStarIcon,
    shareIcon,
    likeIcon,
+   warnIcon,
 }
