@@ -7,6 +7,8 @@ import AccountPage from '../container/Account'
 import LoginPage from '../container/Login'
 import Register from '../pages/Register/Register'
 import Backstage from '../pages/Backstage/Backstage'
+import Success from '../pages/Register/Success'
+import Login from '../container/Login'
 
 const router = createBrowserRouter([
    {
@@ -39,6 +41,10 @@ const router = createBrowserRouter([
    {
       path: '/register',
       element: <Register />,
+   },
+   {
+      path: '/success',
+      element: <Success />,
    },
    {
       path: '/backstage/',
