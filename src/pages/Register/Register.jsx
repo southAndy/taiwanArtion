@@ -15,7 +15,6 @@ import { Step, Stepper, StepLabel } from '@mui/material'
 const StyledLoginBanner = styled.section`
    display: flex;
    flex-direction: column;
-   align-items: center;
    justify-content: start;
    gap: 20px;
    padding: 20px;
@@ -91,7 +90,7 @@ const Register = () => {
       <>
          <Header />
          <StyledLoginBanner>
-            <div className='flex items-center'>
+            <div className='flex items-center justify-center'>
                <div
                   className='w-[18px] h-[10px] absolute left-4 cursor-pointer'
                   onClick={handlePrevStep}
