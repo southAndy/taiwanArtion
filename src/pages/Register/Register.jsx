@@ -73,7 +73,7 @@ const Register = () => {
    const renderContent = () => {
       switch (step) {
          case 1:
-            return <SecondStep setStatus={setStepStatus} />
+            return <SecondStep setStepStatus={setStepStatus} />
          case 2:
             return <ThirdStep />
          case 3:
