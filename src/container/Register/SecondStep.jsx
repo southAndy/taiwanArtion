@@ -18,7 +18,7 @@ const StyledPasswordText = styled.div`
    font-size: 14px;
 `
 
-const secondStep = () => {
+const secondStep = ({ setStepStatus }) => {
    const [account, setAccount] = useState('')
    const [password, setPassword] = useState('')
    const [score, setScore] = useState(0)
@@ -27,7 +27,7 @@ const secondStep = () => {
    const ruleList = [
       '至少包含一個小寫字母',
       '至少包含一個大寫字母',
-      '長度為 8-16位英.數字',
+      '長度為 8-16位英、數字',
       '加入至少一個特殊標點符號',
    ]
    const schema = yup.object().shape({
@@ -71,6 +71,22 @@ const secondStep = () => {
       resolver: yupResolver(schema),
       mode: 'all',
    })
+   // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
+   useEffect(() => {
+      if (account && password && score === 100) {
+         setStepStatus((n) => {
+            const newState = [...n]
+            newState[1] = true
+            return newState
+         })
+      } else {
+         setStepStatus((n) => {
+            const newState = [...n]
+            newState[1] = false
+            return newState
+         })
+      }
+   }, [account, password, score])
 
    return (
       <>
