@@ -69,15 +69,16 @@ const Register = () => {
    }
    const handleNextStep = () => {
       setStep((n) => n + 1)
+      if (step === 2) {
+         navigate('/success')
+      }
    }
    const renderContent = () => {
       switch (step) {
          case 1:
             return <SecondStep setStepStatus={setStepStatus} />
          case 2:
-            return <ThirdStep />
-         case 3:
-            return <FinishStep />
+            return <ThirdStep setStepStatus={setStepStatus} />
          default:
             return <FirstStep setStatus={setStepStatus} />
       }
