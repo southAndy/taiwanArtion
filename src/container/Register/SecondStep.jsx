@@ -31,7 +31,14 @@ const secondStep = ({ setStepStatus }) => {
       '加入至少一個特殊標點符號',
    ]
    const schema = yup.object().shape({
-      account: yup.string().required(),
+      account: yup
+         .string()
+         .required()
+         .min(4, '帳號長度不足')
+         .test('test', '帳號格式錯誤', (value) => {
+            //不能輸入特殊符號
+            return !value.match(/[^a-zA-Z0-9]/)
+         }),
       password: yup
          .string()
          .required()
