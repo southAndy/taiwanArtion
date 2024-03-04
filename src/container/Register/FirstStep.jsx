@@ -20,8 +20,9 @@ const firstStep = ({ setStatus }) => {
          .required('此欄位為必填')
          .length(10, '手機號碼長度不正確')
          .test('phone-rule', '請輸入正確的手機格式', (value) => {
-            if (value) {
-               return value.startsWith('09')
+            // 手機號碼需以09開頭，且都是數字
+            if (value.startsWith('09') && value.split('').every((n) => !isNaN(n))) {
+               return true
             } else {
                return false
             }
