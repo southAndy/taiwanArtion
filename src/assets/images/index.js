@@ -39,6 +39,8 @@ import unStarIcon from '../images/unstar-icon.png'
 import shareIcon from '../images/share-icon.png'
 import likeIcon from '../images/like-icon.png'
 import warnIcon from '../images/warn-icon.png'
+import successBg from '../images/success-bg.png'
+import sucessIcon from '../images/success-icon.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -81,4 +83,6 @@ export {
    shareIcon,
    likeIcon,
    warnIcon,
+   successBg,
+   sucessIcon,
 }
