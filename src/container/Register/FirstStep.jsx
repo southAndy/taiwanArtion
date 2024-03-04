@@ -27,7 +27,7 @@ const firstStep = ({ setStatus }) => {
                return false
             }
          }),
-      userCode: yup.string().required().max(6, '驗證碼長度不正確'),
+      userCode: yup.string().required('此欄位為必填').min(6, '驗證碼長度不正確'),
    })
    const {
       register,
@@ -46,7 +46,7 @@ const firstStep = ({ setStatus }) => {
                   已發送手機驗證碼至{userPhone}手機,請輸入手機驗證碼並送出驗證。
                </p>
                <h3 className='mb-5 font-bold text-lg'>{content}</h3>
-               <section className='flex gap-2' onSubmit={handleSubmit()}>
+               <section className='flex gap-2'>
                   <StyledInput
                      {...register('userCode')}
                      size={'12px 16px'}
@@ -54,13 +54,20 @@ const firstStep = ({ setStatus }) => {
                      placeholder={'請輸入驗證碼'}
                      onChange={(e) => {
                         setUserCode(e.target.value)
-
-                        setStatus((n) => {
-                           const newState = [...n]
-                           newState[0] = true
-                           return newState
-                        })
-                        handleSubmit()
+                        // 如果驗證碼長度為6，將觸發 setStatus
+                        if (e.target.value.length === 6) {
+                           setStatus((n) => {
+                              const newState = [...n]
+                              newState[0] = true
+                              return newState
+                           })
+                        } else {
+                           setStatus((n) => {
+                              const newState = [...n]
+                              newState[0] = false
+                              return newState
+                           })
+                        }
                      }}
                      value={userCode}
                      maxLength='6'
@@ -71,6 +78,16 @@ const firstStep = ({ setStatus }) => {
                      disabled={countdown !== 0}
                   />
                </section>
+               {errors.userCode ? (
+                  <div className='flex gap-1 mt-2'>
+                     <div className='w-[20px] h-[20px]'>
+                        <img src={warnIcon} alt='' />
+                     </div>
+                     <span className='text-[#D31C1C]'>{errors.userCode?.message}</span>
+                  </div>
+               ) : (
+                  ''
+               )}
             </form>
          )
       } else {
@@ -115,16 +132,6 @@ const firstStep = ({ setStatus }) => {
       }
    }
 
-   useEffect(() => {
-      content = '已寄送驗證碼'
-      if (isSent) {
-         handleSubmit()
-         //todo 加入手機驗證碼API
-         // axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/phone', {
-         //    phone: userPhone,
-         // })
-      }
-   }, [isSent])
    // 重發驗證碼倒數計時
    useEffect(() => {
       if (!isSent) return
