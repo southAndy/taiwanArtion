@@ -5,8 +5,6 @@ import { RouterProvider } from 'react-router-dom'
 import './assets/scss/main.scss'
 import Header from './container/Header/Header'
 
-// import app from '../firebase.config'
-
 import { Provider } from 'react-redux'
 //redux instance
 import store from './store'

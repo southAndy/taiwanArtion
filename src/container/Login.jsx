@@ -10,6 +10,8 @@ import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { auth, provider } from '../../firebase.config'
+import { signInWithPopup } from 'firebase/auth'
 
 const StyledLoginBanner = styled.section`
    display: flex;
@@ -76,6 +78,17 @@ const Login = () => {
       //將登入成功存入 cookie
       document.cookie = 'isLogin=true'
    }
+   const loginGoogle = async () => {
+      try {
+         const result = await signInWithPopup(auth, provider)
+         const user = result.user
+         console.log(user)
+         // todo 增加成員的處理
+         navigate('/')
+      } catch (e) {
+         console.log(e)
+      }
+   }
    return (
       <>
          <Header />
@@ -129,7 +142,7 @@ const Login = () => {
                   <StyledImageBox>
                      <img src={facebookIcon} alt='' />
                   </StyledImageBox>
-                  <StyledImageBox>
+                  <StyledImageBox onClick={loginGoogle}>
                      <img src={googleIcon} alt='' />
                   </StyledImageBox>
                   <StyledImageBox onClick={loginLine}>
