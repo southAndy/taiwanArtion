@@ -45,6 +45,7 @@ const memberSlice = createSlice({
    extraReducers: {
       [normalLogin.fulfilled]: (state, action) => {
          if (action.payload.status === 200) {
+            console.log('登入成功!', action.payload.accountInfo)
             state.memberInfo = action.payload.accountInfo
             state.isLogin = true
          } else {
