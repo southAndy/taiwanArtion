@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { auth, provider } from '../../firebase.config'
 import { signInWithPopup } from 'firebase/auth'
+import { Dispatch } from '@reduxjs/toolkit'
+import { normalLogin } from '../store/memberSlice'
 
 const StyledLoginBanner = styled.section`
    display: flex;
@@ -55,7 +57,12 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
-            navigate('/backstage')
+            dispatch(normalLogin({ username, password }))
+            //todo 從資料庫取得使用者資料存入 redux
+            // 等待3秒後跳轉到後台
+            setTimeout(() => {
+               navigate('/backstage')
+            }, 3000)
          } else {
             alert('登入失敗!請檢查帳號密碼是否正確')
          }
