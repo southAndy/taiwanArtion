@@ -150,7 +150,7 @@ const AllExhibitionCard = () => {
 }
 
 const HomePage = () => {
-   const monthList = fakeMonthList
+   const monthList = fakeMonthList.toArray()
    const [exhibitionList, setList] = useState([])
    const [ownAPI, setOwnAPI] = useState([])
    const [isLoading, setLoading] = useState(true)
@@ -175,7 +175,8 @@ const HomePage = () => {
             // 把兩個資料合併
             // const mergeData = response.data.concat(openResponse.data)
             const mergeData = response.data
-            setList(() => mergeData)
+            console.log(mergeData)
+            // setList(() => mergeData)
          } catch (error) {
             console.log(error)
          } finally {
