@@ -186,22 +186,22 @@ const HomePage = () => {
       fetchData()
    }, [])
    //? 展覽資料處理
-   const selectedExhibition = useMemo(() => {
-      if (exhibitionList.length === 0) {
-         //? 預設顯示展覽數量
-         return [{}, {}, {}, {}, {}]
-      } else {
-         //? 篩選展覽日期
-         const currentDate = `${new Date().getFullYear()}-${currentMonth}`
-         const formatDate = dayjs(currentDate).format('YYYY-MM')
-         return exhibitionList.filter((data) => {
-            const beginMonth = dayjs(formatDate)
-            if (beginMonth.isBefore(data.startDate, 'month')) {
-               return data
-            }
-         })
-      }
-   }, [exhibitionList, currentMonth])
+   // const selectedExhibition = useMemo(() => {
+   //    if (exhibitionList.length === 0) {
+   //       //? 預設顯示展覽數量
+   //       return [{}, {}, {}, {}, {}]
+   //    } else {
+   //       //? 篩選展覽日期
+   //       const currentDate = `${new Date().getFullYear()}-${currentMonth}`
+   //       const formatDate = dayjs(currentDate).format('YYYY-MM')
+   //       return exhibitionList.filter((data) => {
+   //          const beginMonth = dayjs(formatDate)
+   //          if (beginMonth.isBefore(data.startDate, 'month')) {
+   //             return data
+   //          }
+   //       })
+   //    }
+   // }, [exhibitionList, currentMonth])
 
    //test
    const handleIncrement = () => {
