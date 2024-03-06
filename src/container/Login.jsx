@@ -12,7 +12,6 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { auth, provider } from '../../firebase.config'
 import { signInWithPopup } from 'firebase/auth'
-import { Dispatch } from '@reduxjs/toolkit'
 import { normalLogin } from '../store/memberSlice'
 
 const StyledLoginBanner = styled.section`
