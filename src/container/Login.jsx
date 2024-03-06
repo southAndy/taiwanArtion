@@ -44,24 +44,20 @@ const Login = () => {
    const navigate = useNavigate()
    const dispatch = useDispatch()
    const sendLoginRequest = async () => {
-      console.log('sendLoginRequest')
-      // const username = username
-      // const password = password
       try {
-         axios.post('https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login', {
-            username: 'admin',
-            password: 'admin',
-         })
-
+         const res = await axios.post(
+            'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
+            {
+               username: username,
+               password: password,
+            },
+         )
          //成功的話跳轉到後台
-         if (username === 'admin' && password === 'admin') {
-            //登入狀態改為 true
-            document.cookie = 'isLogin=true'
-            dispatch(setIsLogin(true))
-            navigate('/backstage')
+         if (res.data.status === 200) {
+            alert('登入成功!')
+            navigator('/backstage')
          } else {
-            //失敗的話顯示錯誤訊息
-            alert('帳號或密碼錯誤')
+            alert(res.data.message)
          }
       } catch (e) {
          console.log(e)
