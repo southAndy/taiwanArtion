@@ -39,7 +39,7 @@ const secondStep = ({ setStepStatus }) => {
             //不能輸入特殊符號
             return !value.match(/[^a-zA-Z0-9]/)
          })
-         .test('此帳號已被使用', async (value) => {
+         .test('帳號已存在', '此帳號已被使用', async (value) => {
             try {
                const res = await axios.post(
                   'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
