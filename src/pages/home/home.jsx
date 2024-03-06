@@ -177,8 +177,11 @@ const HomePage = () => {
             // 把兩個資料合併
             const mergeData = [...response.data, ...openResponse]
             console.log('合併結果', mergeData)
+            const hasImageData = mergeData.filter((data) => {
+               return data.imageUrl !== ''
+            })
 
-            setList(() => openResponse)
+            setList(() => hasImageData)
          } catch (error) {
             console.log(error)
          } finally {
