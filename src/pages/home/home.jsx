@@ -174,9 +174,9 @@ const HomePage = () => {
             )
             // 把兩個資料合併
             const mergeData = response.data.concat(openResponse.data)
-            // const mergeData = response.data
-            console.log(mergeData)
-            // setList(() => mergeData)
+            console.log('合併結果', mergeData)
+
+            setList(() => openResponse.data)
          } catch (error) {
             console.log(error)
          } finally {
@@ -187,22 +187,22 @@ const HomePage = () => {
       fetchData()
    }, [])
    //? 展覽資料處理
-   // const selectedExhibition = useMemo(() => {
-   //    if (exhibitionList.length === 0) {
-   //       //? 預設顯示展覽數量
-   //       return [{}, {}, {}, {}, {}]
-   //    } else {
-   //       //? 篩選展覽日期
-   //       const currentDate = `${new Date().getFullYear()}-${currentMonth}`
-   //       const formatDate = dayjs(currentDate).format('YYYY-MM')
-   //       return exhibitionList.filter((data) => {
-   //          const beginMonth = dayjs(formatDate)
-   //          if (beginMonth.isBefore(data.startDate, 'month')) {
-   //             return data
-   //          }
-   //       })
-   //    }
-   // }, [exhibitionList, currentMonth])
+   const selectedExhibition = useMemo(() => {
+      if (exhibitionList.length === 0) {
+         //? 預設顯示展覽數量
+         return [{}, {}, {}, {}, {}]
+      } else {
+         //? 篩選展覽日期
+         const currentDate = `${new Date().getFullYear()}-${currentMonth}`
+         const formatDate = dayjs(currentDate).format('YYYY-MM')
+         return exhibitionList.filter((data) => {
+            const beginMonth = dayjs(formatDate)
+            if (beginMonth.isBefore(data.startDate, 'month')) {
+               return data
+            }
+         })
+      }
+   }, [exhibitionList, currentMonth])
 
    //test
    const handleIncrement = () => {
@@ -212,7 +212,7 @@ const HomePage = () => {
       <>
          {exhibitionList}
          <Header />
-         {/* <SwiperSlide data={selectedExhibition} isLoading={isLoading} /> */}
+         <SwiperSlide data={selectedExhibition} />
          <StyledMonthWrapper>
             <h3 className='pb-2' onClick={handleIncrement}>
                {new Date().getFullYear()}年

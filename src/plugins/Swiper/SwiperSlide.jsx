@@ -12,7 +12,7 @@ import { EffectCards } from 'swiper/modules'
 import { sampleExhibition } from '../../assets/images'
 import { Link } from 'react-router-dom'
 
-export default function App() {
+export default function App({ data }) {
    return (
       <>
          <Swiper
@@ -21,7 +21,23 @@ export default function App() {
             modules={[EffectCards]}
             className='flex h-[300px] w-[250px] p-5'
          >
-            <SwiperSlide className='flex items-center justify-center text-lg bg-red-50'>
+            {data.map((item) => {
+               return (
+                  <SwiperSlide
+                     key={item.UID}
+                     className='flex items-center justify-center text-lg bg-red-50'
+                  >
+                     <Link to={`/detail/${item.UID}`} className='flex flex-col items-center'>
+                        <div className='w-[270px] h-[170px]'>
+                           <img src={item.imageUrl} alt='' />
+                        </div>
+                        <h3>{item.title}</h3>
+                        <p>{item.startDate || '尚無資訊'}</p>
+                     </Link>
+                  </SwiperSlide>
+               )
+            })}
+            {/* <SwiperSlide className='flex items-center justify-center text-lg bg-red-50'>
                <Link to={'/detail/sample'} className='flex flex-col items-center'>
                   <div className='w-[270px] h-[170px]'>
                      <img src={sampleExhibition} alt='' />
@@ -53,7 +69,7 @@ export default function App() {
             </SwiperSlide>
             <SwiperSlide className='flex items-center justify-center text-lg bg-red-100'>
                Slide 9
-            </SwiperSlide>
+            </SwiperSlide> */}
          </Swiper>
       </>
    )
