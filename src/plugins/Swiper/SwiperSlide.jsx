@@ -21,13 +21,17 @@ export default function App({ data }) {
             modules={[EffectCards]}
             className='flex h-[300px] w-[250px] p-5'
          >
-            {data.map((item) => {
+            {data.map((item, index) => {
                return (
                   <SwiperSlide
-                     key={item.UID}
+                     key={item.UID ?? index}
                      className='flex items-center justify-center text-lg bg-red-50'
                   >
-                     <Link to={`/detail/${item.UID}`} className='flex flex-col items-center'>
+                     <Link
+                        key={item.UID ?? index}
+                        to={`/detail/${item.UID}`}
+                        className='flex flex-col items-center'
+                     >
                         <div className='w-[270px] h-[170px]'>
                            <img src={item.imageUrl} alt='' />
                         </div>
