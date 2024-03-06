@@ -95,8 +95,7 @@ const secondStep = ({ setStepStatus }) => {
       formState: { errors },
    } = useForm({
       resolver: yupResolver(schema),
-      mode: 'all',
-      shouldUnregister: false,
+      mode: 'onChange',
    })
    // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
    useEffect(() => {
