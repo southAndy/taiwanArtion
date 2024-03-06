@@ -55,7 +55,7 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
-            navigator('/backstage')
+            navigate('/backstage')
          } else {
             alert('登入失敗!請檢查帳號密碼是否正確')
          }
