@@ -39,7 +39,8 @@ const secondStep = ({ setStepStatus }) => {
             //不能輸入特殊符號
             return !value.match(/[^a-zA-Z0-9]/)
          })
-         .test('帳號已存在', '此帳號已被使用', async (value) => {
+         .test('帳號已存在', '此帳號已被使用', async (value, context) => {
+            const { setError, clearErrors } = context
             try {
                const res = await axios.post(
                   'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
@@ -47,6 +48,10 @@ const secondStep = ({ setStepStatus }) => {
                      account: value,
                   },
                )
+               if (!res.data.isExist) {
+                  // 手動使用 clearErrors 更新錯誤狀態
+                  clearErrors('account')
+               }
                return res.data.isExist
             } catch (err) {
                console.log(err)
@@ -91,6 +96,7 @@ const secondStep = ({ setStepStatus }) => {
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'all',
+      shouldUnregister: false,
    })
    // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
    useEffect(() => {
