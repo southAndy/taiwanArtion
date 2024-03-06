@@ -28,15 +28,11 @@ const router = createBrowserRouter([
    {
       path: '/account',
       element: <AccountPage />,
+      // 新增檢查權限
    },
    {
       path: '/login',
       element: <LoginPage />,
-      // 新增檢查權限
-      shouldRevalidate: (route) => {
-         console.log(route)
-         return true
-      },
    },
    {
       path: '/register',
@@ -49,6 +45,14 @@ const router = createBrowserRouter([
    {
       path: '/backstage/',
       element: <Backstage />,
+      shouldRevalidate: (route) => {
+         // 如果沒有登入就導回登入頁
+         // 如果 cookie 沒有 isLogin 就導回登入頁
+         if (!document.cookie.includes('isLogin=true')) {
+            return '/login'
+         }
+         return true
+      },
    },
 ])
 
