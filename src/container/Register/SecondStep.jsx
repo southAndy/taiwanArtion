@@ -37,7 +37,7 @@ const secondStep = ({ setStepStatus }) => {
          .min(4, '帳號長度不足')
          .test('test', '帳號格式錯誤', (value) => {
             //不能輸入特殊符號
-            return value.match(/[^a-zA-Z0-9]/)
+            return !value.match(/[^a-zA-Z0-9]/)
          })
          .test('帳號已存在', '此帳號已被使用', async (value) => {
             try {
