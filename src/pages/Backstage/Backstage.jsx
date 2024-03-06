@@ -6,14 +6,14 @@ import { useSelector } from 'react-redux'
 const Backstage = () => {
    // 用 redux 取得 user 資料
    const user = useSelector((state) => state.member.memberInfo)
-   console.log(user)
+   console.log('讀取使用者資料', user)
    function handleLogout() {
       console.log('logout')
    }
    return (
       <>
          <Header />
-         <h1>hi {user.name || '範例名稱'}</h1>
+         <h1>hi {'已登入會員'}</h1>
          <section className='flex flex-col items-center gap-3'>
             <div className='w-[50%] h-[100%] m-auto'>
                <img src={backstageIcon} alt='' />
