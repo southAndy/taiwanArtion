@@ -13,16 +13,16 @@ const Backstage = () => {
    return (
       <>
          <Header />
-         <h1>hi {user.name}</h1>
+         <h1>hi {user.name || '範例名稱'}</h1>
          <section className='flex flex-col items-center gap-3'>
             <div className='w-[50%] h-[100%] m-auto'>
                <img src={backstageIcon} alt='' />
             </div>
             <Link to='/'>開始探索</Link>
          </section>
-         <button className=' absolute right-5' onClick={handleLogout}>
+         {/* <button className=' absolute right-5' onClick={handleLogout}>
             登出
-         </button>
+         </button> */}
       </>
    )
 }
