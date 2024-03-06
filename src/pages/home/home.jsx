@@ -150,7 +150,7 @@ const AllExhibitionCard = () => {
 }
 
 const HomePage = () => {
-   const monthList = fakeMonthList.toArray()
+   const monthList = fakeMonthList
    const [exhibitionList, setList] = useState([])
    const [ownAPI, setOwnAPI] = useState([])
    const [isLoading, setLoading] = useState(true)
