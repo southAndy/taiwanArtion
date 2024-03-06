@@ -173,7 +173,7 @@ const HomePage = () => {
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
             // 把兩個資料合併
-            const mergeData = response.data.concat(openResponse.data)
+            const mergeData = [...response.data, ...openResponse.data]
             console.log('合併結果', mergeData)
 
             setList(() => openResponse.data)
