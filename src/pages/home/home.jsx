@@ -169,9 +169,9 @@ const HomePage = () => {
                   keyword: 'taipei',
                },
             )
-            const openResponse = await axios.get(
-               'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
-            )
+            // const openResponse = await axios.get(
+            //    'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
+            // )
             // 把兩個資料合併
             // const mergeData = response.data.concat(openResponse.data)
             const mergeData = response.data
