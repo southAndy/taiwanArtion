@@ -178,7 +178,7 @@ const HomePage = () => {
             const mergeData = [...response.data, ...openResponse]
             console.log('合併結果', mergeData)
 
-            setList(() => openResponse.data)
+            setList(() => openResponse)
          } catch (error) {
             console.log(error)
          } finally {
