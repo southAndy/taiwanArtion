@@ -57,7 +57,7 @@ const Login = () => {
             alert('登入成功!')
             navigator('/backstage')
          } else {
-            alert(res.data.message)
+            alert('登入失敗!請檢查帳號密碼是否正確')
          }
       } catch (e) {
          console.log(e)
