@@ -211,7 +211,7 @@ const HomePage = () => {
       <>
          {exhibitionList}
          <Header />
-         <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
+         {/* <SwiperSlide data={selectedExhibition} isLoading={isLoading} /> */}
          <StyledMonthWrapper>
             <h3 className='pb-2' onClick={handleIncrement}>
                {new Date().getFullYear()}年
