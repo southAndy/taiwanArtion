@@ -163,12 +163,15 @@ const HomePage = () => {
    useEffect(() => {
       async function fetchData() {
          try {
-            let response = await axios.get(
+            const response = await axios.get(
+               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
+            )
+            const openResponse = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
-            // 近一步處理資料，過濾沒有圖片的展覽
-            const hasImageData = response.data.filter((data) => data.imageUrl !== '')
-            setList(() => hasImageData)
+            // 把兩個資料合併
+            const mergeData = response.data.concat(openResponse.data)
+            setList(() => mergeData)
          } catch (error) {
             console.log(error)
          } finally {
@@ -202,11 +205,12 @@ const HomePage = () => {
    }
    return (
       <>
+         {exhibitionList}
          <Header />
          <SwiperSlide data={selectedExhibition} isLoading={isLoading} />
          <StyledMonthWrapper>
             <h3 className='pb-2' onClick={handleIncrement}>
-               {2023}年
+               {new Date().getFullYear()}年
             </h3>
             <StyledMonthBox>
                {monthList.map((month, index) => {
