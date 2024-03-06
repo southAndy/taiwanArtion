@@ -114,15 +114,17 @@ const ExhibitionCard = ({ data }) => {
       <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
          <div className='number text-[#BE8152] font-bold'>01</div>
          <div className='rounded-md h-[60px] w-[60px]'>
-            <img src={categoryicon1} alt='' className='rounded-md' />
+            <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
          </div>
          <div className='description flex flex-wrap gap-1'>
-            <h3 className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>展覽名稱</h3>
+            <h3 className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>
+               {data.title ?? '展覽名稱'}
+            </h3>
             <p className='text-xs	'>2023.03.21 - 4.20</p>
             <div className='w-[16px] h-[16px]'>
                <img src={locationIcon} alt='縣市地址圖示' />
             </div>
-            <p className='text-xs'>台南市</p>
+            <p className='text-xs'>{data.showInfo?.location ?? '尚無資料'}</p>
          </div>
       </div>
    )
@@ -193,6 +195,7 @@ const HomePage = () => {
          return [{}, {}, {}, {}, {}]
       } else {
          //? 篩選展覽日期
+         const exhibitionList = [...exhibitionList]
          const currentDate = `${new Date().getFullYear()}-${currentMonth}`
          const formatDate = dayjs(currentDate).format('YYYY-MM')
          return exhibitionList.filter((data) => {
@@ -248,7 +251,7 @@ const HomePage = () => {
          </section>
          <HotSection>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard />
+            <ExhibitionCard data={selectedExhibition} />
          </HotSection>
          <StyledAllExhibitionWrapper>
             <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
