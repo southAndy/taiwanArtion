@@ -57,7 +57,7 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
-            dispatch(normalLogin({ username, password }))
+            dispatch(normalLogin({ username: username, password: password }))
             //todo 從資料庫取得使用者資料存入 redux
             // 等待3秒後跳轉到後台
             setTimeout(() => {
@@ -120,6 +120,7 @@ const Login = () => {
                   </label>
                   <Input
                      setValue={setPassword}
+                     type={'password'}
                      size={'12px 16px'}
                      shape={'12px'}
                      placeholder={'6-18位數密碼,請區分大小寫'}
