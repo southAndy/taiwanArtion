@@ -47,7 +47,7 @@ const secondStep = ({ setStepStatus }) => {
                      account: value,
                   },
                )
-               return res.data.isExist
+               return !res.data.isExist
             } catch (err) {
                console.log(err)
             }
