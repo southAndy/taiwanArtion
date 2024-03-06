@@ -38,6 +38,19 @@ const secondStep = ({ setStepStatus }) => {
          .test('test', '帳號格式錯誤', (value) => {
             //不能輸入特殊符號
             return !value.match(/[^a-zA-Z0-9]/)
+         })
+         .test('此帳號已被使用', async (value) => {
+            try {
+               const res = await axios.post(
+                  'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
+                  {
+                     account: value,
+                  },
+               )
+               return res.data.isExist
+            } catch (err) {
+               console.log(err)
+            }
          }),
       password: yup
          .string()
@@ -69,6 +82,7 @@ const secondStep = ({ setStepStatus }) => {
             setMatchTips(localMatchTips)
             return localScore >= 100
          }),
+      //非同步,
    })
    const {
       register,
@@ -107,7 +121,13 @@ const secondStep = ({ setStepStatus }) => {
                   size={'12px 16px'}
                   shape={'12px'}
                   placeholder={'4-21碼小寫英文.數字'}
-                  onChange={(e) => setAccount(e.target.value)}
+                  onChange={async (e) => {
+                     try {
+                        setAccount(e.target.value)
+                     } catch (err) {
+                        console.log(err)
+                     }
+                  }}
                />
                {errors.account ? (
                   <div className='flex  items-center gap-1 mt-2'>
