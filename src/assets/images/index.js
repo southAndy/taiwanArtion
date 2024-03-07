@@ -42,6 +42,7 @@ import warnIcon from '../images/warn-icon.png'
 import successBg from '../images/success-bg.png'
 import sucessIcon from '../images/success-icon.png'
 import backstageIcon from '../images/backstage-icon-no.png'
+import notfindBg from '../images/notfind-bg.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -87,4 +88,5 @@ export {
    successBg,
    sucessIcon,
    backstageIcon,
+   notfindBg,
 }
