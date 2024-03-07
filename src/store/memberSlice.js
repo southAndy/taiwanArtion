@@ -1,16 +1,6 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
-export const normalLogin = createAsyncThunk('member/loginLine', async (arg, ThunkAPI) => {
-   const { username, password } = arg
-   const res = await axios.post(
-      'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
-      {
-         username: username,
-         password: password,
-      },
-   )
-   return res.data
-})
+
 const memberSlice = createSlice({
    name: 'member',
    initialState: {
@@ -41,21 +31,33 @@ const memberSlice = createSlice({
       setIsLogin(state, action) {
          state.isLogin = action.payload
       },
-   },
-   extraReducers: {
-      [normalLogin.fulfilled]: (state, action) => {
-         if (action.payload.status === 200) {
-            console.log('登入成功!', action.payload.accountInfo)
-            state.memberInfo = action.payload.accountInfo
-            state.isLogin = true
-         } else {
-            alert('登入失敗!請檢查帳號密碼是否正確')
-         }
-      },
-      [normalLogin.rejected]: (state, action) => {
-         console.log(action)
-      },
+      // fetchNormalLogin: create.createAsyncThunk(
+      //    async (arg, ThunkAPI) => {
+      //       const { username, password } = arg
+      //       const res = await axios.post(
+      //          'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
+      //          {
+      //             username: username,
+      //             password: password,
+      //          },
+      //       )
+      //       return res.data
+      //    },
+      //    {
+      //       pending: (state, action) => {
+      //          state.status = 'loading'
+      //       },
+      //       fulfilled: (state, action) => {
+      //          state.status = 'success'
+      //          state.memberInfo = action.payload
+      //       },
+      //       rejected: (state, action) => {
+      //          state.status = 'failed'
+      //       },
+      //    },
+      // ),
    },
 })
 export const { setMemberInfo, setLoginTime, setIsLogin, setMemberInterests } = memberSlice.actions
+
 export default memberSlice.reducer

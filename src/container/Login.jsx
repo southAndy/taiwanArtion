@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { auth, provider } from '../../firebase.config'
 import { signInWithPopup } from 'firebase/auth'
-import { normalLogin } from '../store/memberSlice'
+// import { fetchNormalLogin } from '../store/memberSlice'
 
 const StyledLoginBanner = styled.section`
    display: flex;
@@ -56,7 +56,7 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
-            dispatch(normalLogin({ username: username, password: password }))
+            // dispatch(fetchNormalLogin({ username: username, password: password }))
             //todo 從資料庫取得使用者資料存入 redux
             // 等待3秒後跳轉到後台
             setTimeout(() => {
