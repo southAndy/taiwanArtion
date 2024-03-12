@@ -131,22 +131,22 @@ const ExhibitionCard = ({ data }) => {
    )
 }
 
-const AllExhibitionCard = () => {
+const AllExhibitionCard = ({ data }) => {
    return (
       <div className='flex flex-col gap-1'>
          <div className='relative w-[167px] h-[180px] rounded-lg'>
-            <img src={sampleBg} alt='' className='rounded-lg' />
+            <img src={data.imageUrl} alt='' className='rounded-lg' />
             <div className='absolute right-2 top-2'>
-               <img src={loveIcon} alt='' />
+               <img src={loveIcon} alt='收藏按鈕' />
             </div>
          </div>
-         <h3>賴威嚴油畫個展</h3>
-         <p className='text-xs'>2023.03.21 - 4.20</p>
+         <h3>{data.title}</h3>
+         <p className='text-xs'>{data.startDate}</p>
          <div className='flex'>
             <div className='w-[16px] h-[16px]'>
                <img src={locationIcon} alt='縣市地址圖示' />
             </div>
-            <p className='text-xs '>台南市</p>
+            <p className='text-xs '>{data.showInfo[0].location}</p>
          </div>
       </div>
    )
@@ -240,7 +240,9 @@ const HomePage = () => {
                <StyledExhibitionType>評分最高</StyledExhibitionType>
                <StyledExhibitionType>最近日期</StyledExhibitionType>
             </TypeWrapper>
-            <AllExhibitionCard />
+            {exhibitionList.map((data, index) => {
+               return <AllExhibitionCard key={index} data={data} />
+            })}
          </StyledAllExhibitionWrapper>
          <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>
