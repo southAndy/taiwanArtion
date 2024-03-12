@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 const Backstage = () => {
    // 用 redux 取得 user 資料
-   const user = useSelector((state) => state.member.memberInfo)
-   console.log('讀取使用者資料', user)
-   function handleLogout() {
-      console.log('logout')
-   }
+   // const user = useSelector((state) => state.member.memberInfo)
+   // console.log('讀取使用者資料', user)
+   // function handleLogout() {
+   //    console.log('logout')
+   // }
    return (
       <>
          <Header />
