@@ -1,7 +1,7 @@
 import { redirect } from 'react-router-dom'
 
-const handleLogin = ({ request, params }) => {
-   console.log('handleLogin', request, params)
+const authLogin = ({ request, params }) => {
+   console.log('authLogin', request, params)
    if (document.cookie.includes('isLogin=true')) {
       alert('登入成功!')
       return null
@@ -11,4 +11,4 @@ const handleLogin = ({ request, params }) => {
    }
 }
 
-export default handleLogin
+export default authLogin
