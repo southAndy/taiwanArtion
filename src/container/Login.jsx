@@ -56,6 +56,7 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
+            document.cookie = 'isLogin=true'
             // dispatch(fetchNormalLogin({ username: username, password: password }))
             //todo 從資料庫取得使用者資料存入 redux
             // 等待3秒後跳轉到後台
