@@ -1,9 +1,9 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import SwiperSlide from '../../plugins/Swiper/SwiperSlide'
+import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
 import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
@@ -174,14 +174,14 @@ const HomePage = () => {
             const openResponse = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
-            // 把兩個資料合併
-            // const mergeData = [...response.data, ...openResponse]
-            console.log('合併結果', mergeData)
-            const hasImageData = mergeData.filter((data) => {
+            const openData = openResponse.data
+
+            console.log('合併結果', openResponse)
+            const hasImageData = openData.filter((data) => {
                return data.imageUrl !== ''
             })
 
-            setList(() => openResponse)
+            setList(() => hasImageData)
          } catch (error) {
             console.log(error)
          } finally {
@@ -191,34 +191,11 @@ const HomePage = () => {
       }
       fetchData()
    }, [])
-   //? 展覽資料處理
-   const selectedExhibition = useMemo(() => {
-      if (exhibitionList.length === 0) {
-         //? 預設顯示展覽數量
-         return [{}, {}, {}, {}, {}]
-      } else {
-         //? 篩選展覽日期
-         const exhibitionList = [...exhibitionList]
-         const currentDate = `${new Date().getFullYear()}-${currentMonth}`
-         const formatDate = dayjs(currentDate).format('YYYY-MM')
-         return exhibitionList.filter((data) => {
-            const beginMonth = dayjs(formatDate)
-            if (beginMonth.isBefore(data.startDate, 'month')) {
-               return data
-            }
-         })
-      }
-   }, [exhibitionList, currentMonth])
 
-   //test
-   const handleIncrement = () => {
-      dispatch(increment())
-   }
    return (
       <>
-         {exhibitionList}
          <Header />
-         <SwiperSlide data={selectedExhibition} />
+         <SwiperBanner data={exhibitionList} />
          <StyledMonthWrapper>
             <h3 className='pb-2' onClick={handleIncrement}>
                {new Date().getFullYear()}年
@@ -254,7 +231,7 @@ const HomePage = () => {
          </section>
          <HotSection>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard data={selectedExhibition} />
+            <ExhibitionCard data={exhibitionList} />
          </HotSection>
          <StyledAllExhibitionWrapper>
             <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
