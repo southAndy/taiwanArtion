@@ -30,6 +30,7 @@ const secondStep = ({ setStepStatus }) => {
       '長度為 8-16位英、數字',
       '加入至少一個特殊標點符號',
    ]
+   //todo 理解驗證觸發時機：解決 api 觸發問題
    const schema = yup.object().shape({
       account: yup
          .string()
@@ -40,7 +41,7 @@ const secondStep = ({ setStepStatus }) => {
             return !value.match(/[^a-zA-Z0-9]/)
          })
          .test('帳號已存在', '此帳號已被使用', async (value, context) => {
-            const { setError, clearErrors } = context
+            // const { setError, clearErrors } = context
             try {
                const res = await axios.post(
                   'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
@@ -89,14 +90,17 @@ const secondStep = ({ setStepStatus }) => {
          }),
       //非同步,
    })
+
    const {
       register,
       handleSubmit,
       formState: { errors },
+      clearErrors,
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'onBlur',
    })
+
    // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
    useEffect(() => {
       if (account && password && score === 100) {
@@ -113,7 +117,6 @@ const secondStep = ({ setStepStatus }) => {
          })
       }
    }, [account, password, score])
-
    return (
       <>
          <form onSubmit={handleSubmit((data) => {})} className='flex flex-col gap-4 mb-10'>
@@ -150,7 +153,7 @@ const secondStep = ({ setStepStatus }) => {
                   密碼
                </label>
                <StyledInput
-                  {...register('password', { required: '76' })}
+                  {...register('password', { required: '密碼必填' })}
                   type={'password'}
                   setValue={setPassword}
                   size={'12px 16px'}
