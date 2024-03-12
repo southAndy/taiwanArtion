@@ -10,6 +10,8 @@ import Backstage from '../pages/Backstage/Backstage'
 import Success from '../pages/Register/Success'
 import Login from '../container/Login'
 
+import handleLogin from './handleLogin'
+
 const router = createBrowserRouter([
    {
       path: '/',
@@ -45,14 +47,7 @@ const router = createBrowserRouter([
    {
       path: '/backstage/',
       element: <Backstage />,
-      shouldRevalidate: (route) => {
-         // 如果沒有登入就導回登入頁
-         // 如果 cookie 沒有 isLogin 就導回登入頁
-         if (!document.cookie.includes('isLogin=true')) {
-            return '/login'
-         }
-         return true
-      },
+      loader: handleLogin,
    },
 ])
 
