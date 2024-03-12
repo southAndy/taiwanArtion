@@ -44,6 +44,7 @@ const StyledMonthBox = styled.div`
    display: flex;
    align-items: center;
    text-align: center;
+   font-size: 12px;
    gap: 1px;
    overflow: scroll;
    &::-webkit-scrollbar {
@@ -197,9 +198,7 @@ const HomePage = () => {
          <Header />
          <SwiperBanner data={exhibitionList} />
          <StyledMonthWrapper>
-            <h3 className='pb-2' onClick={handleIncrement}>
-               {new Date().getFullYear()}年
-            </h3>
+            <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
             <StyledMonthBox>
                {monthList.map((month, index) => {
                   return (
