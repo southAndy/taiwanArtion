@@ -136,7 +136,7 @@ const AllExhibitionCard = ({ data }) => {
       <div className='flex flex-col gap-1'>
          <div className='relative w-[167px] h-[180px] rounded-lg'>
             <img src={data.imageUrl} alt='' className='rounded-lg' />
-            <div className='absolute right-2 top-2'>
+            <div className='absolute right-2 top-2 h-[20px] w-[20px]'>
                <img src={loveIcon} alt='收藏按鈕' />
             </div>
          </div>
@@ -240,9 +240,11 @@ const HomePage = () => {
                <StyledExhibitionType>評分最高</StyledExhibitionType>
                <StyledExhibitionType>最近日期</StyledExhibitionType>
             </TypeWrapper>
-            {exhibitionList.map((data, index) => {
-               return <AllExhibitionCard key={index} data={data} />
-            })}
+            <div className='flex gap-2 overflow-hidden'>
+               {exhibitionList.map((data, index) => {
+                  return <AllExhibitionCard key={index} data={data} />
+               })}
+            </div>
          </StyledAllExhibitionWrapper>
          <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>
