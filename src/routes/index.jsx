@@ -10,7 +10,7 @@ import Backstage from '../pages/Backstage/Backstage'
 import Success from '../pages/Register/Success'
 import Login from '../container/Login'
 
-import handleLogin from './handleLogin'
+import handleLogin from './authLogin'
 
 const router = createBrowserRouter([
    {
