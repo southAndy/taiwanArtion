@@ -19,7 +19,7 @@ export default function SwiperBanner({ data }) {
             effect={'cards'}
             grabCursor={true}
             modules={[EffectCards]}
-            className='flex h-[300px] w-[350px] p-5'
+            className='flex h-[300px] p-5'
          >
             {data.map((item, index) => {
                return (
