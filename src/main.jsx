@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import router from './router/index'
+import router from './routes/index'
 import { RouterProvider } from 'react-router-dom'
 import './assets/scss/main.scss'
 import Header from './container/Header/Header'
