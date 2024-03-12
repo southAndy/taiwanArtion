@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
@@ -165,23 +165,23 @@ const HomePage = () => {
    useEffect(() => {
       async function fetchData() {
          try {
-            const response = await axios.post(
-               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
-               {
-                  keyword: 'taipei',
-               },
-            )
+            // const response = await axios.post(
+            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
+            //    {
+            //       keyword: 'taipei',
+            //    },
+            // )
             const openResponse = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
             // 把兩個資料合併
-            const mergeData = [...response.data, ...openResponse]
+            // const mergeData = [...response.data, ...openResponse]
             console.log('合併結果', mergeData)
             const hasImageData = mergeData.filter((data) => {
                return data.imageUrl !== ''
             })
 
-            setList(() => hasImageData)
+            setList(() => openResponse)
          } catch (error) {
             console.log(error)
          } finally {
