@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -11,50 +11,53 @@ import { EffectCards } from 'swiper/modules'
 
 import { sampleExhibition } from '../../assets/images'
 import { Link } from 'react-router-dom'
+import { Skeleton } from '@mui/material'
 
-export default function App() {
+export default function SwiperBanner({ data }) {
+   //當data為空時，顯示Skeleton
+   const [isLoading, setIsLoading] = useState(true)
+   useEffect(() => {
+      console.log('data:', data)
+      if (data.length > 0) {
+         setIsLoading(() => false)
+      } else {
+         setIsLoading(() => true)
+      }
+   }, [data])
    return (
       <>
-         <Swiper
-            effect={'cards'}
-            grabCursor={true}
-            modules={[EffectCards]}
-            className='flex h-[300px] w-[250px] p-5'
-         >
-            <SwiperSlide className='flex items-center justify-center text-lg bg-red-50'>
-               <Link to={'/detail/sample'} className='flex flex-col items-center'>
-                  <div className='w-[270px] h-[170px]'>
-                     <img src={sampleExhibition} alt='' />
-                  </div>
-                  <h3>未來身體——超自然雕像</h3>
-                  <p>2021.10.1-2022.1.2</p>
-               </Link>
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-green-50'>
-               Slide 2
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-blue-50'>
-               Slide 3
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-yellow-100'>
-               Slide 4
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-gray-500'>
-               Slide 5
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-yellow-600'>
-               Slide 6
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-blue-600'>
-               Slide 7
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-green-600'>
-               Slide 8
-            </SwiperSlide>
-            <SwiperSlide className='flex items-center justify-center text-lg bg-red-100'>
-               Slide 9
-            </SwiperSlide>
-         </Swiper>
+         {isLoading ? (
+            <Skeleton height={'300px'} />
+         ) : (
+            <Swiper
+               effect={'cards'}
+               grabCursor={true}
+               modules={[EffectCards]}
+               className='flex h-[300px] p-5 overflow-hidden'
+            >
+               {data.map((item, index) => {
+                  return (
+                     <SwiperSlide
+                        key={item.UID ?? index}
+                        className='flex items-center justify-center text-lg bg-red-50'
+                     >
+                        <Link
+                           key={item.UID ?? index}
+                           to={`/detail/${item.UID}`}
+                           className='flex flex-col items-center'
+                        >
+                           <div className='w-[270px] h-[170px]'>
+                              <img src={item.imageUrl} alt={item.title} />
+                           </div>
+                           <h3 className='text-[14px] text-center p-2 '>
+                              {item.title ?? <Skeleton />}
+                           </h3>
+                        </Link>
+                     </SwiperSlide>
+                  )
+               })}
+            </Swiper>
+         )}
       </>
    )
 }

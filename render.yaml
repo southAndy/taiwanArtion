@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: taiwan-artion
+    env: static
+    buildCommand: npm run build
+    staticPublishPath: ./build
+    redirects:
+      - source: /*
+        destination: /index.html
+        statusCode: 200

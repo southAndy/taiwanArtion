@@ -20,7 +20,17 @@ const StyledInput = styled.input.attrs((props) => {
    &: ;
 `
 
-const Input = ({ children, placeholder, value, size, shape, setValue, isError, formState }) => {
+const Input = ({
+   children,
+   placeholder,
+   value,
+   size,
+   shape,
+   setValue,
+   isError,
+   types,
+   formState,
+}) => {
    const handleChange = (e) => {
       setValue(() => e.target.value)
    }
@@ -29,6 +39,7 @@ const Input = ({ children, placeholder, value, size, shape, setValue, isError, f
          onChange={handleChange}
          size={size}
          shape={shape}
+         type={types}
          isError={isError}
          placeholder={placeholder}
          formState={formState}
