@@ -200,11 +200,12 @@ const HomePage = () => {
          return startDate === currentMonth
       })
       if (currentMonthData.length === 0) {
+         console.log('當月無展覽')
          return exhibitionList
       } else {
          return currentMonthData
       }
-   }, [currentMonth])
+   }, [currentMonth, exhibitionList])
 
    return (
       <>
@@ -217,7 +218,7 @@ const HomePage = () => {
                   return (
                      <div key={index}>
                         <StyledMonthText
-                           onClick={() => setMonth(() => month.num)}
+                           onClick={() => setMonth(() => month.number)}
                            isActive={currentMonth === month.value}
                            key={index}
                         >
