@@ -1,9 +1,9 @@
 import { useEffect, useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import SwiperSlide from '../../plugins/Swiper/SwiperSlide'
+import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
 import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
@@ -44,6 +44,7 @@ const StyledMonthBox = styled.div`
    display: flex;
    align-items: center;
    text-align: center;
+   font-size: 12px;
    gap: 1px;
    overflow: scroll;
    &::-webkit-scrollbar {
@@ -114,36 +115,38 @@ const ExhibitionCard = ({ data }) => {
       <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
          <div className='number text-[#BE8152] font-bold'>01</div>
          <div className='rounded-md h-[60px] w-[60px]'>
-            <img src={categoryicon1} alt='' className='rounded-md' />
+            <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
          </div>
          <div className='description flex flex-wrap gap-1'>
-            <h3 className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>展覽名稱</h3>
+            <h3 className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>
+               {data.title ?? '展覽名稱'}
+            </h3>
             <p className='text-xs	'>2023.03.21 - 4.20</p>
             <div className='w-[16px] h-[16px]'>
                <img src={locationIcon} alt='縣市地址圖示' />
             </div>
-            <p className='text-xs'>台南市</p>
+            <p className='text-xs'>{data.showInfo?.location ?? '尚無資料'}</p>
          </div>
       </div>
    )
 }
 
-const AllExhibitionCard = () => {
+const AllExhibitionCard = ({ data }) => {
    return (
       <div className='flex flex-col gap-1'>
          <div className='relative w-[167px] h-[180px] rounded-lg'>
-            <img src={sampleBg} alt='' className='rounded-lg' />
-            <div className='absolute right-2 top-2'>
-               <img src={loveIcon} alt='' />
+            <img src={data.imageUrl} alt='' className='rounded-lg' />
+            <div className='absolute right-2 top-2 h-[20px] w-[20px]'>
+               <img src={loveIcon} alt='收藏按鈕' />
             </div>
          </div>
-         <h3>賴威嚴油畫個展</h3>
-         <p className='text-xs'>2023.03.21 - 4.20</p>
+         <h3>{data.title}</h3>
+         <p className='text-xs'>{data.startDate}</p>
          <div className='flex'>
             <div className='w-[16px] h-[16px]'>
                <img src={locationIcon} alt='縣市地址圖示' />
             </div>
-            <p className='text-xs '>台南市</p>
+            <p className='text-xs '>{data.showInfo[0].location}</p>
          </div>
       </div>
    )
@@ -163,20 +166,23 @@ const HomePage = () => {
    useEffect(() => {
       async function fetchData() {
          try {
-            const response = await axios.post(
-               'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
-               {
-                  keyword: 'taipei',
-               },
-            )
-            // const openResponse = await axios.get(
-            //    'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
+            // const response = await axios.post(
+            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
+            //    {
+            //       keyword: 'taipei',
+            //    },
             // )
-            // 把兩個資料合併
-            const mergeData = response.data.concat(openResponse.data)
-            // const mergeData = response.data
-            console.log(mergeData)
-            // setList(() => mergeData)
+            const openResponse = await axios.get(
+               'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
+            )
+            const openData = openResponse.data
+
+            console.log('合併結果', openResponse)
+            const hasImageData = openData.filter((data) => {
+               return data.imageUrl !== ''
+            })
+
+            setList(() => hasImageData)
          } catch (error) {
             console.log(error)
          } finally {
@@ -186,43 +192,32 @@ const HomePage = () => {
       }
       fetchData()
    }, [])
-   //? 展覽資料處理
-   // const selectedExhibition = useMemo(() => {
-   //    if (exhibitionList.length === 0) {
-   //       //? 預設顯示展覽數量
-   //       return [{}, {}, {}, {}, {}]
-   //    } else {
-   //       //? 篩選展覽日期
-   //       const currentDate = `${new Date().getFullYear()}-${currentMonth}`
-   //       const formatDate = dayjs(currentDate).format('YYYY-MM')
-   //       return exhibitionList.filter((data) => {
-   //          const beginMonth = dayjs(formatDate)
-   //          if (beginMonth.isBefore(data.startDate, 'month')) {
-   //             return data
-   //          }
-   //       })
-   //    }
-   // }, [exhibitionList, currentMonth])
+   // 當月份改變時篩選資料
+   const filterData = useMemo(() => {
+      console.log('切換當前月份', currentMonth)
+      const currentMonthData = exhibitionList.filter((data) => {
+         const startDate = dayjs(data.startDate).month() + 1
+         return startDate === currentMonth
+      })
+      if (currentMonthData.length === 0) {
+         return exhibitionList
+      } else {
+         return currentMonthData
+      }
+   }, [currentMonth])
 
-   //test
-   const handleIncrement = () => {
-      dispatch(increment())
-   }
    return (
       <>
-         {exhibitionList}
          <Header />
-         {/* <SwiperSlide data={selectedExhibition} isLoading={isLoading} /> */}
+         <SwiperBanner data={filterData} />
          <StyledMonthWrapper>
-            <h3 className='pb-2' onClick={handleIncrement}>
-               {new Date().getFullYear()}年
-            </h3>
+            <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
             <StyledMonthBox>
                {monthList.map((month, index) => {
                   return (
                      <div key={index}>
                         <StyledMonthText
-                           onClick={() => setMonth(month.value)}
+                           onClick={() => setMonth(() => month.num)}
                            isActive={currentMonth === month.value}
                            key={index}
                         >
@@ -248,7 +243,7 @@ const HomePage = () => {
          </section>
          <HotSection>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard />
+            <ExhibitionCard data={exhibitionList} />
          </HotSection>
          <StyledAllExhibitionWrapper>
             <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
@@ -258,7 +253,11 @@ const HomePage = () => {
                <StyledExhibitionType>評分最高</StyledExhibitionType>
                <StyledExhibitionType>最近日期</StyledExhibitionType>
             </TypeWrapper>
-            <AllExhibitionCard />
+            <div className='flex gap-2 overflow-hidden'>
+               {exhibitionList.map((data, index) => {
+                  return <AllExhibitionCard key={index} data={data} />
+               })}
+            </div>
          </StyledAllExhibitionWrapper>
          <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>

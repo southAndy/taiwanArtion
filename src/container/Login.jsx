@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { auth, provider } from '../../firebase.config'
 import { signInWithPopup } from 'firebase/auth'
+// import { fetchNormalLogin } from '../store/memberSlice'
 
 const StyledLoginBanner = styled.section`
    display: flex;
@@ -55,9 +56,15 @@ const Login = () => {
          //成功的話跳轉到後台
          if (res.data.status === 200) {
             alert('登入成功!')
-            navigator('/backstage')
+            document.cookie = 'isLogin=true'
+            // dispatch(fetchNormalLogin({ username: username, password: password }))
+            //todo 從資料庫取得使用者資料存入 redux
+            // 等待3秒後跳轉到後台
+            setTimeout(() => {
+               navigate('/backstage')
+            }, 3000)
          } else {
-            alert(res.data.message)
+            alert('登入失敗!請檢查帳號密碼是否正確')
          }
       } catch (e) {
          console.log(e)
@@ -113,6 +120,7 @@ const Login = () => {
                   </label>
                   <Input
                      setValue={setPassword}
+                     types={'password'}
                      size={'12px 16px'}
                      shape={'12px'}
                      placeholder={'6-18位數密碼,請區分大小寫'}

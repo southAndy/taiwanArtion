@@ -10,6 +10,8 @@ import Backstage from '../pages/Backstage/Backstage'
 import Success from '../pages/Register/Success'
 import Login from '../container/Login'
 
+import handleLogin from './authLogin'
+
 const router = createBrowserRouter([
    {
       path: '/',
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
       children: [],
    },
    {
-      path: '/detail/:id',
+      path: '/detail/',
       element: <DetailPage />,
    },
    {
@@ -28,15 +30,11 @@ const router = createBrowserRouter([
    {
       path: '/account',
       element: <AccountPage />,
+      // 新增檢查權限
    },
    {
       path: '/login',
       element: <LoginPage />,
-      // 新增檢查權限
-      shouldRevalidate: (route) => {
-         console.log(route)
-         return true
-      },
    },
    {
       path: '/register',
@@ -49,6 +47,7 @@ const router = createBrowserRouter([
    {
       path: '/backstage/',
       element: <Backstage />,
+      loader: handleLogin,
    },
 ])
 
