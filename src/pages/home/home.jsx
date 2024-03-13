@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -192,11 +192,24 @@ const HomePage = () => {
       }
       fetchData()
    }, [])
+   // 當月份改變時篩選資料
+   const filterData = useMemo(() => {
+      console.log('切換當前月份', currentMonth)
+      const currentMonthData = exhibitionList.filter((data) => {
+         const startDate = dayjs(data.startDate).month() + 1
+         return startDate === currentMonth
+      })
+      if (currentMonthData.length === 0) {
+         return exhibitionList
+      } else {
+         return currentMonthData
+      }
+   }, [currentMonth])
 
    return (
       <>
          <Header />
-         <SwiperBanner data={exhibitionList} />
+         <SwiperBanner data={filterData} />
          <StyledMonthWrapper>
             <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
             <StyledMonthBox>
@@ -204,7 +217,7 @@ const HomePage = () => {
                   return (
                      <div key={index}>
                         <StyledMonthText
-                           onClick={() => setMonth(month.value)}
+                           onClick={() => setMonth(() => month.number)}
                            isActive={currentMonth === month.value}
                            key={index}
                         >
