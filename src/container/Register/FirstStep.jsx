@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { warnIcon } from '../../assets/images'
+import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
+import { auth } from '../../../firebase.config'
 // import axios from 'axios'
 
 const firstStep = ({ setStatus }) => {
@@ -37,6 +39,26 @@ const firstStep = ({ setStatus }) => {
       resolver: yupResolver(schema),
       mode: 'onBlur',
    })
+   function onRecap() {
+      if (!window.recaptchaVerifier) {
+         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'test-re', {
+            size: 'invisible',
+            callback: (response) => {
+               // reCAPTCHA solved, allow signInWithPhoneNumber.
+               const totalPhone = '+886' + userPhone
+
+               signInWithPhoneNumber(auth, totalPhone, window.recaptchaVerifier)
+            },
+         })
+      }
+   }
+
+   useEffect(() => {
+      //if sent, use firebase phone auth to send the code
+      if (isSent) {
+         onRecap()
+      }
+   }, [isSent])
 
    const showContent = () => {
       if (isSent) {
@@ -45,7 +67,9 @@ const firstStep = ({ setStatus }) => {
                <p className='text-medium mb-6 text-sm h-[40px]'>
                   已發送手機驗證碼至{userPhone}手機,請輸入手機驗證碼並送出驗證。
                </p>
-               <h3 className='mb-5 font-bold text-lg'>{content}</h3>
+               <h3 id='test-re' className='mb-5 font-bold text-lg'>
+                  {content}
+               </h3>
                <section className='flex gap-2'>
                   <StyledInput
                      {...register('userCode')}
