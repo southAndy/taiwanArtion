@@ -40,7 +40,7 @@ const ExhibitionCard = ({ data }) => {
    return (
       <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
          <div className='number text-[#BE8152] font-bold'>01</div>
-         <div className='rounded-md h-[60px] w-[60px]'>
+         <div className='rounded-md h-[60px] w-[60px] flex-shrink-0'>
             <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
          </div>
          <div className='description flex flex-wrap gap-1'>
@@ -175,7 +175,7 @@ const HomePage = () => {
                })}
             </div>
             
-            <div className='flex gap-2'>
+            <div className='flex gap-2 overflow-scroll'>
                {exhibitionList.map((data, index) => {
                   return <AllExhibitionCard key={index} data={data} />
                })}
