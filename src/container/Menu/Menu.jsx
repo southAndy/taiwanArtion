@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Input from '../../components/Input/Input'
@@ -51,6 +51,7 @@ const DefaultMenu = () => {
 export default function Menu() {
    const menuNameList = ['縣市', '展覽館', '日期', '票價']
    const [currentMenu, setMenuList] = useState()
+   const [keyword, setKeyword] = useState('')
    const menuList = [<CityMenu />, <ExhibitionMenu />, <DateMenu />, <PayMenu />]
    function renderMenu() {
       switch (currentMenu) {
@@ -68,7 +69,7 @@ export default function Menu() {
    }
    return (
       <div>
-         <Input placeholder={'請輸入展覽名稱'} />
+         <Input placeholder={'請輸入展覽名稱'} setValue={setKeyword} />
          <div className='flex gap-8 mt-5'>
             {menuNameList.map((menu, index) => {
                return (
