@@ -10,7 +10,7 @@ import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { auth, provider } from '../../firebase.config'
+// import { auth, provider } from '../../firebase.config'
 import { signInWithPopup } from 'firebase/auth'
 // import { fetchNormalLogin } from '../store/memberSlice'
 
