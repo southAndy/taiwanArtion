@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
-import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
 
 import {
