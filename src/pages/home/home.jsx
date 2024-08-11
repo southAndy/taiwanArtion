@@ -159,11 +159,13 @@ const HomePage = () => {
                )
             })}
          </section>
-         <section className='exhibition-hot bg-hot bg-cover p-6'>
+         <section className='exhibition-hot max-h-[375px] overflow-hidden bg-hot bg-cover p-6'>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard data={exhibitionList} />
+            {exhibitionList.map((data, index) => {
+               return <ExhibitionCard key={index} data={data} />
+            })}
          </section>
-         <section className='exhibition-all flex flex-col p-6 w-[100%] bg-[#f9f9f9f9]'>
+         <section className='exhibition-all flex flex-col p-6 w-[100%]  bg-[#f9f9f9f9]'>
             <h3 className='font-medium mb-4 text-xl'>所有展覽</h3>
             <div className='type flex gap-2 mb-6 overflow-scroll  '>
                {['最新展覽', '人氣展覽', '評分最高', '最近日期'].map((type, index) => {

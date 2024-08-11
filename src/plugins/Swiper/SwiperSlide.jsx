@@ -50,7 +50,7 @@ export default function SwiperBanner({ data }) {
                            className='flex flex-col items-center'
                         >
                            <div className='w-[270px] h-[170px]'>
-                              <img className='' src={item.imageUrl} alt={item.title} />
+                              <img className='rounded-xl' src={item.imageUrl} alt={item.title} />
                            </div>
                            <h3 className='text-sm font-medium text-[#535353] mt-2 mb-1 w-[267px] h-[23px] text-ellipsis overflow-hidden'>
                               {item.title ?? <Skeleton />}
