@@ -7,7 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { warnIcon } from '../../assets/images'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { auth } from '../../../firebase.config'
+// import { auth } from '../../../firebase.config'
 // import axios from 'axios'
 
 const firstStep = ({ setStatus }) => {
