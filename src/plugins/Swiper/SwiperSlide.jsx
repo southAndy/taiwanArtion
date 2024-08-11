@@ -7,7 +7,7 @@ import 'swiper/css'
 import 'swiper/css/effect-cards'
 
 // import required modules
-import { EffectCards } from 'swiper/modules'
+import { Pagination,Navigation } from 'swiper/modules'
 
 import { sampleExhibition } from '../../assets/images'
 import { Link } from 'react-router-dom'
@@ -30,16 +30,19 @@ export default function SwiperBanner({ data }) {
             <Skeleton height={'300px'} />
          ) : (
             <Swiper
-               effect={'cards'}
-               grabCursor={true}
-               modules={[EffectCards]}
-               className='flex h-[300px] p-5 overflow-hidden'
+               slidesPerView={'auto'}
+               centeredSlides={true}
+               spaceBetween={16}
+               navigation={true}
+               pagination={true}
+               modules={[Pagination,Navigation]}
+               className='flex h-[300px] p-5 mb-6'
             >
                {data.map((item, index) => {
                   return (
                      <SwiperSlide
                         key={item.UID ?? index}
-                        className='flex items-center justify-center text-lg bg-red-50'
+                        className='flex items-center justify-center text-lg p-4  bg-white w-[300px] rounded-xl shadow-banner'
                      >
                         <Link
                            key={item.UID ?? index}
@@ -47,11 +50,12 @@ export default function SwiperBanner({ data }) {
                            className='flex flex-col items-center'
                         >
                            <div className='w-[270px] h-[170px]'>
-                              <img src={item.imageUrl} alt={item.title} />
+                              <img className='' src={item.imageUrl} alt={item.title} />
                            </div>
-                           <h3 className='text-[14px] text-center p-2 '>
+                           <h3 className='text-sm font-medium text-[#535353] mt-2 mb-1 w-[267px] h-[23px] text-ellipsis overflow-hidden'>
                               {item.title ?? <Skeleton />}
                            </h3>
+                           <p className='text-xs text-[#535353] text-start w-[100%]'>2023.03.21 - 04.20</p>
                         </Link>
                      </SwiperSlide>
                   )
