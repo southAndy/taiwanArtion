@@ -36,10 +36,10 @@ const categoryList = [
 
 
 
-const ExhibitionCard = ({ data }) => {
+const ExhibitionCard = ({ data,currentIndex }) => {
    return (
-      <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
-         <div className='number text-[#BE8152] font-bold'>01</div>
+      <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2 tablet:h-[170px] tablet:px-4 tablet:py-6 tablet:max-h-[170px] tablet:gap-6'>
+         <div className='number text-[#BE8152] font-bold'>{`0${currentIndex}`}</div>
          <div className='rounded-md h-[60px] w-[60px] flex-shrink-0'>
             <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
          </div>
@@ -131,10 +131,10 @@ const HomePage = () => {
    return (
       <>
          <Header />
-         <SwiperBanner data={filterData} />
-         <main className='flex flex-col pl-6'>
+         <SwiperBanner data={filterData} className="mt-8" />
+         <main className='flex flex-col tablet:mx-10'>
             <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
-            <section className='selector flex items-center gap-[1px] text-xs overflow-scroll'>
+            <section className='selector flex items-center gap-[1px] text-xs overflow-scroll tablet:gap-4 tablet:text-sm tablet:justify-around'>
                {monthList.map((month, index) => {
                      return (
                         <div key={index}>
@@ -159,10 +159,10 @@ const HomePage = () => {
                )
             })}
          </section>
-         <section className='exhibition-hot max-h-[375px] overflow-hidden bg-hot bg-cover p-6'>
+         <section className='exhibition-hot max-h-[375px] overflow-hidden bg-hot bg-cover p-6 tablet:max-h-[939px] tablet:px-10'>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
             {exhibitionList.map((data, index) => {
-               return <ExhibitionCard key={index} data={data} />
+               return <ExhibitionCard key={index} data={data} currentIndex={index+1} />
             })}
          </section>
          <section className='exhibition-all flex flex-col p-6 w-[100%]  bg-[#f9f9f9f9]'>
@@ -170,7 +170,7 @@ const HomePage = () => {
             <div className='type flex gap-2 mb-6 overflow-scroll  '>
                {['最新展覽', '人氣展覽', '評分最高', '最近日期'].map((type, index) => {
                   return (
-                     <div key={index} onClick={()=>setType(index)} className={`${currentType === index ?'text-[#eee]':'text-[#000]'} ${currentType===index? 'bg-[#BE8152]':'bg-[#eeee]'} hover:bg-[#be875c] hover:text-white max-h-[35px] rounded-[10px] text-sm text-center whitespace-nowrap cursor-pointer py-2 px-4`}>最新展覽</div>
+                     <div key={index} onClick={()=>setType(index)} className={`${currentType === index ?'text-[#eee]':'text-[#000]'} ${currentType===index? 'bg-[#BE8152]':'bg-[#eeee]'} hover:bg-[#be875c] hover:text-white max-h-[35px] rounded-[10px] text-sm text-center whitespace-nowrap cursor-pointer py-2 px-4`}>{type}</div>
                   )
                })}
             </div>

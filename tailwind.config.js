@@ -13,6 +13,12 @@ export default {
       boxShadow:{
         banner:'0px 1px 8px 0px #0000001A',
     },
+    screens: {
+      // custom breakpoints
+      'tablet': '768px',
+      'desktop': '1280px',
+      'desktop-xl': '1440px',
+    },
   },
   plugins: [],}
 };
