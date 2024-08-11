@@ -9,8 +9,10 @@ export default {
       // website's system color
       colors:{
 
-      }
+      },
+      boxShadow:{
+        banner:'0px 1px 8px 0px #0000001A',
     },
   },
-  plugins: [],
+  plugins: [],}
 };
