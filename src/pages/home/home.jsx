@@ -93,18 +93,12 @@ const HomePage = () => {
    useEffect(() => {
       async function fetchData() {
          try {
-            // const response = await axios.post(
-            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
-            //    {
-            //       keyword: 'taipei',
-            //    },
-            // )
+            
             const openResponse = await axios.get(
                'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
             )
             const openData = openResponse.data
 
-            console.log('合併結果', openResponse)
             const hasImageData = openData.filter((data) => {
                return data.imageUrl !== ''
             })
@@ -174,7 +168,7 @@ const HomePage = () => {
             <div className='type flex gap-2 mb-6 overflow-scroll  '>
                {['最新展覽', '人氣展覽', '評分最高', '最近日期'].map((type, index) => {
                   return (
-                     <div onClick={()=>setType(index)} className={`${currentType === index ?'text-[#eee]':'text-[#000]'} ${currentType===index? 'bg-[#BE8152]':'bg-[#eeee]'} hover:bg-[#be875c] hover:text-white max-h-[35px] rounded-[10px] text-sm text-center whitespace-nowrap cursor-pointer py-2 px-4`}>最新展覽</div>
+                     <div key={index} onClick={()=>setType(index)} className={`${currentType === index ?'text-[#eee]':'text-[#000]'} ${currentType===index? 'bg-[#BE8152]':'bg-[#eeee]'} hover:bg-[#be875c] hover:text-white max-h-[35px] rounded-[10px] text-sm text-center whitespace-nowrap cursor-pointer py-2 px-4`}>最新展覽</div>
                   )
                })}
             </div>
