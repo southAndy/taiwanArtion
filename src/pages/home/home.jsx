@@ -33,81 +33,8 @@ const categoryList = [
    { imageUrl: categoryicon8, title: '展覽' },
 ]
 
-const StyledMonthWrapper = styled.section`
-   display: flex;
-   flex-direction: column;
-   padding-left: 24px;
-`
 
-const StyledMonthBox = styled.div`
-   display: flex;
-   align-items: center;
-   text-align: center;
-   font-size: 12px;
-   gap: 1px;
-   overflow: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-   }
-   scrollbar-width: none;
-`
-const StyledMonthText = styled.p`
-   cursor: pointer;
-   box-sizing: border-box;
-   white-space: nowrap;
-   width: 100%;
-   padding: 10px;
-   &:hover {
-      background: #be875c;
-      color: #fff;
-   }
-`
 
-const HotSection = styled.section`
-   background-image: url(${hotBg});
-   background-size: cover;
-   padding: 24px;
-`
-
-const StyledAllExhibitionWrapper = styled.div`
-   display: flex;
-   flex-direction: column;
-   padding: 24px;
-   width: 100%;
-   background: #f9f9f9;
-`
-
-const TypeWrapper = styled.div`
-   display: flex;
-   margin-bottom: 24px;
-   gap: 8px;
-   overflow: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-   }
-`
-
-const StyledExhibitionType = styled.div`
-   max-height: 35px;
-   border-radius: 10px;
-   font-size: 14px;
-   padding: 8px 16px;
-   text-align: center;
-   white-space: nowrap;
-   color: ${(props) => (props.isActive ? '#BE8152' : '#000')};
-   background: ${(props) => (props.isActive ? '#BE8152' : '#eeee')};
-   &:hover {
-      background: #be875c;
-      color: #fff;
-   }
-`
-
-const StyledFooter = styled.footer`
-   background: #7b4d29;
-   color: #fff;
-   white-space: nowrap;
-   padding: 20px 72px;
-`
 
 const ExhibitionCard = ({ data }) => {
    return (
@@ -157,6 +84,7 @@ const HomePage = () => {
    const [ownAPI, setOwnAPI] = useState([])
    const [isLoading, setLoading] = useState(true)
    const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
+   const [currentType, setType] = useState(0) // 0:最新展覽 1:人氣展覽 2:評分最高 3:最近日期
    const [isShowModal, setModal] = useState(false)
    const [isClick, setClick] = useState(false)
    const [isShow, setShow] = useState(false)
@@ -210,25 +138,21 @@ const HomePage = () => {
       <>
          <Header />
          <SwiperBanner data={filterData} />
-         <StyledMonthWrapper>
+         <main className='flex flex-col pl-6'>
             <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
-            <StyledMonthBox>
+            <section className='selector flex items-center gap-[1px] text-xs overflow-scroll'>
                {monthList.map((month, index) => {
-                  return (
-                     <div key={index}>
-                        <StyledMonthText
-                           onClick={() => setMonth(() => month.number)}
-                           isActive={currentMonth === month.value}
-                           key={index}
-                        >
-                           {month.number}月<br />
-                           {month.en}
-                        </StyledMonthText>
-                     </div>
-                  )
-               })}
-            </StyledMonthBox>
-         </StyledMonthWrapper>
+                     return (
+                        <div key={index}>
+                           <p className=' cursor-pointer whitespace-nowrap w-[100%] p-[10px] hover:bg-[#be875c] hover:text-white'>
+                              {month.number}月<br />{month.en}
+                           </p>
+                          
+                        </div>
+                     )
+                  })}
+            </section>
+         </main>
          <section className='flex  flex-wrap justify-center max-h-[358px] gap-10  py-6 px-6'>
             {categoryList.map((data, index) => {
                return (
@@ -241,25 +165,27 @@ const HomePage = () => {
                )
             })}
          </section>
-         <HotSection>
+         <section className='exhibition-hot bg-hot bg-cover p-6'>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
             <ExhibitionCard data={exhibitionList} />
-         </HotSection>
-         <StyledAllExhibitionWrapper>
-            <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
-            <TypeWrapper className='flex gap-2 overflow-scroll mb-6'>
-               <StyledExhibitionType>最新展覽</StyledExhibitionType>
-               <StyledExhibitionType>人氣展覽</StyledExhibitionType>
-               <StyledExhibitionType>評分最高</StyledExhibitionType>
-               <StyledExhibitionType>最近日期</StyledExhibitionType>
-            </TypeWrapper>
-            <div className='flex gap-2 overflow-hidden'>
+         </section>
+         <section className='exhibition-all flex flex-col p-6 w-[100%] bg-[#f9f9f9f9]'>
+            <h3 className='font-medium mb-4 text-xl'>所有展覽</h3>
+            <div className='type flex gap-2 mb-6 overflow-scroll  '>
+               {['最新展覽', '人氣展覽', '評分最高', '最近日期'].map((type, index) => {
+                  return (
+                     <div onClick={()=>setType(index)} className={`${currentType === index ?'text-[#eee]':'text-[#000]'} ${currentType===index? 'bg-[#BE8152]':'bg-[#eeee]'} hover:bg-[#be875c] hover:text-white max-h-[35px] rounded-[10px] text-sm text-center whitespace-nowrap cursor-pointer py-2 px-4`}>最新展覽</div>
+                  )
+               })}
+            </div>
+            
+            <div className='flex gap-2'>
                {exhibitionList.map((data, index) => {
                   return <AllExhibitionCard key={index} data={data} />
                })}
             </div>
-         </StyledAllExhibitionWrapper>
-         <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
+         </section>
+         <footer className='bg-[#7b4d29] text-white whitespace-nowrap py-5 px-[72px]'>© 2024 ARTION.All rights reserved</footer>
       </>
    )
 }
