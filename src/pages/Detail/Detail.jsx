@@ -14,7 +14,6 @@ import {
    likeIcon,
 } from '../../assets/images'
 import styled from '@emotion/styled'
-import './detail-page.scss'
 
 const DetailTitle = styled.h3`
    border-left: 10px solid #986f4f;
