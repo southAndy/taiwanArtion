@@ -6,8 +6,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { warnIcon } from '../../assets/images'
-import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { auth } from '../../../firebase.config'
+import styled from 'styled-components'
+// import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
+// import { auth } from '../../../firebase.config'
 // import axios from 'axios'
 
 const firstStep = ({ setStatus }) => {
@@ -15,7 +16,7 @@ const firstStep = ({ setStatus }) => {
    const [countdown, setCountdown] = useState(60)
    const [userPhone, setUserPhone] = useState('')
    const [userCode, setUserCode] = useState('')
-   let content = '發送驗證碼'
+   let content = '寄送手機驗證碼'
    const schema = yup.object().shape({
       userPhone: yup
          .string()
@@ -39,24 +40,23 @@ const firstStep = ({ setStatus }) => {
       resolver: yupResolver(schema),
       mode: 'onBlur',
    })
-   function onRecap() {
-      if (!window.recaptchaVerifier) {
-         window.recaptchaVerifier = new RecaptchaVerifier(auth, 'test-re', {
-            size: 'invisible',
-            callback: (response) => {
-               // reCAPTCHA solved, allow signInWithPhoneNumber.
-               const totalPhone = '+886' + userPhone
+   // function onRecap() {
+   //    if (!window.recaptchaVerifier) {
+   //       window.recaptchaVerifier = new RecaptchaVerifier(auth, 'test-re', {
+   //          size: 'invisible',
+   //          callback: (response) => {
+   //             // reCAPTCHA solved, allow signInWithPhoneNumber.
+   //             const totalPhone = '+886' + userPhone
 
-               signInWithPhoneNumber(auth, totalPhone, window.recaptchaVerifier)
-            },
-         })
-      }
-   }
+   //             signInWithPhoneNumber(auth, totalPhone, window.recaptchaVerifier)
+   //          },
+   //       })
+   //    }
+   // }
 
    useEffect(() => {
-      //if sent, use firebase phone auth to send the code
       if (isSent) {
-         onRecap()
+         // onRecap()
       }
    }, [isSent])
 
@@ -70,7 +70,7 @@ const firstStep = ({ setStatus }) => {
                <h3 id='test-re' className='mb-5 font-bold text-lg'>
                   {content}
                </h3>
-               <section className='flex gap-2'>
+               <ProgressBox className='flex gap-2'>
                   <StyledInput
                      {...register('userCode')}
                      size={'12px 16px'}
@@ -101,7 +101,7 @@ const firstStep = ({ setStatus }) => {
                      setClick={setSent}
                      disabled={countdown !== 0}
                   />
-               </section>
+               </ProgressBox>
                {errors.userCode ? (
                   <div className='flex gap-1 mt-2'>
                      <div className='w-[20px] h-[20px]'>
@@ -121,7 +121,7 @@ const firstStep = ({ setStatus }) => {
                   為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。
                </p>
                <h3 className='mb-5 font-bold text-lg'>手機號碼</h3>
-               <section className='flex gap-2'>
+               <ProgressBox className='flex gap-2'>
                   <StyledInput
                      {...register('userPhone')}
                      size={'12px 16px'}
@@ -140,7 +140,7 @@ const firstStep = ({ setStatus }) => {
                      disabled={errors.userPhone || userPhone.length !== 10}
                      className='flex-initial w-[30px]'
                   />
-               </section>
+               </ProgressBox>
                {errors.userPhone ? (
                   <div className='flex gap-1 mt-2'>
                      <div className='w-[20px] h-[20px]'>
@@ -172,5 +172,10 @@ const firstStep = ({ setStatus }) => {
 
    return <>{showContent()}</>
 }
+
+const ProgressBox = styled.div`
+   display: flex;
+   gap: 8px;
+`
 
 export default firstStep
