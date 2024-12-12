@@ -10,32 +10,9 @@ import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { auth, provider } from '../../firebase.config'
-import { signInWithPopup } from 'firebase/auth'
+// import { auth, provider } from '../../firebase.config'
+// import { signInWithPopup } from 'firebase/auth'
 // import { fetchNormalLogin } from '../store/memberSlice'
-
-const StyledLoginBanner = styled.section`
-   display: flex;
-   align-items: center;
-   justify-content: start;
-   gap: 90px;
-   padding: 20px;
-   background-image: url(${hotBg});
-   height: 100px;
-`
-const StyledTitle = styled.h3`
-   font-size: 18px;
-   font-weight: 700;
-`
-const StyledContent = styled.section`
-   border-radius: 16px;
-   padding: 24px;
-`
-const StyledImageBox = styled.div`
-   cursor: pointer;
-   height: 40px;
-   width: 40px;
-`
 
 const Login = () => {
    const [username, setUsername] = useState('')
@@ -96,9 +73,9 @@ const Login = () => {
       <>
          <Header />
          <StyledLoginBanner>
-            <Link to='/account' className='w-[18px] h-[10px]'>
+            <StyledLink to='/account'>
                <img src={vectorIcon} alt='回到上一頁箭頭' />
-            </Link>
+            </StyledLink>
             <StyledTitle className='text-md'>會員登入</StyledTitle>
          </StyledLoginBanner>
          <StyledContent>
@@ -126,15 +103,12 @@ const Login = () => {
                      placeholder={'6-18位數密碼,請區分大小寫'}
                   />
                </div>
-               <Link to='/forget-password' className='text-end text-[#A9622A] cursor-pointer'>
-                  忘記密碼？
-               </Link>
-               {/* <Button setClick={setIsLogin} className=' mb-8' content={'登入'} /> */}
+               <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink>
                <button type='button' onClick={sendLoginRequest}>
                   登入
                </button>
             </form>
-            <section className='flex flex-col items-center gap-4 '>
+            <section className='remind'>
                <div>
                   <span>還不是會員？</span>
                   <Link to='/register' className='text-[#A9622A]'>
@@ -142,7 +116,7 @@ const Login = () => {
                   </Link>
                </div>
                <p className=' cursor-pointer'>或者使用以下方式登入</p>
-               <div className='flex gap-6'>
+               <div className='society'>
                   <StyledImageBox>
                      <img src={facebookIcon} alt='' />
                   </StyledImageBox>
@@ -158,5 +132,71 @@ const Login = () => {
       </>
    )
 }
+
+const StyledLink = styled(Link)`
+   width: 18px;
+   height: 18px;
+`
+const StyledForgetLink = styled(Link)`
+   color: #a9622a;
+   text-align: end;
+`
+
+const StyledLoginBanner = styled.section`
+   display: flex;
+   align-items: center;
+   justify-content: start;
+   gap: 90px;
+   padding: 20px;
+   background-image: url(${hotBg});
+   height: 100px;
+`
+const StyledTitle = styled.h3`
+   font-size: 18px;
+   font-weight: 700;
+`
+const StyledContent = styled.section`
+   border-radius: 16px;
+   padding: 24px;
+
+   form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+   }
+   button {
+      border-radius: 20px;
+      border: none;
+      background-color: #eeeeee;
+      color: #5f5f5f;
+      padding: 9px 0;
+      cursor: pointer;
+
+      &:hover {
+         background-color: #a9622a;
+         color: white;
+      }
+   }
+   .remind {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      a {
+         color: #a9622a;
+      }
+   }
+   .society {
+      display: flex;
+      gap: 24px;
+   }
+`
+const StyledImageBox = styled.div`
+   cursor: pointer;
+   height: 40px;
+   width: 40px;
+`
 
 export default Login
