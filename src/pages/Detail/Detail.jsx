@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setMemberInterests } from '../../store/memberSlice'
 import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
+import BaseImageBox from '../../styles/base/BaseImageBox'
 import {
    calendarIcon,
    shareIcon,
@@ -14,80 +15,6 @@ import {
    likeIcon,
 } from '../../assets/images'
 import styled from '@emotion/styled'
-import './detail-page.scss'
-
-const DetailTitle = styled.h3`
-   border-left: 10px solid #986f4f;
-   // border-radius: 10px 10px;
-   font-family: 'Noto Sans TC';
-   font-style: normal;
-   font-weight: 700;
-   font-size: 24px;
-   line-height: 35px;
-   color: #986f4f;
-`
-const DetailContainer = styled.section`
-   display: flex;
-   justify-content: center;
-   flex-direction: column;
-   padding: 24px;
-`
-const DetailBanner = styled.section`
-   display: flex;
-   flex-direction: column;
-   margin-bottom: 24px;
-`
-const DetailOption = styled.a`
-   display: flex;
-   color: #929292;
-   cursor: pointer;
-`
-
-const BannerImage = styled.img`
-   width: 1356.75px;
-   height: 711px;
-   border-radius: 10px;
-   position: relative;
-`
-const StyledInfo = styled.article`
-   display: flex;
-   flex-direction: column;
-   margin-bottom: 40px;
-`
-const StyledInfoTitle = styled.a`
-   font-size: 18px;
-   font-weight: 700;
-   color: #a9622a;
-   border-left: 5px solid #a9622a;
-   padding-left: 4px;
-   margin-bottom: 16px;
-`
-const StyledInfoComment = styled.section`
-   display: flex;
-   flex-direction: column;
-   gap: 16px;
-   padding: 16px;
-   border-radius: 12px;
-   background-color: #f9f9f9;
-   margin-bottom: 16px;
-`
-const StyledCommentStyle = styled.div`
-   padding: 4px;
-   border-radius: 12px;
-   height: 1px;
-   width: 165px;
-   background-color: #333;
-`
-const StyledToolBar = styled.div`
-   position: fixed;
-   bottom: 0;
-   width: 100%;
-   display: flex;
-   justify-content: space-between;
-   background-color: #ffffff;
-   box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
-   padding: 8px 32px;
-`
 
 export default function DetailPage() {
    let [exhibition, setExhibition] = useState([])
@@ -120,19 +47,20 @@ export default function DetailPage() {
          <Header />
          <DetailContainer>
             <DetailBanner>
-               <div className='flex items-center gap-1 mb-6'>
-                  <div className='w-[14px] h-[14px]'>
+               <div className='back'>
+                  <BaseImageBox width={'14px'} height={'14px'}>
                      <img src={vectorIcon} alt='' />
-                  </div>
+                  </BaseImageBox>
                   <Link to={'/'}>返回首頁</Link>
                </div>
                <div className='h-[285px] mb-6 rounded-xl'>
                   <img className='rounded-xl' src={sampleResult} />
                </div>
-               <p className='text-[24px] font-bold'>{'會動的文藝復興'}</p>
-               <p className='text-[20px] font-medium'>Friendship Blooming in Music</p>
+               <h3 className='text-[24px] font-bold'>
+                  {'會動的文藝復興 Friendship Blooming in Music'}
+               </h3>
             </DetailBanner>
-            <section className='flex gap-6 mb-10'>
+            <section className='menu'>
                <DetailOption isActive={true} href='#overview'>
                   總覽
                </DetailOption>
@@ -151,29 +79,29 @@ export default function DetailPage() {
             </section>
             <StyledInfo>
                <StyledInfoTitle id='overview'>總覽</StyledInfoTitle>
-               <div className='flex flex-col gap-2'>
-                  <div className='flex gap-3'>
+               <div className='info'>
+                  <div className='info-option'>
                      <div>展覽日期</div>
                      <div>2022.12.01(一）- 2022.12.01(一）</div>
                   </div>
-                  <div className='flex gap-3'>
+                  <div className='info-option'>
                      <div>營業時間</div>
                      <div>9:00a.m - 10:00p.m</div>
                   </div>
-                  <div className='flex gap-3'>
+                  <div className='info-option'>
                      <div>主辦單位</div>
                      <div>Queeny女人迷你俱樂部</div>
                   </div>
 
-                  <div className='flex gap-3'>
+                  <div className='info-option'>
                      <div>展覽官網</div>
                      <a href='https://womany.net/terms' className='flex text-blue-300'>
                         Queeny女人迷你俱樂部
                      </a>
                   </div>
-                  <div className='flex gap-3'>
-                     <div>聯絡電話</div>
-                     <div>展覽電話 （02)-23530506</div>
+                  <div className='info-option'>
+                     <div>展覽電話</div>
+                     <div>(02)-23530506</div>
                   </div>
                </div>
             </StyledInfo>
@@ -201,46 +129,52 @@ export default function DetailPage() {
                <div>place</div>
             </StyledInfo>
             <StyledInfo>
+               <div className='menu flex gap-3 whitespace-nowrap'>
+                  <Button content={'全部'}></Button>
+                  <Button content={'最新評價'}></Button>
+                  <Button content={'最高評價'}></Button>
+                  <Button content={'撰寫評價'}></Button>
+               </div>
                <StyledInfoTitle id='comment'>展覽評論</StyledInfoTitle>
                <StyledInfoComment>
-                  <div className='flex gap-4'>
-                     <div className='h-[48px] w-[48px] rounded-lg'>
+                  <div className='user flex gap-4'>
+                     <BaseImageBox width={'48px'} height={'48px'}>
                         <img className='rounded-lg' src={sampleResult} alt='' />
-                     </div>
-                     <div className='flex flex-col'>
-                        <h3>{0}則評論</h3>
-                        <div className='flex gap-1'>
+                     </BaseImageBox>
+                     <div className=' flex flex-col'>
+                        <p>{0}則評論</p>
+                        <div className='user-star flex gap-1'>
                            {[1, 2, 3, 4, 5].map((item, index) => {
                               return (
-                                 <div key={index} className='w-[24px] h-[24px]'>
+                                 <BaseImageBox width={'24px'} height={'24px'} key={index}>
                                     <img
                                        src={unStarIcon}
                                        alt='此展覽評論星星數，星星越多代表評價越好'
                                     />
-                                 </div>
+                                 </BaseImageBox>
                               )
                            })}
                         </div>
                      </div>
                   </div>
-                  <div className='item flex-col'>
-                     <div className='flex items-center gap-3'>
+                  <div className='rating item flex-col'>
+                     <div className='rating-option rating-option '>
                         <p>豐富度</p>
                         <StyledCommentStyle></StyledCommentStyle>
                         <div>{0}</div>
                      </div>
-                     <div className='flex items-center gap-3'>
+                     <div className='rating-option '>
                         <p>展覽置</p>
                         <StyledCommentStyle></StyledCommentStyle>
                         <div>{0}</div>
                      </div>
-                     <div className='flex  items-center gap-3'>
+                     <div className='rating-option'>
                         <p>動線</p>
                         <StyledCommentStyle></StyledCommentStyle>
 
                         <div>{0}</div>
                      </div>
-                     <div className='flex items-center gap-3'>
+                     <div className='rating-option '>
                         <p>服務</p>
                         <StyledCommentStyle></StyledCommentStyle>
                         <div>{0}</div>
@@ -253,36 +187,162 @@ export default function DetailPage() {
                      </div> */}
                   </div>
                </StyledInfoComment>
-               <div className='flex gap-3 whitespace-nowrap'>
-                  <Button content={'全部'}></Button>
-                  <Button content={'最新評價'}></Button>
-                  <Button content={'最高評價'}></Button>
-               </div>
             </StyledInfo>
          </DetailContainer>
          <StyledToolBar>
-            <div
-               className='flex flex-col items-center gap-1 cursor-pointer'
-               onClick={storeExhibition}
-            >
-               <div className='w-[18px] h-[18px] '>
+            <div className='option' onClick={storeExhibition}>
+               <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={loveIcon} alt='收藏此展覽按鈕' />
-               </div>
-               <div className='text-sm text-[#727272]'>收藏展覽</div>
+               </BaseImageBox>
+               <div>收藏展覽</div>
             </div>
-            <div className='flex flex-col items-center gap-1 cursor-pointer'>
-               <div className='w-[18px] h-[18px]'>
+            <div className='option'>
+               <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={shareIcon} alt='分享此展覽按鈕' />
-               </div>
-               <div className='text-sm text-[#727272]'>分享展覽</div>
+               </BaseImageBox>
+               <div>分享展覽</div>
             </div>
-            <div className='flex flex-col items-center gap-1 cursor-pointer'>
-               <div className='w-[18px] h-[18px]'>
+            <div className='option'>
+               <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={calendarIcon} alt='點擊按鈕，將展覽加入自己的行事曆' />
-               </div>
-               <div className='text-sm text-[#727272]'>加入月曆</div>
+               </BaseImageBox>
+               <div>加入月曆</div>
             </div>
          </StyledToolBar>
       </>
    )
 }
+
+const DetailTitle = styled.h3`
+   border-left: 10px solid #986f4f;
+   // border-radius: 10px 10px;
+   font-family: 'Noto Sans TC';
+   font-style: normal;
+   font-weight: 700;
+   font-size: 24px;
+   line-height: 35px;
+   color: #986f4f;
+`
+const DetailContainer = styled.section`
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+   padding: 24px;
+   .menu {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+   }
+`
+const DetailBanner = styled.section`
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 24px;
+
+   .back {
+      display: flex;
+      margin-bottom: 16px;
+   }
+   a {
+      cursor: pointer;
+   }
+`
+const DetailOption = styled.a`
+   display: flex;
+   color: #929292;
+   cursor: pointer;
+
+   &:hover {
+      color: #be8152;
+   }
+`
+
+const BannerImage = styled.img`
+   width: 1356.75px;
+   height: 711px;
+   border-radius: 10px;
+   position: relative;
+`
+const StyledInfo = styled.article`
+   display: flex;
+   flex-direction: column;
+   margin-bottom: 40px;
+
+   .info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: #535353;
+
+      &-option {
+         display: flex;
+         gap: 12px;
+      }
+   }
+   .menu {
+      display: flex;
+      gap: 12px;
+      white-space: nowrap;
+      overflow: scroll;
+   }
+`
+const StyledInfoTitle = styled.a`
+   font-size: 18px;
+   font-weight: 700;
+   color: #a9622a;
+   border-left: 5px solid #a9622a;
+   padding-left: 4px;
+   margin-bottom: 16px;
+`
+const StyledInfoComment = styled.section`
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   padding: 16px;
+   border-radius: 12px;
+   background-color: #f9f9f9;
+   margin-bottom: 16px;
+
+   .user {
+      display: flex;
+      gap: 12px;
+
+      &-star {
+         display: flex;
+         gap: 4px;
+      }
+   }
+   .rating {
+      &-option {
+         display: flex;
+         flex-wrap: nowrap;
+         align-items: center;
+         gap: 12px;
+      }
+   }
+`
+const StyledCommentStyle = styled.div`
+   padding: 4px;
+   border-radius: 12px;
+   height: 1px;
+   width: 165px;
+   background-color: #333;
+`
+const StyledToolBar = styled.div`
+   position: fixed;
+   bottom: 0;
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   background-color: #ffffff;
+   box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
+   padding: 8px 32px;
+
+   .option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+   }
+`

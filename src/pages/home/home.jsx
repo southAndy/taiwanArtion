@@ -176,12 +176,7 @@ const AllExhibitionCard = ({ data }) => {
       <StyledAllContainer>
          <BaseImageBox width={'167px'} height={'180px'} className='exhibition'>
             <img src={data.imageUrl} alt='' className='rounded-lg' />
-            <StyledPositionImageBox
-               position={'absolute'}
-               right={'2%'}
-               top={'2%'}
-               className='absolute right-2 top-2'
-            >
+            <StyledPositionImageBox position={'absolute'} right={'2%'} top={'2%'}>
                <img src={loveIcon} alt='收藏按鈕' />
             </StyledPositionImageBox>
          </BaseImageBox>
