@@ -43,6 +43,7 @@ import successBg from '../images/success-bg.png'
 import sucessIcon from '../images/success-icon.png'
 import backstageIcon from '../images/backstage-icon-no.png'
 import notfindBg from '../images/notfind-bg.png'
+import logoWhite from '../images/logo-white.png'
 export {
    searchIcon,
    dropdownIcon,
@@ -89,4 +90,5 @@ export {
    sucessIcon,
    backstageIcon,
    notfindBg,
+   logoWhite,
 }
