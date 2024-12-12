@@ -1,21 +1,42 @@
 import React, { useRef, useState, useEffect } from 'react'
-// Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
-
-// Import Swiper styles
 import 'swiper/css'
-import 'swiper/css/effect-cards'
-
-// import required modules
 import { EffectCards } from 'swiper/modules'
-
-import { sampleExhibition } from '../../assets/images'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
+import styled from 'styled-components'
+import BaseImageBox from '../../styles/base/BaseImageBox'
+import Flex from '../../styles/utils/FlexCenter'
+
+const StyledContainer = styled.div`
+   ${Flex};
+   height: 300px;
+   padding: 20px;
+   overflow: hidden;
+`
+
+const StyledSwiperSlide = styled(SwiperSlide)`
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: 1.125rem;
+`
+
+const StyledLink = styled(Link)`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+`
+
+const Title = styled.h3`
+   font-size: 14px;
+   text-align: center;
+   padding: 8px;
+`
 
 export default function SwiperBanner({ data }) {
-   //當data為空時，顯示Skeleton
    const [isLoading, setIsLoading] = useState(true)
+
    useEffect(() => {
       console.log('data:', data)
       if (data.length > 0) {
@@ -24,38 +45,27 @@ export default function SwiperBanner({ data }) {
          setIsLoading(() => true)
       }
    }, [data])
+
    return (
       <>
          {isLoading ? (
             <Skeleton height={'300px'} />
          ) : (
-            <Swiper
-               effect={'cards'}
-               grabCursor={true}
-               modules={[EffectCards]}
-               className='flex h-[300px] p-5 overflow-hidden'
-            >
-               {data.map((item, index) => {
-                  return (
-                     <SwiperSlide
-                        key={item.UID ?? index}
-                        className='flex items-center justify-center text-lg bg-red-50'
-                     >
-                        <Link
-                           key={item.UID ?? index}
-                           to={`/detail/${item.UID}`}
-                           className='flex flex-col items-center'
-                        >
-                           <div className='w-[270px] h-[170px]'>
-                              <img src={item.imageUrl} alt={item.title} />
-                           </div>
-                           <h3 className='text-[14px] text-center p-2 '>
-                              {item.title ?? <Skeleton />}
-                           </h3>
-                        </Link>
-                     </SwiperSlide>
-                  )
-               })}
+            <Swiper grabCursor={true} slidesPerView={3} spaceBetween={20}>
+               <StyledContainer>
+                  {data.map((item, index) => {
+                     return (
+                        <StyledSwiperSlide key={item.UID ?? index}>
+                           <StyledLink to={`/detail/${item.UID}`}>
+                              <BaseImageBox width={'270px'} height={'170px'}>
+                                 <img src={item.imageUrl} alt={item.title} />
+                              </BaseImageBox>
+                              <Title>{item.title ?? <Skeleton />}</Title>
+                           </StyledLink>
+                        </StyledSwiperSlide>
+                     )
+                  })}
+               </StyledContainer>
             </Swiper>
          )}
       </>

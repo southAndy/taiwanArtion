@@ -3,9 +3,11 @@ import { Link, Outlet } from 'react-router-dom'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
+import FlexCenter from '../../styles/utils/FlexCenter'
+import BaseImageBox from '../../styles/base/BaseImageBox'
+import { PositionElement } from '../../styles/base/PositionElement'
 import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
-import './home.scss'
 import fakeMonthList from '../../assets/data/month.json'
 
 import {
@@ -33,124 +35,6 @@ const categoryList = [
    { imageUrl: categoryicon7, title: '親子' },
    { imageUrl: categoryicon8, title: '展覽' },
 ]
-
-const StyledMonthWrapper = styled.section`
-   display: flex;
-   flex-direction: column;
-   padding-left: 24px;
-`
-
-const StyledMonthBox = styled.div`
-   display: flex;
-   align-items: center;
-   text-align: center;
-   font-size: 12px;
-   gap: 1px;
-   overflow: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-   }
-   scrollbar-width: none;
-`
-const StyledMonthText = styled.p`
-   cursor: pointer;
-   box-sizing: border-box;
-   white-space: nowrap;
-   width: 100%;
-   padding: 10px;
-   &:hover {
-      background: #be875c;
-      color: #fff;
-   }
-`
-
-const HotSection = styled.section`
-   background-image: url(${hotBg});
-   background-size: cover;
-   padding: 24px;
-`
-
-const StyledAllExhibitionWrapper = styled.div`
-   display: flex;
-   flex-direction: column;
-   padding: 24px;
-   width: 100%;
-   background: #f9f9f9;
-`
-
-const TypeWrapper = styled.div`
-   display: flex;
-   margin-bottom: 24px;
-   gap: 8px;
-   overflow: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-   }
-`
-
-const StyledExhibitionType = styled.div`
-   max-height: 35px;
-   border-radius: 10px;
-   font-size: 14px;
-   padding: 8px 16px;
-   text-align: center;
-   white-space: nowrap;
-   color: ${(props) => (props.isActive ? '#BE8152' : '#000')};
-   background: ${(props) => (props.isActive ? '#BE8152' : '#eeee')};
-   &:hover {
-      background: #be875c;
-      color: #fff;
-   }
-`
-
-const StyledFooter = styled.footer`
-   background: #7b4d29;
-   color: #fff;
-   white-space: nowrap;
-   padding: 20px 72px;
-`
-
-const ExhibitionCard = ({ data }) => {
-   return (
-      <div className='flex items-center gap-4 bg-white rounded-xl py-5 px-3 max-h-[92px] mb-2'>
-         <div className='number text-[#BE8152] font-bold'>01</div>
-         <div className='rounded-md h-[60px] w-[60px]'>
-            <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
-         </div>
-         <div className='description flex flex-wrap gap-1'>
-            <h3 className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>
-               {data.title ?? '展覽名稱'}
-            </h3>
-            <p className='text-xs	'>2023.03.21 - 4.20</p>
-            <div className='w-[16px] h-[16px]'>
-               <img src={locationIcon} alt='縣市地址圖示' />
-            </div>
-            <p className='text-xs'>{data.showInfo?.location ?? '尚無資料'}</p>
-         </div>
-      </div>
-   )
-}
-
-const AllExhibitionCard = ({ data }) => {
-   return (
-      <div className='flex flex-col gap-1'>
-         <div className='relative w-[167px] h-[180px] rounded-lg'>
-            <img src={data.imageUrl} alt='' className='rounded-lg' />
-            <div className='absolute right-2 top-2 h-[20px] w-[20px]'>
-               <img src={loveIcon} alt='收藏按鈕' />
-            </div>
-         </div>
-         <h3>{data.title}</h3>
-         <p className='text-xs'>{data.startDate}</p>
-         <div className='flex'>
-            <div className='w-[16px] h-[16px]'>
-               <img src={locationIcon} alt='縣市地址圖示' />
-            </div>
-            <p className='text-xs '>{data.showInfo[0].location}</p>
-         </div>
-      </div>
-   )
-}
 
 const HomePage = () => {
    const monthList = fakeMonthList
@@ -230,7 +114,7 @@ const HomePage = () => {
                })}
             </StyledMonthBox>
          </StyledMonthWrapper>
-         <section className='flex  flex-wrap justify-center max-h-[358px] gap-10  py-6 px-6'>
+         <StyledContent className='flex  flex-wrap justify-center max-h-[358px] gap-10  py-6 px-6'>
             {categoryList.map((data, index) => {
                return (
                   <div key={index} className='flex flex-col items-center'>
@@ -241,7 +125,7 @@ const HomePage = () => {
                   </div>
                )
             })}
-         </section>
+         </StyledContent>
          <HotSection>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
             <ExhibitionCard data={exhibitionList} />
@@ -254,7 +138,7 @@ const HomePage = () => {
                <StyledExhibitionType>評分最高</StyledExhibitionType>
                <StyledExhibitionType>最近日期</StyledExhibitionType>
             </TypeWrapper>
-            <div className='flex gap-2 overflow-hidden'>
+            <div className='all'>
                {exhibitionList.map((data, index) => {
                   return <AllExhibitionCard key={index} data={data} />
                })}
@@ -264,5 +148,204 @@ const HomePage = () => {
       </>
    )
 }
+const ExhibitionCard = ({ data }) => {
+   return (
+      <StyledCardContainer>
+         <div className='number text-[#BE8152] font-bold'>01</div>
+         <BaseImageBox width={'60px'} height={'60px'}>
+            <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
+         </BaseImageBox>
+         <StyledCardContent className='description flex flex-wrap gap-1'>
+            <StyledCardTitle className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>
+               {data.title ?? '展覽名稱'}
+            </StyledCardTitle>
+            <StyledCardInfo>
+               <p>2023.03.21 - 4.20</p>
+               <BaseImageBox width={'16px'} height={'16px'} className='city'>
+                  <img src={locationIcon} alt='縣市地址圖示' />
+               </BaseImageBox>
+               <p>{data.showInfo?.location ?? '尚無資料'}</p>
+            </StyledCardInfo>
+         </StyledCardContent>
+      </StyledCardContainer>
+   )
+}
+
+const AllExhibitionCard = ({ data }) => {
+   return (
+      <StyledAllContainer>
+         <BaseImageBox width={'167px'} height={'180px'} className='exhibition'>
+            <img src={data.imageUrl} alt='' className='rounded-lg' />
+            <StyledPositionImageBox
+               position={'absolute'}
+               right={'2%'}
+               top={'2%'}
+               className='absolute right-2 top-2'
+            >
+               <img src={loveIcon} alt='收藏按鈕' />
+            </StyledPositionImageBox>
+         </BaseImageBox>
+         <h3>{data.title}</h3>
+         <p className='text-xs'>{data.startDate}</p>
+         <div className='flex'>
+            <BaseImageBox width={'16px'} height={'16px'} className='w-[16px] h-[16px]'>
+               <img src={locationIcon} alt='縣市地址圖示' />
+            </BaseImageBox>
+            <p className='text-xs '>{data.showInfo[0].location}</p>
+         </div>
+      </StyledAllContainer>
+   )
+}
+
+const StyledPositionImageBox = styled(PositionElement)`
+   width: 20px;
+   height: 20px;
+`
+
+const StyledMonthWrapper = styled.section`
+   display: flex;
+   flex-direction: column;
+   padding-left: 24px;
+`
+
+const StyledCardContainer = styled.div`
+   ${FlexCenter};
+   justify-content: start;
+   align-items: center;
+   gap: 16px;
+   background-color: white;
+   border-radius: 16px;
+   padding: 20px 12px;
+   margin-bottom: 6px;
+   max-height: 92px;
+`
+const StyledCardContent = styled.div`
+   max-width: 191px;
+   ${FlexCenter};
+   flex-wrap: wrap;
+   gap: 4px;
+   color: #535353;
+`
+const StyledCardInfo = styled.div`
+   ${FlexCenter};
+   flex-wrap: nowrap;
+   font-size: 14px;
+   white-space: nowrap;
+
+   p {
+      margin-right: 8px;
+   }
+   .city {
+      margin-right: 2px;
+   }
+`
+const StyledCardTitle = styled.h3`
+   font-size: 16px;
+   font-weight: 500;
+   color: #453434;
+   text-align: start;
+   margin: unset; //移除預設
+`
+const StyledAllContainer = styled.div`
+   display: flex;
+   flex-wrap: wrap;
+   gap: 4px;
+   width: 167px;
+
+   .exhibition {
+      position: relative;
+      border-radius: 16px;
+   }
+
+   h3 {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+   }
+`
+
+const StyledMonthBox = styled.div`
+   display: flex;
+   align-items: center;
+   text-align: center;
+   font-size: 12px;
+   gap: 1px;
+   overflow: scroll;
+   &::-webkit-scrollbar {
+      display: none;
+   }
+   scrollbar-width: none;
+`
+const StyledMonthText = styled.p`
+   cursor: pointer;
+   box-sizing: border-box;
+   white-space: nowrap;
+   width: 100%;
+   padding: 10px;
+   &:hover {
+      background: #be875c;
+      color: #fff;
+   }
+`
+
+const HotSection = styled.section`
+   background-image: url(${hotBg});
+   background-size: cover;
+   padding: 24px;
+`
+
+const StyledAllExhibitionWrapper = styled.div`
+   display: flex;
+   flex-direction: column;
+   padding: 24px;
+   width: 100%;
+   background: #f9f9f9;
+
+   .all {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+   }
+`
+
+const TypeWrapper = styled.div`
+   display: flex;
+   margin-bottom: 24px;
+   gap: 8px;
+   overflow: scroll;
+   &::-webkit-scrollbar {
+      display: none;
+   }
+`
+
+const StyledExhibitionType = styled.div`
+   max-height: 35px;
+   border-radius: 10px;
+   font-size: 14px;
+   padding: 8px 16px;
+   text-align: center;
+   white-space: nowrap;
+   color: ${(props) => (props.isActive ? '#BE8152' : '#000')};
+   background: ${(props) => (props.isActive ? '#BE8152' : '#eeee')};
+   &:hover {
+      background: #be875c;
+      color: #fff;
+   }
+`
+
+const StyledFooter = styled.footer`
+   background: #7b4d29;
+   color: #fff;
+   white-space: nowrap;
+   padding: 20px 72px;
+`
+
+const StyledContent = styled.div`
+   ${FlexCenter};
+   flex-wrap: true;
+   gap: 40px;
+   max-height: 358px;
+   padding: 24px;
+`
 
 export default HomePage
