@@ -8,15 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { registerInfoIcon, uncheckIcon, warnIcon, checkIcon } from '../../assets/images'
 import axios from 'axios'
-import '../Register/second.scss'
-
-const StyledPasswordText = styled.div`
-   display: flex;
-   gap: 8px;
-   align-items: center;
-   color: ${(props) => (props.matched ? '#A9622A' : '#C2C2C2')};
-   font-size: 14px;
-`
+import BaseImageBox from '../../styles/base/BaseImageBox'
 
 const secondStep = ({ setStepStatus }) => {
    const [account, setAccount] = useState('')
@@ -119,7 +111,7 @@ const secondStep = ({ setStepStatus }) => {
    }, [account, password, score])
    return (
       <>
-         <form onSubmit={handleSubmit((data) => {})} className='flex flex-col gap-4 mb-10'>
+         <StyledForm onSubmit={handleSubmit((data) => {})} className='flex flex-col gap-4 mb-10'>
             <div className='flex flex-col'>
                <label htmlFor='email' className='font-medium mb-2 text-[#453434]'>
                   帳號
@@ -138,12 +130,12 @@ const secondStep = ({ setStepStatus }) => {
                   }}
                />
                {errors.account ? (
-                  <div className='flex  items-center gap-1 mt-2'>
-                     <div className='w-[20px] h-[20px]'>
+                  <StyledErrorBox>
+                     <BaseImageBox width={'20px'} height={'20px'}>
                         <img src={warnIcon} alt='' />
-                     </div>
+                     </BaseImageBox>
                      <span className='text-[#D31C1C]'>{errors.account?.message}</span>
-                  </div>
+                  </StyledErrorBox>
                ) : (
                   ''
                )}
@@ -161,42 +153,87 @@ const secondStep = ({ setStepStatus }) => {
                   placeholder={'6-18位數密碼,請區分大小寫'}
                   onChange={(e) => setPassword(e.target.value)}
                />
-               <div className='flex gap-1 items-center mt-2 h-[20px]'>
+               <StyledErrorBox>
                   {errors.password ? (
                      <>
-                        <div className='w-[20px] h-[20px]'>
+                        <BaseImageBox width={'20px'} height={'20px'}>
                            <img src={warnIcon} alt='是否符合密碼條件圖樣' />
-                        </div>
+                        </BaseImageBox>
                         <span className='text-[#D31C1C]'>{errors.password?.message}</span>
                      </>
                   ) : (
                      ''
                   )}
-               </div>
+               </StyledErrorBox>
             </div>
-         </form>
-         <section>
-            <h3 className='flex gap-2 items-center font-bold mb-2 text-[#453434]'>
-               <div className='w-[20px] h-[20px]'>
+         </StyledForm>
+         <StyledTipBox>
+            <ReminderContainer>
+               <BaseImageBox width={'20px'} height={'20px'}>
                   <img src={registerInfoIcon} alt='' />
-               </div>
+               </BaseImageBox>
                密碼提示
-            </h3>
+            </ReminderContainer>
             {ruleList.map((text, index) => (
                <StyledPasswordText key={text} matched={matchTips[index]}>
-                  <div className='w-[20px] h-[20px]'>
+                  <BaseImageBox width={'16px'} height={'16px'}>
                      <img src={matchTips[index] ? checkIcon : uncheckIcon} alt='' />
-                  </div>
+                  </BaseImageBox>
                   {text}
                </StyledPasswordText>
             ))}
-            <div>
-               <div className='mt-4 text-[#453434]'>密碼強度</div>
-               <progress className='w-[100%] rounded-xl' value={score} max='100'></progress>
-            </div>
-         </section>
+            {password.length > 0 ? (
+               <div>
+                  <div className='mt-4 text-[#453434]'>密碼強度</div>
+                  <StyledProgress value={score} max='100'></StyledProgress>
+               </div>
+            ) : (
+               ''
+            )}
+         </StyledTipBox>
       </>
    )
 }
+
+const StyledErrorBox = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 4px;
+`
+
+const StyledTipBox = styled.section`
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+`
+const StyledProgress = styled.progress`
+   width: 100%;
+   border-radius: 16px;
+`
+
+const StyledForm = styled.form`
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+   margin-bottom: 24px;
+`
+
+const ReminderContainer = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   font-weight: 700;
+   margin-bottom: 8px;
+   color: #453434;
+`
+
+const StyledPasswordText = styled.div`
+   display: flex;
+   gap: 8px;
+   align-items: center;
+   color: ${(props) => (props.matched ? '#A9622A' : '#C2C2C2')};
+   font-size: 14px;
+`
 
 export default secondStep
