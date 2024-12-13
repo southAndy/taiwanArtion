@@ -12,4 +12,13 @@ scss 與 styled 共存方案
 
 ## todo
 
+FE
+
 1. prettier 排版設定，換行問題
+2. account 路由存在是否正確？(discuss with angela)
+3. when account's name is error, and progress button should be disabled.
+
+BE
+
+1. 如何讓 api 服務不休眠
+2.
