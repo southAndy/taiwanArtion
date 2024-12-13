@@ -6,6 +6,8 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { warnIcon } from '../../assets/images'
+import styled from 'styled-components'
+import BaseImageBox from '../../styles/base/BaseImageBox'
 
 const thirdStep = ({ setStepStatus }) => {
    const [isCanSent, setCanSent] = useState(false)
@@ -54,7 +56,7 @@ const thirdStep = ({ setStepStatus }) => {
       <>
          <p className='mb-6 text-sm'>為了確保是你本人，我們將會寄送一封驗證信件到你的電子信箱。</p>
          <h3 className='mb-5 font-medium'>電子信箱</h3>
-         <div className='flex gap-2'>
+         <StyledValidateBox className='flex gap-2'>
             <StyledInput
                placeholder='請輸入電子信箱'
                {...register('email')}
@@ -63,15 +65,15 @@ const thirdStep = ({ setStepStatus }) => {
                }}
             />
             <Button content={'送出驗證'} disabled={errors.email} setClick={setCanSent} />
-         </div>
+         </StyledValidateBox>
          <div className=''>
             {errors.email ? (
-               <div className='flex gap-1 items-center mt-2 h-[20px]'>
-                  <div className='w-[20px] h-[20px]'>
+               <StyledErrorBox>
+                  <BaseImageBox width={'20px'} height={'20px'}>
                      <img src={warnIcon} alt='' />
-                  </div>
+                  </BaseImageBox>
                   <span className='text-[#D31C1C]'>{errors.email?.message}</span>
-               </div>
+               </StyledErrorBox>
             ) : (
                ''
             )}
@@ -79,5 +81,17 @@ const thirdStep = ({ setStepStatus }) => {
       </>
    )
 }
+
+const StyledValidateBox = styled.div`
+   display: flex;
+   gap: 8px;
+`
+
+const StyledErrorBox = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 8px;
+`
 
 export default thirdStep
