@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsLogin } from '../../store/memberSlice'
 import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
+import BaseLink from '../../styles/base/BaseLink'
+import BaseImageBox from '../../styles/base/BaseImageBox'
 import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
@@ -74,13 +76,13 @@ const Header = () => {
 
    return (
       <HeaderContainer>
-         <Link className='h-[40px] w-[120px]' to='/'>
+         <BaseLink width={'120px'} height={'40px'} to='/'>
             <img src={logoIcon} alt='網站圖樣' />
-         </Link>
+         </BaseLink>
          <HeaderCategory>
-            <div className='w-[18px] h-[18px]' onClick={() => setIsShowModal((n) => !n)}>
+            <BaseImageBox width={'18px'} height={'18px'} onClick={() => setIsShowModal((n) => !n)}>
                <img src={headerSearch} alt='搜尋圖樣' />
-            </div>
+            </BaseImageBox>
             <div onClick={() => setMenu((n) => !n)}>
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
@@ -100,5 +102,10 @@ const Header = () => {
       </HeaderContainer>
    )
 }
+
+const StyledLink = styled(Link)`
+   width: 120px;
+   height: 40px;
+`
 
 export default Header
