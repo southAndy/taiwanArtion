@@ -26,17 +26,17 @@ const Button = ({
    buttonBackground,
    margin,
    isClick,
-   setClick,
+   actions,
 }) => {
-   const handleClick = () => {
-      setClick((n) => !n)
-   }
+   // const handleClick = () => {
+   //    setClick((n) => !n)
+   // }
    return (
       <StyledButton
          color={textColor}
          bgColor={buttonBackground}
          margin={margin}
-         onClick={handleClick}
+         onClick={actions}
          disabled={disabled}
       >
          {content}
