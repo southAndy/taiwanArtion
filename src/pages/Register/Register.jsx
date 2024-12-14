@@ -25,37 +25,37 @@ const Register = () => {
       return (
          <>
             {renderContent()}
-            <Button
+            {/* <Button
                setClick={setClick}
                disabled={stepStatus[step] !== true}
                content={'下一步'}
                margin={'40px 0 0 0'}
             >
                下一步
-            </Button>
+            </Button> */}
          </>
       )
    }
 
-   const handlePrevStep = () => {
-      if (step === 0) {
-         navigate('/account')
-      } else {
-         setStep((n) => n - 1)
-         // 將上一步的狀態改為false
-         setStepStatus((n) => {
-            const newState = [...n]
-            newState[step - 1] = false
-            return newState
-         })
-      }
-   }
-   const handleNextStep = () => {
-      setStep((n) => n + 1)
-      if (step === 2) {
-         navigate('/success')
-      }
-   }
+   // const handlePrevStep = () => {
+   //    if (step === 0) {
+   //       navigate('/account')
+   //    } else {
+   //       setStep((n) => n - 1)
+   //       // 將上一步的狀態改為false
+   //       setStepStatus((n) => {
+   //          const newState = [...n]
+   //          newState[step - 1] = false
+   //          return newState
+   //       })
+   //    }
+   // }
+   // const handleNextStep = () => {
+   //    setStep((n) => n + 1)
+   //    if (step === 2) {
+   //       navigate('/success')
+   //    }
+   // }
    const renderContent = () => {
       switch (step) {
          case 1:
@@ -66,27 +66,22 @@ const Register = () => {
             return <FirstStep setStatus={setStepStatus} />
       }
    }
-   useEffect(() => {
-      if (isClick) {
-         if (step === 3) {
-            return
-         }
-         handleNextStep()
-         setClick(false)
-      }
-   }, [isClick])
+   // useEffect(() => {
+   //    if (isClick) {
+   //       if (step === 3) {
+   //          return
+   //       }
+   //       handleNextStep()
+   //       setClick(false)
+   //    }
+   // }, [isClick])
 
    return (
       <>
          <Header />
          <StyledLoginBanner>
             <div className='flex items-center justify-center'>
-               <FixedImageBox
-                  position={'absolute'}
-                  left={'13%'}
-                  top={'13%'}
-                  onClick={handlePrevStep}
-               >
+               <FixedImageBox position={'absolute'} left={'13%'} top={'13%'}>
                   <img src={vectorIcon} alt='回到上一頁箭頭' />
                </FixedImageBox>
                <h3>會員註冊</h3>
