@@ -31,7 +31,18 @@ const firstStep = ({ setStep }) => {
                return false
             }
          }),
-      userCode: yup.string().required('此欄位為必填').min(6, '驗證碼長度不正確'),
+      userCode: yup
+         .string()
+         .required('此欄位為必填')
+         .min(6, '驗證碼長度不正確')
+         .test('手機驗證簡訊比對', '手機驗證碼輸入錯誤', async () => {
+            try {
+               await verifySMSCode()
+               return true
+            } catch (e) {
+               return false //表示驗證失敗
+            }
+         }),
    })
    const {
       register,
@@ -68,7 +79,6 @@ const firstStep = ({ setStep }) => {
 
    async function actions() {
       try {
-         await verifySMSCode()
          setStep((n) => n + 1)
       } catch (e) {
          console.log(e)
@@ -131,7 +141,7 @@ const firstStep = ({ setStep }) => {
                </form>
                <Button
                   actions={actions}
-                  disabled={errors.userCode?.message && userCode.length === 0}
+                  disabled={errors.userCode?.message || userCode.length === 0}
                   content={'下一步'}
                   margin={'40px 0 0 0'}
                >
