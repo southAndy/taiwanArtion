@@ -45,7 +45,9 @@ import backstageIcon from '../images/backstage-icon-no.png'
 import notfindBg from '../images/notfind-bg.png'
 import logoWhite from '../images/logo-white.png'
 import UserSamplePhoto from '../images/user-photo.png'
+import accountBg from '../images/account-bg.png'
 export {
+   accountBg,
    searchIcon,
    dropdownIcon,
    fakeUserIcon,
