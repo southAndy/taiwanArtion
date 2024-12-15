@@ -11,7 +11,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 import { auth } from '../../../firebase.config'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 
-const firstStep = ({ setStep }) => {
+const firstStep = ({ setStep, setUserInfo }) => {
    const [isSent, setSent] = useState(false)
    const [countdown, setCountdown] = useState(60)
    const [userPhone, setUserPhone] = useState('')
@@ -80,6 +80,9 @@ const firstStep = ({ setStep }) => {
    async function actions() {
       try {
          setStep((n) => n + 1)
+         setUserInfo((state) => {
+            return { ...state, phone: userPhone }
+         })
       } catch (e) {
          console.log(e)
       }
