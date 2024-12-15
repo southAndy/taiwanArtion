@@ -9,6 +9,7 @@ import { warnIcon } from '../../assets/images'
 import styled from 'styled-components'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 import { auth } from '../../../firebase.config'
+import BaseImageBox from '../../styles/base/BaseImageBox'
 
 const firstStep = ({ setStep }) => {
    const [isSent, setSent] = useState(false)
@@ -77,6 +78,10 @@ const firstStep = ({ setStep }) => {
    useEffect(() => {
       //進入這個頁面就產生驗證實例
       setupRecapVerifier()
+      return () => {
+         //卸載元件時清理
+         window.recaptchaVerifier = null
+      }
    }, [])
 
    useEffect(() => {
@@ -112,20 +117,24 @@ const firstStep = ({ setStep }) => {
                         actions={setSent}
                         disabled={countdown !== 0}
                      />
-                     <button onClick={verifySMSCode}>test sms code</button>
                   </ProgressBox>
                   {errors.userCode ? (
-                     <div className='flex gap-1 mt-2'>
-                        <div className='w-[20px] h-[20px]'>
+                     <StyledErroBox className='flex gap-1 mt-2'>
+                        <BaseImageBox width={'20px'} height={'20px'}>
                            <img src={warnIcon} alt='' />
-                        </div>
+                        </BaseImageBox>
                         <span className='text-[#D31C1C]'>{errors.userCode?.message}</span>
-                     </div>
+                     </StyledErroBox>
                   ) : (
                      ''
                   )}
                </form>
-               <Button actions={actions} disabled={true} content={'下一步'} margin={'40px 0 0 0'}>
+               <Button
+                  actions={actions}
+                  disabled={errors.userCode?.message && userCode.length === 0}
+                  content={'下一步'}
+                  margin={'40px 0 0 0'}
+               >
                   下一步
                </Button>
             </>
@@ -160,12 +169,12 @@ const firstStep = ({ setStep }) => {
                      />
                   </ProgressBox>
                   {errors.userPhone ? (
-                     <div className='flex gap-1 mt-2'>
-                        <div className='w-[20px] h-[20px]'>
+                     <StyledErroBox>
+                        <BaseImageBox width={'20px'} height={'20px'}>
                            <img src={warnIcon} alt='' />
-                        </div>
+                        </BaseImageBox>
                         <span className='text-[#D31C1C]'>{errors.userPhone?.message}</span>
-                     </div>
+                     </StyledErroBox>
                   ) : (
                      ''
                   )}
@@ -195,6 +204,11 @@ const firstStep = ({ setStep }) => {
 const ProgressBox = styled.div`
    display: flex;
    gap: 8px;
+`
+const StyledErroBox = styled.div`
+   display: flex;
+   gap: 4px;
+   margin-top: 8px;
 `
 
 export default firstStep
