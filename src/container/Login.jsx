@@ -10,9 +10,8 @@ import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-// import { auth, provider } from '../../firebase.config'
-// import { signInWithPopup } from 'firebase/auth'
-// import { fetchNormalLogin } from '../store/memberSlice'
+import { collection, doc, getDocs, query, where } from 'firebase/firestore'
+import { db } from '../../firebase.config'
 
 const Login = () => {
    const [username, setUsername] = useState('')
@@ -21,32 +20,36 @@ const Login = () => {
    const [isLogin, setIsLogin] = useState(false)
    const navigate = useNavigate()
    const dispatch = useDispatch()
-   const sendLoginRequest = async () => {
+   const sendLoginRequest = async (account, password) => {
       try {
-         const res = await axios.post(
-            'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
-            {
-               username: username,
-               password: password,
-            },
+         // 定位到 `users` 集合
+         const usersRef = collection(db, 'users')
+         // 建立查詢，篩選 account 和 password
+         const q = query(
+            usersRef,
+            where('account', '==', account),
+            where('password', '==', password),
          )
-         //成功的話跳轉到後台
-         if (res.data.status === 200) {
-            alert('登入成功!')
-            document.cookie = 'isLogin=true'
-            // dispatch(fetchNormalLogin({ username: username, password: password }))
-            //todo 從資料庫取得使用者資料存入 redux
-            // 等待3秒後跳轉到後台
-            setTimeout(() => {
-               navigate('/backstage')
-            }, 3000)
+
+         // 執行查詢
+         const querySnapshot = await getDocs(q)
+
+         if (querySnapshot.empty) {
+            // 如果查詢結果為空
+            alert('登入失敗：帳號或密碼錯誤')
+            return null
          } else {
-            alert('登入失敗!請檢查帳號密碼是否正確')
+            // 如果查詢成功，回傳用戶資料
+            const userData = querySnapshot.docs[0].data()
+            console.log('登入成功：', userData)
+            navigate('/backstage')
          }
-      } catch (e) {
-         console.log(e)
+      } catch (error) {
+         console.error('Error during login:', error)
+         return null
       }
    }
+
    const loginLine = () => {
       const channel_id = '2003812489'
       const homePage = 'https://2439-111-241-166-18.ngrok-free.app/?isLogin=true'
@@ -104,7 +107,7 @@ const Login = () => {
                   />
                </div>
                <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink>
-               <button type='button' onClick={sendLoginRequest}>
+               <button type='button' onClick={() => sendLoginRequest(username, password)}>
                   登入
                </button>
             </form>
@@ -139,7 +142,8 @@ const StyledLink = styled(Link)`
 `
 const StyledForgetLink = styled(Link)`
    color: #a9622a;
-   text-align: end;
+   width: 85px;
+   margin-left: auto;
 `
 
 const StyledLoginBanner = styled.section`
