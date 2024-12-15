@@ -56,14 +56,20 @@ const Register = () => {
    //       navigate('/success')
    //    }
    // }
+   useEffect(() => {
+      console.log('switch step')
+
+      renderContent()
+   }, [step])
+
    const renderContent = () => {
       switch (step) {
          case 1:
-            return <SecondStep setStepStatus={setStepStatus} />
+            return <SecondStep setStep={setStep} />
          case 2:
-            return <ThirdStep setStepStatus={setStepStatus} />
+            return <ThirdStep setStep={setStep} />
          default:
-            return <FirstStep setStatus={setStepStatus} />
+            return <FirstStep setStep={setStep} />
       }
    }
    // useEffect(() => {

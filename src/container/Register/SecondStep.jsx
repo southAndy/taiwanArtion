@@ -10,7 +10,7 @@ import { registerInfoIcon, uncheckIcon, warnIcon, checkIcon } from '../../assets
 import axios from 'axios'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 
-const secondStep = ({ setStepStatus }) => {
+const secondStep = ({ setStep }) => {
    const [account, setAccount] = useState('')
    const [password, setPassword] = useState('')
    const [score, setScore] = useState(0)
@@ -94,21 +94,21 @@ const secondStep = ({ setStepStatus }) => {
    })
 
    // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
-   useEffect(() => {
-      if (account && password && score === 100) {
-         setStepStatus((n) => {
-            const newState = [...n]
-            newState[1] = true
-            return newState
-         })
-      } else {
-         setStepStatus((n) => {
-            const newState = [...n]
-            newState[1] = false
-            return newState
-         })
-      }
-   }, [account, password, score])
+   // useEffect(() => {
+   //    if (account && password && score === 100) {
+   //       setStep((n) => {
+   //          const newState = [...n]
+   //          newState[1] = true
+   //          return newState
+   //       })
+   //    } else {
+   //       setStep((n) => {
+   //          const newState = [...n]
+   //          newState[1] = false
+   //          return newState
+   //       })
+   //    }
+   // }, [account, password, score])
    return (
       <>
          <StyledForm onSubmit={handleSubmit((data) => {})} className='flex flex-col gap-4 mb-10'>
