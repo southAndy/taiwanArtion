@@ -41,8 +41,8 @@ const router = createBrowserRouter([
       element: <Register />,
    },
    // {
-   //    path: '/success',
-   //    element: <Success />,
+   //    path: '/reset',
+   //    element: <Reset />,
    // },
    {
       path: '/backstage/',
