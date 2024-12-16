@@ -51,27 +51,27 @@ const Header = () => {
    const isLogin = useSelector((state) => state.member.isLogin)
 
    useEffect(() => {
-      // 讀取 cookie，判斷是否登入
-      const cookie = document.cookie
-      // 拆出 isLogin 的值
-      const arrayCookie = cookie.split(';')
-      const cookieLogin = arrayCookie.find((item) => item.startsWith(' isLogin='))
-      console.log(cookieLogin)
-      if (cookieLogin) {
-         const isLogin = Boolean(cookieLogin.split('=')[1])
-         dispatch(setIsLogin(isLogin))
-      } else {
-         dispatch(setIsLogin(false))
-      }
-      //狀態存入 redux
-      //todo 如果登入狀態改變，就刪減選單的顯示
-      if (cookieLogin) {
-         const loginMenu = menu.filter((item) => item.title !== '註冊/登入')
-         setMenuContent(() => loginMenu)
-      } else {
-         const logoutMenu = menu.filter((item) => item.title !== '個人頁面')
-         setMenuContent(() => logoutMenu)
-      }
+      // // 讀取 cookie，判斷是否登入
+      // const cookie = document.cookie
+      // // 拆出 isLogin 的值
+      // const arrayCookie = cookie.split(';')
+      // const cookieLogin = arrayCookie.find((item) => item.startsWith(' isLogin='))
+      // console.log(cookieLogin)
+      // if (cookieLogin) {
+      //    const isLogin = Boolean(cookieLogin.split('=')[1])
+      //    dispatch(setIsLogin(isLogin))
+      // } else {
+      //    dispatch(setIsLogin(false))
+      // }
+      // //狀態存入 redux
+      // //todo 如果登入狀態改變，就刪減選單的顯示
+      // if (!cookieLogin) {
+      //    const loginMenu = menu.filter((item) => item.title !== '註冊/登入')
+      //    setMenuContent(() => loginMenu)
+      // } else {
+      //    const logoutMenu = menu.filter((item) => item.title !== '個人頁面')
+      //    setMenuContent(() => logoutMenu)
+      // }
    }, [isLogin])
 
    return (
@@ -90,14 +90,14 @@ const Header = () => {
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />
          </Modal>
-         <Modal isShow={isShowMenu} setShow={setMenu}>
-            <div className='flex flex-col items-center gap-6'>
+         <Modal isShow={isShowMenu} setShow={setMenu} position={{ t: '1%' }} height={'210px'}>
+            <StyldMenuBox>
                {menu.map((item, index) => (
                   <Link key={index} to={item.link} keys={index}>
                      {item.title}
                   </Link>
                ))}
-            </div>
+            </StyldMenuBox>
          </Modal>
       </HeaderContainer>
    )
@@ -106,6 +106,12 @@ const Header = () => {
 const StyledLink = styled(Link)`
    width: 120px;
    height: 40px;
+`
+const StyldMenuBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 24px;
 `
 
 export default Header
