@@ -5,6 +5,8 @@ import { setMemberInterests } from '../../store/memberSlice'
 import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
 import BaseImageBox from '../../styles/base/BaseImageBox'
+import { db } from '../../../firebase.config'
+import { updateDoc, doc } from 'firebase/firestore'
 import {
    calendarIcon,
    shareIcon,
@@ -13,6 +15,7 @@ import {
    unStarIcon,
    loveIcon,
    likeIcon,
+   loveFullIcon,
 } from '../../assets/images'
 import styled from '@emotion/styled'
 import axios from 'axios'
@@ -48,18 +51,28 @@ export default function DetailPage() {
       getExhibition()
    }, [])
 
-   // const storeExhibition = () => {
-   //    //先判斷是否登入
-   //    if (isLogin) {
-   //       // 如果登入，可以將此展覽加入收藏
-   //       setIsStore(true)
-   //       //加入會員的收藏清單
-   //       dispatch(setMemberInterests(['ID12354E']))
-   //    } else {
-   //       // 如果沒登入，跳轉到登入頁面
-   //       navigate('/login')
-   //    }
-   // }
+   const storeExhibition = () => {
+      //先判斷是否登入
+      if (true) {
+         setIsStore((n) => !n) //更新收藏 icon
+         //加入會員的收藏清單
+         const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh')
+         if (isStore) {
+            console.log('true')
+
+            updateDoc(userData, {
+               favorite: [params.id],
+            })
+         } else {
+            updateDoc(userData, {
+               favorite: [],
+            })
+         }
+      } else {
+         // 如果沒登入，跳轉到登入頁面
+         navigate('/login')
+      }
+   }
    return (
       <>
          <Header />
@@ -195,9 +208,9 @@ export default function DetailPage() {
             </StyledInfo>
          </DetailContainer>
          <StyledToolBar>
-            <div className='option'>
+            <div className='option' onClick={storeExhibition}>
                <BaseImageBox width={'24px'} height={'24px'}>
-                  <img src={loveIcon} alt='收藏此展覽按鈕' />
+                  <img src={isStore ? loveFullIcon : loveIcon} alt='收藏此展覽按鈕' />
                </BaseImageBox>
                <div>收藏展覽</div>
             </div>

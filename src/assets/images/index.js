@@ -46,7 +46,9 @@ import notfindBg from '../images/notfind-bg.png'
 import logoWhite from '../images/logo-white.png'
 import UserSamplePhoto from '../images/user-photo.png'
 import accountBg from '../images/account-bg.png'
+import loveFullIcon from '../images/love-full.png'
 export {
+   loveFullIcon,
    accountBg,
    searchIcon,
    dropdownIcon,
