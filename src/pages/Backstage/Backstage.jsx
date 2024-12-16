@@ -27,13 +27,22 @@ const Backstage = () => {
    let [exhibition, setExhibition] = useState([])
    const [currentMenu, setCurrentMenu] = useState(0)
    const menu = ['收藏展覽', '展覽月曆', '個人設定']
-   const menuComponent = []
    let favoriteDatas = []
 
    //讀取 firestore 的資料
    useEffect(() => {
       getExhibition()
    }, [])
+
+   const StoreMenu = () => {
+      return (
+         <>
+            {exhibition.map((data) => (
+               <AllExhibitionCard data={data} key={data.UID} />
+            ))}
+         </>
+      )
+   }
 
    async function getExhibition() {
       try {
@@ -66,11 +75,13 @@ const Backstage = () => {
    }
 
    function renderMenu() {
-      switch (menu) {
+      console.log('hi')
+
+      switch (currentMenu) {
          case 0:
-            ;<StoreMenu data={exhibition} />
+            return <StoreMenu data={exhibition} />
          case 1:
-            ;<CalendarMenu />
+            return <CalendarMenu />
          // case 2:
          //    <ProfileMenu/>
       }
@@ -89,7 +100,7 @@ const Backstage = () => {
             <StyledMenuBox>
                {menu.map((data, index) => {
                   return (
-                     <div className='option' key={index}>
+                     <div className='option' key={index} onClick={() => setCurrentMenu(index)}>
                         {data}
                      </div>
                   )
@@ -122,18 +133,10 @@ const AllExhibitionCard = ({ data }) => {
 }
 
 const CalendarMenu = () => {
-   ;<>
-      <BasicDateCalendar />
-      <h3>即將到來的展覽</h3>
-   </>
-}
-
-const StoreMenu = (data) => {
    return (
       <>
-         {data.map((data) => (
-            <AllExhibitionCard data={data} key={data.UID} />
-         ))}
+         <BasicDateCalendar />
+         <h3>即將到來的展覽</h3>
       </>
    )
 }
