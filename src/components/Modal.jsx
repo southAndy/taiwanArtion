@@ -32,6 +32,7 @@ const Modal = ({
    setShow,
    position = { l: 0, r: 0, t: 0, b: 0 },
    size = { w: 0, z: 0 },
+   height,
    shape,
 }) => {
    useEffect(() => {
@@ -55,7 +56,7 @@ const Modal = ({
       <StyledModalBackground showModal={isShow} onClick={showModalHandler}>
          <StyledModalContent
             width={size.w}
-            height={size.h}
+            height={height}
             top={position.t}
             bottom={position.b}
             left={position.l}

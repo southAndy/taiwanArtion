@@ -6,7 +6,7 @@ import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { db } from '../../../firebase.config'
-import { updateDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc, arrayUnion, arrayRemove } from 'firebase/firestore'
 import {
    calendarIcon,
    shareIcon,
@@ -45,6 +45,7 @@ export default function DetailPage() {
       }
    }
 
+   // 獲取頁面所需的展覽資料
    useEffect(() => {
       //取得 params 的景點 ID
       const id = params.id
@@ -55,17 +56,15 @@ export default function DetailPage() {
       //先判斷是否登入
       if (true) {
          setIsStore((n) => !n) //更新收藏 icon
-         //加入會員的收藏清單
-         const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh')
-         if (isStore) {
-            console.log('true')
 
+         const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
+         if (isStore) {
             updateDoc(userData, {
-               favorite: [params.id],
+               favorite: arrayUnion(params.id),
             })
          } else {
             updateDoc(userData, {
-               favorite: [],
+               favorite: arrayRemove(params.id),
             })
          }
       } else {
