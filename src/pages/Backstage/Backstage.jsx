@@ -11,13 +11,15 @@ import {
    accountBg,
    loveIcon,
    locateIcon,
+   commentStarIcon,
 } from '../../assets/images'
 import styled from 'styled-components'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import BasicDateCalendar from '../../plugins/Calendar'
 import { db } from '../../../firebase.config'
-import { getDoc, doc } from 'firebase/firestore'
+import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
+
 import axios from 'axios'
 
 BasicDateCalendar
@@ -33,6 +35,16 @@ const Backstage = () => {
    useEffect(() => {
       getExhibition()
    }, [])
+
+   // 解除收藏的展覽
+   function removeExhibition(id) {
+      console.log('removed')
+
+      const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
+      updateDoc(userData, {
+         favorite: arrayRemove(id),
+      })
+   }
 
    const StoreMenu = () => {
       return (
@@ -64,7 +76,6 @@ const Backstage = () => {
 
    async function getUserInfo() {
       try {
-         // const actions = new Promise.all([])
          const userDatas = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh')
          const docSnap = await getDoc(userDatas)
          favoriteDatas = [...docSnap.data().favorite]
@@ -72,6 +83,41 @@ const Backstage = () => {
       } catch (e) {
          console.log(e)
       }
+   }
+
+   const AllExhibitionCard = ({ data }) => {
+      return (
+         <StyledAllContainer>
+            <Link to={`/detail/${data.UID}`} className='exhibition'>
+               <img src={data?.imageUrl} alt='' className='rounded-lg' />
+               <StyledPositionImageBox
+                  position={'absolute'}
+                  right={'2%'}
+                  top={'2%'}
+                  onClick={() => removeExhibition(data.UID)}
+               >
+                  <img src={loveIcon} alt='收藏按鈕' />
+               </StyledPositionImageBox>
+            </Link>
+            <div className='comment'>
+               <h3>{data?.title}</h3>
+               <div className='comment-rate'>
+                  <p>{'5'}</p>
+                  <BaseImageBox height={'16px'} width={'16px'}>
+                     <img src={commentStarIcon} alt='' />
+                  </BaseImageBox>
+                  <p>{'(123)'}</p>
+               </div>
+            </div>
+            <p className='time'>{data?.startDate}</p>
+            {/* <div className='flex'>
+               <BaseImageBox width={'16px'} height={'16px'} className='w-[16px] h-[16px]'>
+                  <img src={locateIcon} alt='縣市地址圖示' />
+               </BaseImageBox>
+               <p className='text-xs '>{data?.showInfo[0]?.City}</p>
+            </div> */}
+         </StyledAllContainer>
+      )
    }
 
    function renderMenu() {
@@ -111,26 +157,6 @@ const Backstage = () => {
       </>
    )
 }
-const AllExhibitionCard = ({ data }) => {
-   return (
-      <StyledAllContainer>
-         <BaseImageBox width={'327px'} height={'180px'} className='exhibition'>
-            <img src={data?.imageUrl} alt='' className='rounded-lg' />
-            <StyledPositionImageBox position={'absolute'} right={'2%'} top={'2%'}>
-               <img src={loveIcon} alt='收藏按鈕' />
-            </StyledPositionImageBox>
-         </BaseImageBox>
-         <h3>{data?.title}</h3>
-         <p className='text-xs'>{data?.startDate}</p>
-         <div className='flex'>
-            <BaseImageBox width={'16px'} height={'16px'} className='w-[16px] h-[16px]'>
-               <img src={locateIcon} alt='縣市地址圖示' />
-            </BaseImageBox>
-            <p className='text-xs '>{data?.showInfo[0]?.location}</p>
-         </div>
-      </StyledAllContainer>
-   )
-}
 
 const CalendarMenu = () => {
    return (
@@ -155,13 +181,35 @@ const StyledAllContainer = styled.div`
    .exhibition {
       position: relative;
       border-radius: 16px;
+      width: 327px;
+      height: 180px;
    }
 
-   h3 {
-      white-space: nowrap;
-      font-size: 16px;
-      overflow: hidden;
-      text-overflow: ellipsis;
+   .comment {
+      display: flex;
+      flex-wrap: nowrap;
+      align-itemd: center;
+      justify-content: space-between;
+      width: 100%;
+      margin: 16px 0 8px 0;
+
+      h3 {
+         max-width: 213px;
+         white-space: nowrap;
+         font-size: 16px;
+         overflow: hidden;
+         text-overflow: ellipsis;
+         margin: 0;
+      }
+
+      &-rate {
+         display: flex;
+         align-itemd: center;
+         gap: 2px;
+      }
+   }
+   .time {
+      font-size: 14px;
    }
 `
 
@@ -187,7 +235,6 @@ const StyledFeatureBox = styled.div`
    padding: 40px 24px;
 
    box-shadow: 0px 3px 10px 0px #dadada;
-   height: 100vh;
 `
 const StyledMenuBox = styled.div`
    display: flex;
