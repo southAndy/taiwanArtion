@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-// import { useDispatch, useSelector } from 'react-redux'
-import { setMemberInterests } from '../../store/memberSlice'
+import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
 import BaseImageBox from '../../styles/base/BaseImageBox'
@@ -18,40 +17,22 @@ import {
    loveFullIcon,
 } from '../../assets/images'
 import styled from '@emotion/styled'
-import axios from 'axios'
 
 export default function DetailPage() {
-   let [exhibition, setExhibition] = useState([])
    const params = useParams()
    const navigate = useNavigate()
    const [currentOption, setCurrentOption] = useState(0)
    const [isStore, setIsStore] = useState(false) // 聯動收藏愛心 icon
-   // const dispatch = useDispatch()
-   // const isLogin = useSelector((state) => state.member.isLogin)
-   // const interestList = useSelector((state) => state.member.interests)
+
+   const dispatch = useDispatch()
+   const openData = useSelector((state) => state.common.openData)
+
+   // 當前展覽資料
    const currentData = useMemo(() => {
-      return exhibition.filter((item) => item.UID === params.id)
-   }, [exhibition])
+      return openData.filter((item) => item.UID === params.id)
+   }, [openData])
 
-   async function getExhibition() {
-      try {
-         const res = await axios.get(
-            'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
-         )
-         const data = res.data
-         setExhibition((n) => (n = data))
-      } catch (e) {
-         console.log(e)
-      }
-   }
-
-   // 獲取頁面所需的展覽資料
-   useEffect(() => {
-      //取得 params 的景點 ID
-      const id = params.id
-      getExhibition()
-   }, [])
-
+   // 收藏展覽
    const storeExhibition = () => {
       //先判斷是否登入
       if (true) {
