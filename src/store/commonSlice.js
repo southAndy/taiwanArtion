@@ -1,10 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import axios from 'axios'
+
+const fetchData = createAsyncThunk('common/fetchData', async () => {
+   try {
+      console.log('calling')
+
+      const openResponse = await axios.get(
+         'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
+      )
+      console.log(openResponse.data)
+
+      return openResponse.data
+   } catch (e) {
+      console.log(e)
+   }
+})
 
 const commonSlice = createSlice({
    name: 'common',
    initialState: {
       isShowModal: false,
       isLoading: false,
+      openData: [],
    },
    reducers: {
       showModal(state) {
@@ -20,9 +37,21 @@ const commonSlice = createSlice({
          state.isLoading = false
       },
    },
-   // extraReducers: {
-   //    //todo 根據不同的action type做不同的處理
-   // },
+   extraReducers: (builder) => {
+      builder
+         .addCase(fetchData.pending, (state) => {
+            state.isLoading = true
+         })
+         .addCase(fetchData.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.openData = action.payload
+         })
+         .addCase(fetchData.rejected, (state) => {
+            state.isLoading = false
+         })
+   },
 })
-export const { showModal, hideModal } = commonSlice.actions
+
+export const { showModal, hideModal, showLoading, hideLoading } = commonSlice.actions
+export { fetchData }
 export default commonSlice.reducer
