@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import BaseImageBox from '../../styles/base/BaseImageBox'
 import Button from '../../components/Button'
 import StyledInput from '../../components/StyledInput'
 import styled from 'styled-components'
@@ -8,12 +8,14 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { registerInfoIcon, uncheckIcon, warnIcon, checkIcon } from '../../assets/images'
-import axios from 'axios'
-import BaseImageBox from '../../styles/base/BaseImageBox'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { setDoc, doc } from 'firebase/firestore'
+import { auth, db } from '../../../firebase.config.js'
 
 const secondStep = ({ setStep, setUserInfo }) => {
    const [account, setAccount] = useState('')
    const [password, setPassword] = useState('')
+   const [email, setEmail] = useState('')
    const [score, setScore] = useState(0)
    const [matchTips, setMatchTips] = useState([false, false, false, false])
 
@@ -32,24 +34,6 @@ const secondStep = ({ setStep, setUserInfo }) => {
             //不能輸入特殊符號
             return !value.match(/[^a-zA-Z0-9]/)
          }),
-      // todo
-      // .test('帳號已存在', '此帳號已被使用', async (value, context) => {
-      //    try {
-      //       const res = await axios.post(
-      //          'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/auth/account',
-      //          {
-      //             account: value,
-      //          },
-      //       )
-      //       if (!res.data.isExist) {
-      //          // 手動使用 clearErrors 更新錯誤狀態
-      //          clearErrors('account')
-      //       }
-      //       return res.data.isExist
-      //    } catch (err) {
-      //       console.log(err)
-      //    }
-      // }),
       password: yup
          .string()
          .required('此欄位為必填')
@@ -80,41 +64,35 @@ const secondStep = ({ setStep, setUserInfo }) => {
             setMatchTips(localMatchTips)
             return localScore >= 100
          }),
-      //非同步,
+      email: yup.string().email('請輸入有效的信箱格式').required('此欄位為必填'),
    })
 
    const {
       register,
       handleSubmit,
       formState: { errors },
-      clearErrors,
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'onBlur',
    })
 
-   // 當帳密皆有輸入時且符合規則時，將按鈕設為可點擊
-   // useEffect(() => {
-   //    if (account && password && score === 100) {
-   //       setStep((n) => {
-   //          const newState = [...n]
-   //          newState[1] = true
-   //          return newState
-   //       })
-   //    } else {
-   //       setStep((n) => {
-   //          const newState = [...n]
-   //          newState[1] = false
-   //          return newState
-   //       })
-   //    }
-   // }, [account, password, score])
-
-   function actions() {
-      setStep((n) => n + 1)
-      setUserInfo((data) => {
-         return { ...data, account: account, password: password }
-      })
+   async function actions() {
+      try {
+         // 使用信箱驗證
+         const userCredit = await createUserWithEmailAndPassword(auth, email, password)
+         // uid 在登入要用來連動資料
+         const userId = userCredit.user.uid
+         // 儲存使用者資訊到 firestore
+         await setDoc(doc(db, 'users', userId), {
+            account: account,
+            email: email,
+            uid: userId,
+         })
+         // 跳轉到下一步
+         setStep((n) => n + 1)
+      } catch (e) {
+         console.log(e)
+      }
    }
 
    return (
@@ -163,44 +141,55 @@ const secondStep = ({ setStep, setUserInfo }) => {
                      setPassword(e.target.value)
                   }}
                />
-               <StyledErrorBox>
-                  {errors.password ? (
-                     <>
+               {password ? (
+                  <StyledTipBox>
+                     <ReminderContainer>
                         <BaseImageBox width={'20px'} height={'20px'}>
-                           <img src={warnIcon} alt='是否符合密碼條件圖樣' />
+                           <img src={registerInfoIcon} alt='' />
                         </BaseImageBox>
-                        <span className='text-[#D31C1C]'>{errors.password?.message}</span>
-                     </>
-                  ) : (
-                     ''
-                  )}
-               </StyledErrorBox>
+                        密碼提示
+                     </ReminderContainer>
+                     {ruleList.map((text, index) => (
+                        <StyledPasswordText key={text} matched={matchTips[index]}>
+                           <BaseImageBox width={'16px'} height={'16px'}>
+                              <img src={matchTips[index] ? checkIcon : uncheckIcon} alt='' />
+                           </BaseImageBox>
+                           {text}
+                        </StyledPasswordText>
+                     ))}
+                     {password.length > 0 ? (
+                        <div>
+                           <div className='mt-4 text-[#453434]'>密碼強度</div>
+                           <StyledProgress value={score} max='100'></StyledProgress>
+                        </div>
+                     ) : (
+                        ''
+                     )}
+                  </StyledTipBox>
+               ) : (
+                  ''
+               )}
+            </div>
+            <div>
+               <label htmlFor=''>信箱</label>
+               <StyledInput
+                  placeholder='請輸入電子信箱'
+                  {...register('email')}
+                  onChange={(e) => setEmail(e.target.value)}
+               ></StyledInput>
+               {errors.email ? (
+                  <StyledErrorBox>
+                     <BaseImageBox width={'20px'} height={'20px'}>
+                        <img src={warnIcon} alt='' />
+                     </BaseImageBox>
+                     <span className='text-[#D31C1C]'>{errors.email?.message}</span>
+                  </StyledErrorBox>
+               ) : (
+                  ''
+               )}
             </div>
          </StyledForm>
-         <StyledTipBox>
-            <ReminderContainer>
-               <BaseImageBox width={'20px'} height={'20px'}>
-                  <img src={registerInfoIcon} alt='' />
-               </BaseImageBox>
-               密碼提示
-            </ReminderContainer>
-            {ruleList.map((text, index) => (
-               <StyledPasswordText key={text} matched={matchTips[index]}>
-                  <BaseImageBox width={'16px'} height={'16px'}>
-                     <img src={matchTips[index] ? checkIcon : uncheckIcon} alt='' />
-                  </BaseImageBox>
-                  {text}
-               </StyledPasswordText>
-            ))}
-            {password.length > 0 ? (
-               <div>
-                  <div className='mt-4 text-[#453434]'>密碼強度</div>
-                  <StyledProgress value={score} max='100'></StyledProgress>
-               </div>
-            ) : (
-               ''
-            )}
-         </StyledTipBox>
+
          <Button
             actions={actions}
             disabled={
