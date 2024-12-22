@@ -9,6 +9,8 @@ import { PositionElement } from '../../styles/base/PositionElement'
 import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
 import fakeMonthList from '../../assets/data/month.json'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchData } from '../../store/commonSlice'
 
 import {
    categoryicon1,
@@ -38,58 +40,28 @@ const categoryList = [
 
 const HomePage = () => {
    const monthList = fakeMonthList
-   const [exhibitionList, setList] = useState([])
-   const [ownAPI, setOwnAPI] = useState([])
-   const [isLoading, setLoading] = useState(true)
    const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
-   const [isShowModal, setModal] = useState(false)
-   const [isClick, setClick] = useState(false)
-   const [isShow, setShow] = useState(false)
+   const { openData } = useSelector((state) => state.common)
+   const dispatch = useDispatch()
 
    // 初次載入去抓資料
    useEffect(() => {
-      async function fetchData() {
-         try {
-            // const response = await axios.post(
-            //    'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/exhibition',
-            //    {
-            //       keyword: 'taipei',
-            //    },
-            // )
-            const openResponse = await axios.get(
-               'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
-            )
-            const openData = openResponse.data
-
-            console.log('合併結果', openResponse)
-            const hasImageData = openData.filter((data) => {
-               return data.imageUrl !== ''
-            })
-
-            setList(() => hasImageData)
-         } catch (error) {
-            console.log(error)
-         } finally {
-            //終止載入效果
-            setLoading(() => false)
-         }
-      }
-      fetchData()
+      dispatch(fetchData())
    }, [])
+
    // 當月份改變時篩選資料
    const filterData = useMemo(() => {
       console.log('切換當前月份', currentMonth)
-      const currentMonthData = exhibitionList.filter((data) => {
+      const currentMonthData = openData.filter((data) => {
          const startDate = dayjs(data.startDate).month() + 1
          return startDate === currentMonth
       })
       if (currentMonthData.length === 0) {
-         console.log('當月無展覽')
-         return exhibitionList
+         return openData
       } else {
          return currentMonthData
       }
-   }, [currentMonth, exhibitionList])
+   }, [currentMonth, openData])
 
    return (
       <>
@@ -128,7 +100,7 @@ const HomePage = () => {
          </StyledContent>
          <HotSection>
             <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard data={exhibitionList} />
+            <ExhibitionCard data={openData} />
          </HotSection>
          <StyledAllExhibitionWrapper>
             <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
@@ -139,7 +111,7 @@ const HomePage = () => {
                <StyledExhibitionType>最近日期</StyledExhibitionType>
             </TypeWrapper>
             <div className='all'>
-               {exhibitionList.map((data, index) => {
+               {openData.map((data, index) => {
                   return <AllExhibitionCard key={index} data={data} />
                })}
             </div>
