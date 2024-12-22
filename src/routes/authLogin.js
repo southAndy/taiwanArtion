@@ -1,8 +1,9 @@
 import { redirect } from 'react-router-dom'
 
 const authLogin = ({ request, params }) => {
-   console.log('authLogin', request, params)
-   if (document.cookie.includes('isLogin=true')) {
+   // 檢查 cookie 是否有 token
+   // todo 這邊應該要改成檢查 token 是否有效
+   if (document.cookie.includes('accessToken')) {
       alert('登入成功!')
       return null
    } else {
