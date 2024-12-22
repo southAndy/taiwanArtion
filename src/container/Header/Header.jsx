@@ -47,31 +47,21 @@ const Header = () => {
          link: '/backstage',
       },
    ])
-   const dispatch = useDispatch()
+   // const dispatch = useDispatch()
    const isLogin = useSelector((state) => state.member.isLogin)
 
+   // 判斷是否登入，改變選單內容
    useEffect(() => {
-      // // 讀取 cookie，判斷是否登入
-      // const cookie = document.cookie
-      // // 拆出 isLogin 的值
-      // const arrayCookie = cookie.split(';')
-      // const cookieLogin = arrayCookie.find((item) => item.startsWith(' isLogin='))
-      // console.log(cookieLogin)
-      // if (cookieLogin) {
-      //    const isLogin = Boolean(cookieLogin.split('=')[1])
-      //    dispatch(setIsLogin(isLogin))
-      // } else {
-      //    dispatch(setIsLogin(false))
-      // }
-      // //狀態存入 redux
-      // //todo 如果登入狀態改變，就刪減選單的顯示
-      // if (!cookieLogin) {
-      //    const loginMenu = menu.filter((item) => item.title !== '註冊/登入')
-      //    setMenuContent(() => loginMenu)
-      // } else {
-      //    const logoutMenu = menu.filter((item) => item.title !== '個人頁面')
-      //    setMenuContent(() => logoutMenu)
-      // }
+      // dispatch(setIsLogin())
+      console.log(isLogin)
+
+      if (!isLogin) {
+         const loginMenu = menu.filter((item) => item.title !== '個人頁面')
+         setMenuContent(() => loginMenu)
+      } else {
+         const logoutMenu = menu.filter((item) => item.title !== '註冊/登入')
+         setMenuContent(() => logoutMenu)
+      }
    }, [isLogin])
 
    return (

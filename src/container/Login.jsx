@@ -9,9 +9,9 @@ import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets
 import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 import { collection, doc, getDocs, query, where } from 'firebase/firestore'
-import { db } from '../../firebase.config'
+import { db, auth } from '../../firebase.config'
+import { signInWithEmailAndPassword } from 'firebase/auth'
 
 const Login = () => {
    const [username, setUsername] = useState('')
@@ -22,31 +22,28 @@ const Login = () => {
    const dispatch = useDispatch()
    const sendLoginRequest = async (account, password) => {
       try {
-         // 定位到 `users` 集合
-         const usersRef = collection(db, 'users')
-         // 建立查詢，篩選 account 和 password
-         const q = query(
-            usersRef,
-            where('account', '==', account),
-            where('password', '==', password),
-         )
-
-         // 執行查詢
+         // 查詢 Firestore 中的帳號
+         const q = query(collection(db, 'users'), where('account', '==', account))
          const querySnapshot = await getDocs(q)
 
          if (querySnapshot.empty) {
-            // 如果查詢結果為空
-            alert('登入失敗：帳號或密碼錯誤')
-            return null
-         } else {
-            // 如果查詢成功，回傳用戶資料
-            const userData = querySnapshot.docs[0].data()
-            console.log('登入成功：', userData)
-            navigate('/backstage')
+            console.error('No matching account found')
+            return
          }
+
+         const userDoc = querySnapshot.docs[0]
+         const email = userDoc.data().email
+
+         // 使用信箱和密碼進行驗證
+         const loginInfo = await signInWithEmailAndPassword(auth, email, password)
+         console.log('Login successful', loginInfo)
+
+         // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
+         document.cookie = 'accessToken=' + loginInfo.user.accessToken
+         navigate('/backstage')
+         dispatch({ type: 'member/setIsLogin', payload: true })
       } catch (error) {
          console.error('Error during login:', error)
-         return null
       }
    }
 
@@ -107,9 +104,11 @@ const Login = () => {
                   />
                </div>
                <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink>
-               <button type='button' onClick={() => sendLoginRequest(username, password)}>
-                  登入
-               </button>
+               <Button
+                  actions={() => sendLoginRequest(username, password)}
+                  content={'登入'}
+                  disabled={false}
+               />
             </form>
             <section className='remind'>
                <div>
