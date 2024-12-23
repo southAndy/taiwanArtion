@@ -16,7 +16,7 @@ import categoryicon8 from '../../assets/images/categoryicon8.png'
 import categoryicon9 from '../../assets/images/categoryicon9.png'
 import categoryicon10 from '../../assets/images/categoryicon10.png'
 import hotBg from '../../assets/images/hot-bg.png'
-import locationIcon from '../../assets/images/locate-icon.png'
+import locationIcon from '../../assets/images/location-icon.png'
 import loveIcon from '../../assets/images/love-icon.png'
 import sampleBg from '../../assets/images/sample.png'
 import sampleExhibition from '../../assets/images/sample-exhibition.png'
@@ -47,7 +47,9 @@ import logoWhite from '../images/logo-white.png'
 import UserSamplePhoto from '../images/user-photo.png'
 import accountBg from '../images/account-bg.png'
 import loveFullIcon from '../images/love-full.png'
+import defaultBannerTablet from '../images/banner-tablet.png'
 export {
+   defaultBannerTablet,
    loveFullIcon,
    accountBg,
    searchIcon,
