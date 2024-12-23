@@ -3,27 +3,7 @@ import cityList from '../../assets/data/city.json'
 import styled from 'styled-components'
 import { locateIcon } from '../../assets/images/index'
 import { Link } from 'react-router-dom'
-
-const StyledCityBox = styled.div`
-   display: flex;
-   flex-wrap: wrap;
-   gap: 10px;
-`
-
-const StyledCityItem = styled(Link)`
-   display: flex;
-   align-items: center;
-   padding: 8px 15px;
-   border-radius: 12px;
-   font-size: 14px;
-   background: ${(props) => (props.isSelect ? '#BE8152' : '#EEEEEE')};
-   color: ${(props) => (props.isSelect ? 'red' : 'black')};
-   cursor: pointer;
-   &:hover {
-      background: #be875c;
-      color: #fff;
-   }
-`
+import BaseImageBox from '../../styles/base/BaseImageBox'
 
 export const CityMenu = () => {
    const areaList = ['北部', '中部', '南部', '東部', '離島']
@@ -31,12 +11,12 @@ export const CityMenu = () => {
    return (
       <>
          <div>
-            <div className='flex items-center gap-2 mt-6 cursor-pointer'>
-               <div className='w-[40px] h-[40px]'>
+            <StyledLocateBox>
+               <BaseImageBox width={'40px'} height={'40px'}>
                   <img src={locateIcon} alt='' />
-               </div>
+               </BaseImageBox>
                <p className='text-sm font-medium'>目前所在位置</p>
-            </div>
+            </StyledLocateBox>
             <div className='flex flex-col gap-3 mt-5 overflow-scroll'>
                <h3 className='font-medium'>{areaList[0]}</h3>
                <StyledCityBox>
@@ -83,3 +63,31 @@ export const CityMenu = () => {
       </>
    )
 }
+
+const StyledCityBox = styled.div`
+   display: flex;
+   flex-wrap: wrap;
+   gap: 10px;
+`
+const StyledLocateBox = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 24px;
+   cursor: pointer;
+`
+
+const StyledCityItem = styled(Link)`
+   display: flex;
+   align-items: center;
+   padding: 8px 15px;
+   border-radius: 12px;
+   font-size: 14px;
+   background: ${(props) => (props.isSelect ? '#BE8152' : '#EEEEEE')};
+   color: ${(props) => (props.isSelect ? 'red' : 'black')};
+   cursor: pointer;
+   &:hover {
+      background: #be875c;
+      color: #fff;
+   }
+`
