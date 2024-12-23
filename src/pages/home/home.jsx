@@ -112,12 +112,11 @@ const HomePage = () => {
             })}
          </StyledHotSection>
          <StyledAllExhibitionWrapper>
-            <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
-            <TypeWrapper className='flex gap-2 overflow-scroll mb-6'>
-               <StyledExhibitionType>最新展覽</StyledExhibitionType>
-               <StyledExhibitionType>人氣展覽</StyledExhibitionType>
-               <StyledExhibitionType>評分最高</StyledExhibitionType>
-               <StyledExhibitionType>最近日期</StyledExhibitionType>
+            <h3 className='title font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
+            <TypeWrapper className='menu'>
+               {['最新展覽', '人氣展覽', '評分最高', '最近日期'].map((type, index) => {
+                  return <StyledExhibitionType key={index}>{type}</StyledExhibitionType>
+               })}
             </TypeWrapper>
             <div className='all'>
                {openData.map((data, index) => {
@@ -337,6 +336,21 @@ const StyledAllExhibitionWrapper = styled.div`
       flex-wrap: wrap;
       gap: 24px;
    }
+   .title {
+      text-align: start;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      .title {
+         font-size: 36px;
+         text-align: center;
+         margin: 0;
+         margin-bottom: 32px;
+      }
+      .menu {
+         justify-content: center;
+      }
+   }
 `
 
 const TypeWrapper = styled.div`
@@ -356,6 +370,7 @@ const StyledExhibitionType = styled.div`
    padding: 8px 16px;
    text-align: center;
    white-space: nowrap;
+   cursor: pointer;
    color: ${(props) => (props.isActive ? '#BE8152' : '#000')};
    background: ${(props) => (props.isActive ? '#BE8152' : '#eeee')};
    &:hover {
