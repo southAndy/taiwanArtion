@@ -74,6 +74,7 @@ const StyledContainer = styled.div`
 `
 const StyledSwiper = styled(Swiper)`
    height: 300px;
+   position: relative;
 
    @media (min-width: ${breakpoint.tablet}px) {
       height: 470px;

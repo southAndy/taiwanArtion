@@ -11,6 +11,13 @@ import Header from '../../container/Header/Header'
 import fakeMonthList from '../../assets/data/month.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from '../../store/commonSlice'
+import { breakpoint } from '../../styles/utils/breakpoint'
+import {
+   hotestNumber,
+   hotestNumber2,
+   hotestNumber3,
+   hotestNumber4,
+} from '../../assets/images/index.js'
 
 import {
    categoryicon1,
@@ -98,10 +105,12 @@ const HomePage = () => {
                )
             })}
          </StyledContent>
-         <HotSection>
-            <h3 className='font-medium mb-6 text-xl'>熱門展覽</h3>
-            <ExhibitionCard data={openData} />
-         </HotSection>
+         <StyledHotSection>
+            <h3 className='title'>熱門展覽</h3>
+            {openData.slice(0, 2).map((data) => {
+               return <ExhibitionCard data={data} />
+            })}
+         </StyledHotSection>
          <StyledAllExhibitionWrapper>
             <h3 className='font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>
             <TypeWrapper className='flex gap-2 overflow-scroll mb-6'>
@@ -123,8 +132,23 @@ const HomePage = () => {
 const ExhibitionCard = ({ data }) => {
    return (
       <StyledCardContainer>
-         <div className='number text-[#BE8152] font-bold'>01</div>
-         <BaseImageBox width={'60px'} height={'60px'}>
+         <BaseImageBox
+            width={'19px'}
+            height={'19px'}
+            tabletWidth={'53px'}
+            tabletHeight={'31px'}
+            desktopWidth={'100px'}
+            desktopHeight={'100px'}
+         >
+            <img src={hotestNumber} alt={data.title} />
+         </BaseImageBox>
+         <BaseImageBox
+            width={'60px'}
+            height={'60px'}
+            tabletWidth={'120px'}
+            tabletHeight={'120px'}
+            scale={'contain'}
+         >
             <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
          </BaseImageBox>
          <StyledCardContent className='description flex flex-wrap gap-1'>
@@ -132,11 +156,11 @@ const ExhibitionCard = ({ data }) => {
                {data.title ?? '展覽名稱'}
             </StyledCardTitle>
             <StyledCardInfo>
-               <p>2023.03.21 - 4.20</p>
+               <p className='date'>{`${data.startDate} - ${data.endDate}`}</p>
                <BaseImageBox width={'16px'} height={'16px'} className='city'>
                   <img src={locationIcon} alt='縣市地址圖示' />
                </BaseImageBox>
-               <p>{data.showInfo?.location ?? '尚無資料'}</p>
+               <p className='locate'>{data?.showInfo[0]?.location ?? '尚無資料'}</p>
             </StyledCardInfo>
          </StyledCardContent>
       </StyledCardContainer>
@@ -172,7 +196,11 @@ const StyledPositionImageBox = styled(PositionElement)`
 const StyledMonthWrapper = styled.section`
    display: flex;
    flex-direction: column;
-   padding-left: 24px;
+   padding: 0 24px;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      padding: 0 40px;
+   }
 `
 
 const StyledCardContainer = styled.div`
@@ -185,6 +213,17 @@ const StyledCardContainer = styled.div`
    padding: 20px 12px;
    margin-bottom: 6px;
    max-height: 92px;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      max-height: 170px;
+
+      .description {
+         justify-content: flex-start;
+         font-size: 18px;
+         font-weight: 700;
+         color: #453434;
+      }
+   }
 `
 const StyledCardContent = styled.div`
    max-width: 191px;
@@ -192,6 +231,17 @@ const StyledCardContent = styled.div`
    flex-wrap: wrap;
    gap: 4px;
    color: #535353;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      .date {
+         color: #535353;
+         font-weight: 400;
+      }
+      .locate {
+         color: #535353;
+         font-weight: 400;
+      }
+   }
 `
 const StyledCardInfo = styled.div`
    ${FlexCenter};
@@ -238,10 +288,12 @@ const StyledMonthBox = styled.div`
    font-size: 12px;
    gap: 1px;
    overflow: scroll;
-   &::-webkit-scrollbar {
-      display: none;
-   }
    scrollbar-width: none;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      font-size: 14px;
+      justify-content: space-between;
+   }
 `
 const StyledMonthText = styled.p`
    cursor: pointer;
@@ -255,10 +307,22 @@ const StyledMonthText = styled.p`
    }
 `
 
-const HotSection = styled.section`
+const StyledHotSection = styled.section`
    background-image: url(${hotBg});
    background-size: cover;
    padding: 24px;
+
+   h3 {
+      font-weight: 600;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      padding: 40px;
+
+      .title {
+         font-size: 36px;
+      }
+   }
 `
 
 const StyledAllExhibitionWrapper = styled.div`

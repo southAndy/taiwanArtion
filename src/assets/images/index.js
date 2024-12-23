@@ -48,7 +48,12 @@ import UserSamplePhoto from '../images/user-photo.png'
 import accountBg from '../images/account-bg.png'
 import loveFullIcon from '../images/love-full.png'
 import defaultBannerTablet from '../images/banner-tablet.png'
+import { hotestNumber, hotestNumber2, hotestNumber3, hotestNumber4 } from './hot/hot-icon'
 export {
+   hotestNumber,
+   hotestNumber2,
+   hotestNumber3,
+   hotestNumber4,
    defaultBannerTablet,
    loveFullIcon,
    accountBg,
