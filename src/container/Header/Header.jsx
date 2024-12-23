@@ -8,23 +8,7 @@ import BaseImageBox from '../../styles/base/BaseImageBox'
 import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
-
-const HeaderContainer = styled.header`
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   height: 80px;
-   padding: 8px 20px;
-   background: #ffffff;
-   box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-`
-
-const HeaderCategory = styled.div`
-   display: flex;
-   justify-content: space-between;
-   gap: 20px;
-   cursor: pointer;
-`
+import { breakpoint } from '../../styles/utils/breakpoint'
 
 const Header = () => {
    const [isShowModal, setIsShowModal] = useState(false)
@@ -47,14 +31,10 @@ const Header = () => {
          link: '/backstage',
       },
    ])
-   // const dispatch = useDispatch()
    const isLogin = useSelector((state) => state.member.isLogin)
 
    // 判斷是否登入，改變選單內容
    useEffect(() => {
-      // dispatch(setIsLogin())
-      console.log(isLogin)
-
       if (!isLogin) {
          const loginMenu = menu.filter((item) => item.title !== '個人頁面')
          setMenuContent(() => loginMenu)
@@ -69,13 +49,31 @@ const Header = () => {
          <BaseLink width={'120px'} height={'40px'} to='/'>
             <img src={logoIcon} alt='網站圖樣' />
          </BaseLink>
+         <div className='menu'>
+            {[
+               {
+                  title: '附近展覽',
+                  link: '/nearby',
+               },
+               {
+                  title: '所有展覽',
+                  link: '/all',
+               },
+            ].map((item, index) => (
+               <Link key={index} to={item.link}>
+                  {item.title}
+               </Link>
+            ))}
+         </div>
          <HeaderCategory>
             <BaseImageBox width={'18px'} height={'18px'} onClick={() => setIsShowModal((n) => !n)}>
                <img src={headerSearch} alt='搜尋圖樣' />
             </BaseImageBox>
-            <div onClick={() => setMenu((n) => !n)}>
+            <div className='menu-mobile' onClick={() => setMenu((n) => !n)}>
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
+            {/* todo 重做共用元件 */}
+            <button className='login'>登入/註冊</button>
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />
@@ -102,6 +100,75 @@ const StyldMenuBox = styled.div`
    flex-direction: column;
    align-items: center;
    gap: 24px;
+`
+const HeaderContainer = styled.header`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   height: 80px;
+   padding: 8px 20px;
+   background: #ffffff;
+   box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+   margin-bottom: 56px; // 推開下方內容
+
+   .menu {
+      display: none;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      .menu {
+         flex: 2;
+         display: flex;
+         gap: 20px;
+         margin-left: 40px;
+         font-weight: 700;
+
+         a {
+            font-size: 14px;
+            color: #535353;
+
+            &:hover {
+               color: #be875c;
+            }
+         }
+      }
+   }
+`
+
+const HeaderCategory = styled.div`
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   gap: 20px;
+   cursor: pointer;
+
+   .login {
+      display: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      .menu-mobile {
+         display: none;
+      }
+      .login {
+         display: block;
+         padding: 8px 25px;
+         background: #eeeeee;
+         color: #535353;
+         border: none;
+         border-radius: 20px;
+
+         &:hover {
+            background: #be875c;
+            color: #fff;
+         }
+      }
+   }
+   @media (min-width: ${breakpoint.desktop}px) {
+   }
 `
 
 export default Header
