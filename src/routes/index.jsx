@@ -19,6 +19,10 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
       children: [],
    },
+   // {
+   //    path:'/map',
+   //    element:
+   // },
    {
       path: '/detail/:id',
       element: <DetailPage />,
