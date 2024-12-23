@@ -3,9 +3,91 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import Input from '../../components/Input/Input'
 import { CityMenu } from './CityMenu'
-import { ExhibitionMenu } from './ExhibitionMenu'
+// import { ExhibitionMenu } from './ExhibitionMenu'
 import { PayMenu } from './PayMenu'
 import DateMenu from './DateMenu'
+import { breakpoint } from '../../styles/utils/breakpoint'
+
+export default function Menu() {
+   const menuNameList = ['縣市', '展覽館', '日期', '票價']
+   const [currentMenu, setMenuList] = useState()
+   const menuList = [<CityMenu />, <DateMenu />, <PayMenu />]
+   function renderMenu() {
+      switch (currentMenu) {
+         case 0:
+            return menuList[0]
+         case 1:
+            return menuList[1]
+         case 2:
+            return menuList[2]
+         case 3:
+            return menuList[3]
+         default:
+            return <DefaultMenu />
+      }
+   }
+   return (
+      <div>
+         <StyledSearchBox>
+            <Input placeholder={'輸入展覽名稱'} width={'auto'} />
+
+            <div className='menu' onClick={() => setMenuList(0)}>
+               選擇縣市
+            </div>
+            <div className='menu' onClick={() => setMenuList(1)}>
+               開始日期
+            </div>
+            <div className='menu' onClick={() => setMenuList(1)}>
+               結束日期
+            </div>
+         </StyledSearchBox>
+         <div className='flex gap-8 mt-5'>
+            {menuNameList.map((menu, index) => {
+               return (
+                  <StyledMenu className='text-red' key={index} onClick={() => setMenuList(index)}>
+                     {menu}
+                  </StyledMenu>
+               )
+            })}
+         </div>
+         {renderMenu()}
+      </div>
+   )
+}
+const DefaultMenu = () => {
+   return (
+      <div className='mt-4'>
+         <h3 className=' font-medium text-lg'>熱門搜尋</h3>
+      </div>
+   )
+}
+
+const StyledSearchBox = styled.div`
+   display: flex;
+   align-items: center;
+   flex: 1;
+   border: 1px solid #c2c2c2;
+   border-radius: 20px;
+   width: 100%;
+
+   .menu {
+      display: none;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      gap: 16px;
+
+      .menu {
+         color: #5f5f5f;
+         font-weight: 400;
+         cursor: pointer;
+
+         &:hover {
+            color: #be875c;
+         }
+      }
+   }
+`
 
 const StyledMenu = styled.div`
    font-size: 14px;
@@ -15,6 +97,10 @@ const StyledMenu = styled.div`
    cursor: pointer;
    &:hover {
       color: #be875c;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      display: none;
    }
 `
 const StyledCityItem = styled(Link)`
@@ -32,53 +118,3 @@ const StyledCityItem = styled(Link)`
       color: #fff;
    }
 `
-
-const DefaultMenu = () => {
-   return (
-      <div className='mt-4'>
-         <h3 className=' font-medium text-lg'>熱門搜尋</h3>
-         <div className='flex flex-wrap gap-4 mt-4'>
-            <StyledCityItem to='/result/台北市'>小王子展</StyledCityItem>
-            <StyledCityItem to='/result/台南市'>悲慘世界</StyledCityItem>
-            <StyledCityItem to='/result/台中市'>西洋美術</StyledCityItem>
-            <StyledCityItem to='/result/台北市'>貓之日</StyledCityItem>
-            <StyledCityItem to='/result/台北市'>蒙娜麗莎的探險之旅</StyledCityItem>
-         </div>
-      </div>
-   )
-}
-
-export default function Menu() {
-   const menuNameList = ['縣市', '展覽館', '日期', '票價']
-   const [currentMenu, setMenuList] = useState()
-   const menuList = [<CityMenu />, <ExhibitionMenu />, <DateMenu />, <PayMenu />]
-   function renderMenu() {
-      switch (currentMenu) {
-         case 0:
-            return menuList[0]
-         case 1:
-            return menuList[1]
-         case 2:
-            return menuList[2]
-         case 3:
-            return menuList[3]
-         default:
-            return <DefaultMenu />
-      }
-   }
-   return (
-      <div>
-         <Input placeholder={'請輸入展覽名稱'} />
-         <div className='flex gap-8 mt-5'>
-            {menuNameList.map((menu, index) => {
-               return (
-                  <StyledMenu className='text-red' key={index} onClick={() => setMenuList(index)}>
-                     {menu}
-                  </StyledMenu>
-               )
-            })}
-         </div>
-         {renderMenu()}
-      </div>
-   )
-}
