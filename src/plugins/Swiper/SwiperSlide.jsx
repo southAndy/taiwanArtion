@@ -29,13 +29,23 @@ export default function SwiperBanner({ data }) {
          ) : (
             <StyledSwiper
                grabCursor={true}
-               spaceBetween={8}
+               spaceBetween={15}
                centeredSlides={true}
-               slidesPerView={1.5}
+               slidesPerView={1}
                initialSlide={1}
                loop={true}
                navigation={true}
                pagination={true}
+               breakpoints={{
+                  768: {
+                     slidesPerView: 1.5,
+                     spaceBetween: 15,
+                  },
+                  1024: {
+                     slidesPerView: 3,
+                     spaceBetween: 30,
+                  },
+               }}
             >
                <StyledContainer>
                   {data.map((item, index) => {
