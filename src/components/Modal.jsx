@@ -1,6 +1,51 @@
 import styled from 'styled-components'
 import { useEffect } from 'react'
 
+const Modal = ({
+   children,
+   isShow,
+   setShow,
+   position = { l: 'unset', r: 'unset', t: 'unset', b: 'unset' },
+   width,
+   height,
+   shape,
+}) => {
+   useEffect(() => {
+      if (isShow) {
+         document.body.style.overflow = 'hidden'
+      } else {
+         document.body.style.overflow = 'auto'
+      }
+   }, [isShow])
+
+   const showModalHandler = (event) => {
+      // 如果是 children 內的子元素，不關閉 modal
+      if (event.target !== event.currentTarget) {
+         return
+      } else {
+         setShow(() => !isShow)
+      }
+   }
+
+   return (
+      <StyledModalBackground showModal={isShow} onClick={showModalHandler}>
+         <StyledModalContent
+            width={width}
+            height={height}
+            top={position.t}
+            bottom={position.b}
+            left={position.l}
+            right={position.r}
+            borderRadius={shape}
+         >
+            {children}
+         </StyledModalContent>
+      </StyledModalBackground>
+   )
+}
+
+export default Modal
+
 const StyledModalBackground = styled.div`
    display: ${({ showModal }) => (showModal ? 'block' : 'none')};
    position: absolute;
@@ -25,48 +70,3 @@ const StyledModalContent = styled.div`
    left: ${({ left }) => left || '0%'};
    right: ${({ right }) => right || '0%'};
 `
-
-const Modal = ({
-   children,
-   isShow,
-   setShow,
-   position = { l: 0, r: 0, t: 0, b: 0 },
-   size = { w: 0, z: 0 },
-   height,
-   shape,
-}) => {
-   useEffect(() => {
-      if (isShow) {
-         document.body.style.overflow = 'hidden'
-      } else {
-         document.body.style.overflow = 'auto'
-      }
-   }, [isShow])
-
-   const showModalHandler = (event) => {
-      // 如果是 children 內的子元素，不關閉 modal
-      if (event.target !== event.currentTarget) {
-         return
-      } else {
-         setShow(() => !isShow)
-      }
-   }
-
-   return (
-      <StyledModalBackground showModal={isShow} onClick={showModalHandler}>
-         <StyledModalContent
-            width={size.w}
-            height={height}
-            top={position.t}
-            bottom={position.b}
-            left={position.l}
-            right={position.r}
-            borderRadius={shape}
-         >
-            {children}
-         </StyledModalContent>
-      </StyledModalBackground>
-   )
-}
-
-export default Modal
