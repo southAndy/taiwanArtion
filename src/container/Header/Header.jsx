@@ -34,6 +34,7 @@ const Header = () => {
    ])
    const navigate = useNavigate()
    const isLogin = useSelector((state) => state.member.isLogin)
+   const dispatch = useDispatch()
 
    // 判斷是否登入，改變選單內容
    useEffect(() => {
@@ -45,6 +46,13 @@ const Header = () => {
          setMenuContent(() => logoutMenu)
       }
    }, [isLogin])
+
+   const logout = () => {
+      //執行登出功能
+      dispatch({ type: 'member/setLogout', payload: false })
+      //關閉下拉清單顯示
+      setMemberMenu((n) => (n = false))
+   }
 
    return (
       <HeaderContainer>
@@ -111,7 +119,7 @@ const Header = () => {
             setShow={setMemberMenu}
             width={'155px'}
             height={'164px'}
-            position={{ r: '0%', t: '1%', b: 'unset', l: 'unset' }}
+            position={{ r: '1%', t: '0.5%', b: 'unset', l: 'unset' }}
             borderRadius={'20px'}
          >
             <StyledMemberMenuBox>
@@ -127,7 +135,9 @@ const Header = () => {
                <Link to={'/backstage'} className='profile'>
                   個人檔案
                </Link>
-               <div className='logout'>登出</div>
+               <div className='logout' onClick={logout}>
+                  登出
+               </div>
             </StyledMemberMenuBox>
          </Modal>
       </HeaderContainer>
