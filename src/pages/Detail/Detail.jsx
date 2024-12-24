@@ -17,6 +17,7 @@ import {
    loveFullIcon,
 } from '../../assets/images'
 import styled from '@emotion/styled'
+import { breakpoint } from '../../styles/utils/breakpoint'
 
 export default function DetailPage() {
    const params = useParams()
@@ -64,11 +65,17 @@ export default function DetailPage() {
                   </BaseImageBox>
                   <Link to={'/'}>返回首頁</Link>
                </div>
-               <BaseImageBox width={'327px'} height={'245px'}>
+               <BaseImageBox
+                  width={'327px'}
+                  height={'245px'}
+                  tabletWidth={'689px'}
+                  tabletHeight={'280px'}
+               >
                   <img className='rounded-xl' src={currentData[0]?.imageUrl} />
                </BaseImageBox>
-               <h3 className='text-[24px] font-bold'>{currentData[0]?.title}</h3>
+               <h3 className='title text-[24px] font-bold'>{currentData[0]?.title}</h3>
             </DetailBanner>
+
             <section className='menu'>
                <DetailOption isActive={true} href='#overview'>
                   總覽
@@ -86,7 +93,7 @@ export default function DetailPage() {
                   評價
                </DetailOption>
             </section>
-            <StyledInfo>
+            <StyledOverviewBox>
                <StyledInfoTitle id='overview'>總覽</StyledInfoTitle>
                <div className='info'>
                   <div className='info-option'>
@@ -113,26 +120,19 @@ export default function DetailPage() {
                      <div>{'-'}</div>
                   </div>
                </div>
-            </StyledInfo>
-            <StyledInfo>
+            </StyledOverviewBox>
+            <StyledContent>
                <StyledInfoTitle id='introduce'>展覽介紹</StyledInfoTitle>
                <p>{currentData[0]?.descriptionFilterHtml}</p>
-            </StyledInfo>
+            </StyledContent>
             <StyledInfo>
                <StyledInfoTitle id='price'>展覽票價</StyledInfoTitle>
                <p>{currentData[0]?.webSales ?? '-'}</p>
             </StyledInfo>
-            {/* todo  */}
             <StyledInfo>
                <StyledInfoTitle id='place'></StyledInfoTitle>
             </StyledInfo>
-            <StyledInfo>
-               <div className='menu flex gap-3 whitespace-nowrap'>
-                  <Button content={'全部'}></Button>
-                  <Button content={'最新評價'}></Button>
-                  <Button content={'最高評價'}></Button>
-                  <Button content={'撰寫評價'}></Button>
-               </div>
+            <StyledRateBox>
                <StyledInfoTitle id='comment'>展覽評論</StyledInfoTitle>
                <StyledInfoComment>
                   <div className='user flex gap-4'>
@@ -185,7 +185,14 @@ export default function DetailPage() {
                      </div> */}
                   </div>
                </StyledInfoComment>
-            </StyledInfo>
+               <div className='menu'>
+                  {/* todo 調整共用按鈕 */}
+                  <Button content={'全部'}></Button>
+                  <Button content={'最新評價'}></Button>
+                  <Button content={'最高評價'}></Button>
+                  <Button content={'撰寫評價'}></Button>
+               </div>
+            </StyledRateBox>
          </DetailContainer>
          <StyledToolBar>
             <div className='option' onClick={storeExhibition}>
@@ -231,18 +238,31 @@ const DetailContainer = styled.section`
       justify-content: space-between;
       margin-bottom: 40px;
    }
+   @media (min-width: ${breakpoint.tablet}px) {
+      padding: 24px 40px;
+   }
 `
 const DetailBanner = styled.section`
    display: flex;
    flex-direction: column;
    margin-bottom: 24px;
+   align-items: center;
 
    .back {
       display: flex;
       margin-bottom: 16px;
+      align-self: flex-start;
+      border-radius: 20px;
    }
-   a {
-      cursor: pointer;
+   .title {
+      font-weight: 700;
+      font-size: 24px;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      .title {
+         font-size: 36px;
+      }
    }
 `
 const DetailOption = styled.a`
@@ -261,36 +281,67 @@ const BannerImage = styled.img`
    border-radius: 10px;
    position: relative;
 `
-const StyledInfo = styled.article`
+const StyledInfo = styled.section`
    display: flex;
    flex-direction: column;
    margin-bottom: 40px;
+`
 
-   .info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      color: #535353;
-
-      &-option {
-         display: flex;
-         gap: 12px;
-      }
-   }
+const StyledRateBox = styled(StyledInfo)`
    .menu {
       display: flex;
       gap: 12px;
       white-space: nowrap;
       overflow: scroll;
    }
+   @media (min-width: ${breakpoint.tablet}px) {
+      .menu {
+         overflow: auto;
+      }
+   }
 `
+const StyledOverviewBox = styled(StyledInfo)`
+   .info {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: #535353;
+      &-option {
+         display: flex;
+         gap: 12px;
+      }
+   }
+`
+const StyledContent = styled(StyledInfo)`
+   p {
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 35px;
+      color: #535353;
+      font-family: Noto Sans TC;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+   }
+`
+
 const StyledInfoTitle = styled.a`
    font-size: 18px;
    font-weight: 700;
-   color: #a9622a;
-   border-left: 5px solid #a9622a;
+   color: #bd7e4c;
    padding-left: 4px;
    margin-bottom: 16px;
+   font-family: Noto Sans TC;
+   font-size: 24px;
+   font-weight: 700;
+   line-height: 34.75px;
+   text-align: left;
+   text-underline-position: from-font;
+   text-decoration-skip-ink: none;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      font-size: 24px;
+   }
 `
 const StyledInfoComment = styled.section`
    display: flex;
@@ -342,5 +393,13 @@ const StyledToolBar = styled.div`
       align-items: center;
       gap: 4px;
       cursor: pointer;
+   }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      display: none;
+
+      .option {
+         justify-content: center;
+      }
    }
 `
