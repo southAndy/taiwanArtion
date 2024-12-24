@@ -21,8 +21,7 @@ const Register = () => {
    const [userInfo, setUserInfo] = useState({})
    const [isClick, setClick] = useState(false)
    const steps = [FirstStep, SecondStep, ThirdStep, FinishStep]
-   const stepContent = ['手機驗證', '帳號密碼', '完成註冊']
-   // const [stepStatus, setStepStatus] = useState([false, false, false, false])
+   const stepContent = ['手機驗證', '帳密信箱', '完成註冊']
    const navigate = useNavigate()
 
    function renderSteps() {

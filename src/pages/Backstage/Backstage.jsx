@@ -12,6 +12,7 @@ import {
    loveIcon,
    locateIcon,
    commentStarIcon,
+   searchIcon,
 } from '../../assets/images'
 import styled from 'styled-components'
 import BaseImageBox from '../../styles/base/BaseImageBox'
@@ -21,6 +22,7 @@ import { db } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 
 import axios from 'axios'
+import { Input, InputAdornment } from '@mui/material'
 
 BasicDateCalendar
 BaseImageBox
@@ -121,8 +123,6 @@ const Backstage = () => {
    }
 
    function renderMenu() {
-      console.log('hi')
-
       switch (currentMenu) {
          case 0:
             return <StoreMenu data={exhibition} />
@@ -233,8 +233,6 @@ const StyledFeatureBox = styled.div`
    border-radius: 40px 40px 0 0;
    background-color: white;
    padding: 40px 24px;
-
-   box-shadow: 0px 3px 10px 0px #dadada;
 `
 const StyledMenuBox = styled.div`
    display: flex;

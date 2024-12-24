@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsLogin } from '../../store/memberSlice'
 import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
@@ -31,6 +31,7 @@ const Header = () => {
          link: '/backstage',
       },
    ])
+   const navigate = useNavigate()
    const isLogin = useSelector((state) => state.member.isLogin)
 
    // 判斷是否登入，改變選單內容
@@ -73,7 +74,14 @@ const Header = () => {
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
             {/* todo 重做共用元件 */}
-            <button className='login'>登入/註冊</button>
+            <button
+               className='login'
+               onClick={() => {
+                  navigate('/account')
+               }}
+            >
+               登入/註冊
+            </button>
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />

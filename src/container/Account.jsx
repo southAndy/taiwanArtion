@@ -11,10 +11,10 @@ import Header from './Header/Header'
 import styled from 'styled-components'
 import Flex from '../styles/utils/Flex'
 import { PositionElement } from '../styles/base/PositionElement'
+import { breakpoint } from '../styles/utils/breakpoint'
 
 const LoginPage = () => {
    const navigate = useNavigate()
-
    return (
       <>
          <Header />
@@ -54,6 +54,11 @@ const LoginPage = () => {
 
 const StyledBanner = styled.div`
    position: relative;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      height: 30vh;
+      object-fit: contain;
+   }
 `
 
 const FixedImage = styled(PositionElement)`
