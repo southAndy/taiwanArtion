@@ -27,7 +27,16 @@ export default function SwiperBanner({ data }) {
          {isLoading ? (
             <Skeleton height={'300px'} />
          ) : (
-            <StyledSwiper grabCursor={true} spaceBetween={8} slidesPerView={'auto'}>
+            <StyledSwiper
+               grabCursor={true}
+               spaceBetween={8}
+               centeredSlides={true}
+               slidesPerView={1.5}
+               initialSlide={1}
+               loop={true}
+               navigation={true}
+               pagination={true}
+            >
                <StyledContainer>
                   {data.map((item, index) => {
                      return (
@@ -75,6 +84,18 @@ const StyledContainer = styled.div`
 const StyledSwiper = styled(Swiper)`
    height: 300px;
    position: relative;
+
+   // 當前選中的 slide 效果
+   .swiper-slide-active {
+      &:hover {
+         scale: 1.1;
+         transition: all 0.5s;
+      }
+   }
+   .swiper-slide-prev,
+   .swiper-slide-next {
+      opacity: 0.6;
+   }
 
    @media (min-width: ${breakpoint.tablet}px) {
       height: 470px;
