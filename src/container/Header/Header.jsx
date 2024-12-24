@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { setIsLogin } from '../../store/memberSlice'
-import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
+import { logoIcon, headerSearch, headerMenu, UserSamplePhoto } from '../../assets/images/index'
 import BaseLink from '../../styles/base/BaseLink'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import styled from '@emotion/styled'
@@ -13,6 +13,7 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 const Header = () => {
    const [isShowModal, setIsShowModal] = useState(false)
    const [isShowMenu, setMenu] = useState(false)
+   const [isShowMemberMenu, setMemberMenu] = useState(false)
    const [menu, setMenuContent] = useState([
       {
          title: '附近展覽',
@@ -74,19 +75,29 @@ const Header = () => {
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
             {/* todo 重做共用元件 */}
-            <button
-               className='login'
-               onClick={() => {
-                  navigate('/account')
-               }}
-            >
-               登入/註冊
-            </button>
+            {isLogin ? (
+               <BaseImageBox
+                  width={'32px'}
+                  height={'32px'}
+                  onClick={() => setMemberMenu((n) => !n)}
+               >
+                  <img src={UserSamplePhoto} alt='' />
+               </BaseImageBox>
+            ) : (
+               <button
+                  className='login'
+                  onClick={() => {
+                     navigate('/account')
+                  }}
+               >
+                  登入/註冊
+               </button>
+            )}
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal}>
             <Menu />
          </Modal>
-         <Modal isShow={isShowMenu} setShow={setMenu} position={{ t: '1%' }} height={'210px'}>
+         <Modal isShow={isShowMenu} setShow={setMenu} position={{ t: '1%' }} height={'154px'}>
             <StyldMenuBox>
                {menu.map((item, index) => (
                   <Link key={index} to={item.link} keys={index}>
@@ -94,6 +105,30 @@ const Header = () => {
                   </Link>
                ))}
             </StyldMenuBox>
+         </Modal>
+         <Modal
+            isShow={isShowMemberMenu}
+            setShow={setMemberMenu}
+            width={'155px'}
+            height={'164px'}
+            position={{ r: '0%', t: '1%', b: 'unset', l: 'unset' }}
+            borderRadius={'20px'}
+         >
+            <StyledMemberMenuBox>
+               <div className='user'>
+                  <BaseImageBox width={'38px'} height={'38px'}>
+                     <img src={UserSamplePhoto} alt='' />
+                  </BaseImageBox>
+                  <Link to={'/backstage'} className='user-name'>
+                     <div className='hello'>hello!</div>
+                     <div>Andy</div>
+                  </Link>
+               </div>
+               <Link to={'/backstage'} className='profile'>
+                  個人檔案
+               </Link>
+               <div className='logout'>登出</div>
+            </StyledMemberMenuBox>
          </Modal>
       </HeaderContainer>
    )
@@ -176,6 +211,38 @@ const HeaderCategory = styled.div`
       }
    }
    @media (min-width: ${breakpoint.desktop}px) {
+   }
+`
+
+const StyledMemberMenuBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 16px;
+   .user {
+      display: flex;
+      gap: 8px;
+
+      &-name {
+         display: flex;
+         flex-direction: column;
+         .hello {
+            font-size: 12px;
+            color: #5f5f5f;
+         }
+      }
+   }
+   .profile {
+      cursor: pointer;
+      &:hover {
+         color: #bd7e4c;
+      }
+   }
+   .logout {
+      cursor: pointer;
+      &:hover {
+         color: #bd7e4c;
+      }
    }
 `
 
