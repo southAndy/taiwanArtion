@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const StyledButton = styled.button.attrs({
+   //todo 新增動態 type ，當 button 是 form 架構內的
    type: 'button',
 })`
    color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
@@ -28,9 +29,6 @@ const Button = ({
    isClick,
    actions,
 }) => {
-   // const handleClick = () => {
-   //    setClick((n) => !n)
-   // }
    return (
       <StyledButton
          color={textColor}
