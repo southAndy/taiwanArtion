@@ -29,7 +29,6 @@ export default function SwiperBanner({ data }) {
          ) : (
             <StyledSwiper
                grabCursor={true}
-               spaceBetween={15}
                centeredSlides={true}
                slidesPerView={1}
                initialSlide={1}
@@ -37,11 +36,16 @@ export default function SwiperBanner({ data }) {
                navigation={true}
                pagination={true}
                breakpoints={{
+                  320: {
+                     slidesPerView: 1,
+                  },
                   768: {
                      slidesPerView: 1.5,
-                     spaceBetween: 15,
                   },
                   1024: {
+                     slidesPerView: 1.5,
+                  },
+                  1440: {
                      slidesPerView: 3,
                      spaceBetween: 30,
                   },
@@ -128,7 +132,6 @@ const StyledLink = styled(Link)`
    flex-direction: column;
    align-items: flex-start;
    padding: 24px;
-   width: 617px;
    box-shadow: 0px 1px 8px 2px #0000001a;
    border-radius: 12px;
 
@@ -145,6 +148,15 @@ const StyledLink = styled(Link)`
          display: flex;
       }
    }
+   @media (min-width: ${breakpoint.tablet}px) {
+      width: 458px;
+   }
+   @media (min-width: 992px) {
+      width: 617px;
+   }
+   @media (min-width: ${breakpoint.desktop}px) {
+      width: 617px;
+   }
 `
 
 const StyledBannerImage = styled.div`
@@ -152,8 +164,15 @@ const StyledBannerImage = styled.div`
    height: 170px;
 
    @media (min-width: ${breakpoint.tablet}px) {
-      width: 569px;
+      width: 400px;
       height: 280px;
+   }
+   @media (min-width: 992px) {
+      width: 569px;
+   }
+   @media (min-width: ${breakpoint.desktop}px) {
+      width: 569px;
+      height: 300px;
    }
 `
 
