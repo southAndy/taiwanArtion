@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Header from '../../container/Header/Header'
 import { Link } from 'react-router-dom'
 // import { useSelector } from 'react-redux'
@@ -14,15 +14,27 @@ import {
    commentStarIcon,
    searchIcon,
 } from '../../assets/images'
+import {
+   selectPhotoIcon,
+   userIcon0,
+   userIcon1,
+   userIcon2,
+   userIcon3,
+   userIcon4,
+   userIcon5,
+   userIcon6,
+   userIcon7,
+   userIcon8,
+} from '../../assets/images/backstage'
 import styled from 'styled-components'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import BasicDateCalendar from '../../plugins/Calendar'
 import { db } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
-
 import axios from 'axios'
-import { Input, InputAdornment } from '@mui/material'
+import Modal from '../../components/Modal'
+import { breakpoint } from '../../styles/utils/breakpoint'
 
 BasicDateCalendar
 BaseImageBox
@@ -30,9 +42,23 @@ const Backstage = () => {
    const [favoriteData, setFavoriteData] = useState([])
    let [exhibition, setExhibition] = useState([])
    const [currentMenu, setCurrentMenu] = useState(0)
+   const [currentPhoto, setCurrentPhoto] = useState(2)
+   const initialPhoto = useRef(currentPhoto)
+   const [userPhoto, setUserPhoto] = useState([
+      userIcon0,
+      userIcon1,
+      userIcon2,
+      userIcon3,
+      userIcon4,
+      userIcon5,
+      userIcon6,
+      userIcon7,
+      userIcon8,
+   ])
+   const [isShowPhotoMenu, setIsShowPhotoMenu] = useState(false)
    const menu = ['收藏展覽', '展覽月曆', '個人設定']
-   let favoriteDatas = []
 
+   let favoriteDatas = []
    //讀取 firestore 的資料
    useEffect(() => {
       getExhibition()
@@ -46,6 +72,22 @@ const Backstage = () => {
       updateDoc(userData, {
          favorite: arrayRemove(id),
       })
+   }
+   const handleSave = async () => {
+      try {
+         const userDoc = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') // 替換為你的用戶文檔 ID
+         await updateDoc(userDoc, {
+            photoIndex: currentPhoto,
+         })
+         initialPhoto.current = currentPhoto // 更新初始相片索引
+         setIsShowPhotoMenu(false)
+      } catch (error) {
+         console.error('Error updating document: ', error)
+      }
+   }
+   const handleCancel = () => {
+      setCurrentPhoto(initialPhoto.current)
+      setIsShowPhotoMenu(false)
    }
 
    const StoreMenu = () => {
@@ -138,8 +180,27 @@ const Backstage = () => {
          <Header />
          <StyledBackstageContainer>
             <StyledUserInfo>
-               <BaseImageBox width={'60px'} height={'60px'}>
-                  <img src={UserSamplePhoto} alt='' />
+               <BaseImageBox
+                  width={'60px'}
+                  height={'60px'}
+                  tabletWidth={'122px'}
+                  tabletHeight={'122px'}
+                  className='photo'
+               >
+                  <img src={userPhoto[currentPhoto]} alt='' />
+                  <StyledPositionImageBox
+                     bottom={'0'}
+                     right={'5%'}
+                     position={'absolute'}
+                     width={'32px'}
+                     height={'32px'}
+                     onClick={() => {
+                        console.log('click')
+                        setIsShowPhotoMenu(true)
+                     }}
+                  >
+                     <img src={selectPhotoIcon} alt='' />
+                  </StyledPositionImageBox>
                </BaseImageBox>
                <p className='name'>{'Andy'}</p>
             </StyledUserInfo>
@@ -154,6 +215,46 @@ const Backstage = () => {
             </StyledMenuBox>
             <StyledFeatureBox>{renderMenu()}</StyledFeatureBox>
          </StyledBackstageContainer>
+         <Modal
+            isShow={isShowPhotoMenu}
+            setShow={setIsShowPhotoMenu}
+            height={'640px'}
+            width={'540px'}
+            borderRadius={'20px'}
+            padding={'40px'}
+            position={{ t: '50%', l: '50%', b: 'unset', r: 'unset' }}
+            translate={'unset'}
+         >
+            <StyledPhotoMenuBox>
+               <p>大頭照</p>
+               <p>選擇你喜歡的頭像或上傳你的照片</p>
+               <div className='option'>
+                  {userPhoto.map((data, index) => {
+                     return (
+                        <BaseImageBox
+                           key={index}
+                           width={'141px'}
+                           height={'120px'}
+                           className={`photo ${currentPhoto === index ? 'active' : ''}`}
+                           onClick={() => {
+                              setCurrentPhoto(index)
+                           }}
+                        >
+                           <img src={data} alt='' />
+                        </BaseImageBox>
+                     )
+                  })}
+               </div>
+               <div className='operator'>
+                  <div className='operator-cancel' onClick={handleCancel}>
+                     取消
+                  </div>
+                  <div className='operator-save' onClick={handleSave}>
+                     儲存
+                  </div>
+               </div>
+            </StyledPhotoMenuBox>
+         </Modal>
       </>
    )
 }
@@ -168,8 +269,9 @@ const CalendarMenu = () => {
 }
 
 const StyledPositionImageBox = styled(PositionElement)`
-   width: 20px;
-   height: 20px;
+   width: ${({ width }) => width || '20px'};
+   height: ${({ height }) => height || '20px'};
+   cursor: pointer;
 `
 
 const StyledAllContainer = styled.div`
@@ -215,16 +317,35 @@ const StyledAllContainer = styled.div`
 
 const StyledBackstageContainer = styled.main`
    background-image: url(${accountBg});
+   margin-top: -56px;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      padding: 40px;
+      margin-top: -56px;
+   }
 `
 
 const StyledUserInfo = styled.div`
    display: flex;
-   justify-content: start;
+   justify-content: flex-start;
    gap: 24px;
-   padding: 40px 24px;
+   margin-bottom: 40px;
    .name {
       color: #7b4d29;
       font-size: 24px;
+   }
+   .photo {
+      position: relative;
+      border-radius: 60px;
+
+      img {
+         border-radius: 60px;
+      }
+   }
+   @media (min-width: ${breakpoint.tablet}px) {
+      .name {
+         font-size: 36px;
+      }
    }
 `
 const StyledFeatureBox = styled.div`
@@ -247,6 +368,60 @@ const StyledMenuBox = styled.div`
          color: #be8152;
       }
    }
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      justify-content: flex-start;
+   }
+`
+const StyledPhotoMenuBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 8px;
+
+   .option {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 18px;
+
+      .photo {
+         cursor: pointer;
+         &:hover {
+            opacity: 0.5;
+         }
+      }
+      .active {
+         outline: 5px solid #a9622a;
+         opacity: 0.5;
+      }
+   }
+   .operator {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 40px;
+      width: 100%;
+
+      &-cancel {
+         background: #eeeeee;
+         padding: 10px;
+         border-radius: 10px;
+         cursor: pointer;
+      }
+      &-save {
+         background: #be8152;
+         color: white;
+         padding: 10px;
+         border-radius: 10px;
+         cursor: pointer;
+      }
+   }
+`
+const StyledUserIcon = styled(BaseImageBox)`
+   outline: 5px solid red;
+   border-radius: 2px;
+   opacity: ${(isActive) => (opacity ? opacity : '')};
 `
 
 export default Backstage
