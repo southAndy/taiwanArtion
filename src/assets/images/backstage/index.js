@@ -9,6 +9,7 @@ import userIcon6 from '../backstage/user/user6.png'
 import userIcon7 from '../backstage/user/user7.png'
 import userIcon8 from '../backstage/user/user8.png'
 import userIcon9 from '../backstage/user/user9.png'
+import notFoundBg from '../notfind-bg.png'
 
 export {
    selectPhotoIcon,
@@ -22,4 +23,5 @@ export {
    userIcon7,
    userIcon8,
    userIcon9,
+   notFoundBg,
 }
