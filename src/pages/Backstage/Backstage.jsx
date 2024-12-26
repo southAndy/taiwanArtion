@@ -162,7 +162,11 @@ const Backstage = () => {
             <StyledMenuBox>
                {menu.map((data, index) => {
                   return (
-                     <div className='option' key={index} onClick={() => setCurrentMenu(index)}>
+                     <div
+                        className={`option ${currentMenu === index ? 'active' : ''}`}
+                        key={index}
+                        onClick={() => setCurrentMenu(index)}
+                     >
                         {data}
                      </div>
                   )
@@ -302,23 +306,28 @@ const StyledFeatureBox = styled.div`
    border-radius: 40px 40px 0 0;
    background-color: white;
    padding: 40px 24px;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      padding: 40px;
+   }
 `
 const StyledMenuBox = styled.div`
    display: flex;
    justify-content: space-around;
-   padding: 40px 24px;
+   padding: 0 24px;
    gap: 24px;
-
+   cursor: pointer;
    .option {
       color: #929292;
-
-      &:active {
-         color: #be8152;
-      }
+   }
+   .active {
+      color: #a9622a;
+      border-bottom: 1px solid #a9622a;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
       justify-content: flex-start;
+      padding-top: 40px;
    }
 `
 const StyledPhotoMenuBox = styled.div`
