@@ -9,6 +9,7 @@ import Register from '../pages/Register/Register'
 import Backstage from '../pages/Backstage/Backstage'
 // import Success from '../pages/Register/Success'
 import Login from '../container/Login'
+import MapPage from '../pages/Map/Map'
 
 import handleLogin from './authLogin'
 
@@ -19,10 +20,10 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage />,
       children: [],
    },
-   // {
-   //    path:'/map',
-   //    element:
-   // },
+   {
+      path: '/map',
+      element: <MapPage />,
+   },
    {
       path: '/detail/:id',
       element: <DetailPage />,

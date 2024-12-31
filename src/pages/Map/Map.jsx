@@ -13,8 +13,9 @@ const libraries = ['places']
 
 const MapPage = () => {
    const [userLocation, setUserLocation] = useState(null)
-   const userLocationRef = useRef(null) // 用來監聽userLocation的變化
    const [isMapLoaded, setIsMapLoaded] = useState(false)
+   const autocompleteRef = useRef(null) // 用來存放Autocomplete的ref
+   const mapRef = useRef(null) // 用來存放GoogleMap的ref
 
    useEffect(() => {
       if (navigator.geolocation) {
@@ -29,10 +30,32 @@ const MapPage = () => {
 
    // 監聽userLocation的變化
    useEffect(() => {
-      userLocationRef.current = userLocation
+      if (mapRef.current && userLocation) {
+         // 移動地圖到更新後的 userLocation
+         mapRef.current.panTo(userLocation)
+      }
    }, [userLocation])
 
    // 搜尋功能要包括（可打博物館名稱 / 打關鍵字「博物館」,「美術館」,「展覽」）
+   const fetchNearbyPlaces = () => {
+      console.log('hi')
+   }
+
+   const handlePlaceChanged = () => {
+      if (autocompleteRef.current !== null) {
+         const place = autocompleteRef.current.getPlace()
+         if (place.geometry) {
+            setUserLocation({
+               lat: place.geometry.location.lat(),
+               lng: place.geometry.location.lng(),
+            })
+         }
+      }
+   }
+   const onLoad = (autocomplete) => {
+      // 將Autocomplete的ref存到 autocompleteRef.current
+      autocompleteRef.current = autocomplete
+   }
    // 點擊時，會在下方出現此展館目前的展覽
 
    // 當地圖加載完成時執行的函式
@@ -50,7 +73,7 @@ const MapPage = () => {
             <div style={{ position: 'relative', height: '100vh' }}>
                {isMapLoaded && (
                   <StyledMenBox>
-                     <Autocomplete onPlaceChanged={() => console.log('hi')}>
+                     <Autocomplete onLoad={onLoad} onPlaceChanged={handlePlaceChanged}>
                         <input type='text' placeholder='搜尋展覽（例如：故宮' className='search' />
                      </Autocomplete>
                      <div className='option'>
