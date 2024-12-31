@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Header from '../../container/Header/Header'
-import { GoogleMap, LoadScript, Autocomplete } from '@react-google-maps/api'
+import { GoogleMap, LoadScript, Autocomplete, OverlayView, Marker } from '@react-google-maps/api'
 import styled from 'styled-components'
 
 const containerStyle = {
@@ -13,6 +13,8 @@ const libraries = ['places']
 
 const MapPage = () => {
    const [userLocation, setUserLocation] = useState(null)
+   const [places, setPlaces] = useState([]) // 用來存放搜尋到的地點
+   const [selectedPlace, setSelectedPlace] = useState(null) // 用來存放用戶選擇的地點
    const [isMapLoaded, setIsMapLoaded] = useState(false)
    const autocompleteRef = useRef(null) // 用來存放Autocomplete的ref
    const mapRef = useRef(null) // 用來存放GoogleMap的ref
@@ -31,19 +33,43 @@ const MapPage = () => {
    // 監聽userLocation的變化
    useEffect(() => {
       if (mapRef.current && userLocation) {
-         // 移動地圖到更新後的 userLocation
-         mapRef.current.panTo(userLocation)
+         // 當 userLocation 值改變時，呼叫 fetchNearbyPlaces 函式
+         fetchNearbyPlaces(userLocation)
       }
    }, [userLocation])
 
    // 搜尋功能要包括（可打博物館名稱 / 打關鍵字「博物館」,「美術館」,「展覽」）
-   const fetchNearbyPlaces = () => {
-      console.log('hi')
+   const fetchNearbyPlaces = (location) => {
+      const service = new window.google.maps.places.PlacesService(mapRef.current)
+      const request = {
+         location: location,
+         radius: '5000', // 搜索半徑，單位為米
+         type: ['museum', 'art_gallery', 'exhibition_center'], // 搜索類型
+      }
+
+      service.nearbySearch(request, (results, status) => {
+         if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+            // 挑出需要的數據
+            const markerDatas = results.map((place) => ({
+               id: place.place_id,
+               icon: {
+                  url: place.icon, // 使用地點的圖標
+                  scaledSize: new window.google.maps.Size(30, 30), // 調整圖標大小
+               },
+               lat: place.geometry.location.lat(),
+               lng: place.geometry.location.lng(),
+               title: place.name,
+               address: place.vicinity,
+            }))
+            setPlaces(markerDatas)
+         }
+      })
    }
 
    const handlePlaceChanged = () => {
       if (autocompleteRef.current !== null) {
          const place = autocompleteRef.current.getPlace()
+         // 當用戶選擇了一個地點並且該地點包含幾何信息（例如經緯度），就更新userLocation
          if (place.geometry) {
             setUserLocation({
                lat: place.geometry.location.lat(),
@@ -56,10 +82,14 @@ const MapPage = () => {
       // 將Autocomplete的ref存到 autocompleteRef.current
       autocompleteRef.current = autocomplete
    }
+   // 點擊任意地點時，會在下方出現此地點的詳細資訊
+
    // 點擊時，會在下方出現此展館目前的展覽
 
    // 當地圖加載完成時執行的函式
-   const handleMapLoad = () => {
+   const handleMapLoad = (map) => {
+      // 將GoogleMap的ref存到 mapRef.current
+      mapRef.current = map
       setIsMapLoaded(true)
    }
 
@@ -94,7 +124,16 @@ const MapPage = () => {
                      streetViewControl: false, // 可選：禁用街景控件
                   }}
                   onLoad={handleMapLoad}
-               ></GoogleMap>
+               >
+                  {places.map((place) => (
+                     <Marker
+                        key={place.id}
+                        position={{ lat: place.lat, lng: place.lng }}
+                        icon={place.icon}
+                        onClick={() => setSelectedPlace(place)}
+                     />
+                  ))}
+               </GoogleMap>
             </div>
          </LoadScript>
       </>
