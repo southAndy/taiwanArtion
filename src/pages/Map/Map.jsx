@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useRef } from 'react'
 import Header from '../../container/Header/Header'
-import { GoogleMap, LoadScript, Autocomplete, OverlayView, Marker } from '@react-google-maps/api'
+import {
+   GoogleMap,
+   LoadScript,
+   Autocomplete,
+   OverlayView,
+   Marker,
+   InfoWindow,
+} from '@react-google-maps/api'
 import styled from 'styled-components'
+import { breakpoint } from '../../styles/utils/breakpoint'
+import { timeIcon } from '../../assets/images/map/index'
 
 const containerStyle = {
    width: '100%',
@@ -14,6 +23,7 @@ const libraries = ['places']
 const MapPage = () => {
    const [userLocation, setUserLocation] = useState(null)
    const [places, setPlaces] = useState([]) // 用來存放搜尋到的地點
+   const [isOpening, setIsOpening] = useState(true) // 用來判斷是否營業中
    const [selectedPlace, setSelectedPlace] = useState(null) // 用來存放用戶選擇的地點
    const [isMapLoaded, setIsMapLoaded] = useState(false)
    const autocompleteRef = useRef(null) // 用來存放Autocomplete的ref
@@ -60,6 +70,7 @@ const MapPage = () => {
                lng: place.geometry.location.lng(),
                title: place.name,
                address: place.vicinity,
+               photo: place.photos?.[0].getUrl(), // 地點的照片
             }))
             setPlaces(markerDatas)
          }
@@ -133,6 +144,37 @@ const MapPage = () => {
                         onClick={() => setSelectedPlace(place)}
                      />
                   ))}
+                  {selectedPlace && (
+                     <InfoWindow
+                        position={{ lat: selectedPlace.lat, lng: selectedPlace.lng }}
+                        onCloseClick={() => setSelectedPlace(null)}
+                     >
+                        <StyledPlaceBox>
+                           <div className='info'>
+                              <div className='banner'>
+                                 <img src={selectedPlace.photo} alt='' />
+                              </div>
+                              <div>
+                                 <h2>{selectedPlace.title}</h2>
+                                 <div className='time'>
+                                    <div className='time-icon'>
+                                       <img src={timeIcon} alt='' />
+                                    </div>
+                                    <p className={isOpening ? 'time-opening' : 'time-close'}>
+                                       {isOpening ? '營業中' : '已打烊'}
+                                    </p>
+
+                                    <p>{'09:00-18:00'}</p>
+                                 </div>
+                              </div>
+                           </div>
+                           <div className='option'>
+                              <button>規劃路線</button>
+                              <button>場館展覽</button>
+                           </div>
+                        </StyledPlaceBox>
+                     </InfoWindow>
+                  )}
                </GoogleMap>
             </div>
          </LoadScript>
@@ -202,5 +244,82 @@ const StyledMenBox = styled.div`
       border-radius: 12px;
       border: 1px solid #5f5f5f;
       padding: 0 8px;
+   }
+`
+const StyledPlaceBox = styled.div`
+   display: flex;
+   flex-direction: column;
+   gap: 16px;
+
+   @media (min-width: ${breakpoint.tablet}) {
+      width: 289px;
+      height: 117px;
+   }
+
+   .info {
+      display: flex;
+      gap: 16px;
+
+      h2 {
+         margin: 0;
+      }
+
+      .banner {
+         width: 42px;
+         height: 42px;
+
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+
+      .time {
+         display: flex;
+         align-items: center;
+         gap: 8px;
+
+         &-icon {
+            width: 16px;
+            height: 16px;
+
+            img {
+               width: 100%;
+               height: 100%;
+               object-fit: cover;
+            }
+         }
+         &-opening {
+            color: #4caf50;
+            font-weight: 500;
+         }
+
+         &-close {
+            color: #f44336;
+            font-weight: 500;
+         }
+      }
+   }
+   .option {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+
+      button {
+         font-weight: 500;
+         border: none;
+         padding: 8px;
+         border-radius: 8px;
+         border: 1px solid transparent;
+         background-color: #f9f9f9;
+         color: #5f5f5f;
+         cursor: pointer;
+
+         &:hover {
+            border: 1px solid #be8152;
+            color: #be8152;
+         }
+      }
    }
 `
