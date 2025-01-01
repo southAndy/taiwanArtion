@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 import Header from '../../container/Header/Header'
 import {
    GoogleMap,
@@ -11,6 +12,9 @@ import {
 import styled from 'styled-components'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { timeIcon } from '../../assets/images/map/index'
+import { defaultBannerTablet } from '../../assets/images'
+
+import { useSelector } from 'react-redux'
 
 const containerStyle = {
    width: '100%',
@@ -23,11 +27,15 @@ const libraries = ['places']
 const MapPage = () => {
    const [userLocation, setUserLocation] = useState(null)
    const [places, setPlaces] = useState([]) // 用來存放搜尋到的地點
+   const [filteredPlaces, setFilteredPlaces] = useState([]) // 用來存放過濾後的地點
    const [isOpening, setIsOpening] = useState(true) // 用來判斷是否營業中
    const [selectedPlace, setSelectedPlace] = useState(null) // 用來存放用戶選擇的地點
    const [isMapLoaded, setIsMapLoaded] = useState(false)
+   const [isSlideOpen, setIsSlideOpen] = useState(false) // 用來判斷側邊展覽資訊是否展開
    const autocompleteRef = useRef(null) // 用來存放Autocomplete的ref
    const mapRef = useRef(null) // 用來存放GoogleMap的ref
+
+   const { openData } = useSelector((state) => state.common)
 
    useEffect(() => {
       if (navigator.geolocation) {
@@ -54,7 +62,8 @@ const MapPage = () => {
       const request = {
          location: location,
          radius: '5000', // 搜索半徑，單位為米
-         type: ['museum', 'art_gallery', 'exhibition_center'], // 搜索類型
+         // type: ['museum', 'art_gallery', 'exhibition_center'], // 搜索類型
+         keyword: '博物館', // 搜索關鍵字
       }
 
       service.nearbySearch(request, (results, status) => {
@@ -75,6 +84,45 @@ const MapPage = () => {
             setPlaces(markerDatas)
          }
       })
+   }
+   // 計算距離
+   const calculateDistance = (userLat, userLng, placeLat, placeLng) => {
+      const R = 6371 // 地球半徑，單位為公里
+      const dLat = (placeLat - userLat) * (Math.PI / 180)
+      const dLng = (placeLng - userLng) * (Math.PI / 180)
+      const a =
+         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+         Math.cos(userLat * (Math.PI / 180)) *
+            Math.cos(placeLat * (Math.PI / 180)) *
+            Math.sin(dLng / 2) *
+            Math.sin(dLng / 2)
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+      const distance = R * c
+      console.log(distance)
+
+      return distance
+   }
+
+   // 搜尋即將結束的展覽
+   function searchEndExhibition(radius = 300) {
+      console.log(openData)
+
+      const nearbyExhibitions = openData.filter((exhibition) => {
+         const distance = calculateDistance(
+            userLocation.lat,
+            userLocation.lng,
+            exhibition.showInfo[0].latitude,
+            exhibition.showInfo[0].longitude,
+         )
+         console.log(distance, radius)
+         return distance < radius
+      })
+      console.log(nearbyExhibitions)
+
+      // 顯示側邊欄位
+      setIsSlideOpen(true)
+
+      setFilteredPlaces(() => nearbyExhibitions)
    }
 
    const handlePlaceChanged = () => {
@@ -119,7 +167,9 @@ const MapPage = () => {
                      </Autocomplete>
                      <div className='option'>
                         <div className='option-hot'>熱門</div>
-                        <div className='option-end'>即將結束</div>
+                        <div className='option-end' onClick={() => searchEndExhibition(5)}>
+                           即將結束
+                        </div>
                         <div className='option-free'>免費</div>
                      </div>
                   </StyledMenBox>
@@ -170,12 +220,29 @@ const MapPage = () => {
                            </div>
                            <div className='option'>
                               <button>規劃路線</button>
-                              <button>場館展覽</button>
+                              <button onClick={() => setIsSlideOpen((n) => !n)}>場館展覽</button>
                            </div>
                         </StyledPlaceBox>
                      </InfoWindow>
                   )}
                </GoogleMap>
+               <StyledSideBar isSlideOpen={isSlideOpen}>
+                  <div className='close' onClick={() => setIsSlideOpen(false)}>
+                     x
+                  </div>
+                  {filteredPlaces.map((place) => (
+                     <Link className='info' to={`/detail/${place.UID}`} key={place.id}>
+                        <div className='info-detail'>
+                           <h2 className='title'>{place.title}</h2>
+                           <div className='locate'>{place.showInfo[0].location}</div>
+                           <div className='date'>{`展覽時間：${place.endDate} (倒數${7}天)`}</div>
+                        </div>
+                        <div className='info-photo w84 h84'>
+                           <img src={place.imageUrl ?? defaultBannerTablet} alt='' />
+                        </div>
+                     </Link>
+                  ))}
+               </StyledSideBar>
             </div>
          </LoadScript>
       </>
@@ -183,6 +250,73 @@ const MapPage = () => {
 }
 
 export default MapPage
+
+const StyledSideBar = styled.section`
+   position: absolute;
+   top: 1px;
+   left: 0;
+   width: 40%;
+   padding: 32px 0;
+   z-index: 1000;
+   overflow-y: auto;
+   display: ${(props) => (props.isSlideOpen ? 'block' : 'none')};
+   height: 100vh;
+
+   transform: translateX(${(props) => (props.isSlideOpen ? '0' : '-100%')});
+   transition: transform 0.3s;
+   background-color: white;
+
+   .close {
+      position: absolute;
+      right: 3%;
+      top: 0;
+      cursor: pointer;
+   }
+
+   .info {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin-bottom: 16px;
+
+      &:hover {
+      }
+
+      &-detail {
+         display: flex;
+         flex-direction: column;
+         gap: 8px;
+
+         .title {
+            font-size: 16px;
+            font-weight: 500;
+            whtie-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin: 0;
+         }
+         .locate {
+            font-size: 12px;
+            color: #5f5f5f;
+         }
+         .date {
+            font-size: 12px;
+            color: red;
+         }
+      }
+      &-photo {
+         width: 84px;
+         height: 84px;
+         flex-shrink: 0; // 防止圖片被壓縮
+
+         img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+         }
+      }
+   }
+`
 
 const StyledMenBox = styled.div`
    display: flex;
@@ -244,6 +378,7 @@ const StyledMenBox = styled.div`
       border-radius: 12px;
       border: 1px solid #5f5f5f;
       padding: 0 8px;
+      height: 100%;
    }
 `
 const StyledPlaceBox = styled.div`
