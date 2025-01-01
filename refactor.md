@@ -42,6 +42,26 @@ scss 與 styled 共存方案
 1. feat: 日期搜尋功能日期、語系調整
 2. 切版 (768px)：後台,展覽詳細頁面(768px)
 
+## 12/24
+
+### finish
+
+1. 調整 swiper RWD 更符合 figma 樣式
+2. 新增平板以上畫面登入狀態、下拉選單顯示功能
+3. 後台使用者頭貼選擇彈窗
+
+4. 新增全頁面的登入狀態檢查功能
+
+## 12/25
+
+### finish
+
+1. 使用者頭貼選擇功能
+
+## 1/1
+
+1. 新增地圖搜尋附近區域截止展覽
+
 ## 優化代辦
 
 FE
@@ -49,6 +69,10 @@ FE
 1. prettier 排版設定，換行問題
 2. account 路由存在是否正確？(discuss with angela)
 3. when account's name is error, and progress button should be disabled.
+4. 重新設計共用按鈕元件
+5. 思考專案層級架構
+6. 新增全頁面的登入狀態檢查功能
+7. 用 styled 建立全域的樣式設定
 
 BE
 
