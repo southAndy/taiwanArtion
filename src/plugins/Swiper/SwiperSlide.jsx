@@ -37,7 +37,7 @@ export default function SwiperBanner({ data }) {
                pagination={true}
                breakpoints={{
                   320: {
-                     slidesPerView: 1,
+                     slidesPerView: 1.25,
                   },
                   768: {
                      slidesPerView: 1.5,
@@ -46,8 +46,7 @@ export default function SwiperBanner({ data }) {
                      slidesPerView: 1.5,
                   },
                   1440: {
-                     slidesPerView: 3,
-                     spaceBetween: 30,
+                     slidesPerView: 2,
                   },
                }}
             >
@@ -98,14 +97,10 @@ const StyledContainer = styled.div`
 const StyledSwiper = styled(Swiper)`
    height: 300px;
    position: relative;
+   margin-top: -32px; // 修正 swiper 的 padding-top
 
    // 當前選中的 slide 效果
-   .swiper-slide-active {
-      &:hover {
-         scale: 1.1;
-         transition: all 0.5s;
-      }
-   }
+
    .swiper-slide-prev,
    .swiper-slide-next {
       opacity: 0.6;
@@ -113,6 +108,13 @@ const StyledSwiper = styled(Swiper)`
 
    @media (min-width: ${breakpoint.tablet}px) {
       height: 470px;
+
+      .swiper-slide-active {
+         &:hover {
+            scale: 1.1;
+            transition: all 0.5s;
+         }
+      }
    }
 `
 const StyledIcon = styled.div`
@@ -130,7 +132,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
 const StyledLink = styled(Link)`
    display: flex;
    flex-direction: column;
-   align-items: flex-start;
+   align-items: center;
    padding: 24px;
    box-shadow: 0px 1px 8px 2px #0000001a;
    border-radius: 12px;
@@ -149,10 +151,12 @@ const StyledLink = styled(Link)`
       }
    }
    @media (min-width: ${breakpoint.tablet}px) {
+      align-items: flex-start;
+
       width: 458px;
    }
    @media (min-width: 992px) {
-      width: 617px;
+      width: 538px;
    }
    @media (min-width: ${breakpoint.desktop}px) {
       width: 617px;
