@@ -176,7 +176,7 @@ const MapPage = () => {
                )}
                <GoogleMap
                   mapContainerStyle={containerStyle}
-                  center={userLocation}
+                  center={selectedPlace?.lat ? selectedPlace : userLocation}
                   zoom={15}
                   options={{
                      mapTypeControl: false, // 禁用地圖類型控制
@@ -194,6 +194,12 @@ const MapPage = () => {
                         onClick={() => setSelectedPlace(place)}
                      />
                   ))}
+                  <Marker
+                     position={userLocation}
+                     icon={{
+                        url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                     }}
+                  />
                   {selectedPlace && (
                      <InfoWindow
                         position={{ lat: selectedPlace.lat, lng: selectedPlace.lng }}
@@ -231,14 +237,33 @@ const MapPage = () => {
                      x
                   </div>
                   {filteredPlaces.map((place) => (
-                     <Link className='info' to={`/detail/${place.UID}`} key={place.id}>
+                     <Link
+                        className='info'
+                        to={`/detail/${place.UID}`}
+                        key={place.id}
+                        onMouseOver={() => {
+                           setTimeout(() => {
+                              setSelectedPlace(() => ({
+                                 lat: Number(place.showInfo[0].latitude),
+                                 lng: Number(place.showInfo[0].longitude),
+                              }))
+                           }, 250)
+                        }}
+                     >
                         <div className='info-detail'>
                            <h2 className='title'>{place.title}</h2>
                            <div className='locate'>{place.showInfo[0].location}</div>
                            <div className='date'>{`展覽時間：${place.endDate} (倒數${7}天)`}</div>
                         </div>
                         <div className='info-photo w84 h84'>
-                           <img src={place.imageUrl ?? defaultBannerTablet} alt='' />
+                           <img
+                              src={
+                                 place.imageUrl && place.imageUrl.trim() !== ''
+                                    ? place.imageUrl
+                                    : defaultBannerTablet
+                              }
+                              alt=''
+                           />
                         </div>
                      </Link>
                   ))}
@@ -276,6 +301,7 @@ const StyledSideBar = styled.section`
    .info {
       display: flex;
       justify-content: space-between;
+      gap: 16px;
       padding: 0 20px;
       margin-bottom: 16px;
 
