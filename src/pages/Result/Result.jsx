@@ -125,7 +125,6 @@ const StyledLoginBanner = styled.section`
    gap: 10px;
    padding: 20px;
    background-image: url(${hotBg});
-   margin-top: -54px;
 
    .menu {
       display: flex;

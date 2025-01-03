@@ -41,15 +41,15 @@ export default function Menu() {
                結束日期
             </div>
          </StyledSearchBox>
-         <div className='flex gap-8 mt-5'>
+         <StyledMobileOptionBox>
             {menuNameList.map((menu, index) => {
                return (
-                  <StyledMenu className='text-red' key={index} onClick={() => setMenuList(index)}>
+                  <div className='option text-red' key={index} onClick={() => setMenuList(index)}>
                      {menu}
-                  </StyledMenu>
+                  </div>
                )
             })}
-         </div>
+         </StyledMobileOptionBox>
          {renderMenu()}
       </div>
    )
@@ -116,5 +116,20 @@ const StyledCityItem = styled(Link)`
    &:hover {
       background: #be875c;
       color: #fff;
+   }
+`
+const StyledMobileOptionBox = styled.div`
+   display: flex;
+   gap: 16px;
+
+   .option {
+      font-size: 14px;
+      font-weight: 600;
+      padding: 16px;
+      color: ${(props) => (props.isSelect ? 'red' : '#929292')};
+      cursor: pointer;
+      &:hover {
+         color: #be875c;
+      }
    }
 `

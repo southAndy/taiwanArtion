@@ -9,6 +9,8 @@ const Modal = ({
    width,
    height,
    shape,
+   translate,
+   overflow,
 }) => {
    useEffect(() => {
       if (isShow) {
@@ -37,6 +39,8 @@ const Modal = ({
             left={position.l}
             right={position.r}
             borderRadius={shape}
+            translate={translate}
+            overflow={overflow}
          >
             {children}
          </StyledModalContent>
@@ -49,12 +53,12 @@ export default Modal
 const StyledModalBackground = styled.div`
    display: ${({ showModal }) => (showModal ? 'block' : 'none')};
    position: absolute;
-   top: 9%;
+   top: 8%;
    left: 0;
    background-color: rgba(0, 0, 0, 0.2);
    width: 100vw;
    height: 100vh;
-   z-index: 100;
+   z-index: 2000;
 `
 const StyledModalContent = styled.div`
    background: ${({ bgColor }) => bgColor || '#fff'};
@@ -62,11 +66,12 @@ const StyledModalContent = styled.div`
    max-height: ${({ maxHeight }) => maxHeight || '85%'};
    width: ${({ width }) => width || '100%'};
    position: absolute;
-   overflow: scroll;
+   overflow: ${({ overflow }) => overflow || 'auto'};
    border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
    padding: 24px;
    top: ${({ top }) => top || '0%'};
    bottom: ${({ bottom }) => bottom || '0%'};
    left: ${({ left }) => left || '0%'};
    right: ${({ right }) => right || '0%'};
+   translate: ${({ translate }) => translate || '-50% -50%'}; // 這個屬性預設用來置中的
 `
