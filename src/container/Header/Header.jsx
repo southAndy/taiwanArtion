@@ -16,8 +16,8 @@ const Header = () => {
    const [isShowMemberMenu, setMemberMenu] = useState(false)
    const [menu, setMenuContent] = useState([
       {
-         title: '附近展覽',
-         link: '/nearby',
+         title: '地圖找展覽',
+         link: '/map',
       },
       {
          title: '所有展覽',
@@ -62,8 +62,8 @@ const Header = () => {
          <div className='menu'>
             {[
                {
-                  title: '附近展覽',
-                  link: '/nearby',
+                  title: '地圖找展覽',
+                  link: '/map',
                },
                {
                   title: '所有展覽',
@@ -102,10 +102,17 @@ const Header = () => {
                </button>
             )}
          </HeaderCategory>
-         <Modal isShow={isShowModal} setShow={setIsShowModal}>
+         <Modal isShow={isShowModal} setShow={setIsShowModal} translate={'unset'} overflow={'auto'}>
             <Menu />
          </Modal>
-         <Modal isShow={isShowMenu} setShow={setMenu} position={{ t: '1%' }} height={'154px'}>
+         <Modal
+            isShow={isShowMenu}
+            setShow={setMenu}
+            position={{ t: '1%' }}
+            height={'154px'}
+            translate={'unset'}
+            overflow={'auto'}
+         >
             <StyldMenuBox>
                {menu.map((item, index) => (
                   <Link key={index} to={item.link} keys={index}>
@@ -120,7 +127,9 @@ const Header = () => {
             width={'155px'}
             height={'164px'}
             position={{ r: '1%', t: '0.5%', b: 'unset', l: 'unset' }}
+            overflow={'scroll'}
             borderRadius={'20px'}
+            translate={'unset'}
          >
             <StyledMemberMenuBox>
                <div className='user'>
@@ -162,7 +171,6 @@ const HeaderContainer = styled.header`
    padding: 8px 20px;
    background: #ffffff;
    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-   margin-bottom: 56px; // 推開下方內容
 
    .menu {
       display: none;
