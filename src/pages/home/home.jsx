@@ -94,10 +94,10 @@ const HomePage = () => {
                })}
             </StyledMonthBox>
          </StyledMonthWrapper>
-         <StyledContent className='flex  flex-wrap justify-center max-h-[358px] gap-10  py-6 px-6'>
+         <StyledExhibitionTypeBox>
             {categoryList.map((data, index) => {
                return (
-                  <div key={index} className='flex flex-col items-center'>
+                  <div key={index}>
                      <div>
                         <img src={data.imageUrl} alt={data.title} />
                      </div>
@@ -105,7 +105,7 @@ const HomePage = () => {
                   </div>
                )
             })}
-         </StyledContent>
+         </StyledExhibitionTypeBox>
          <StyledHotSection>
             <h3 className='title'>熱門展覽</h3>
             {openData.slice(0, 2).map((data) => {
@@ -418,12 +418,19 @@ const StyledFooter = styled.footer`
    padding: 20px 72px;
 `
 
-const StyledContent = styled.div`
-   ${FlexCenter};
+const StyledExhibitionTypeBox = styled.div`
+   display: flex;
    flex-wrap: true;
    gap: 40px;
    max-height: 358px;
    padding: 24px;
+   overflow-x: auto;
+   //隱藏滾動條 chrome
+   &::-webkit-scrollbar {
+      display: none;
+   }
+   //隱藏滾動條 firefox
+   scrollbar-width: none;
 `
 
 export default HomePage
