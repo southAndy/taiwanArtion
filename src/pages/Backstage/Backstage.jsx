@@ -182,7 +182,7 @@ const Backstage = () => {
             borderRadius={'20px'}
             padding={'40px'}
             position={{ t: '50%', l: '50%', b: 'unset', r: 'unset' }}
-            translate={'unset'}
+            translate={'-50% -50%'}
          >
             <StyledPhotoMenuBox>
                <p>大頭照</p>

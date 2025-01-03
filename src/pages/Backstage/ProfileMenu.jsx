@@ -118,6 +118,11 @@ const StyledFormBox = styled.form.attrs({})`
       position: absolute;
       right: 0;
       top: 0;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      color: #a9622a;
+      cursor: pointer;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
