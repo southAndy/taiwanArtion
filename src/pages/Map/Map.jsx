@@ -19,7 +19,6 @@ import { useSelector } from 'react-redux'
 const containerStyle = {
    width: '100%',
    height: '100vh',
-   marginTop: '-56px', // 抵销Header高度
 }
 
 const libraries = ['places']
@@ -237,15 +236,17 @@ const MapPage = () => {
                      x
                   </div>
                   {filteredPlaces.map((place) => (
-                     <Link
+                     <div
                         className='info'
-                        to={`/detail/${place.UID}`}
                         key={place.id}
-                        onMouseOver={() => {
+                        onClick={() => {
+                           setIsSlideOpen(false)
                            setTimeout(() => {
                               setSelectedPlace(() => ({
                                  lat: Number(place.showInfo[0].latitude),
                                  lng: Number(place.showInfo[0].longitude),
+                                 title: place.title,
+                                 photo: place.imageUrl,
                               }))
                            }, 250)
                         }}
@@ -265,7 +266,7 @@ const MapPage = () => {
                               alt=''
                            />
                         </div>
-                     </Link>
+                     </div>
                   ))}
                </StyledSideBar>
             </div>
@@ -280,7 +281,7 @@ const StyledSideBar = styled.section`
    position: absolute;
    top: 1px;
    left: 0;
-   width: 40%;
+   width: 85%;
    padding: 32px 0;
    z-index: 1000;
    overflow-y: auto;
@@ -290,6 +291,10 @@ const StyledSideBar = styled.section`
    transform: translateX(${(props) => (props.isSlideOpen ? '0' : '-100%')});
    transition: transform 0.3s;
    background-color: white;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      width: 40%;
+   }
 
    .close {
       position: absolute;
@@ -304,6 +309,7 @@ const StyledSideBar = styled.section`
       gap: 16px;
       padding: 0 20px;
       margin-bottom: 16px;
+      cursor: pointer;
 
       &:hover {
       }
@@ -354,7 +360,6 @@ const StyledMenBox = styled.div`
    left: 50%;
    transform: translateX(-50%);
 
-   width: 100%;
    background-color: white;
    border-radius: 8px;
    boxshadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -363,6 +368,7 @@ const StyledMenBox = styled.div`
    .option {
       display: flex;
       gap: 8px;
+      white-space: nowrap;
 
       &-hot {
          border-radius: 12px;
