@@ -17,6 +17,7 @@ import {
    hotestNumber2,
    hotestNumber3,
    hotestNumber4,
+   defaultBannerTablet,
 } from '../../assets/images/index.js'
 
 import {
@@ -132,6 +133,7 @@ const ExhibitionCard = ({ data }) => {
    return (
       <StyledCardContainer>
          <BaseImageBox
+            className='rank'
             width={'19px'}
             height={'19px'}
             tabletWidth={'53px'}
@@ -148,18 +150,18 @@ const ExhibitionCard = ({ data }) => {
             tabletHeight={'120px'}
             scale={'contain'}
          >
-            <img src={data.imageUrl || categoryicon1} alt='' className='rounded-md' />
+            <img src={data.imageUrl ? data.imageUrl : defaultBannerTablet} alt='' />
          </BaseImageBox>
          <StyledCardContent className='description flex flex-wrap gap-1'>
-            <StyledCardTitle className='font-medium text-[14px] basic-[100%] w-[100%] text-base'>
-               {data.title ?? '展覽名稱'}
-            </StyledCardTitle>
+            <StyledCardTitle className='title'>{data.title ?? '展覽名稱'}</StyledCardTitle>
             <StyledCardInfo>
-               <p className='date'>{`${data.startDate} - ${data.endDate}`}</p>
+               <p className='date'>{`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
+                  data.endDate,
+               ).format('MM.DD')}`}</p>
                <BaseImageBox width={'16px'} height={'16px'} className='city'>
                   <img src={locationIcon} alt='縣市地址圖示' />
                </BaseImageBox>
-               <p className='locate'>{data?.showInfo[0]?.location ?? '尚無資料'}</p>
+               <p className='locate'>{data?.showInfo[0]?.location.slice(0, 3) ?? '尚無資料'}</p>
             </StyledCardInfo>
          </StyledCardContent>
       </StyledCardContainer>
@@ -170,18 +172,24 @@ const AllExhibitionCard = ({ data }) => {
    return (
       <StyledAllContainer>
          <BaseImageBox width={'167px'} height={'180px'} className='exhibition'>
-            <img src={data.imageUrl} alt='' className='rounded-lg' />
+            <img
+               src={data.imageUrl ? data.imageUrl : defaultBannerTablet}
+               alt=''
+               className='rounded-lg'
+            />
             <StyledPositionImageBox position={'absolute'} right={'2%'} top={'2%'}>
                <img src={loveIcon} alt='收藏按鈕' />
             </StyledPositionImageBox>
          </BaseImageBox>
          <h3>{data.title}</h3>
-         <p className='text-xs'>{data.startDate}</p>
-         <div className='flex'>
+         <p className='text-xs'>{`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
+            data.endDate,
+         ).format('MM.DD')}`}</p>
+         <div className='locate flex'>
             <BaseImageBox width={'16px'} height={'16px'} className='w-[16px] h-[16px]'>
                <img src={locationIcon} alt='縣市地址圖示' />
             </BaseImageBox>
-            <p className='text-xs '>{data.showInfo[0].location}</p>
+            <p className='location-content text-xs '>{data.showInfo[0].location.slice(0, 3)}</p>
          </div>
       </StyledAllContainer>
    )
@@ -213,6 +221,12 @@ const StyledCardContainer = styled.div`
    margin-bottom: 6px;
    max-height: 92px;
 
+   .rank {
+      img {
+         object-fit: contain;
+      }
+   }
+
    @media (min-width: ${breakpoint.tablet}px) {
       max-height: 170px;
 
@@ -225,8 +239,8 @@ const StyledCardContainer = styled.div`
    }
 `
 const StyledCardContent = styled.div`
+   display: flex;
    max-width: 191px;
-   ${FlexCenter};
    flex-wrap: wrap;
    gap: 4px;
    color: #535353;
@@ -260,23 +274,37 @@ const StyledCardTitle = styled.h3`
    font-weight: 500;
    color: #453434;
    text-align: start;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
    margin: unset; //移除預設
 `
 const StyledAllContainer = styled.div`
    display: flex;
    flex-wrap: wrap;
    gap: 4px;
-   width: 167px;
+   width: 155px;
 
    .exhibition {
       position: relative;
       border-radius: 16px;
+
+      img {
+         border-radius: 16px;
+      }
+   }
+   .locate {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
    }
 
    h3 {
+      margin: 0; //移除預設
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 16px;
    }
 `
 
@@ -334,6 +362,7 @@ const StyledAllExhibitionWrapper = styled.div`
    .all {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 24px;
    }
    .title {
@@ -349,6 +378,9 @@ const StyledAllExhibitionWrapper = styled.div`
       }
       .menu {
          justify-content: center;
+      }
+      .all {
+         justify-content: space-between;
       }
    }
 `

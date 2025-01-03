@@ -16,11 +16,16 @@ export default function SwiperBanner({ data }) {
    useEffect(() => {
       console.log('data:', data)
       if (data.length > 0) {
-         setIsLoading(() => false)
+         setIsLoading(false)
       } else {
-         setIsLoading(() => true)
+         setIsLoading(true)
       }
    }, [data])
+
+   const handleLinkClick = (event) => {
+      event.preventDefault()
+      // 其他處理邏輯
+   }
 
    return (
       <>
@@ -29,6 +34,8 @@ export default function SwiperBanner({ data }) {
          ) : (
             <StyledSwiper
                grabCursor={true}
+               direction='horizontal' // 確保方向正確
+               touchStartPreventDefault={false} // 禁止默認的觸摸行為
                centeredSlides={true}
                slidesPerView={1}
                initialSlide={1}
@@ -37,7 +44,7 @@ export default function SwiperBanner({ data }) {
                pagination={true}
                breakpoints={{
                   320: {
-                     slidesPerView: 1.25,
+                     slidesPerView: 1,
                   },
                   768: {
                      slidesPerView: 1.5,
@@ -51,32 +58,30 @@ export default function SwiperBanner({ data }) {
                }}
             >
                <StyledContainer>
-                  {data.map((item, index) => {
-                     return (
-                        <StyledSwiperSlide key={item.UID ?? index}>
-                           <StyledLink to={`/detail/${item.UID}`}>
-                              <StyledBannerImage>
-                                 <img src={defaultBannerTablet} alt={item.title} />
-                              </StyledBannerImage>
-                              <Title>{item.title ?? <Skeleton />}</Title>
-                              <div className='info'>
-                                 <div className='info-date'>
-                                    <StyledIcon>
-                                       <img src={calendarIcon} alt='' />
-                                    </StyledIcon>
-                                    <span>{item?.startDate}</span>
-                                 </div>
-                                 <div className='info-locate'>
-                                    <StyledIcon>
-                                       <img src={locationIcon} alt='' />
-                                    </StyledIcon>
-                                    <span>{item?.showInfo[0].locationName}</span>
-                                 </div>
+                  {data.map((item) => (
+                     <StyledSwiperSlide key={item.UID}>
+                        <StyledLink to={`/detail/${item.UID}`} onClick={handleLinkClick}>
+                           <StyledBannerImage>
+                              <img src={defaultBannerTablet} alt={item.title} />
+                           </StyledBannerImage>
+                           <h3 className='title'>{item.title ?? <Skeleton />}</h3>
+                           <div className='info'>
+                              <div className='info-date'>
+                                 <StyledIcon>
+                                    <img src={calendarIcon} alt='' />
+                                 </StyledIcon>
+                                 <span>{item?.startDate}</span>
                               </div>
-                           </StyledLink>
-                        </StyledSwiperSlide>
-                     )
-                  })}
+                              <div className='info-locate'>
+                                 <StyledIcon>
+                                    <img src={locationIcon} alt='' />
+                                 </StyledIcon>
+                                 <span>{item?.showInfo[0].locationName}</span>
+                              </div>
+                           </div>
+                        </StyledLink>
+                     </StyledSwiperSlide>
+                  ))}
                </StyledContainer>
             </StyledSwiper>
          )}
@@ -86,7 +91,6 @@ export default function SwiperBanner({ data }) {
 
 const StyledContainer = styled.div`
    ${Flex};
-   height: 300px;
    padding: 20px;
    overflow: hidden;
 
@@ -95,11 +99,9 @@ const StyledContainer = styled.div`
    }
 `
 const StyledSwiper = styled(Swiper)`
-   height: 300px;
    position: relative;
-   margin-top: -32px; // 修正 swiper 的 padding-top
-
-   // 當前選中的 slide 效果
+   padding: 16px;
+   height: auto;
 
    .swiper-slide-prev,
    .swiper-slide-next {
@@ -150,10 +152,25 @@ const StyledLink = styled(Link)`
          display: flex;
       }
    }
+   .title {
+      font-size: 16px;
+      text-align: center;
+      padding: 8px;
+      margin: 0;
+   }
+
    @media (min-width: ${breakpoint.tablet}px) {
       align-items: flex-start;
 
       width: 458px;
+
+      .title {
+         font-size: 24px;
+         max-width: 448px;
+         white-space: nowrap;
+         overflow: hidden;
+         text-overflow: ellipsis;
+      }
    }
    @media (min-width: 992px) {
       width: 538px;
@@ -177,19 +194,5 @@ const StyledBannerImage = styled.div`
    @media (min-width: ${breakpoint.desktop}px) {
       width: 569px;
       height: 300px;
-   }
-`
-
-const Title = styled.h3`
-   font-size: 14px;
-   text-align: center;
-   padding: 8px;
-
-   @media (min-width: ${breakpoint.tablet}px) {
-      font-size: 24px;
-      max-width: 448px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
    }
 `
