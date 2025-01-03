@@ -60,12 +60,15 @@ const HomePage = () => {
    // 當月份改變時篩選資料
    const filterData = useMemo(() => {
       console.log('切換當前月份', currentMonth)
-      const currentMonthData = openData.filter((data) => {
-         const startDate = dayjs(data.startDate).month() + 1
-         return startDate === currentMonth
-      })
+      const currentMonthData = openData
+         .filter((data) => {
+            const startDate = dayjs(data.startDate).month() + 1
+            return startDate === currentMonth
+         })
+         .slice(0, 4)
+      // 如果當月沒有展覽，就顯示全部展覽
       if (currentMonthData.length === 0) {
-         return openData
+         return openData.slice(0, 4)
       } else {
          return currentMonthData
       }
