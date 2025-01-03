@@ -33,14 +33,10 @@ export default function SwiperBanner({ data }) {
             <Skeleton height={'300px'} />
          ) : (
             <StyledSwiper
-               grabCursor={true}
-               direction='horizontal' // 確保方向正確
-               touchStartPreventDefault={false} // 禁止默認的觸摸行為
                centeredSlides={true}
                slidesPerView={1}
                initialSlide={1}
-               loop={true}
-               navigation={true}
+               loop={true} // 啟用循環滑動
                pagination={true}
                breakpoints={{
                   320: {
@@ -131,7 +127,7 @@ const StyledSwiperSlide = styled(SwiperSlide)`
    font-size: 1.125rem;
 `
 
-const StyledLink = styled(Link)`
+const StyledLink = styled.div`
    display: flex;
    flex-direction: column;
    align-items: center;
