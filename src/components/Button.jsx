@@ -17,6 +17,7 @@ const StyledButton = styled.button.attrs((props) => ({
       color: #3333;
    }
    white-space: nowrap;
+   cursor: pointer;
 `
 
 const Button = ({
