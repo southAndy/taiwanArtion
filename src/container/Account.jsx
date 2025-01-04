@@ -54,10 +54,14 @@ const LoginPage = () => {
 
 const StyledBanner = styled.div`
    position: relative;
+   height: 200px;
 
    @media (min-width: ${breakpoint.tablet}px) {
-      height: 30vh;
+      height: 40vh;
       object-fit: contain;
+   }
+   @media (min-width: 1024px) {
+      height: 50vh;
    }
 `
 
