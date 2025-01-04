@@ -269,11 +269,9 @@ const StyledAllContainer = styled.div`
 
 const StyledBackstageContainer = styled.main`
    background-image: url(${accountBg});
-   margin-top: -56px;
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 40px;
-      margin-top: -56px;
    }
 `
 
