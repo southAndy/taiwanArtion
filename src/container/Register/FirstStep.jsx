@@ -107,7 +107,8 @@ const firstStep = ({ setStep, setUserInfo }) => {
                <form onSubmit={handleSubmit()}>
                   <div id='recap'></div>
                   <p className='text-medium mb-6 text-sm h-[40px]'>
-                     已發送手機驗證碼至{userPhone}手機,請輸入手機驗證碼並送出驗證。
+                     已發送手機驗證碼至{`${userPhone.slice(0, 5)}****`}
+                     手機,請輸入手機驗證碼並送出驗證。
                   </p>
                   <h3 id='test-re' className='mb-5 font-bold text-lg'>
                      {content}
@@ -201,7 +202,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
       if (!isSent) return
       if (countdown === 0) {
          setSent(false)
-         setCountdown(10)
+         setCountdown(60)
          return
       }
       const timer = setTimeout(() => {
