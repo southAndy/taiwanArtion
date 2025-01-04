@@ -59,10 +59,4 @@ const ErrorContainer = styled.div`
          text-align: center;
       }
    }
-
-   @media (min-width: ${breakpoint.tablet}) {
-      .photo {
-         height: 500px;
-      }
-   }
 `
