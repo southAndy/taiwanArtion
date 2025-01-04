@@ -31,23 +31,13 @@ const firstStep = ({ setStep, setUserInfo }) => {
                return false
             }
          }),
-      userCode: yup
-         .string()
-         .required('此欄位為必填')
-         .min(6, '驗證碼長度不正確')
-         .test('手機驗證簡訊比對', '手機驗證碼輸入錯誤', async () => {
-            try {
-               await verifySMSCode()
-               return true
-            } catch (e) {
-               return false //表示驗證失敗
-            }
-         }),
+      userCode: yup.string().required('此欄位為必填').min(6, '驗證碼長度不正確'),
    })
    const {
       register,
       handleSubmit,
       formState: { errors },
+      setError,
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'onBlur',
@@ -69,7 +59,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
          setSent(true) // 設置為已發送
          setConfirmResult(res)
       } catch (error) {
-         // 錯誤處理邏輯
+         console.log(error)
       }
    }
 
@@ -79,12 +69,21 @@ const firstStep = ({ setStep, setUserInfo }) => {
 
    async function actions() {
       try {
+         // 驗證手機驗證碼
+         await verifySMSCode()
+         // 進入下一步
          setStep((n) => n + 1)
+
+         // 將手機號碼存入 userInfo
          setUserInfo((state) => {
             return { ...state, phone: userPhone }
          })
-      } catch (e) {
-         console.log(e)
+      } catch (error) {
+         // 如果錯誤，顯示錯誤訊息在 userCode 欄位
+         setError('userCode', {
+            type: 'manual',
+            message: '手機驗證碼錯誤',
+         })
       }
    }
 
