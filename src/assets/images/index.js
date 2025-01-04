@@ -49,7 +49,11 @@ import accountBg from '../images/account-bg.png'
 import loveFullIcon from '../images/love-full.png'
 import defaultBannerTablet from '../images/banner-tablet.png'
 import { hotestNumber, hotestNumber2, hotestNumber3, hotestNumber4 } from './hot/hot-icon'
+import passwordHideIcon from './password-hide.png'
+import passwordShowIcon from './password-show.png'
 export {
+   passwordShowIcon,
+   passwordHideIcon,
    hotestNumber,
    hotestNumber2,
    hotestNumber3,

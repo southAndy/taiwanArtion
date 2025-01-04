@@ -7,7 +7,14 @@ import styled from 'styled-components'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { registerInfoIcon, uncheckIcon, warnIcon, checkIcon } from '../../assets/images'
+import {
+   registerInfoIcon,
+   uncheckIcon,
+   warnIcon,
+   checkIcon,
+   passwordHideIcon,
+   passwordShowIcon,
+} from '../../assets/images'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { auth, db } from '../../../firebase.config.js'
@@ -15,6 +22,7 @@ import { auth, db } from '../../../firebase.config.js'
 const secondStep = ({ setStep, setUserInfo }) => {
    const [account, setAccount] = useState('')
    const [password, setPassword] = useState('')
+   const [isShowPassword, setIsShowPassword] = useState(false)
    const [email, setEmail] = useState('')
    const [score, setScore] = useState(0)
    const [matchTips, setMatchTips] = useState([false, false, false, false])
@@ -126,21 +134,31 @@ const secondStep = ({ setStep, setUserInfo }) => {
                   ''
                )}
             </div>
-            <div className='flex flex-col'>
+            <div className='password flex flex-col'>
                <label htmlFor='password' className='mb-2 font-medium text-[#453434]'>
                   密碼
                </label>
-               <StyledInput
-                  {...register('password', { required: '密碼必填' })}
-                  type={'password'}
-                  setValue={setPassword}
-                  size={'12px 16px'}
-                  shape={'12px'}
-                  placeholder={'6-18位數密碼,請區分大小寫'}
-                  onChange={(e) => {
-                     setPassword(e.target.value)
-                  }}
-               />
+               <div className='password-input'>
+                  <StyledInput
+                     {...register('password', { required: '密碼必填' })}
+                     type={isShowPassword ? 'input' : 'password'}
+                     setValue={setPassword}
+                     size={'12px 16px'}
+                     shape={'12px'}
+                     placeholder={'6-18位數密碼,請區分大小寫'}
+                     onChange={(e) => {
+                        setPassword(e.target.value)
+                     }}
+                  />
+                  <BaseImageBox
+                     width={'24px'}
+                     height={'24px'}
+                     className='password-show'
+                     onClick={() => setIsShowPassword((n) => !n)}
+                  >
+                     <img src={isShowPassword ? passwordShowIcon : passwordHideIcon} alt='' />
+                  </BaseImageBox>
+               </div>
                {password ? (
                   <StyledTipBox>
                      <ReminderContainer>
@@ -218,6 +236,7 @@ const StyledTipBox = styled.section`
    display: flex;
    flex-direction: column;
    gap: 8px;
+   margin-top: 4px; // 與密碼欄位的間距
 `
 const StyledProgress = styled.progress`
    width: 100%;
@@ -229,6 +248,18 @@ const StyledForm = styled.form`
    flex-direction: column;
    gap: 16px;
    margin-bottom: 24px;
+
+   .password {
+      &-show {
+         position: absolute;
+         right: 2%;
+         top: 25%;
+         cursor: pointer;
+      }
+      &-input {
+         position: relative;
+      }
+   }
 `
 
 const ReminderContainer = styled.div`
@@ -236,7 +267,6 @@ const ReminderContainer = styled.div`
    align-items: center;
    gap: 8px;
    font-weight: 700;
-   margin-bottom: 8px;
    color: #453434;
 `
 
