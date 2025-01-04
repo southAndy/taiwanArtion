@@ -61,7 +61,12 @@ const Register = () => {
          {step !== 2 ? (
             <StyledLoginBanner>
                <div className='flex items-center justify-center'>
-                  <FixedImageBox position={'absolute'} left={'13%'} top={'13%'}>
+                  <FixedImageBox
+                     position={'absolute'}
+                     left={'13%'}
+                     top={'13%'}
+                     onClick={() => navigate(-1)}
+                  >
                      <img src={vectorIcon} alt='回到上一頁箭頭' />
                   </FixedImageBox>
                   <h3>會員註冊</h3>
@@ -86,6 +91,7 @@ const Register = () => {
 const FixedImageBox = styled(PositionElement)`
    width: 18px;
    height: 18px;
+   cursor: pointer;
 `
 //todo 共用樣式
 const StyledLoginBanner = styled.section`
