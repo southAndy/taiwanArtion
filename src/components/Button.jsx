@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledButton = styled.button.attrs({
+const StyledButton = styled.button.attrs((props) => ({
    //todo 新增動態 type ，當 button 是 form 架構內的
-   type: 'button',
-})`
+   type: props.type || 'button',
+}))`
    color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
    background-color: ${(props) => (props.disabled ? '#EEEEEE' : ' #be875c')};
    border-radius: 12px;
@@ -28,9 +28,11 @@ const Button = ({
    margin,
    isClick,
    actions,
+   buttonType,
 }) => {
    return (
       <StyledButton
+         type={buttonType}
          color={textColor}
          bgColor={buttonBackground}
          margin={margin}
