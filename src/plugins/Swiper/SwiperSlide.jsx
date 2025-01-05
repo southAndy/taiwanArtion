@@ -22,11 +22,6 @@ export default function SwiperBanner({ data }) {
       }
    }, [data])
 
-   const handleLinkClick = (event) => {
-      event.preventDefault()
-      // 其他處理邏輯
-   }
-
    return (
       <>
          {isLoading ? (
@@ -56,7 +51,7 @@ export default function SwiperBanner({ data }) {
                <StyledContainer>
                   {data.map((item) => (
                      <StyledSwiperSlide key={item.UID}>
-                        <StyledLink to={`/detail/${item.UID}`} onClick={handleLinkClick}>
+                        <StyledLink to={`/detail/${item.UID}`}>
                            <StyledBannerImage>
                               <img src={defaultBannerTablet} alt={item.title} />
                            </StyledBannerImage>
@@ -122,12 +117,12 @@ const StyledIcon = styled.div`
 
 const StyledSwiperSlide = styled(SwiperSlide)`
    display: flex;
+   gap: 8px;
    align-items: center;
    justify-content: center;
-   font-size: 1.125rem;
 `
 
-const StyledLink = styled.div`
+const StyledLink = styled(Link)`
    display: flex;
    flex-direction: column;
    align-items: center;
@@ -145,7 +140,7 @@ const StyledLink = styled.div`
          display: flex;
       }
       &-locate {
-         display: flex;
+         display: none;
       }
    }
    .title {
@@ -153,6 +148,10 @@ const StyledLink = styled.div`
       text-align: center;
       padding: 8px;
       margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 267px;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
