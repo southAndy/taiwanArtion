@@ -77,9 +77,8 @@ const HomePage = () => {
    return (
       <>
          <Header />
-         <SwiperBanner data={filterData} />
          <StyledMonthWrapper>
-            <h3 className='pb-2'>{new Date().getFullYear()}年</h3>
+            <h3 className='title'>{new Date().getFullYear()}年</h3>
             <StyledMonthBox>
                {monthList.map((month, index) => {
                   return (
@@ -97,7 +96,8 @@ const HomePage = () => {
                })}
             </StyledMonthBox>
          </StyledMonthWrapper>
-         <StyledExhibitionTypeBox>
+         <SwiperBanner data={filterData} />
+         {/* <StyledExhibitionTypeBox>
             {categoryList.map((data, index) => {
                return (
                   <div key={index}>
@@ -108,11 +108,11 @@ const HomePage = () => {
                   </div>
                )
             })}
-         </StyledExhibitionTypeBox>
+         </StyledExhibitionTypeBox> */}
          <StyledHotSection>
             <h3 className='title'>熱門展覽</h3>
             {openData.slice(0, 2).map((data) => {
-               return <ExhibitionCard data={data} />
+               return <ExhibitionCard data={data} key={data.UID} />
             })}
          </StyledHotSection>
          <StyledAllExhibitionWrapper>
@@ -206,7 +206,11 @@ const StyledPositionImageBox = styled(PositionElement)`
 const StyledMonthWrapper = styled.section`
    display: flex;
    flex-direction: column;
-   padding: 0 24px;
+   padding: 24px 24px 0 24px;
+
+   .title {
+      margin: 0; //移除預設
+   }
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 0 40px;
@@ -286,7 +290,11 @@ const StyledAllContainer = styled.div`
    display: flex;
    flex-wrap: wrap;
    gap: 4px;
-   width: 155px;
+   width: 119px;
+
+   @media (min-width: ${breakpoint.mobile}px) {
+      width: 140px;
+   }
 
    .exhibition {
       position: relative;
