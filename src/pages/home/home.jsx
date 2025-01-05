@@ -63,7 +63,8 @@ const HomePage = () => {
       const currentMonthData = openData
          .filter((data) => {
             const startDate = dayjs(data.startDate).month() + 1
-            return startDate === currentMonth
+            const hasImage = Boolean(data.imageUrl) //判斷此筆資料是否有圖片
+            return startDate === currentMonth && hasImage
          })
          .slice(0, 4)
       // 如果當月沒有展覽，就顯示全部展覽
@@ -82,16 +83,14 @@ const HomePage = () => {
             <StyledMonthBox>
                {monthList.map((month, index) => {
                   return (
-                     <div key={index}>
-                        <StyledMonthText
-                           onClick={() => setMonth(() => month.number)}
-                           isActive={currentMonth === month.value}
-                           key={index}
-                        >
-                           {month.number}月<br />
-                           {month.en}
-                        </StyledMonthText>
-                     </div>
+                     <StyledMonthText
+                        onClick={() => setMonth(() => month.number)}
+                        isActive={currentMonth === month.number}
+                        key={index}
+                     >
+                        {month.number}月<br />
+                        {month.en}
+                     </StyledMonthText>
                   )
                })}
             </StyledMonthBox>
@@ -210,6 +209,7 @@ const StyledMonthWrapper = styled.section`
 
    .title {
       margin: 0; //移除預設
+      margin-bottom: 8px;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
@@ -326,6 +326,11 @@ const StyledMonthBox = styled.div`
    font-size: 12px;
    gap: 1px;
    overflow: scroll;
+
+   ::-webkit-scrollbar {
+      display: none; /* For Chrome, Edge, and Safari */
+   }
+
    scrollbar-width: none;
 
    @media (min-width: ${breakpoint.tablet}px) {
@@ -335,13 +340,16 @@ const StyledMonthBox = styled.div`
 `
 const StyledMonthText = styled.p`
    cursor: pointer;
-   box-sizing: border-box;
+   border-radius: 4px;
    white-space: nowrap;
    width: 100%;
-   padding: 10px;
+   padding: 8px;
+   background: ${(props) => (props.isActive ? '#BE8152' : 'white')};
+   color: ${(props) => (props.isActive ? '#fff' : '#000')};
    &:hover {
       background: #be875c;
       color: #fff;
+      bordr-radius: 4px;
    }
 `
 
