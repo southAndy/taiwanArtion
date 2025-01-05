@@ -17,34 +17,37 @@ import {
    hotestNumber2,
    hotestNumber3,
    hotestNumber4,
+   hotestNumber5,
    defaultBannerTablet,
 } from '../../assets/images/index.js'
 
 import {
-   categoryicon1,
-   categoryicon2,
-   categoryicon3,
-   categoryicon4,
-   categoryicon5,
-   categoryicon6,
-   categoryicon7,
-   categoryicon8,
+   // categoryicon1,
+   // categoryicon2,
+   // categoryicon3,
+   // categoryicon4,
+   // categoryicon5,
+   // categoryicon6,
+   // categoryicon7,
+   // categoryicon8,
    hotBg,
    locationIcon,
    loveIcon,
    sampleBg,
 } from '../../assets/images/index'
 
-const categoryList = [
-   { imageUrl: categoryicon1, title: '美術' },
-   { imageUrl: categoryicon2, title: '攝影' },
-   { imageUrl: categoryicon3, title: '音樂' },
-   { imageUrl: categoryicon4, title: '戲劇' },
-   { imageUrl: categoryicon5, title: '舞蹈' },
-   { imageUrl: categoryicon6, title: '綜藝' },
-   { imageUrl: categoryicon7, title: '親子' },
-   { imageUrl: categoryicon8, title: '展覽' },
-]
+const hotNumberList = [hotestNumber, hotestNumber2, hotestNumber3, hotestNumber4, hotestNumber5]
+
+// const categoryList = [
+//    { imageUrl: categoryicon1, title: '美術' },
+//    { imageUrl: categoryicon2, title: '攝影' },
+//    { imageUrl: categoryicon3, title: '音樂' },
+//    { imageUrl: categoryicon4, title: '戲劇' },
+//    { imageUrl: categoryicon5, title: '舞蹈' },
+//    { imageUrl: categoryicon6, title: '綜藝' },
+//    { imageUrl: categoryicon7, title: '親子' },
+//    { imageUrl: categoryicon8, title: '展覽' },
+// ]
 
 const HomePage = () => {
    const monthList = fakeMonthList
@@ -59,22 +62,30 @@ const HomePage = () => {
 
    // 當月份改變時篩選資料
    const filterData = useMemo(() => {
-      console.log('切換當前月份', currentMonth)
       const currentMonthData = openData
          .filter((data) => {
             const startDate = dayjs(data.startDate).month() + 1
             const hasImage = Boolean(data.imageUrl) //判斷此筆資料是否有圖片
-            return startDate === currentMonth && hasImage
+            // todo 目前月份篩選，會不夠精確，因為只有月份，沒有年份
+            return startDate >= currentMonth && hasImage
          })
-         .slice(0, 4)
+         .slice(0, 12)
       // 如果當月沒有展覽，就顯示全部展覽
       if (currentMonthData.length === 0) {
-         return openData.slice(0, 4)
+         return openData.slice(0, 12)
       } else {
          return currentMonthData
       }
    }, [currentMonth, openData])
 
+   // 最熱門展覽
+   const hotData = useMemo(() => {
+      // hitRate 代表點擊次數
+      return [...openData]
+         .filter((data) => data.imageUrl)
+         .sort((a, b) => b.hitRate - a.hitRate)
+         .slice(0, 5)
+   }, [openData])
    return (
       <>
          <Header />
@@ -110,8 +121,8 @@ const HomePage = () => {
          </StyledExhibitionTypeBox> */}
          <StyledHotSection>
             <h3 className='title'>熱門展覽</h3>
-            {openData.slice(0, 2).map((data) => {
-               return <ExhibitionCard data={data} key={data.UID} />
+            {hotData.map((data, index) => {
+               return <ExhibitionCard data={data} rank={index} key={data.UID} />
             })}
          </StyledHotSection>
          <StyledAllExhibitionWrapper>
@@ -131,9 +142,9 @@ const HomePage = () => {
       </>
    )
 }
-const ExhibitionCard = ({ data }) => {
+const ExhibitionCard = ({ data, rank }) => {
    return (
-      <StyledCardContainer>
+      <StyledCardContainer to={`/detail/${data.UID}`}>
          <BaseImageBox
             className='rank'
             width={'19px'}
@@ -143,7 +154,7 @@ const ExhibitionCard = ({ data }) => {
             desktopWidth={'100px'}
             desktopHeight={'100px'}
          >
-            <img src={hotestNumber} alt={data.title} />
+            <img src={`${hotNumberList[rank]}`} alt={data.title} />
          </BaseImageBox>
          <BaseImageBox
             width={'60px'}
@@ -217,7 +228,7 @@ const StyledMonthWrapper = styled.section`
    }
 `
 
-const StyledCardContainer = styled.div`
+const StyledCardContainer = styled(Link)`
    ${FlexCenter};
    justify-content: start;
    align-items: center;
