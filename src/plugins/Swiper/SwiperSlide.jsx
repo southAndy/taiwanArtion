@@ -53,7 +53,10 @@ export default function SwiperBanner({ data }) {
                      <StyledSwiperSlide key={item.UID}>
                         <StyledLink to={`/detail/${item.UID}`}>
                            <StyledBannerImage>
-                              <img src={defaultBannerTablet} alt={item.title} />
+                              <img
+                                 src={item.imageUrl ? item.imageUrl : defaultBannerTablet}
+                                 alt={item.title}
+                              />
                            </StyledBannerImage>
                            <h3 className='title'>{item.title ?? <Skeleton />}</h3>
                            <div className='info'>
@@ -178,6 +181,11 @@ const StyledLink = styled(Link)`
 const StyledBannerImage = styled.div`
    width: 270px;
    height: 170px;
+   border-radius: 8px;
+
+   img {
+      border-radius: 8px;
+   }
 
    @media (min-width: ${breakpoint.tablet}px) {
       width: 400px;
