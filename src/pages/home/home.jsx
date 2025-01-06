@@ -165,8 +165,8 @@ const ExhibitionCard = ({ data, rank }) => {
          >
             <img src={data.imageUrl ? data.imageUrl : defaultBannerTablet} alt='' />
          </BaseImageBox>
-         <StyledCardContent className='description flex flex-wrap gap-1'>
-            <StyledCardTitle className='title'>{data.title ?? '展覽名稱'}</StyledCardTitle>
+         <StyledCardContent className='description'>
+            <h3 className='description-title'>{data.title ?? '展覽名稱'}</h3>
             <StyledCardInfo>
                <p className='date'>{`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
                   data.endDate,
@@ -225,6 +225,7 @@ const StyledMonthWrapper = styled.section`
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 0 40px;
+      margin-top: 56px;
    }
 `
 
@@ -240,6 +241,7 @@ const StyledCardContainer = styled(Link)`
    max-height: 92px;
 
    .rank {
+      flex-shrink: 0;
       img {
          object-fit: contain;
       }
@@ -247,23 +249,40 @@ const StyledCardContainer = styled(Link)`
 
    @media (min-width: ${breakpoint.tablet}px) {
       max-height: 170px;
-
-      .description {
-         justify-content: flex-start;
-         font-size: 18px;
-         font-weight: 700;
-         color: #453434;
-      }
    }
 `
 const StyledCardContent = styled.div`
-   display: flex;
-   max-width: 191px;
-   flex-wrap: wrap;
-   gap: 4px;
-   color: #535353;
+   overflow: hidden;
+   .description {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 4px;
+
+      max-width: 191px;
+      font-weight: 700;
+      color: #453434;
+   }
+   & > div {
+      flex-shrink: 0;
+   }
+   .description-title {
+      max-width: 100%;
+      font-size: 16px;
+      font-weight: 500;
+      color: #453434;
+      text-align: start;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin: unset; //移除預設
+   }
 
    @media (min-width: ${breakpoint.tablet}px) {
+      font-size: 18px;
+
+      max-width: 100%;
       .date {
          color: #535353;
          font-weight: 400;
@@ -275,7 +294,7 @@ const StyledCardContent = styled.div`
    }
 `
 const StyledCardInfo = styled.div`
-   ${FlexCenter};
+   display: flex;
    flex-wrap: nowrap;
    font-size: 14px;
    white-space: nowrap;
@@ -369,16 +388,8 @@ const StyledHotSection = styled.section`
    background-size: cover;
    padding: 24px;
 
-   h3 {
-      font-weight: 600;
-   }
-
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 40px;
-
-      .title {
-         font-size: 36px;
-      }
    }
 `
 
