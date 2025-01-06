@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 const AllExhibitionCard = ({ data }) => {
    return (
       <StyledAllContainer>
-         <BaseImageBox width={'167px'} height={'180px'} className='exhibition'>
+         <BaseImageBox width={'100%'} tabletHeight={'202px'} className='exhibition'>
             <img src={data.imageUrl} alt='' className='rounded-lg' />
             <StyledPositionImageBox position={'absolute'} right={'2%'} top={'2%'}>
                <img src={loveIcon} alt='收藏按鈕' />
@@ -39,10 +39,8 @@ const StyledAllContainer = styled.div`
    display: flex;
    flex-wrap: wrap;
    gap: 4px;
-   width: 119px;
 
    @media (min-width: ${breakpoint.mobile}px) {
-      width: 140px;
    }
 
    .exhibition {

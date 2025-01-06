@@ -221,9 +221,8 @@ const StyledAllExhibitionWrapper = styled.div`
    background: #f9f9f9;
 
    .all {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 24px;
    }
    .title {
