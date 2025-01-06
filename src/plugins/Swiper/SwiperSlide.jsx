@@ -34,17 +34,14 @@ export default function SwiperBanner({ data }) {
                loop={true} // 啟用循環滑動
                pagination={true}
                breakpoints={{
-                  320: {
+                  576: {
                      slidesPerView: 1,
                   },
                   768: {
                      slidesPerView: 1.5,
                   },
-                  1024: {
-                     slidesPerView: 1.5,
-                  },
                   1440: {
-                     slidesPerView: 2,
+                     slidesPerView: 2.5,
                   },
                }}
             >
@@ -141,6 +138,13 @@ const StyledLink = styled(Link)`
 
       &-date {
          display: flex;
+         font-family: Noto Sans TC;
+         font-size: 14px;
+         font-weight: 400;
+         line-height: 18.2px;
+         text-align: left;
+         text-underline-position: from-font;
+         text-decoration-skip-ink: none;
       }
       &-locate {
          display: none;
@@ -160,8 +164,6 @@ const StyledLink = styled(Link)`
    @media (min-width: ${breakpoint.tablet}px) {
       align-items: flex-start;
 
-      width: 458px;
-
       .title {
          font-size: 24px;
          max-width: 448px;
@@ -171,10 +173,8 @@ const StyledLink = styled(Link)`
       }
    }
    @media (min-width: 992px) {
-      width: 538px;
    }
    @media (min-width: ${breakpoint.desktop}px) {
-      width: 617px;
    }
 `
 
