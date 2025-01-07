@@ -40,6 +40,9 @@ export default function SwiperBanner({ data }) {
                   768: {
                      slidesPerView: 1.5,
                   },
+                  992: {
+                     slidesPerView: 2,
+                  },
                   1440: {
                      slidesPerView: 2.5,
                   },
@@ -188,14 +191,14 @@ const StyledBannerImage = styled.div`
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
-      width: 400px;
+      // width: 400px;
       height: 280px;
    }
    @media (min-width: 992px) {
-      width: 569px;
+      width: 400px;
    }
    @media (min-width: ${breakpoint.desktop}px) {
-      width: 569px;
+      // width: 569px;
       height: 300px;
    }
 `
