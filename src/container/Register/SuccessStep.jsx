@@ -11,8 +11,8 @@ const Success = () => {
    }, [])
    return (
       <>
-         <StyledBanner className=' bg-slate-200'>
-            <div className='h-[200px] w-[390px]'>
+         <StyledBanner>
+            <div className='banner'>
                <img src={sucessIcon} alt='' />
             </div>
             <section className='content flex gap-2 flex-col justify-center items-center '>
@@ -58,6 +58,10 @@ const StyledBanner = styled.section`
    background-size: contain;
    background-position: center;
    background-color: #fdfaef;
+
+   .banner {
+      height: 200px;
+   }
 
    .content {
       display: flex;

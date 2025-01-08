@@ -38,6 +38,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
          .string()
          .required('此欄位為必填')
          .min(4, '帳號長度不足')
+         .max(21, '帳號長度太長')
          .test('test', '帳號格式錯誤', (value) => {
             //不能輸入特殊符號
             return !value.match(/[^a-zA-Z0-9]/)
@@ -84,7 +85,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
       mode: 'onBlur',
    })
 
-   async function actions() {
+   async function actions(data) {
       try {
          // 使用信箱驗證
          const userCredit = await createUserWithEmailAndPassword(auth, email, password)
@@ -92,20 +93,20 @@ const secondStep = ({ setStep, setUserInfo }) => {
          const userId = userCredit.user.uid
          // 儲存使用者資訊到 firestore
          await setDoc(doc(db, 'users', userId), {
-            account: account,
-            email: email,
+            account: data.account,
+            email: data.email,
             uid: userId,
          })
          // 跳轉到下一步
          setStep((n) => n + 1)
-      } catch (e) {
-         console.log(e)
+      } catch (error) {
+         console.log(error)
       }
    }
 
    return (
       <>
-         <StyledForm onSubmit={handleSubmit((data) => {})} className='flex flex-col gap-4 mb-10'>
+         <StyledForm onSubmit={handleSubmit(actions)} className='flex flex-col gap-4 mb-10'>
             <div className='flex flex-col'>
                <label htmlFor='email' className='font-medium mb-2 text-[#453434]'>
                   帳號
@@ -114,7 +115,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
                   {...register('account', { required: '帳號必填' })}
                   size={'12px 16px'}
                   shape={'12px'}
-                  placeholder={'4-21碼小寫英文.數字'}
+                  placeholder={'設定 4-21 碼小寫小寫英文、數字'}
                   onChange={(e) => {
                      try {
                         setAccount(e.target.value)
@@ -206,21 +207,17 @@ const secondStep = ({ setStep, setUserInfo }) => {
                   ''
                )}
             </div>
+            <Button
+               buttonType={'submit'}
+               disabled={
+                  errors.account?.message || errors.password?.message || errors.email?.message
+               }
+               content={'下一步'}
+               margin={'40px 0 0 0'}
+            >
+               下一步
+            </Button>
          </StyledForm>
-
-         <Button
-            actions={actions}
-            disabled={
-               errors.account?.message ||
-               errors.password?.message ||
-               account.length <= 4 ||
-               password.length <= 6
-            }
-            content={'下一步'}
-            margin={'40px 0 0 0'}
-         >
-            下一步
-         </Button>
       </>
    )
 }
