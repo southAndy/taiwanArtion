@@ -108,7 +108,6 @@ const Header = () => {
          <Modal
             isShow={isShowMenu}
             setShow={setMenu}
-            position={{ t: '1%' }}
             height={'154px'}
             translate={'unset'}
             overflow={'auto'}
