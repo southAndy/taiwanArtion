@@ -18,15 +18,15 @@ const hotNumberList = [hotestNumber, hotestNumber2, hotestNumber3, hotestNumber4
 
 const ExhibitionCard = ({ data, rank }) => {
    return (
-      <StyledCardContainer to={`/detail/${data.UID}`}>
+      <StyledCardContainer to={`/detail/${data.UID}`} className='hot'>
          <BaseImageBox
             className='rank'
             width={'19px'}
             height={'19px'}
             tabletWidth={'53px'}
             tabletHeight={'31px'}
-            desktopWidth={'100px'}
-            desktopHeight={'100px'}
+            desktopWidth={'35p'}
+            desktopHeight={'35p'}
          >
             <img src={`${hotNumberList[rank]}`} alt={data.title} />
          </BaseImageBox>

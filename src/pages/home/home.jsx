@@ -108,7 +108,9 @@ const HomePage = () => {
          <StyledHotSection>
             <h3 className='title'>熱門展覽</h3>
             <div className='content'>
-               {hotData.length > 0 && <ExhibitionCard data={hotData[0]} rank={0} />}
+               {/* <div className='highlight'>
+                  {hotData.length > 0 && <ExhibitionCard data={hotData[0]} rank={0} />}
+               </div> */}
                <div>
                   {hotData.map((data, index) => {
                      return <ExhibitionCard data={data} rank={index} key={data.UID} />
@@ -199,16 +201,30 @@ const StyledHotSection = styled.section`
    background-image: url(${hotBg});
    background-size: cover;
    padding: 24px;
+   display: flex;
+   flex-direction: column;
+   gap: 24px;
+
+   .content {
+      .highlight {
+         display: none;
+         gap: 24px;
+      }
+   }
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 40px;
    }
    @media (min-width: ${breakpoint.desktop}px) {
       padding: 40px 120px;
+
+      .content {
+         .highlight {
+            display: flex;
+         }
+      }
    }
-   .content {
-      display: flex;
-   }
+
    .top {
       display: none;
    }
