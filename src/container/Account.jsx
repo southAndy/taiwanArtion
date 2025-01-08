@@ -18,8 +18,8 @@ const LoginPage = () => {
    return (
       <>
          <Header />
-         <section>
-            <StyledBanner className='max-h-[220px] h-[200px] w-[100%]'>
+         <StyledLoginContainer>
+            <StyledBanner>
                <img src={loginBannerMobile} alt='' />
                <FixedImage position={'absolute'} left={'50%'} top={'50%'}>
                   <img src={logoWhite} alt='' />
@@ -47,10 +47,19 @@ const LoginPage = () => {
                   </div>
                </div>
             </StyledContainer>
-         </section>
+         </StyledLoginContainer>
       </>
    )
 }
+
+const StyledLoginContainer = styled.div`
+   display: flex;
+   flex-direction: column;
+
+   @media (min-width: ${1024}px) {
+      flex-direction: row;
+   }
+`
 
 const StyledBanner = styled.div`
    position: relative;
@@ -61,7 +70,8 @@ const StyledBanner = styled.div`
       object-fit: contain;
    }
    @media (min-width: 1024px) {
-      height: 50vh;
+      height: 100vh;
+      width: 50%;
    }
 `
 
@@ -94,7 +104,10 @@ const StyledContainer = styled.div`
       justify-content: center;
       align-items: center;
       margin-top: 40px;
+      gap: 24px;
       color: #535353;
+      cursor: pointer;
+
       &-title {
          margin-bottom: 16px;
       }
@@ -106,13 +119,9 @@ const StyledContainer = styled.div`
          cursor: pointer;
       }
    }
-
-   .society {
-      ${Flex};
-      justify-content: center;
-      align-items: center;
-      gap: 24px;
-      cursor: pointer;
+   @media (min-width: ${1024}px) {
+      width: 50%;
+      height: 100vh;
    }
 `
 
