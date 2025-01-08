@@ -4,6 +4,7 @@ import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
 import Header from '../../container/Header/Header'
+import Footer from '../../container/Footer/Footer'
 import fakeMonthList from '../../assets/data/month.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from '../../store/commonSlice'
@@ -123,12 +124,12 @@ const HomePage = () => {
                })}
             </TypeWrapper>
             <div className='all'>
-               {openData.map((data, index) => {
+               {filterData.map((data, index) => {
                   return <AllExhibitionCard key={index} data={data} />
                })}
             </div>
          </StyledAllExhibitionWrapper>
-         <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
+         <Footer />
       </>
    )
 }
@@ -269,13 +270,6 @@ const StyledExhibitionType = styled.div`
       background: #be875c;
       color: #fff;
    }
-`
-
-const StyledFooter = styled.footer`
-   background: #7b4d29;
-   color: #fff;
-   white-space: nowrap;
-   padding: 20px 72px;
 `
 
 // const StyledExhibitionTypeBox = styled.div`
