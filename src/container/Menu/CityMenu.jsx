@@ -21,40 +21,40 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[0]}</h3>
                <StyledCityBox>
                   {cityList.north.map((city) => (
-                     <StyledCityItem to={`/result/${city}`} key={city.name}>
-                        {city.name}
+                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                        {city.chinese}
                      </StyledCityItem>
                   ))}
                </StyledCityBox>
                <h3 className='font-medium'>{areaList[1]}</h3>
                <StyledCityBox>
                   {cityList.central.map((city) => (
-                     <StyledCityItem to={`/result/${city}`} key={city.name}>
-                        {city.name}
+                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                        {city.chinese}
                      </StyledCityItem>
                   ))}
                </StyledCityBox>
                <h3 className='font-medium'>{areaList[2]}</h3>
                <StyledCityBox>
                   {cityList.south.map((city) => (
-                     <StyledCityItem to={`/result/${city}`} key={city.name}>
-                        {city.name}
+                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                        {city.chinese}
                      </StyledCityItem>
                   ))}
                </StyledCityBox>
                <h3 className='font-medium'>{areaList[3]}</h3>
                <StyledCityBox>
                   {cityList.east.map((city) => (
-                     <StyledCityItem to={`/result/${city}`} key={city.name}>
-                        {city.name}
+                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                        {city.chinese}
                      </StyledCityItem>
                   ))}
                </StyledCityBox>
                <h3 className='font-medium'>{areaList[4]}</h3>
                <StyledCityBox>
                   {cityList.islands.map((city) => (
-                     <StyledCityItem to={`/result/${city}`} key={city.name}>
-                        {city.name}
+                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                        {city.chinese}
                      </StyledCityItem>
                   ))}
                </StyledCityBox>
