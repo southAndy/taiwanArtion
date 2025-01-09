@@ -15,18 +15,38 @@ import {
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import FlexCenter from '../../styles/utils/FlexCenter'
+import cityList from '../../assets/data/city.json'
+import { useSearchParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 export default function ResultPage() {
    const [total, setTotal] = useState(0)
    const [isShow, setIsShow] = useState(false)
    const [currentType, setCurrentType] = useState('')
+   const [searchParams] = useSearchParams()
+   const { openData } = useSelector((state) => state.common)
+   const cityQuery = searchParams.get('keyword')
+   const cityName = transformCityName(cityQuery)
 
-   useEffect(() => {
-      // 讀取資料總比數
-   }, [total])
+   const filterCityExhibition = useMemo(() => {
+      //當展覽位置符合關鍵字時
+      const data = openData.filter((data) => data.showInfo[0].location.startsWith(cityName))
+      return data
+   }, [openData, cityQuery])
 
-   const showModalHandler = () => {
-      setIsShow((prev) => !prev)
+   function transformCityName(cityQuery) {
+      // 遍歷 cityList 的所有區域
+      for (const region in cityList) {
+         // 遍歷每個區域中的城市
+         for (const cityData of cityList[region]) {
+            // 如果找到匹配的城市
+            if (cityData.en === cityQuery) {
+               return cityData.chinese
+            }
+         }
+      }
+      // 如果沒有找到匹配的城市，返回 null 或其他適當的值
+      return null
    }
    return (
       <>
@@ -47,21 +67,26 @@ export default function ResultPage() {
             </BaseImageBox> */}
          </StyledLoginBanner>
          <StyledResultListBox>
-            {[1, 2, 3, 4].map((item, index) => {
+            {filterCityExhibition.map((item, index) => {
                return (
-                  <StyledExhibitionLink key={index} to={'/detail/123'}>
-                     <BaseImageBox tabletWidth={'331px'} tabletHeight={'200px'}>
-                        <img src={sampleResult} alt='' />
+                  <StyledExhibitionLink key={index} to={`/detail/${item.UID}`}>
+                     <BaseImageBox
+                        height={'180px'}
+                        tabletWidth={'331px'}
+                        tabletHeight={'200px'}
+                        scale={'cover'}
+                     >
+                        <img src={item.imageUrl ? item.imageUrl : sampleResult} alt='' />
                      </BaseImageBox>
                      <p className='title mb-2 font-medium'>
-                        賴威嚴油畫個展
-                        <StyledExhibitionRate to={`/detail/${item.UID}`}>
+                        {item.title}
+                        {/* <StyledExhibitionRate to={`/detail/${item.UID}`}>
                            <p>5</p>
                            <BaseImageBox width={'20px'} height={'20px'}>
                               <img src={commentStarIcon} alt='查看評論，外型為星星樣式' />
                            </BaseImageBox>
                            <p>(1234)</p>
-                        </StyledExhibitionRate>
+                        </StyledExhibitionRate> */}
                      </p>
                      <div className='info flex gap-4'>
                         <div className='date'>
@@ -73,7 +98,7 @@ export default function ResultPage() {
                            >
                               <img src={calendarIcon} alt='' />
                            </BaseImageBox>
-                           <p>2023-03-31</p>
+                           <p>{item.startDate}</p>
                         </div>
                         <div className='locate flex items-center gap-2'>
                            <BaseImageBox
@@ -85,7 +110,7 @@ export default function ResultPage() {
                            >
                               <img src={locateIcon} alt='展覽地點圖示，點即可查看位置' />
                            </BaseImageBox>
-                           <p>台北市</p>
+                           <p>{cityName}</p>
                         </div>
                      </div>
                   </StyledExhibitionLink>
@@ -194,6 +219,7 @@ const StyledFilterText = styled.p`
 `
 const StyledResultListBox = styled.section`
    display: flex;
+   flex-direction: column;
    justify-content: center;
    flex-wrap: wrap;
    border-radius: 40px;
