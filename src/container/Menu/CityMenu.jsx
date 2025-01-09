@@ -2,11 +2,17 @@ import React from 'react'
 import cityList from '../../assets/data/city.json'
 import styled from 'styled-components'
 import { locateIcon } from '../../assets/images/index'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 
-export const CityMenu = () => {
+export const CityMenu = ({ setModlaShow }) => {
    const areaList = ['北部', '中部', '南部', '東部', '離島']
+   const navigate = useNavigate()
+
+   function selectCity(cityEn) {
+      setModlaShow((n) => false)
+      navigate(`/result?keyword=${cityEn}`)
+   }
 
    return (
       <>
@@ -21,7 +27,7 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[0]}</h3>
                <StyledCityBox>
                   {cityList.north.map((city) => (
-                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                     <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
                         {city.chinese}
                      </StyledCityItem>
                   ))}
@@ -29,7 +35,7 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[1]}</h3>
                <StyledCityBox>
                   {cityList.central.map((city) => (
-                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                     <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
                         {city.chinese}
                      </StyledCityItem>
                   ))}
@@ -37,7 +43,7 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[2]}</h3>
                <StyledCityBox>
                   {cityList.south.map((city) => (
-                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                     <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
                         {city.chinese}
                      </StyledCityItem>
                   ))}
@@ -45,7 +51,7 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[3]}</h3>
                <StyledCityBox>
                   {cityList.east.map((city) => (
-                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                     <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
                         {city.chinese}
                      </StyledCityItem>
                   ))}
@@ -53,7 +59,7 @@ export const CityMenu = () => {
                <h3 className='font-medium'>{areaList[4]}</h3>
                <StyledCityBox>
                   {cityList.islands.map((city) => (
-                     <StyledCityItem to={`/result?keyword=${city.en}`} key={city.chinese}>
+                     <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
                         {city.chinese}
                      </StyledCityItem>
                   ))}
@@ -77,7 +83,7 @@ const StyledLocateBox = styled.div`
    cursor: pointer;
 `
 
-const StyledCityItem = styled(Link)`
+const StyledCityItem = styled.div`
    display: flex;
    align-items: center;
    padding: 8px 15px;
