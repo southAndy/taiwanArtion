@@ -8,10 +8,10 @@ import { PayMenu } from './PayMenu'
 import DateMenu from './DateMenu'
 import { breakpoint } from '../../styles/utils/breakpoint'
 
-export default function Menu() {
+export default function Menu({ setModlaShow }) {
    const menuNameList = ['縣市', '展覽館', '日期', '票價']
    const [currentMenu, setMenuList] = useState()
-   const menuList = [<CityMenu />, <DateMenu />, <PayMenu />]
+   const menuList = [<CityMenu setModlaShow={setModlaShow} />, <DateMenu />, <PayMenu />]
    function renderMenu() {
       switch (currentMenu) {
          case 0:

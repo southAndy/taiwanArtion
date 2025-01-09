@@ -103,7 +103,7 @@ const Header = () => {
             )}
          </HeaderCategory>
          <Modal isShow={isShowModal} setShow={setIsShowModal} translate={'unset'} overflow={'auto'}>
-            <Menu />
+            <Menu setModlaShow={setIsShowModal} />
          </Modal>
          <Modal
             isShow={isShowMenu}
