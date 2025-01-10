@@ -5,7 +5,7 @@ import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { db } from '../../../firebase.config'
-import { updateDoc, doc, arrayUnion, arrayRemove } from 'firebase/firestore'
+import { updateDoc, doc, arrayUnion, getDoc, arrayRemove } from 'firebase/firestore'
 import {
    calendarIcon,
    shareIcon,
@@ -27,6 +27,34 @@ export default function DetailPage() {
 
    const dispatch = useDispatch()
    const openData = useSelector((state) => state.common.openData)
+   const user = useSelector((state) => state.member.memberInfo)
+   const isLogin = useSelector((state) => state.member.isLogin)
+
+   // 索取使用者資料
+   useEffect(() => {
+      if (isLogin) {
+         // 取得最新的資料
+         getUserInfo(user.uid)
+         setIsStore(user.favorite.includes(params.id))
+      }
+   }, [])
+
+   //判斷是否已收藏
+   useEffect(() => {
+      console.log('is store?', user)
+   }, [isStore])
+
+   // 取得使用者資料
+   async function getUserInfo(uid) {
+      try {
+         const userDatas = doc(db, 'users', uid)
+         const docSnap = await getDoc(userDatas)
+         // 存入 redux
+         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+      } catch (e) {
+         console.log(e)
+      }
+   }
 
    // 當前展覽資料
    const currentData = useMemo(() => {
@@ -34,24 +62,28 @@ export default function DetailPage() {
    }, [openData])
 
    // 收藏展覽
-   const storeExhibition = () => {
+   const storeExhibition = async () => {
       //先判斷是否登入
-      if (true) {
-         setIsStore((n) => !n) //更新收藏 icon
+      if (!isLogin) {
+         navigate('/login')
+         return
+      }
+      const userData = doc(db, 'users', user.uid)
 
-         const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
-         if (isStore) {
-            updateDoc(userData, {
+      try {
+         if (!isStore) {
+            await updateDoc(userData, {
                favorite: arrayUnion(params.id),
             })
+            setIsStore(() => true)
          } else {
-            updateDoc(userData, {
+            await updateDoc(userData, {
                favorite: arrayRemove(params.id),
             })
+            setIsStore(() => false)
          }
-      } else {
-         // 如果沒登入，跳轉到登入頁面
-         navigate('/login')
+      } catch (e) {
+         console.log(e)
       }
    }
    return (

@@ -4,17 +4,7 @@ import axios from 'axios'
 const memberSlice = createSlice({
    name: 'member',
    initialState: {
-      memberInfo: {
-         id: '',
-         name: '',
-         email: '',
-         password: '',
-         phone: '',
-         address: '',
-         birthday: '',
-         interests: [],
-         comments: [],
-      },
+      memberInfo: {},
       loginTime: '',
       isLogin: false,
    },
