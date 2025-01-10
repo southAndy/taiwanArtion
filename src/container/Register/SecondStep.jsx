@@ -18,6 +18,7 @@ import {
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { setDoc, doc } from 'firebase/firestore'
 import { auth, db } from '../../../firebase.config.js'
+import { useDispatch } from 'react-redux'
 
 const secondStep = ({ setStep, setUserInfo }) => {
    const [account, setAccount] = useState('')
@@ -26,6 +27,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
    const [email, setEmail] = useState('')
    const [score, setScore] = useState(0)
    const [matchTips, setMatchTips] = useState([false, false, false, false])
+   const dispatch = useDispatch()
 
    const ruleList = [
       '至少包含一個小寫字母',
@@ -80,15 +82,18 @@ const secondStep = ({ setStep, setUserInfo }) => {
       register,
       handleSubmit,
       formState: { errors },
+      setError,
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'onBlur',
+      reValidateMode: 'onSubmit',
    })
 
    async function actions(data) {
       try {
+         console.log(data)
          // 使用信箱驗證
-         const userCredit = await createUserWithEmailAndPassword(auth, email, password)
+         const userCredit = await createUserWithEmailAndPassword(auth, data.email, data.password)
          // uid 在登入要用來連動資料
          const userId = userCredit.user.uid
          // 儲存使用者資訊到 firestore
@@ -99,8 +104,12 @@ const secondStep = ({ setStep, setUserInfo }) => {
          })
          // 跳轉到下一步
          setStep((n) => n + 1)
+         dispatch({ type: 'member/setIsLogin', payload: true })
       } catch (error) {
-         console.log(error)
+         setError('email', {
+            type: 'manual',
+            message: '此信箱已被註冊',
+         })
       }
    }
 
