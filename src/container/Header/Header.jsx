@@ -50,6 +50,7 @@ const Header = () => {
    const logout = () => {
       //執行登出功能
       dispatch({ type: 'member/setLogout', payload: false })
+      navigate('/')
       //關閉下拉清單顯示
       setMemberMenu((n) => (n = false))
    }
