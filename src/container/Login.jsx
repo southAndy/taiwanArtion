@@ -103,7 +103,7 @@ const Login = () => {
                      placeholder={'6-18位數密碼,請區分大小寫'}
                   />
                </div>
-               <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink>
+               {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
                <Button
                   actions={() => sendLoginRequest(username, password)}
                   content={'登入'}

@@ -99,7 +99,6 @@ const StyledLoginBanner = styled.section`
    flex-direction: column;
    justify-content: start;
    gap: 20px;
-   padding: 20px;
    background-image: url(${hotBg});
 
    h3 {
@@ -117,7 +116,6 @@ const StyledTitle = styled.h3`
 
 const StyledContent = styled.section`
    border-radius: 16px;
-   padding: 24px;
 `
 
 export default Register
