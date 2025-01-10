@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const CalendarContainer = styled.div`
    max-width: 100vw;
-   margin: 0 auto;
+   margin: 24px auto;
    font-family: Arial, sans-serif;
    display: flex;
    flex-direction: column;
@@ -36,8 +36,15 @@ const CalendarWrapper = styled.div`
 
 const QuickSelectButtons = styled.div`
    display: flex;
-   justify-content: space-between;
+   flex-wrap: wrap;
+   gap: 8px;
    margin-bottom: 16px;
+   width: 100%;
+
+   h3 {
+      margin: 0;
+      flex-basis: 100%;
+   }
 `
 
 const QuickButton = styled.button`
@@ -45,7 +52,7 @@ const QuickButton = styled.button`
    font-size: 14px;
    background-color: #f5f5f5;
    border: 1px solid #ccc;
-   border-radius: 4px;
+   border-radius: 12px;
    cursor: pointer;
    &:hover {
       background-color: #e0e0e0;
@@ -77,6 +84,7 @@ const CalendarDay = styled.div`
          ? '#C2C2C2'
          : '#fff'};
    color: ${(props) => (props.isSelectedStart || props.isSelectedEnd ? 'white' : 'inherit')};
+   border-radius: 20px;
    &:hover {
       background-color: ${(props) =>
          props.isSelectedStart || props.isSelectedEnd || props.isInRange ? null : '#eee'};
@@ -147,7 +155,7 @@ const Calendar = () => {
          <MonthContainer>
             {/* 第一個月份 */}
             <CalendarWrapper>
-               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
                   <button onClick={goToPreviousMonth}>&lt;</button>
                   <span>
                      {currentYear}年 {currentMonthIndex + 1}月
@@ -177,7 +185,7 @@ const Calendar = () => {
 
             {/* 第二個月份 */}
             <CalendarWrapper>
-               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
                   <span>
                      {currentYear}年 {currentMonthIndex + 2}月
                   </span>
