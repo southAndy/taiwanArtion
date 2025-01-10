@@ -147,8 +147,10 @@ const Backstage = () => {
                      bottom={'0'}
                      right={'5%'}
                      position={'absolute'}
-                     width={'32px'}
-                     height={'32px'}
+                     width={'16px'}
+                     height={'16px'}
+                     tabletWidth={'32px'}
+                     tabletHeight={'32px'}
                      onClick={() => {
                         console.log('click')
                         setIsShowPhotoMenu(true)
