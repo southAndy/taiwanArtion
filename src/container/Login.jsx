@@ -9,7 +9,7 @@ import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets
 import Input from '../components/Input/Input'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
-import { collection, doc, getDocs, query, where } from 'firebase/firestore'
+import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
 import { db, auth } from '../../firebase.config'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
@@ -17,9 +17,20 @@ const Login = () => {
    const [username, setUsername] = useState('')
    const [password, setPassword] = useState('')
    //todo 調整 button 元件 props
-   const [isLogin, setIsLogin] = useState(false)
    const navigate = useNavigate()
    const dispatch = useDispatch()
+
+   async function getUserInfo(uid) {
+      try {
+         const userDatas = doc(db, 'users', uid)
+         const docSnap = await getDoc(userDatas)
+         // 存入 redux
+         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+      } catch (e) {
+         console.log(e)
+      }
+   }
+
    const sendLoginRequest = async (account, password) => {
       try {
          // 查詢 Firestore 中的帳號
@@ -36,7 +47,9 @@ const Login = () => {
 
          // 使用信箱和密碼進行驗證
          const loginInfo = await signInWithEmailAndPassword(auth, email, password)
-         console.log('Login successful', loginInfo)
+
+         // 取得使用者資料
+         getUserInfo(loginInfo.user.uid)
 
          // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
          document.cookie = 'accessToken=' + loginInfo.user.accessToken
