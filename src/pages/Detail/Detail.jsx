@@ -33,28 +33,69 @@ export default function DetailPage() {
    // 索取使用者資料
    useEffect(() => {
       if (isLogin) {
-         // 取得最新的資料
-         getUserInfo(user.uid)
-         setIsStore(user.favorite.includes(params.id))
-      }
-   }, [])
+         // 取得最新的資料(查詢 localStorage)
+         const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
+         console.log('reading data', data)
 
-   //判斷是否已收藏
-   useEffect(() => {
-      console.log('is store?', user)
+         // 判斷是否已收藏
+         const hasStoreUID = data.find((item) => item === params.id)
+         if (hasStoreUID) {
+            setIsStore(true)
+         }
+      }
    }, [isStore])
 
-   // 取得使用者資料
-   async function getUserInfo(uid) {
-      try {
-         const userDatas = doc(db, 'users', uid)
-         const docSnap = await getDoc(userDatas)
-         // 存入 redux
-         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
-      } catch (e) {
-         console.log(e)
+   // 新增展覽資料到 localStorage
+   function addExhibition() {
+      // 取得現有資料
+      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
+
+      // 檢查是否已存在該展覽（以 id 判斷）
+      if (data.find((item) => item === params.id)) {
+         console.log('該展覽已收藏過了！')
+         return
       }
+
+      // 新增展覽到資料中
+      data.push(params.id)
+
+      // 更新 localStorage
+      localStorage.setItem('favoriteExhibitions', JSON.stringify(data))
+      console.log('展覽已加入收藏！')
    }
+   // 移除展覽資料
+   // 刪除展覽資料
+   function deleteExhibition() {
+      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
+
+      // 過濾掉要刪除的展覽
+      const updatedData = data.filter((item) => item !== params.id)
+
+      // 更新 localStorage
+      localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedData))
+      console.log('展覽已刪除！')
+   }
+
+   function handleAddExhibition() {
+      if (isStore) {
+         deleteExhibition()
+      } else {
+         addExhibition()
+      }
+      setIsStore((n) => !n)
+   }
+
+   // 取得使用者資料
+   // async function getUserInfo(uid) {
+   //    try {
+   //       const userDatas = doc(db, 'users', uid)
+   //       const docSnap = await getDoc(userDatas)
+   //       // 存入 redux
+   //       dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+   //    } catch (e) {
+   //       console.log(e)
+   //    }
+   // }
 
    // 當前展覽資料
    const currentData = useMemo(() => {
@@ -62,30 +103,30 @@ export default function DetailPage() {
    }, [openData])
 
    // 收藏展覽
-   const storeExhibition = async () => {
-      //先判斷是否登入
-      if (!isLogin) {
-         navigate('/login')
-         return
-      }
-      const userData = doc(db, 'users', user.uid)
+   // const storeExhibition = async () => {
+   //    //先判斷是否登入
+   //    if (!isLogin) {
+   //       navigate('/login')
+   //       return
+   //    }
+   //    const userData = doc(db, 'users', user.uid)
 
-      try {
-         if (!isStore) {
-            await updateDoc(userData, {
-               favorite: arrayUnion(params.id),
-            })
-            setIsStore(() => true)
-         } else {
-            await updateDoc(userData, {
-               favorite: arrayRemove(params.id),
-            })
-            setIsStore(() => false)
-         }
-      } catch (e) {
-         console.log(e)
-      }
-   }
+   //    try {
+   //       if (!isStore) {
+   //          await updateDoc(userData, {
+   //             favorite: arrayUnion(params.id),
+   //          })
+   //          setIsStore(() => true)
+   //       } else {
+   //          await updateDoc(userData, {
+   //             favorite: arrayRemove(params.id),
+   //          })
+   //          setIsStore(() => false)
+   //       }
+   //    } catch (e) {
+   //       console.log(e)
+   //    }
+   // }
    return (
       <>
          <Header />
@@ -227,7 +268,7 @@ export default function DetailPage() {
             </StyledRateBox>
          </DetailContainer>
          <StyledToolBar>
-            <div className='option' onClick={storeExhibition}>
+            <div className='option' onClick={handleAddExhibition}>
                <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={isStore ? loveFullIcon : loveIcon} alt='收藏此展覽按鈕' />
                </BaseImageBox>
