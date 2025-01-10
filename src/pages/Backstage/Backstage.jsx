@@ -32,6 +32,7 @@ import StoreMenu from './StoreMenu'
 import CalendarMenu from './CalendarMenu'
 import ProfileMenu from './ProfileMenu'
 import { PositionElement } from '../../styles/base/PositionElement'
+import { useSelector } from 'react-redux'
 import { db } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 import axios from 'axios'
@@ -56,12 +57,17 @@ const Backstage = () => {
       userIcon8,
    ])
    const [isShowPhotoMenu, setIsShowPhotoMenu] = useState(false)
+   const { openData } = useSelector((store) => store.common)
    const menu = ['收藏展覽', '展覽月曆', '個人設定']
 
    let favoriteDatas = []
    //讀取 firestore 的資料
    useEffect(() => {
-      getExhibition()
+      // getExhibition()
+      getUserInfo()
+      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
+      const storedExhibitions = openData.filter((exhibition) => data.includes(exhibition.UID))
+      setExhibition((data) => (data = storedExhibitions))
    }, [])
 
    // 解除收藏的展覽
@@ -112,8 +118,7 @@ const Backstage = () => {
       try {
          const userDatas = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh')
          const docSnap = await getDoc(userDatas)
-         favoriteDatas = [...docSnap.data().favorite]
-         console.log(favoriteDatas)
+         console.log(docSnap.data())
       } catch (e) {
          console.log(e)
       }
@@ -270,7 +275,11 @@ const StyledAllContainer = styled.div`
 `
 
 const StyledBackstageContainer = styled.main`
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
    background-image: url(${accountBg});
+   padding: 40px 24px;
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 40px;
@@ -281,7 +290,6 @@ const StyledUserInfo = styled.div`
    display: flex;
    justify-content: flex-start;
    gap: 24px;
-   margin-bottom: 40px;
    .name {
       color: #7b4d29;
       font-size: 24px;
@@ -313,8 +321,6 @@ const StyledFeatureBox = styled.div`
 `
 const StyledMenuBox = styled.div`
    display: flex;
-   justify-content: space-around;
-   padding: 0 24px;
    gap: 24px;
    cursor: pointer;
    .option {
@@ -322,7 +328,7 @@ const StyledMenuBox = styled.div`
    }
    .active {
       color: #a9622a;
-      border-bottom: 1px solid #a9622a;
+      border-bottom: 2px solid #a9622a;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
