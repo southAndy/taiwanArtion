@@ -10,7 +10,7 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 
 export default function Menu({ setModlaShow }) {
    const menuNameList = ['縣市', '展覽館', '日期', '票價']
-   const [currentMenu, setMenuList] = useState()
+   const [currentMenu, setMenuList] = useState(0)
    const menuList = [<CityMenu setModlaShow={setModlaShow} />, <DateMenu />, <PayMenu />]
    function renderMenu() {
       switch (currentMenu) {
@@ -131,5 +131,8 @@ const StyledMobileOptionBox = styled.div`
       &:hover {
          color: #be875c;
       }
+   }
+   @media (min-width: ${breakpoint.tablet}px) {
+      display: none;
    }
 `
