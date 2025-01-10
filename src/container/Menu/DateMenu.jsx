@@ -146,7 +146,16 @@ const Calendar = () => {
             <QuickButton onClick={() => setSelectedDates({ start: new Date(), end: null })}>
                今天
             </QuickButton>
-            <QuickButton>明天</QuickButton>
+            <QuickButton
+               onClick={() =>
+                  setSelectedDates({
+                     start: new Date(new Date().setDate(new Date().getDate() + 1)),
+                     end: new Date(new Date().setDate(new Date().getDate() + 1)),
+                  })
+               }
+            >
+               明天
+            </QuickButton>
             <QuickButton>本週</QuickButton>
             <QuickButton>本週末</QuickButton>
          </QuickSelectButtons>
