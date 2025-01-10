@@ -184,8 +184,8 @@ const Backstage = () => {
          <Modal
             isShow={isShowPhotoMenu}
             setShow={setIsShowPhotoMenu}
-            height={'640px'}
-            width={'540px'}
+            width={'100%'}
+            height={'auto'}
             borderRadius={'20px'}
             padding={'40px'}
             position={{ t: '50%', l: '50%', b: 'unset', r: 'unset' }}
@@ -344,9 +344,9 @@ const StyledPhotoMenuBox = styled.div`
 
    .option {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
       gap: 18px;
+      width: 100%;
 
       .photo {
          cursor: pointer;
