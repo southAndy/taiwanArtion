@@ -76,6 +76,26 @@ export default function DetailPage() {
       console.log('展覽已刪除！')
    }
 
+   // 分享展覽
+
+   // todo 分享的網址能顯示簡單內容＋圖片
+   function shareExhibition() {
+      console.log('分享展覽')
+
+      navigator
+         .share({
+            title: currentData[0].title, // 確保提供標題
+            text: `來看看這個有趣的展覽吧！${currentData[0].title}`, // 提供分享內容
+            url: window.location.href, // 確保提供網址s
+         })
+         .then(() => {
+            console.log('分享成功！')
+         })
+         .catch((e) => {
+            console.log('分享失敗！', e)
+         })
+   }
+
    function handleAddExhibition() {
       // 先判斷是否登入
       if (!isLogin) {
@@ -279,7 +299,7 @@ export default function DetailPage() {
                </BaseImageBox>
                <div>收藏展覽</div>
             </div>
-            <div className='option'>
+            <div className='option' onClick={shareExhibition}>
                <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={shareIcon} alt='分享此展覽按鈕' />
                </BaseImageBox>
