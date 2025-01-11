@@ -74,4 +74,9 @@ const StyledModalContent = styled.div`
    left: ${({ left }) => left || '0%'};
    right: ${({ right }) => right || '0%'};
    translate: ${({ translate }) => translate || '-50% -50%'}; // 這個屬性預設用來置中的
+
+   // 隱藏滾軸
+   &::-webkit-scrollbar {
+      display: none;
+   }
 `
