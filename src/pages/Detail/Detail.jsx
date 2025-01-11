@@ -163,12 +163,7 @@ export default function DetailPage() {
                   </BaseImageBox>
                   <Link to={'/'}>返回首頁</Link>
                </div>
-               <BaseImageBox
-                  width={'327px'}
-                  height={'245px'}
-                  tabletWidth={'689px'}
-                  tabletHeight={'280px'}
-               >
+               <BaseImageBox height={'245px'} tabletHeight={'280px'}>
                   <img className='rounded-xl' src={currentData[0]?.imageUrl} />
                </BaseImageBox>
                <h3 className='title text-[24px] font-bold'>{currentData[0]?.title}</h3>
@@ -183,9 +178,6 @@ export default function DetailPage() {
                </DetailOption>
                <DetailOption isActive={false} href='#price'>
                   票價
-               </DetailOption>
-               <DetailOption isActive={false} href='#place'>
-                  地點
                </DetailOption>
                <DetailOption isActive={false} href='#comment'>
                   評價
@@ -218,6 +210,26 @@ export default function DetailPage() {
                      <div>{'-'}</div>
                   </div>
                </div>
+               <TabletToolBar>
+                  <div className='option' onClick={handleAddExhibition}>
+                     <BaseImageBox width={'24px'} height={'24px'}>
+                        <img src={isStore ? loveFullIcon : loveIcon} alt='收藏此展覽按鈕' />
+                     </BaseImageBox>
+                     <div>收藏展覽</div>
+                  </div>
+                  <div className='option' onClick={shareExhibition}>
+                     <BaseImageBox width={'24px'} height={'24px'}>
+                        <img src={shareIcon} alt='分享此展覽按鈕' />
+                     </BaseImageBox>
+                     <div>分享展覽</div>
+                  </div>
+                  <div className='option'>
+                     <BaseImageBox width={'24px'} height={'24px'}>
+                        <img src={calendarIcon} alt='點擊按鈕，將展覽加入自己的行事曆' />
+                     </BaseImageBox>
+                     <div>加入月曆</div>
+                  </div>
+               </TabletToolBar>
             </StyledOverviewBox>
             <StyledContent>
                <StyledInfoTitle id='introduce'>展覽介紹</StyledInfoTitle>
@@ -316,6 +328,31 @@ export default function DetailPage() {
    )
 }
 
+const TabletToolBar = styled.div`
+   display: none;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      position: absolute;
+      top: 0;
+      right: 0;
+
+      display: flex;
+      gap: 24px;
+      padding: 16px;
+      background-color: #f9f9f9;
+      border-radius: 12px;
+      box-shadow: 0px 2px 7px 0px #0000001a;
+   }
+
+   .option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+   }
+`
+
 const DetailTitle = styled.h3`
    border-left: 10px solid #986f4f;
    // border-radius: 10px 10px;
@@ -333,7 +370,7 @@ const DetailContainer = styled.section`
    padding: 24px;
    .menu {
       display: flex;
-      justify-content: space-between;
+      gap: 32px;
       margin-bottom: 40px;
    }
    @media (min-width: ${breakpoint.tablet}px) {
@@ -399,6 +436,8 @@ const StyledRateBox = styled(StyledInfo)`
    }
 `
 const StyledOverviewBox = styled(StyledInfo)`
+   position: relative; // 用於設定平版以上的固定按鈕
+
    .info {
       display: flex;
       flex-direction: column;
