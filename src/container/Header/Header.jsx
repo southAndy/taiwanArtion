@@ -9,12 +9,25 @@ import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
 import { breakpoint } from '../../styles/utils/breakpoint'
+import {
+   selectPhotoIcon,
+   userIcon0,
+   userIcon1,
+   userIcon2,
+   userIcon3,
+   userIcon4,
+   userIcon5,
+   userIcon6,
+   userIcon7,
+   userIcon8,
+} from '../../assets/images/backstage'
 
 const Header = () => {
    const [isShowModal, setIsShowModal] = useState(false)
    const [isShowMenu, setMenu] = useState(false)
    const [isShowMemberMenu, setMemberMenu] = useState(false)
-   const [menu, setMenuContent] = useState([
+   const [menu, setMenuContent] = useState([])
+   const menuList = [
       {
          title: '地圖找展覽',
          link: '/map',
@@ -31,18 +44,32 @@ const Header = () => {
          title: '個人頁面',
          link: '/backstage',
       },
-   ])
+   ]
    const navigate = useNavigate()
    const isLogin = useSelector((state) => state.member.isLogin)
+   const user = useSelector((state) => state.member.memberInfo)
    const dispatch = useDispatch()
+   const UserIcon = [
+      userIcon0,
+      userIcon1,
+      userIcon2,
+      userIcon3,
+      userIcon4,
+      userIcon5,
+      userIcon6,
+      userIcon7,
+      userIcon8,
+   ]
 
    // 判斷是否登入，改變選單內容
    useEffect(() => {
+      console.log('isLogin', isLogin)
+
       if (!isLogin) {
-         const loginMenu = menu.filter((item) => item.title !== '個人頁面')
+         const loginMenu = menuList.filter((item) => item.title !== '個人頁面')
          setMenuContent(() => loginMenu)
       } else {
-         const logoutMenu = menu.filter((item) => item.title !== '註冊/登入')
+         const logoutMenu = menuList.filter((item) => item.title !== '註冊/登入')
          setMenuContent(() => logoutMenu)
       }
    }, [isLogin])
@@ -85,13 +112,9 @@ const Header = () => {
             </div>
             {/* todo 重做共用元件 */}
             {isLogin ? (
-               <BaseImageBox
-                  width={'32px'}
-                  height={'32px'}
-                  onClick={() => setMemberMenu((n) => !n)}
-               >
-                  <img src={UserSamplePhoto} alt='' />
-               </BaseImageBox>
+               <StyledUserIcon onClick={() => setMemberMenu((n) => !n)}>
+                  <img src={UserIcon[0]} alt='' />
+               </StyledUserIcon>
             ) : (
                <button
                   className='login'
@@ -133,9 +156,9 @@ const Header = () => {
          >
             <StyledMemberMenuBox>
                <div className='user'>
-                  <BaseImageBox width={'38px'} height={'38px'}>
-                     <img src={UserSamplePhoto} alt='' />
-                  </BaseImageBox>
+                  <StyledUserIcon width={'38px'} height={'38px'}>
+                     <img src={UserIcon[0]} alt='' />
+                  </StyledUserIcon>
                   <Link to={'/backstage'} className='user-name'>
                      <div className='hello'>hello!</div>
                      <div>Andy</div>
@@ -152,6 +175,18 @@ const Header = () => {
       </HeaderContainer>
    )
 }
+
+const StyledUserIcon = styled.div`
+   border-radius: 20px;
+   width: 32px;
+   height: 32px;
+
+   img {
+      width: 100%;
+      height: 100%;
+      border-radius: 20px;
+   }
+`
 
 const StyledLink = styled(Link)`
    width: 120px;
@@ -237,6 +272,7 @@ const StyledMemberMenuBox = styled.div`
    flex-direction: column;
    align-items: center;
    gap: 16px;
+
    .user {
       display: flex;
       gap: 8px;
