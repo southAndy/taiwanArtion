@@ -48,6 +48,8 @@ import UserSamplePhoto from '../images/user-photo.png'
 import accountBg from '../images/account-bg.png'
 import loveFullIcon from '../images/love-full.png'
 import defaultBannerTablet from '../images/banner-tablet.png'
+import rightArrow from '../images/right.png'
+import leftArrow from '../images/left.png'
 import {
    hotestNumber,
    hotestNumber2,
@@ -58,6 +60,8 @@ import {
 import passwordHideIcon from './password-hide.png'
 import passwordShowIcon from './password-show.png'
 export {
+   rightArrow,
+   leftArrow,
    passwordShowIcon,
    passwordHideIcon,
    hotestNumber,
