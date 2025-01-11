@@ -1,12 +1,18 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { EffectCards } from 'swiper/modules'
+import { Navigation, Pagination } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
 import styled from 'styled-components'
 import BaseImageBox from '../../styles/base/BaseImageBox'
-import { defaultBannerTablet, calendarIcon, locationIcon } from '../../assets/images'
+import {
+   defaultBannerTablet,
+   calendarIcon,
+   locationIcon,
+   rightArrow,
+   leftArrow,
+} from '../../assets/images'
 import Flex from '../../styles/utils/FlexCenter'
 import { breakpoint } from '../../styles/utils/breakpoint'
 
@@ -28,11 +34,16 @@ export default function SwiperBanner({ data }) {
             <Skeleton height={'300px'} />
          ) : (
             <StyledSwiper
+               modules={[Pagination, Navigation]}
                centeredSlides={true}
                slidesPerView={1}
                initialSlide={1}
                loop={true} // 啟用循環滑動
-               pagination={true}
+               pagination={{ clickable: true }}
+               navigation={{
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+               }}
                breakpoints={{
                   576: {
                      slidesPerView: 1,
@@ -77,11 +88,58 @@ export default function SwiperBanner({ data }) {
                      </StyledSwiperSlide>
                   ))}
                </StyledContainer>
+               <PreviousButton className='swiper-button-prev'>
+                  <img src={leftArrow} alt='' />
+               </PreviousButton>
+               <NextButton className='swiper-button-next'>
+                  <img src={rightArrow} alt='' />
+               </NextButton>
             </StyledSwiper>
          )}
       </>
    )
 }
+
+const PreviousButton = styled.div.attrs({
+   className: 'swiper-button-prev',
+})`
+   position: absolute;
+   left: 5%;
+   top: 50%;
+   width: 24px;
+   height: 24px;
+   z-index: 200;
+   cursor: pointer;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      height: 35px;
+      width: 35px;
+   }
+   @media (min-width: ${breakpoint.desktop}px) {
+      left: 30%;
+      height: 40px;
+      width: 40px;
+   }
+`
+const NextButton = styled.div`
+   position: absolute;
+   right: 5%;
+   top: 50%;
+   width: 24px;
+   height: 24px;
+   z-index: 200;
+   cursor: pointer;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      height: 35px;
+      width: 35px;
+   }
+   @media (min-width: ${breakpoint.desktop}px) {
+      right: 30%;
+      height: 40px;
+      width: 40px;
+   }
+`
 
 const StyledContainer = styled.div`
    ${Flex};
