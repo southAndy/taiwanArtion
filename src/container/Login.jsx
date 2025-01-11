@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
@@ -18,6 +18,7 @@ const Login = () => {
    const [password, setPassword] = useState('')
    //todo 調整 button 元件 props
    const navigate = useNavigate()
+   const location = useLocation()
    const dispatch = useDispatch()
 
    async function getUserInfo(uid) {
@@ -53,7 +54,9 @@ const Login = () => {
 
          // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
          document.cookie = 'accessToken=' + loginInfo.user.accessToken
-         navigate('/backstage')
+
+         const from = location.state?.from || '/backstage'
+         navigate(from)
          dispatch({ type: 'member/setIsLogin', payload: true })
       } catch (error) {
          console.error('Error during login:', error)

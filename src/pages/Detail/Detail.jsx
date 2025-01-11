@@ -77,6 +77,11 @@ export default function DetailPage() {
    }
 
    function handleAddExhibition() {
+      // 先判斷是否登入
+      if (!isLogin) {
+         navigate('/login', { state: { from: `/detail/${params.id}` } })
+         return
+      }
       if (isStore) {
          deleteExhibition()
       } else {
