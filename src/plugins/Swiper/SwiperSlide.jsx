@@ -55,7 +55,10 @@ export default function SwiperBanner({ data }) {
                      slidesPerView: 2,
                   },
                   1440: {
-                     slidesPerView: 2.5,
+                     slidesPerView: 3.5,
+                  },
+                  1920: {
+                     slidesPerView: 3.5,
                   },
                }}
             >
@@ -240,8 +243,8 @@ const StyledLink = styled(Link)`
 `
 
 const StyledBannerImage = styled.div`
-   width: 270px;
    height: 170px;
+   width: 100%;
    border-radius: 8px;
 
    img {
@@ -249,14 +252,9 @@ const StyledBannerImage = styled.div`
    }
 
    @media (min-width: ${breakpoint.tablet}px) {
-      // width: 400px;
       height: 280px;
    }
-   @media (min-width: 992px) {
-      width: 400px;
-   }
    @media (min-width: ${breakpoint.desktop}px) {
-      // width: 569px;
       height: 300px;
    }
 `
