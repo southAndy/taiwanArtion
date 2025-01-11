@@ -43,7 +43,7 @@ const Backstage = () => {
    const [favoriteData, setFavoriteData] = useState([])
    let [exhibition, setExhibition] = useState([])
    const [currentMenu, setCurrentMenu] = useState(0)
-   const [currentPhoto, setCurrentPhoto] = useState(2)
+   const [currentPhoto, setCurrentPhoto] = useState(0)
    const initialPhoto = useRef(currentPhoto)
    const [userPhoto, setUserPhoto] = useState([
       userIcon0,
