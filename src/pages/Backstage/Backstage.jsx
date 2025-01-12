@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import Header from '../../container/Header/Header'
 import { Link } from 'react-router-dom'
 // import { useSelector } from 'react-redux'
+import Footer from '../../container/Footer/Footer'
 import {
    backstageIcon,
    UserSamplePhoto,
@@ -181,6 +182,7 @@ const Backstage = () => {
             </StyledMenuBox>
          </StyledBackstageContainer>
          <StyledFeatureBox>{renderMenu()}</StyledFeatureBox>
+         <Footer />
          <Modal
             isShow={isShowPhotoMenu}
             setShow={setIsShowPhotoMenu}
@@ -313,7 +315,7 @@ const StyledFeatureBox = styled.div`
    flex-direction: column;
    border-radius: 40px 40px 0 0;
    background-color: white;
-   padding: 40px 24px;
+   padding: 32px 24px;
 
    @media (min-width: ${breakpoint.tablet}px) {
       padding: 40px;
