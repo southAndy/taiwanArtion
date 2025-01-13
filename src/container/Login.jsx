@@ -58,20 +58,9 @@ const Login = () => {
       }
    }
 
-   const sendLoginRequest = async (account, password) => {
+   const sendLoginRequest = async (data) => {
+      const { email, password } = data
       try {
-         // 查詢 Firestore 中的帳號
-         const q = query(collection(db, 'users'), where('account', '==', account))
-         const querySnapshot = await getDocs(q)
-
-         if (querySnapshot.empty) {
-            console.error('No matching account found')
-            return
-         }
-
-         const userDoc = querySnapshot.docs[0]
-         const email = userDoc.data().email
-
          // 使用信箱和密碼進行驗證
          const loginInfo = await signInWithEmailAndPassword(auth, email, password)
 
@@ -80,7 +69,9 @@ const Login = () => {
 
          // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
          document.cookie = 'accessToken=' + loginInfo.user.accessToken
+         document.cookie = `isLogin=true`
 
+         // 如果是從其他頁面跳轉的，回去該頁面
          const from = location.state?.from || '/backstage'
          navigate(from)
          dispatch({ type: 'member/setIsLogin', payload: true })
@@ -121,7 +112,7 @@ const Login = () => {
             <StyledTitle className='text-md'>會員登入</StyledTitle>
          </StyledLoginBanner>
          <StyledContent>
-            <form className='flex flex-col gap-4 mb-10'>
+            <form onSubmit={handleSubmit(sendLoginRequest)}>
                <div className='flex flex-col'>
                   <label htmlFor='email' className='font-medium mb-2'>
                      電子郵件
@@ -147,6 +138,7 @@ const Login = () => {
                   </label>
                   <StyledInput
                      {...register('password')}
+                     type={'password'}
                      placeholder='6-18位數密碼,請區分大小寫'
                   ></StyledInput>
                   {errors.password ? (
@@ -161,11 +153,7 @@ const Login = () => {
                   )}
                </div>
                {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
-               <Button
-                  actions={() => sendLoginRequest(username, password)}
-                  content={'登入'}
-                  disabled={false}
-               />
+               <Button buttonType={'submit'} content={'登入'} />
             </form>
             <section className='remind'>
                <div>
