@@ -98,7 +98,7 @@ export default function DetailPage() {
 
    function handleAddExhibition() {
       // 先判斷是否登入
-      if (!isLogin) {
+      if (!document.cookie.includes('accessToken')) {
          navigate('/login', { state: { from: `/detail/${params.id}` } })
          return
       }

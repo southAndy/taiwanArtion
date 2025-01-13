@@ -20,7 +20,6 @@ export default function SwiperBanner({ data }) {
    const [isLoading, setIsLoading] = useState(true)
 
    useEffect(() => {
-      console.log('data:', data)
       if (data.length > 0) {
          setIsLoading(false)
       } else {
