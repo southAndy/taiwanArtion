@@ -63,7 +63,6 @@ export default function DetailPage() {
       localStorage.setItem('favoriteExhibitions', JSON.stringify(data))
       console.log('展覽已加入收藏！')
    }
-   // 移除展覽資料
    // 刪除展覽資料
    function deleteExhibition() {
       const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
@@ -75,8 +74,6 @@ export default function DetailPage() {
       localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedData))
       console.log('展覽已刪除！')
    }
-
-   // 分享展覽
 
    // todo 分享的網址能顯示簡單內容＋圖片
    function shareExhibition() {
@@ -110,48 +107,11 @@ export default function DetailPage() {
       setIsStore((n) => !n)
    }
 
-   // 取得使用者資料
-   // async function getUserInfo(uid) {
-   //    try {
-   //       const userDatas = doc(db, 'users', uid)
-   //       const docSnap = await getDoc(userDatas)
-   //       // 存入 redux
-   //       dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
-   //    } catch (e) {
-   //       console.log(e)
-   //    }
-   // }
-
    // 當前展覽資料
    const currentData = useMemo(() => {
       return openData.filter((item) => item.UID === params.id)
    }, [openData])
 
-   // 收藏展覽
-   // const storeExhibition = async () => {
-   //    //先判斷是否登入
-   //    if (!isLogin) {
-   //       navigate('/login')
-   //       return
-   //    }
-   //    const userData = doc(db, 'users', user.uid)
-
-   //    try {
-   //       if (!isStore) {
-   //          await updateDoc(userData, {
-   //             favorite: arrayUnion(params.id),
-   //          })
-   //          setIsStore(() => true)
-   //       } else {
-   //          await updateDoc(userData, {
-   //             favorite: arrayRemove(params.id),
-   //          })
-   //          setIsStore(() => false)
-   //       }
-   //    } catch (e) {
-   //       console.log(e)
-   //    }
-   // }
    return (
       <>
          <Header />
@@ -287,12 +247,6 @@ export default function DetailPage() {
                         <StyledCommentStyle></StyledCommentStyle>
                         <div>{0}</div>
                      </div>
-                     {/* <div className='flex items-center gap-1'>
-                        <div className='w-[18px] h-[18px]'>
-                           <img src={likeIcon} alt='點擊此按鈕，表達對這則留言的評價' />
-                        </div>
-                        <p>有幫助的評價</p>
-                     </div> */}
                   </div>
                </StyledInfoComment>
                <div className='menu'>
