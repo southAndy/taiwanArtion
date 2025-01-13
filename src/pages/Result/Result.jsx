@@ -28,6 +28,10 @@ export default function ResultPage() {
    const cityQuery = searchParams.get('keyword')
    const cityName = transformCityName(cityQuery)
 
+   useEffect(() => {
+      setTotal(filterCityExhibition.length)
+   }, [cityQuery])
+
    const filterCityExhibition = useMemo(() => {
       //當展覽位置符合關鍵字時
       const data = openData.filter((data) => data.showInfo[0].location.startsWith(cityName))
@@ -185,9 +189,14 @@ const StyledExhibitionLink = styled(Link)`
    gap: 12px;
    border-radius: 10px;
    margin-bottom: 24px;
+   overflow: hidden;
+   width: 100%;
 
    .title {
       position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
    }
    .info {
       display: flex;
@@ -201,6 +210,10 @@ const StyledExhibitionLink = styled(Link)`
          display: flex;
          align-items: center;
       }
+   }
+   @media (min-width: ${breakpoint.tablet}px) {
+      width: 331px;
+      margin-bottom: 0;
    }
 `
 
@@ -220,12 +233,15 @@ const StyledFilterText = styled.p`
 const StyledResultListBox = styled.section`
    display: flex;
    flex-direction: column;
+   gap: 16px;
    justify-content: center;
    flex-wrap: wrap;
    border-radius: 40px;
    padding: 24px;
+   overflow: hidden;
 
    @media (min-width: ${breakpoint.tablet}px) {
+      flex-direction: row;
       gap: 25px;
       padding: 40px;
    }
