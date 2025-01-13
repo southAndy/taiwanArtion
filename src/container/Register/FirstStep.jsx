@@ -104,7 +104,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
       if (isSent) {
          return (
             <>
-               <form onSubmit={handleSubmit()}>
+               <StyledForm onSubmit={handleSubmit()}>
                   <div id='recap'></div>
                   <p className='text-medium mb-6 text-sm h-[40px]'>
                      已發送手機驗證碼至{`${userPhone.slice(0, 5)}****`}
@@ -141,7 +141,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
                   ) : (
                      ''
                   )}
-               </form>
+               </StyledForm>
                <Button
                   actions={actions}
                   disabled={errors.userCode?.message || userCode.length === 0}
@@ -155,7 +155,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
       } else {
          return (
             <>
-               <form onSubmit={handleSubmit()}>
+               <StyledForm onSubmit={handleSubmit()}>
                   <div id='recap'></div>
                   <p className='text-medium mb-6 text-sm h-[40px]'>
                      為了確保是你本人，我們將會寄送一封驗證簡訊到你的手機。
@@ -191,7 +191,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
                   ) : (
                      ''
                   )}
-               </form>
+               </StyledForm>
             </>
          )
       }
@@ -213,6 +213,10 @@ const firstStep = ({ setStep, setUserInfo }) => {
 
    return <>{showContent()}</>
 }
+
+const StyledForm = styled.form`
+   padding: 24px;
+`
 
 const ProgressBox = styled.div`
    display: flex;
