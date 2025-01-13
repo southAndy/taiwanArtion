@@ -3,13 +3,9 @@ import axios from 'axios'
 
 const fetchData = createAsyncThunk('common/fetchData', async () => {
    try {
-      console.log('calling')
-
       const openResponse = await axios.get(
          'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
       )
-      console.log(openResponse.data)
-
       return openResponse.data
    } catch (e) {
       console.log(e)
