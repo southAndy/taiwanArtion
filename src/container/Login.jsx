@@ -5,13 +5,25 @@ import { useDispatch } from 'react-redux'
 import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
 import styled from 'styled-components'
-import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets/images/index'
-import Input from '../components/Input/Input'
+import {
+   hotBg,
+   vectorIcon,
+   facebookIcon,
+   lineIcon,
+   googleIcon,
+   warnIcon,
+} from '../assets/images/index'
+// import Input from '../components/Input/Input'
+import StyledInput from '../components/StyledInput'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
 import { db, auth } from '../../firebase.config'
 import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import BaseImageBox from '../styles/base/BaseImageBox'
 
 const Login = () => {
    const [username, setUsername] = useState('')
@@ -20,6 +32,20 @@ const Login = () => {
    const navigate = useNavigate()
    const location = useLocation()
    const dispatch = useDispatch()
+
+   const schema = yup.object().shape({
+      email: yup.string().email('請輸入有效的信箱格式').required('此欄位為必填'),
+      password: yup.string().required('此欄位為必填'),
+   })
+   const {
+      handleSubmit,
+      register,
+      formState: { errors },
+      setError,
+   } = useForm({
+      resolver: yupResolver(schema),
+      mode: 'onBlur',
+   })
 
    async function getUserInfo(uid) {
       try {
@@ -98,26 +124,41 @@ const Login = () => {
             <form className='flex flex-col gap-4 mb-10'>
                <div className='flex flex-col'>
                   <label htmlFor='email' className='font-medium mb-2'>
-                     帳號
+                     電子郵件
                   </label>
-                  <Input
-                     setValue={setUsername}
-                     size={'12px 16px'}
-                     shape={'12px'}
-                     placeholder={'4-21碼小寫英文.數字'}
-                  />
+                  <StyledInput
+                     {...register('email')}
+                     placeholder='請輸入您的電子郵件'
+                  ></StyledInput>
+                  {errors.email ? (
+                     <StyledErrorBox>
+                        <BaseImageBox width={'20px'} height={'20px'}>
+                           <img src={warnIcon} alt='' />
+                        </BaseImageBox>
+                        <span className='text-[#D31C1C]'>{errors.email?.message}</span>
+                     </StyledErrorBox>
+                  ) : (
+                     ''
+                  )}
                </div>
                <div className='flex flex-col'>
                   <label htmlFor='password' className='mb-2 font-medium'>
                      密碼
                   </label>
-                  <Input
-                     setValue={setPassword}
-                     types={'password'}
-                     size={'12px 16px'}
-                     shape={'12px'}
-                     placeholder={'6-18位數密碼,請區分大小寫'}
-                  />
+                  <StyledInput
+                     {...register('password')}
+                     placeholder='6-18位數密碼,請區分大小寫'
+                  ></StyledInput>
+                  {errors.password ? (
+                     <StyledErrorBox>
+                        <BaseImageBox width={'20px'} height={'20px'}>
+                           <img src={warnIcon} alt='' />
+                        </BaseImageBox>
+                        <span className='text-[#D31C1C]'>{errors.password?.message}</span>
+                     </StyledErrorBox>
+                  ) : (
+                     ''
+                  )}
                </div>
                {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
                <Button
@@ -150,6 +191,12 @@ const Login = () => {
       </>
    )
 }
+const StyledErrorBox = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 4px;
+`
 
 const StyledLink = styled(Link)`
    width: 18px;
