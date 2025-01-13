@@ -142,14 +142,16 @@ const firstStep = ({ setStep, setUserInfo }) => {
                      ''
                   )}
                </StyledForm>
-               <Button
-                  actions={actions}
-                  disabled={errors.userCode?.message || userCode.length === 0}
-                  content={'下一步'}
-                  margin={'40px 0 0 0'}
-               >
-                  下一步
-               </Button>
+               <StyledButtonBox>
+                  <Button
+                     actions={actions}
+                     disabled={errors.userCode?.message || userCode.length === 0}
+                     content={'下一步'}
+                     margin={'40px 0 0 0'}
+                  >
+                     下一步
+                  </Button>
+               </StyledButtonBox>
             </>
          )
       } else {
@@ -226,6 +228,9 @@ const StyledErroBox = styled.div`
    display: flex;
    gap: 4px;
    margin-top: 8px;
+`
+const StyledButtonBox = styled.div`
+   padding: 0 24px;
 `
 
 export default firstStep
