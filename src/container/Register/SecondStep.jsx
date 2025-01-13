@@ -36,15 +36,15 @@ const secondStep = ({ setStep, setUserInfo }) => {
       '加入至少一個特殊標點符號',
    ]
    const schema = yup.object().shape({
-      account: yup
-         .string()
-         .required('此欄位為必填')
-         .min(4, '帳號長度不足')
-         .max(21, '帳號長度太長')
-         .test('test', '帳號格式錯誤', (value) => {
-            //不能輸入特殊符號
-            return !value.match(/[^a-zA-Z0-9]/)
-         }),
+      // account: yup
+      //    .string()
+      //    .required('此欄位為必填')
+      //    .min(4, '帳號長度不足')
+      //    .max(21, '帳號長度太長')
+      //    .test('test', '帳號格式錯誤', (value) => {
+      //       //不能輸入特殊符號
+      //       return !value.match(/[^a-zA-Z0-9]/)
+      //    }),
       password: yup
          .string()
          .required('此欄位為必填')
@@ -84,26 +84,29 @@ const secondStep = ({ setStep, setUserInfo }) => {
       formState: { errors },
       setError,
    } = useForm({
-      mode: 'onBlur',
-      resolver: yupResolver(schema),
+      resolver: yupResolver(schema), // 使用 yup 進行欄位驗證
+      mode: 'onBlur', // 欄位驗證時機
    })
 
    async function actions(data) {
       try {
-         console.log(data)
          // 使用信箱驗證
          const userCredit = await createUserWithEmailAndPassword(auth, data.email, data.password)
-         // uid 在登入要用來連動資料
-         const userId = userCredit.user.uid
-         // 儲存使用者資訊到 firestore
-         await setDoc(doc(db, 'users', userId), {
-            account: data.account,
+
+         // 將使用者資料存入 firestore
+         await setDoc(doc(db, 'users', userCredit.user.uid), {
+            // account: data.account,
             email: data.email,
-            uid: userId,
+            uid: userCredit.user.uid,
+            photoIndex: 0, // 預設大頭貼為第一張
+            interests: [], // 興趣標籤
+            favorite: [], // 收藏展覽
          })
+         // 將 accessToken 存入 cookie (登入狀態)
+         document.cookie = `accessToken=${userCredit.user.accessToken}`
+         dispatch({ type: 'member/setIsLogin', payload: true })
          // 跳轉到下一步
          setStep((n) => n + 1)
-         dispatch({ type: 'member/setIsLogin', payload: true })
       } catch (error) {
          setError('email', {
             type: 'manual',
@@ -115,7 +118,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
    return (
       <>
          <StyledForm onSubmit={handleSubmit(actions)} className='flex flex-col gap-4 mb-10'>
-            <div className='flex flex-col'>
+            {/* <div className='flex flex-col'>
                <label htmlFor='email' className='font-medium mb-2 text-[#453434]'>
                   帳號
                </label>
@@ -138,6 +141,24 @@ const secondStep = ({ setStep, setUserInfo }) => {
                         <img src={warnIcon} alt='' />
                      </BaseImageBox>
                      <span className='text-[#D31C1C]'>{errors.account?.message}</span>
+                  </StyledErrorBox>
+               ) : (
+                  ''
+               )}
+            </div> */}
+            <div>
+               <label htmlFor=''>電子郵件</label>
+               <StyledInput
+                  placeholder='請輸入電子信箱'
+                  {...register('email')}
+                  onChange={(e) => setEmail(e.target.value)}
+               ></StyledInput>
+               {errors.email ? (
+                  <StyledErrorBox>
+                     <BaseImageBox width={'20px'} height={'20px'}>
+                        <img src={warnIcon} alt='' />
+                     </BaseImageBox>
+                     <span className='text-[#D31C1C]'>{errors.email?.message}</span>
                   </StyledErrorBox>
                ) : (
                   ''
@@ -197,34 +218,10 @@ const secondStep = ({ setStep, setUserInfo }) => {
                   ''
                )}
             </div>
-            <div>
-               <label htmlFor=''>信箱</label>
-               <StyledInput
-                  placeholder='請輸入電子信箱'
-                  {...register('email')}
-                  onChange={(e) => setEmail(e.target.value)}
-               ></StyledInput>
-               {errors.email ? (
-                  <StyledErrorBox>
-                     <BaseImageBox width={'20px'} height={'20px'}>
-                        <img src={warnIcon} alt='' />
-                     </BaseImageBox>
-                     <span className='text-[#D31C1C]'>{errors.email?.message}</span>
-                  </StyledErrorBox>
-               ) : (
-                  ''
-               )}
-            </div>
+
             <Button
                buttonType={'submit'}
-               disabled={
-                  errors.account?.message ||
-                  errors.password?.message ||
-                  errors.email?.message ||
-                  !account ||
-                  !password ||
-                  !email
-               }
+               disabled={!password || !email}
                content={'下一步'}
                margin={'40px 0 0 0'}
             >
