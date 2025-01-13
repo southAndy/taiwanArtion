@@ -61,14 +61,14 @@ const Register = () => {
          {step !== 2 ? (
             <StyledLoginBanner>
                <div className='flex items-center justify-center'>
-                  <FixedImageBox
+                  {/* <FixedImageBox
                      position={'absolute'}
                      left={'13%'}
                      top={'13%'}
                      onClick={() => navigate(-1)}
                   >
                      <img src={vectorIcon} alt='回到上一頁箭頭' />
-                  </FixedImageBox>
+                  </FixedImageBox> */}
                   <h3>會員註冊</h3>
                </div>
                <Stepper activeStep={step} alternativeLabel>
