@@ -18,12 +18,13 @@ export const CityMenu = ({ setModlaShow }) => {
    return (
       <>
          <div>
-            <StyledLocateBox>
+            {/* todo 新增定位功能偵測使用者縣市功能 */}
+            {/* <StyledLocateBox>
                <BaseImageBox width={'40px'} height={'40px'}>
                   <img src={locateIcon} alt='' />
                </BaseImageBox>
                <p className='text-sm font-medium'>目前所在位置</p>
-            </StyledLocateBox>
+            </StyledLocateBox> */}
             <StyledSection>
                <div className='flex flex-col gap-3 mt-5 overflow-scroll'>
                   <h3 className='font-medium'>{areaList[0]}</h3>
