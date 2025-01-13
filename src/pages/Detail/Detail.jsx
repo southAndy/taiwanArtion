@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../container/Header/Header'
 import Button from '../../components/Button'
@@ -22,6 +22,7 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 export default function DetailPage() {
    const params = useParams()
    const navigate = useNavigate()
+   const location = useLocation()
    const [currentOption, setCurrentOption] = useState(0)
    const [isStore, setIsStore] = useState(false) // 聯動收藏愛心 icon
 
@@ -121,10 +122,13 @@ export default function DetailPage() {
                   <BaseImageBox width={'14px'} height={'14px'}>
                      <img src={vectorIcon} alt='' />
                   </BaseImageBox>
-                  <Link to={'/'}>返回首頁</Link>
+                  <StyledReturnButton onClick={() => navigate(-1)}>返回上一頁</StyledReturnButton>
                </div>
                <BaseImageBox height={'245px'} tabletHeight={'280px'}>
-                  <img className='rounded-xl' src={currentData[0]?.imageUrl} />
+                  <img
+                     className='rounded-xl'
+                     src={currentData[0]?.imageUrl ? currentData[0]?.imageUrl : sampleResult}
+                  />
                </BaseImageBox>
                <h3 className='title text-[24px] font-bold'>{currentData[0]?.title}</h3>
             </DetailBanner>
@@ -305,6 +309,9 @@ const TabletToolBar = styled.div`
       gap: 4px;
       cursor: pointer;
    }
+`
+const StyledReturnButton = styled.div`
+   cursor: pointer;
 `
 
 const DetailTitle = styled.h3`
