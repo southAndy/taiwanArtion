@@ -254,6 +254,7 @@ const StyledForm = styled.form`
    flex-direction: column;
    gap: 16px;
    margin-bottom: 24px;
+   padding: 24px;
 
    .password {
       &-show {
