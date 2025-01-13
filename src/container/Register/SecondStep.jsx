@@ -84,9 +84,8 @@ const secondStep = ({ setStep, setUserInfo }) => {
       formState: { errors },
       setError,
    } = useForm({
-      resolver: yupResolver(schema),
       mode: 'onBlur',
-      reValidateMode: 'onSubmit',
+      resolver: yupResolver(schema),
    })
 
    async function actions(data) {
@@ -219,7 +218,12 @@ const secondStep = ({ setStep, setUserInfo }) => {
             <Button
                buttonType={'submit'}
                disabled={
-                  errors.account?.message || errors.password?.message || errors.email?.message
+                  errors.account?.message ||
+                  errors.password?.message ||
+                  errors.email?.message ||
+                  !account ||
+                  !password ||
+                  !email
                }
                content={'下一步'}
                margin={'40px 0 0 0'}
