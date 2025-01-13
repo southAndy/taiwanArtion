@@ -63,9 +63,7 @@ const Header = () => {
 
    // 判斷是否登入，改變選單內容
    useEffect(() => {
-      console.log('isLogin', isLogin)
-
-      if (!isLogin) {
+      if (!document.cookie.includes('accessToken')) {
          const loginMenu = menuList.filter((item) => item.title !== '個人頁面')
          setMenuContent(() => loginMenu)
       } else {
@@ -111,7 +109,7 @@ const Header = () => {
                <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
             </div>
             {/* todo 重做共用元件 */}
-            {isLogin ? (
+            {document.cookie.includes('accessToken') ? (
                <StyledUserIcon onClick={() => setMemberMenu((n) => !n)}>
                   <img src={UserIcon[0]} alt='' />
                </StyledUserIcon>
