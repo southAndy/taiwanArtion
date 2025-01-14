@@ -73,6 +73,7 @@ const Backstage = () => {
             console.log('No user is signed in')
          }
       })
+      setCurrentPhoto(memberInfo.photoIndex)
 
       return () => unsubscribe()
    }, [])
@@ -105,6 +106,10 @@ const Backstage = () => {
             photoIndex: currentPhoto,
          })
          initialPhoto.current = currentPhoto // 更新初始相片索引
+         dispatch({
+            type: 'member/setMemberInfo',
+            payload: { ...memberInfo, photoIndex: currentPhoto },
+         }) // 更新 redux 中的相片索引
          setIsShowPhotoMenu(false) // 關閉 選擇 modal
       } catch (error) {
          console.error('Error updating document: ', error)
