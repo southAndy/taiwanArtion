@@ -2,6 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { fetchMemberInfo } from '../store/memberSlice'
 import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
 import styled from 'styled-components'
@@ -47,17 +48,6 @@ const Login = () => {
       mode: 'onBlur',
    })
 
-   async function getUserInfo(uid) {
-      try {
-         const userDatas = doc(db, 'users', uid)
-         const docSnap = await getDoc(userDatas)
-         // 存入 redux
-         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
-      } catch (e) {
-         console.log(e)
-      }
-   }
-
    const sendLoginRequest = async (data) => {
       const { email, password } = data
       try {
@@ -65,7 +55,7 @@ const Login = () => {
          const loginInfo = await signInWithEmailAndPassword(auth, email, password)
 
          // 取得使用者資料
-         await getUserInfo(loginInfo.user.uid)
+         dispatch(fetchMemberInfo(loginInfo.user.uid))
 
          // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
          document.cookie = 'accessToken=' + loginInfo.user.accessToken

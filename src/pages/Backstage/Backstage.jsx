@@ -2,7 +2,6 @@ import React from 'react'
 import { useState, useEffect, useRef } from 'react'
 import Header from '../../container/Header/Header'
 import { Link } from 'react-router-dom'
-// import { useSelector } from 'react-redux'
 import Footer from '../../container/Footer/Footer'
 import {
    backstageIcon,
@@ -34,6 +33,7 @@ import CalendarMenu from './CalendarMenu'
 import ProfileMenu from './ProfileMenu'
 import { PositionElement } from '../../styles/base/PositionElement'
 import { useSelector, useDispatch } from 'react-redux'
+import { fetchMemberInfo } from '../../store/memberSlice'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
@@ -68,7 +68,7 @@ const Backstage = () => {
    useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
          if (user) {
-            getUserInfo(user.uid)
+            dispatch(fetchMemberInfo(user.uid))
          } else {
             console.log('No user is signed in')
          }
@@ -83,8 +83,6 @@ const Backstage = () => {
    let favoriteDatas = []
    //讀取 firestore 的資料
    useEffect(() => {
-      // getExhibition()
-      getUserInfo()
       const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
       const storedExhibitions = openData.filter((exhibition) => data.includes(exhibition.UID))
       setExhibition((data) => (data = storedExhibitions))
@@ -134,16 +132,6 @@ const Backstage = () => {
          console.log(exhibition)
       } catch (e) {
          console.log(e)
-      }
-   }
-
-   async function getUserInfo(uid) {
-      try {
-         const userDatas = doc(db, 'users', uid)
-         const docSnap = await getDoc(userDatas)
-         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
-      } catch (e) {
-         console.log('取得使用者資料失敗', e)
       }
    }
 

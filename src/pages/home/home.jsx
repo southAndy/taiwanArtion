@@ -7,6 +7,9 @@ import Header from '../../container/Header/Header'
 import Footer from '../../container/Footer/Footer'
 import fakeMonthList from '../../assets/data/month.json'
 import { useDispatch, useSelector } from 'react-redux'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../../firebase.config.js'
+import { fetchMemberInfo } from '../../store/memberSlice.js'
 import { fetchData } from '../../store/commonSlice'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import AllExhibitionCard from './ExhibitionCard.jsx'
@@ -44,6 +47,13 @@ const HomePage = () => {
    // 初次載入去抓資料
    useEffect(() => {
       dispatch(fetchData())
+      onAuthStateChanged(auth, (user) => {
+         if (user) {
+            dispatch(fetchMemberInfo(user.uid))
+         } else {
+            console.log('no user')
+         }
+      })
    }, [])
 
    // 當月份改變時篩選資料
