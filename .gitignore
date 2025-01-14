@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # config
 firebase.config.js
+.env
 
 node_modules
 dist
