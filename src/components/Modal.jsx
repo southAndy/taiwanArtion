@@ -1,38 +1,16 @@
 import styled from 'styled-components'
 import { useEffect } from 'react'
 
-const StyledModalBackground = styled.div`
-   display: ${({ showModal }) => (showModal ? 'block' : 'none')};
-   position: absolute;
-   top: 9%;
-   left: 0;
-   background-color: rgba(0, 0, 0, 0.2);
-   width: 100vw;
-   height: 100vh;
-   z-index: 100;
-`
-const StyledModalContent = styled.div`
-   background: ${({ bgColor }) => bgColor || '#fff'};
-   height: ${({ height }) => height || '600px'};
-   max-height: ${({ maxHeight }) => maxHeight || '85%'};
-   width: ${({ width }) => width || '100%'};
-   position: absolute;
-   overflow: scroll;
-   border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
-   padding: 24px;
-   top: ${({ top }) => top || '0%'};
-   bottom: ${({ bottom }) => bottom || '0%'};
-   left: ${({ left }) => left || '0%'};
-   right: ${({ right }) => right || '0%'};
-`
-
 const Modal = ({
    children,
    isShow,
    setShow,
-   position = { l: 0, r: 0, t: 0, b: 0 },
-   size = { w: 0, z: 0 },
+   position = { l: 'unset', r: 'unset', t: 'unset', b: 'unset' },
+   width,
+   height,
    shape,
+   translate,
+   overflow,
 }) => {
    useEffect(() => {
       if (isShow) {
@@ -54,13 +32,15 @@ const Modal = ({
    return (
       <StyledModalBackground showModal={isShow} onClick={showModalHandler}>
          <StyledModalContent
-            width={size.w}
-            height={size.h}
+            width={width}
+            height={height}
             top={position.t}
             bottom={position.b}
             left={position.l}
             right={position.r}
             borderRadius={shape}
+            translate={translate}
+            overflow={overflow}
          >
             {children}
          </StyledModalContent>
@@ -69,3 +49,34 @@ const Modal = ({
 }
 
 export default Modal
+
+const StyledModalBackground = styled.div`
+   display: ${({ showModal }) => (showModal ? 'block' : 'none')};
+   position: absolute;
+   top: 8%;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.2);
+   width: 100vw;
+   height: 100vh;
+   z-index: 2000;
+`
+const StyledModalContent = styled.div`
+   background: ${({ bgColor }) => bgColor || '#fff'};
+   height: ${({ height }) => height || '600px'};
+   max-height: ${({ maxHeight }) => maxHeight || '85%'};
+   width: ${({ width }) => width || '100%'};
+   position: absolute;
+   overflow: ${({ overflow }) => overflow || 'auto'};
+   border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
+   padding: 24px;
+   top: ${({ top }) => top || '0%'};
+   bottom: ${({ bottom }) => bottom || '0%'};
+   left: ${({ left }) => left || '0%'};
+   right: ${({ right }) => right || '0%'};
+   translate: ${({ translate }) => translate || '-50% -50%'}; // 這個屬性預設用來置中的
+
+   // 隱藏滾軸
+   &::-webkit-scrollbar {
+      display: none;
+   }
+`

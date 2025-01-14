@@ -4,17 +4,7 @@ import axios from 'axios'
 const memberSlice = createSlice({
    name: 'member',
    initialState: {
-      memberInfo: {
-         id: '',
-         name: '',
-         email: '',
-         password: '',
-         phone: '',
-         address: '',
-         birthday: '',
-         interests: [],
-         comments: [],
-      },
+      memberInfo: {},
       loginTime: '',
       isLogin: false,
    },
@@ -31,31 +21,15 @@ const memberSlice = createSlice({
       setIsLogin(state, action) {
          state.isLogin = action.payload
       },
-      // fetchNormalLogin: create.createAsyncThunk(
-      //    async (arg, ThunkAPI) => {
-      //       const { username, password } = arg
-      //       const res = await axios.post(
-      //          'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
-      //          {
-      //             username: username,
-      //             password: password,
-      //          },
-      //       )
-      //       return res.data
-      //    },
-      //    {
-      //       pending: (state, action) => {
-      //          state.status = 'loading'
-      //       },
-      //       fulfilled: (state, action) => {
-      //          state.status = 'success'
-      //          state.memberInfo = action.payload
-      //       },
-      //       rejected: (state, action) => {
-      //          state.status = 'failed'
-      //       },
-      //    },
-      // ),
+      setLogout(state, action) {
+         //清除 accessToken
+         function deleteCookie(name) {
+            document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+         }
+         deleteCookie('accessToken')
+         //isLogin 狀態改為 false
+         state.isLogin = action.payload
+      },
    },
 })
 export const { setMemberInfo, setLoginTime, setIsLogin, setMemberInterests } = memberSlice.actions

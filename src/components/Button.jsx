@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledButton = styled.button.attrs({
-   type: 'button',
-})`
+const StyledButton = styled.button.attrs((props) => ({
+   //todo 新增動態 type ，當 button 是 form 架構內的
+   type: props.type || 'button',
+}))`
    color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
    background-color: ${(props) => (props.disabled ? '#EEEEEE' : ' #be875c')};
    border-radius: 12px;
@@ -16,6 +17,7 @@ const StyledButton = styled.button.attrs({
       color: #3333;
    }
    white-space: nowrap;
+   cursor: pointer;
 `
 
 const Button = ({
@@ -26,17 +28,16 @@ const Button = ({
    buttonBackground,
    margin,
    isClick,
-   setClick,
+   actions,
+   buttonType,
 }) => {
-   const handleClick = () => {
-      setClick((n) => !n)
-   }
    return (
       <StyledButton
+         type={buttonType}
          color={textColor}
          bgColor={buttonBackground}
          margin={margin}
-         onClick={handleClick}
+         onClick={actions}
          disabled={disabled}
       >
          {content}
