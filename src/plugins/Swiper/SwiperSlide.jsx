@@ -51,10 +51,10 @@ export default function SwiperBanner({ data }) {
                      slidesPerView: 1.5,
                   },
                   992: {
-                     slidesPerView: 2,
+                     slidesPerView: 1.5,
                   },
                   1440: {
-                     slidesPerView: 3,
+                     slidesPerView: 2.5,
                   },
                   1920: {
                      slidesPerView: 3.5,
