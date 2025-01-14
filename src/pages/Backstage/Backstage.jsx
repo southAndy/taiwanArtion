@@ -33,8 +33,9 @@ import StoreMenu from './StoreMenu'
 import CalendarMenu from './CalendarMenu'
 import ProfileMenu from './ProfileMenu'
 import { PositionElement } from '../../styles/base/PositionElement'
-import { useSelector } from 'react-redux'
-import { db } from '../../../firebase.config'
+import { useSelector, useDispatch } from 'react-redux'
+import { onAuthStateChanged } from 'firebase/auth'
+import { db, auth } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 import axios from 'axios'
 import Modal from '../../components/Modal'
@@ -57,8 +58,25 @@ const Backstage = () => {
       userIcon7,
       userIcon8,
    ])
+
    const [isShowPhotoMenu, setIsShowPhotoMenu] = useState(false)
+   const dispatch = useDispatch()
    const { openData } = useSelector((store) => store.common)
+   const { memberInfo } = useSelector((store) => store.member)
+
+   //
+   useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+         if (user) {
+            getUserInfo(user.uid)
+         } else {
+            console.log('No user is signed in')
+         }
+      })
+
+      return () => unsubscribe()
+   }, [])
+
    const menu = ['收藏展覽', '展覽月曆', '個人設定']
 
    let favoriteDatas = []
@@ -82,12 +100,12 @@ const Backstage = () => {
    }
    const handleSave = async () => {
       try {
-         const userDoc = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') // 替換為你的用戶文檔 ID
+         const userDoc = doc(db, 'users', memberInfo.uid)
          await updateDoc(userDoc, {
             photoIndex: currentPhoto,
          })
          initialPhoto.current = currentPhoto // 更新初始相片索引
-         setIsShowPhotoMenu(false)
+         setIsShowPhotoMenu(false) // 關閉 選擇 modal
       } catch (error) {
          console.error('Error updating document: ', error)
       }
@@ -99,7 +117,6 @@ const Backstage = () => {
 
    async function getExhibition() {
       try {
-         await getUserInfo()
          const res = await axios.get(
             'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
          )
@@ -115,13 +132,13 @@ const Backstage = () => {
       }
    }
 
-   async function getUserInfo() {
+   async function getUserInfo(uid) {
       try {
-         const userDatas = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh')
+         const userDatas = doc(db, 'users', uid)
          const docSnap = await getDoc(userDatas)
-         console.log(docSnap.data())
+         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
       } catch (e) {
-         console.log(e)
+         console.log('取得使用者資料失敗', e)
       }
    }
 
