@@ -1,5 +1,24 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { db } from '../../firebase.config'
+import { doc, getDoc } from 'firebase/firestore'
 import axios from 'axios'
+
+const fetchMemberInfo = createAsyncThunk(
+   'member/fetchMemberInfo',
+   async (uid, { rejectWithValue }) => {
+      try {
+         const userDatas = doc(db, 'users', uid)
+         const docSnap = await getDoc(userDatas)
+         if (docSnap.exists()) {
+            return docSnap.data()
+         } else {
+            throw new Error('使用者資料不存在')
+         }
+      } catch (e) {
+         rejectWithValue(e)
+      }
+   },
+)
 
 const memberSlice = createSlice({
    name: 'member',
@@ -31,7 +50,16 @@ const memberSlice = createSlice({
          state.isLogin = action.payload
       },
    },
+   extraReducers: (builder) => {
+      builder
+         .addCase(fetchMemberInfo.fulfilled, (state, action) => {
+            state.memberInfo = action.payload
+         })
+         .addCase(fetchMemberInfo.rejected, (state, action) => {
+            console.log('取得使用者資料失敗', action.payload)
+         })
+   },
 })
 export const { setMemberInfo, setLoginTime, setIsLogin, setMemberInterests } = memberSlice.actions
-
+export { fetchMemberInfo }
 export default memberSlice.reducer
