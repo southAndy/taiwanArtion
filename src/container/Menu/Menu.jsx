@@ -9,7 +9,7 @@ import DateMenu from './DateMenu'
 import { breakpoint } from '../../styles/utils/breakpoint'
 
 export default function Menu({ setModlaShow }) {
-   const menuNameList = ['縣市', '展覽館', '日期', '票價']
+   const menuNameList = ['縣市', '日期']
    const [currentMenu, setMenuList] = useState(0)
    const menuList = [<CityMenu setModlaShow={setModlaShow} />, <DateMenu />, <PayMenu />]
    function renderMenu() {
@@ -28,9 +28,11 @@ export default function Menu({ setModlaShow }) {
    }
    return (
       <div>
-         <StyledSearchBox>
+         <StyledMobileSearch>
             <Input placeholder={'輸入展覽名稱'} width={'auto'} />
-
+         </StyledMobileSearch>
+         <StyledSearchBox>
+            <input type='text' />
             <div className='menu' onClick={() => setMenuList(0)}>
                選擇縣市
             </div>
@@ -61,9 +63,16 @@ const DefaultMenu = () => {
       </div>
    )
 }
+const StyledMobileSearch = styled.div`
+   display: flex;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      display: none;
+   }
+`
 
 const StyledSearchBox = styled.div`
-   display: flex;
+   display: none;
    align-items: center;
    flex: 1;
    border: 1px solid #c2c2c2;
@@ -76,6 +85,7 @@ const StyledSearchBox = styled.div`
 
    @media (min-width: ${breakpoint.tablet}px) {
       gap: 16px;
+      display: flex;
 
       .menu {
          color: #5f5f5f;

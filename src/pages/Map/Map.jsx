@@ -17,7 +17,7 @@ import { defaultBannerTablet } from '../../assets/images'
 import { useSelector } from 'react-redux'
 
 const containerStyle = {
-   width: '100%',
+   width: '100vw',
    height: '100vh',
 }
 
