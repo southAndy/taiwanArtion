@@ -73,10 +73,12 @@ const Backstage = () => {
             console.log('No user is signed in')
          }
       })
-      setCurrentPhoto(memberInfo.photoIndex)
-
       return () => unsubscribe()
    }, [])
+
+   useEffect(() => {
+      setCurrentPhoto(() => memberInfo.photoIndex)
+   }, [memberInfo.photoIndex])
 
    const menu = ['收藏展覽', '展覽月曆', '個人設定']
 
