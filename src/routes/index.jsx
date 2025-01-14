@@ -7,9 +7,10 @@ import AccountPage from '../container/Account'
 import LoginPage from '../container/Login'
 import Register from '../pages/Register/Register'
 import Backstage from '../pages/Backstage/Backstage'
-import Success from '../pages/Register/Success'
+// import Success from '../pages/Register/Success'
 import Login from '../container/Login'
-
+import MapPage from '../pages/Map/Map'
+import ProtectedRoute from './ProtectedRoute'
 import handleLogin from './authLogin'
 
 const router = createBrowserRouter([
@@ -20,30 +21,46 @@ const router = createBrowserRouter([
       children: [],
    },
    {
-      path: '/detail/',
+      path: '/map',
+      element: <MapPage />,
+   },
+   {
+      path: '/detail/:id',
       element: <DetailPage />,
    },
    {
-      path: '/result/:keyword',
+      path: '/result/',
       element: <ResultPage />,
    },
    {
       path: '/account',
-      element: <AccountPage />,
+      element: (
+         <ProtectedRoute>
+            <AccountPage />
+         </ProtectedRoute>
+      ),
       // 新增檢查權限
    },
    {
       path: '/login',
-      element: <LoginPage />,
+      element: (
+         <ProtectedRoute>
+            <LoginPage />
+         </ProtectedRoute>
+      ),
    },
    {
       path: '/register',
-      element: <Register />,
+      element: (
+         <ProtectedRoute>
+            <Register />
+         </ProtectedRoute>
+      ),
    },
-   {
-      path: '/success',
-      element: <Success />,
-   },
+   // {
+   //    path: '/reset',
+   //    element: <Reset />,
+   // },
    {
       path: '/backstage/',
       element: <Backstage />,

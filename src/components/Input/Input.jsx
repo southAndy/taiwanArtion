@@ -4,7 +4,7 @@ const StyledInput = styled.input.attrs((props) => {
    placeholder: props.placeholder
    type: props.type ?? 'text'
 })`
-   width: 100%;
+   width: ${(props) => props.width ?? '100%'};
    border-radius: ${(props) => props.shape ?? '16px'};
    border: ${(props) => (props.formState === 'error' ? '1px solid #D31C1C' : '1px solid #e0e0e0')};
    padding: ${(props) => props.size ?? '16px'};
@@ -22,6 +22,7 @@ const StyledInput = styled.input.attrs((props) => {
 
 const Input = ({
    children,
+   width,
    placeholder,
    value,
    size,
@@ -37,6 +38,7 @@ const Input = ({
    return (
       <StyledInput
          onChange={handleChange}
+         width={width}
          size={size}
          shape={shape}
          type={types}

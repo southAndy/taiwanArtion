@@ -16,7 +16,7 @@ import categoryicon8 from '../../assets/images/categoryicon8.png'
 import categoryicon9 from '../../assets/images/categoryicon9.png'
 import categoryicon10 from '../../assets/images/categoryicon10.png'
 import hotBg from '../../assets/images/hot-bg.png'
-import locationIcon from '../../assets/images/locate-icon.png'
+import locationIcon from '../../assets/images/location-icon.png'
 import loveIcon from '../../assets/images/love-icon.png'
 import sampleBg from '../../assets/images/sample.png'
 import sampleExhibition from '../../assets/images/sample-exhibition.png'
@@ -43,7 +43,35 @@ import successBg from '../images/success-bg.png'
 import sucessIcon from '../images/success-icon.png'
 import backstageIcon from '../images/backstage-icon-no.png'
 import notfindBg from '../images/notfind-bg.png'
+import logoWhite from '../images/logo-white.png'
+import UserSamplePhoto from '../images/user-photo.png'
+import accountBg from '../images/account-bg.png'
+import loveFullIcon from '../images/love-full.png'
+import defaultBannerTablet from '../images/banner-tablet.png'
+import rightArrow from '../images/right.png'
+import leftArrow from '../images/left.png'
+import {
+   hotestNumber,
+   hotestNumber2,
+   hotestNumber3,
+   hotestNumber4,
+   hotestNumber5,
+} from './hot/hot-icon'
+import passwordHideIcon from './password-hide.png'
+import passwordShowIcon from './password-show.png'
 export {
+   rightArrow,
+   leftArrow,
+   passwordShowIcon,
+   passwordHideIcon,
+   hotestNumber,
+   hotestNumber2,
+   hotestNumber3,
+   hotestNumber4,
+   hotestNumber5,
+   defaultBannerTablet,
+   loveFullIcon,
+   accountBg,
    searchIcon,
    dropdownIcon,
    fakeUserIcon,
@@ -89,4 +117,6 @@ export {
    sucessIcon,
    backstageIcon,
    notfindBg,
+   logoWhite,
+   UserSamplePhoto,
 }

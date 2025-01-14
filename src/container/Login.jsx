@@ -1,75 +1,85 @@
 import React from 'react'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
 import styled from 'styled-components'
-import { hotBg, vectorIcon, facebookIcon, lineIcon, googleIcon } from '../assets/images/index'
-import Input from '../components/Input/Input'
+import {
+   hotBg,
+   vectorIcon,
+   facebookIcon,
+   lineIcon,
+   googleIcon,
+   warnIcon,
+} from '../assets/images/index'
+// import Input from '../components/Input/Input'
+import StyledInput from '../components/StyledInput'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-// import { auth, provider } from '../../firebase.config'
-import { signInWithPopup } from 'firebase/auth'
-// import { fetchNormalLogin } from '../store/memberSlice'
-
-const StyledLoginBanner = styled.section`
-   display: flex;
-   align-items: center;
-   justify-content: start;
-   gap: 90px;
-   padding: 20px;
-   background-image: url(${hotBg});
-   height: 100px;
-`
-const StyledTitle = styled.h3`
-   font-size: 18px;
-   font-weight: 700;
-`
-const StyledContent = styled.section`
-   border-radius: 16px;
-   padding: 24px;
-`
-const StyledImageBox = styled.div`
-   cursor: pointer;
-   height: 40px;
-   width: 40px;
-`
+import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
+import { db, auth } from '../../firebase.config'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import BaseImageBox from '../styles/base/BaseImageBox'
 
 const Login = () => {
    const [username, setUsername] = useState('')
    const [password, setPassword] = useState('')
    //todo 調整 button 元件 props
-   const [isLogin, setIsLogin] = useState(false)
    const navigate = useNavigate()
+   const location = useLocation()
    const dispatch = useDispatch()
-   const sendLoginRequest = async () => {
+
+   const schema = yup.object().shape({
+      email: yup.string().email('請輸入有效的信箱格式').required('此欄位為必填'),
+      password: yup.string().required('此欄位為必填'),
+   })
+   const {
+      handleSubmit,
+      register,
+      formState: { errors },
+      setError,
+   } = useForm({
+      resolver: yupResolver(schema),
+      mode: 'onBlur',
+   })
+
+   async function getUserInfo(uid) {
       try {
-         const res = await axios.post(
-            'https://zhao-zhao-zhan-lan-hou-duan-ce-shi-fu-wu.onrender.com/login',
-            {
-               username: username,
-               password: password,
-            },
-         )
-         //成功的話跳轉到後台
-         if (res.data.status === 200) {
-            alert('登入成功!')
-            document.cookie = 'isLogin=true'
-            // dispatch(fetchNormalLogin({ username: username, password: password }))
-            //todo 從資料庫取得使用者資料存入 redux
-            // 等待3秒後跳轉到後台
-            setTimeout(() => {
-               navigate('/backstage')
-            }, 3000)
-         } else {
-            alert('登入失敗!請檢查帳號密碼是否正確')
-         }
+         const userDatas = doc(db, 'users', uid)
+         const docSnap = await getDoc(userDatas)
+         // 存入 redux
+         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
       } catch (e) {
          console.log(e)
       }
    }
+
+   const sendLoginRequest = async (data) => {
+      const { email, password } = data
+      try {
+         // 使用信箱和密碼進行驗證
+         const loginInfo = await signInWithEmailAndPassword(auth, email, password)
+
+         // 取得使用者資料
+         await getUserInfo(loginInfo.user.uid)
+
+         // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
+         document.cookie = 'accessToken=' + loginInfo.user.accessToken
+         document.cookie = `isLogin=true`
+
+         // 如果是從其他頁面跳轉的，回去該頁面
+         const from = location.state?.from || '/backstage'
+         navigate(from)
+         dispatch({ type: 'member/setIsLogin', payload: true })
+      } catch (error) {
+         console.error('Error during login:', error)
+      }
+   }
+
    const loginLine = () => {
       const channel_id = '2003812489'
       const homePage = 'https://2439-111-241-166-18.ngrok-free.app/?isLogin=true'
@@ -96,45 +106,56 @@ const Login = () => {
       <>
          <Header />
          <StyledLoginBanner>
-            <Link to='/account' className='w-[18px] h-[10px]'>
+            <StyledLink to='/account'>
                <img src={vectorIcon} alt='回到上一頁箭頭' />
-            </Link>
+            </StyledLink>
             <StyledTitle className='text-md'>會員登入</StyledTitle>
          </StyledLoginBanner>
          <StyledContent>
-            <form className='flex flex-col gap-4 mb-10'>
+            <form onSubmit={handleSubmit(sendLoginRequest)}>
                <div className='flex flex-col'>
                   <label htmlFor='email' className='font-medium mb-2'>
-                     帳號
+                     電子郵件
                   </label>
-                  <Input
-                     setValue={setUsername}
-                     size={'12px 16px'}
-                     shape={'12px'}
-                     placeholder={'4-21碼小寫英文.數字'}
-                  />
+                  <StyledInput
+                     {...register('email')}
+                     placeholder='請輸入您的電子郵件'
+                  ></StyledInput>
+                  {errors.email ? (
+                     <StyledErrorBox>
+                        <BaseImageBox width={'20px'} height={'20px'}>
+                           <img src={warnIcon} alt='' />
+                        </BaseImageBox>
+                        <span className='text-[#D31C1C]'>{errors.email?.message}</span>
+                     </StyledErrorBox>
+                  ) : (
+                     ''
+                  )}
                </div>
                <div className='flex flex-col'>
                   <label htmlFor='password' className='mb-2 font-medium'>
                      密碼
                   </label>
-                  <Input
-                     setValue={setPassword}
-                     types={'password'}
-                     size={'12px 16px'}
-                     shape={'12px'}
-                     placeholder={'6-18位數密碼,請區分大小寫'}
-                  />
+                  <StyledInput
+                     {...register('password')}
+                     type={'password'}
+                     placeholder='6-18位數密碼,請區分大小寫'
+                  ></StyledInput>
+                  {errors.password ? (
+                     <StyledErrorBox>
+                        <BaseImageBox width={'20px'} height={'20px'}>
+                           <img src={warnIcon} alt='' />
+                        </BaseImageBox>
+                        <span className='text-[#D31C1C]'>{errors.password?.message}</span>
+                     </StyledErrorBox>
+                  ) : (
+                     ''
+                  )}
                </div>
-               <Link to='/forget-password' className='text-end text-[#A9622A] cursor-pointer'>
-                  忘記密碼？
-               </Link>
-               {/* <Button setClick={setIsLogin} className=' mb-8' content={'登入'} /> */}
-               <button type='button' onClick={sendLoginRequest}>
-                  登入
-               </button>
+               {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
+               <Button buttonType={'submit'} content={'登入'} />
             </form>
-            <section className='flex flex-col items-center gap-4 '>
+            <section className='remind'>
                <div>
                   <span>還不是會員？</span>
                   <Link to='/register' className='text-[#A9622A]'>
@@ -142,7 +163,7 @@ const Login = () => {
                   </Link>
                </div>
                <p className=' cursor-pointer'>或者使用以下方式登入</p>
-               <div className='flex gap-6'>
+               <div className='society'>
                   <StyledImageBox>
                      <img src={facebookIcon} alt='' />
                   </StyledImageBox>
@@ -158,5 +179,78 @@ const Login = () => {
       </>
    )
 }
+const StyledErrorBox = styled.div`
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   margin-top: 4px;
+`
+
+const StyledLink = styled(Link)`
+   width: 18px;
+   height: 18px;
+`
+const StyledForgetLink = styled(Link)`
+   color: #a9622a;
+   width: 85px;
+   margin-left: auto;
+`
+
+const StyledLoginBanner = styled.section`
+   display: flex;
+   align-items: center;
+   justify-content: start;
+   gap: 90px;
+   padding: 20px;
+   background-image: url(${hotBg});
+   height: 100px;
+`
+const StyledTitle = styled.h3`
+   font-size: 18px;
+   font-weight: 700;
+`
+const StyledContent = styled.section`
+   border-radius: 16px;
+   padding: 24px;
+
+   form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 40px;
+   }
+   button {
+      border-radius: 20px;
+      border: none;
+      background-color: #eeeeee;
+      color: #5f5f5f;
+      padding: 9px 0;
+      cursor: pointer;
+
+      &:hover {
+         background-color: #a9622a;
+         color: white;
+      }
+   }
+   .remind {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+
+      a {
+         color: #a9622a;
+      }
+   }
+   .society {
+      display: flex;
+      gap: 24px;
+   }
+`
+const StyledImageBox = styled.div`
+   cursor: pointer;
+   height: 40px;
+   width: 40px;
+`
 
 export default Login

@@ -15,7 +15,7 @@ if (rootElement) {
       <Provider store={store}>
          <RouterProvider router={router}>
             <Header />
-            {router}
+            {/* {router} */}
          </RouterProvider>
       </Provider>,
    )
