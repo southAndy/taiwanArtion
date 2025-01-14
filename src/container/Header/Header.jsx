@@ -111,7 +111,7 @@ const Header = () => {
             {/* todo 重做共用元件 */}
             {document.cookie.includes('accessToken') ? (
                <StyledUserIcon onClick={() => setMemberMenu((n) => !n)}>
-                  <img src={UserIcon[0]} alt='' />
+                  <img src={UserIcon[user.photoIndex]} alt='' />
                </StyledUserIcon>
             ) : (
                <button
@@ -155,7 +155,7 @@ const Header = () => {
             <StyledMemberMenuBox>
                <div className='user'>
                   <StyledUserIcon width={'38px'} height={'38px'}>
-                     <img src={UserIcon[0]} alt='' />
+                     <img src={UserIcon[user.photoIndex]} alt='' />
                   </StyledUserIcon>
                   <Link to={'/backstage'} className='user-name'>
                      <div className='hello'>hello!</div>
