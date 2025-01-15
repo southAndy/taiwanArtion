@@ -1,12 +1,43 @@
 import styled from 'styled-components'
+import { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import { breakpoint } from '../../styles/utils/breakpoint'
-import { loveIcon, locationIcon, defaultBannerTablet } from '../../assets/images'
+import { loveIcon, loveFullIcon, locationIcon, defaultBannerTablet } from '../../assets/images'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 const AllExhibitionCard = ({ data }) => {
+   const [isStoreExhibition, setIsStoreExhibition] = useState(false)
+
+   useEffect(() => {
+      // 讀取 localStorage
+      let storeData = localStorage.getItem('favoriteExhibitions')
+      // 如果陣列包含資料，則顯示收藏展覽
+      if (storeData) {
+         JSON.parse(storeData).forEach((uid) => {
+            if (uid === data.UID) {
+               setIsStoreExhibition((prev) => !prev)
+            }
+         })
+      }
+   }, [])
+
+   function storeExhibition(event) {
+      event.preventDefault() // 阻止默認行為
+      event.stopPropagation() // 阻止事件冒泡
+
+      // 讀取 localStorage
+      let storeData = localStorage.getItem('favoriteExhibitions')
+      if (storeData) {
+         JSON.parse(storeData).forEach((uid) => {
+            if (uid === data.UID) {
+               setIsStoreExhibition((prev) => !prev)
+            }
+         })
+      }
+   }
+
    return (
       <StyledLink to={`/detail/${data.UID}`}>
          <BaseImageBox
@@ -20,8 +51,13 @@ const AllExhibitionCard = ({ data }) => {
                alt=''
                className='rounded-lg'
             />
-            <StyledPositionImageBox position={'absolute'} right={'2%'} top={'5%'}>
-               <img src={loveIcon} alt='收藏按鈕' />
+            <StyledPositionImageBox
+               onClick={storeExhibition}
+               position={'absolute'}
+               right={'2%'}
+               top={'5%'}
+            >
+               <img src={isStoreExhibition ? loveFullIcon : loveIcon} alt='收藏按鈕' />
             </StyledPositionImageBox>
          </BaseImageBox>
          <h3>{data.title}</h3>
