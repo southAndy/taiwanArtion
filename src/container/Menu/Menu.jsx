@@ -80,15 +80,15 @@ export default function Menu({ setModlaShow }) {
             </StyledSearchIcon>
          </StyledMobileSearch>
          <StyledSearchBox>
-            <input type='text' />
+            <StyledMobileInput />
             <div className='menu' onClick={() => setMenuList(0)}>
-               選擇縣市
+               {keywords.city ? keywords.city : '城市'}
             </div>
             <div className='menu' onClick={() => setMenuList(1)}>
-               開始日期
+               {currentDate.start ? `${currentDate.start}` : '開始日期'}
             </div>
             <div className='menu' onClick={() => setMenuList(1)}>
-               結束日期
+               {currentDate.end ? `${currentDate.end}` : '結束日期'}
             </div>
          </StyledSearchBox>
          <StyledMobileOptionBox>
@@ -141,6 +141,9 @@ const StyledMobileInput = styled.input.attrs({
 
    &:focus {
       outline: 1px solid #be875c;
+   }
+   @media (min-width: ${breakpoint.tablet}px) {
+      width: auto;
    }
 `
 
