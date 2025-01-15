@@ -53,7 +53,11 @@ export default function Menu({ setModlaShow }) {
    return (
       <div>
          <StyledMobileSearch>
-            <Input placeholder={'輸入展覽名稱'} width={'100%'} />
+            <StyledMobileInput
+               onChange={(event) => {
+                  setKeywords({ ...keywords, keyword: event.target.value })
+               }}
+            />
             <StyledSearchIcon onClick={search}>
                <img src={searchIcon} alt='' />
             </StyledSearchIcon>
@@ -102,6 +106,19 @@ const StyledMobileSearch = styled.div`
       display: none;
    }
 `
+const StyledMobileInput = styled.input.attrs({
+   placeholder: '輸入展覽名稱',
+})`
+   width: 100%;
+   padding: 16px 20px;
+   border-radius: 20px;
+   border: 1px solid #c2c2c2;
+
+   &:focus {
+      outline: 1px solid #be875c;
+   }
+`
+
 const StyledSearchIcon = styled.div`
    width: 24px;
    height: 24px;
