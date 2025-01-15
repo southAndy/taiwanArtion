@@ -1,9 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import Input from '../../components/Input/Input'
 import { CityMenu } from './CityMenu'
-// import { ExhibitionMenu } from './ExhibitionMenu'
 import { PayMenu } from './PayMenu'
 import DateMenu from './DateMenu'
 import { breakpoint } from '../../styles/utils/breakpoint'
@@ -14,6 +12,10 @@ export default function Menu({ setModlaShow }) {
    const menuNameList = ['縣市', '日期']
    const [currentMenu, setMenuList] = useState(0)
    const [currentCityIndex, setCurrentCityIndex] = useState('')
+   const [currentDate, setCurrentDate] = useState({
+      start: '',
+      end: '',
+   })
    const [keywords, setKeywords] = useState({
       keyword: '',
       city: '',
@@ -21,6 +23,17 @@ export default function Menu({ setModlaShow }) {
       pay: '',
    })
    const navigate = useNavigate()
+
+   // 當日期改變時，整理日期格式
+   useEffect(() => {
+      if (keywords.date.start && keywords.date.end) {
+         setCurrentDate({
+            start: `${keywords.date.start.getMonth() + 1}月${keywords.date.start.getDate()}日`,
+            end: `${keywords.date.end.getMonth() + 1}月${keywords.date.end.getDate()}日`,
+         })
+      }
+   }, [keywords.date])
+
    const menuList = [
       <CityMenu
          setKeywords={setKeywords}
@@ -46,7 +59,11 @@ export default function Menu({ setModlaShow }) {
    }
    function search() {
       navigate(
-         `/result?keyword=${keywords.keyword}&city=${keywords.city}&start=${keywords.date.start}&end=${keywords.date.end}&pay=${keywords.pay}`,
+         `/result?keyword=${keywords.keyword}&city=${keywords.city}&start_date=${
+            keywords.date.start.getMonth() + 1
+         }/${keywords.date.start.getDate()}&end_date=${
+            keywords.date.end.getMonth() + 1
+         }/${keywords.date.end.getDate()}&pay=${keywords.pay}`,
       )
    }
 
@@ -75,7 +92,15 @@ export default function Menu({ setModlaShow }) {
             </div>
          </StyledSearchBox>
          <StyledMobileOptionBox>
-            {menuNameList.map((menu, index) => {
+            <StyledMobileOption onClick={() => setMenuList(0)}>
+               {keywords.city ? keywords.city : '城市'}
+            </StyledMobileOption>
+            <StyledMobileOption onClick={() => setMenuList(1)}>
+               {currentDate.start || currentDate.end
+                  ? `${currentDate.start}-${currentDate.end}`
+                  : '日期'}
+            </StyledMobileOption>
+            {/* {menuNameList.map((menu, index) => {
                return (
                   <StyledMobileOption
                      className='option text-red'
@@ -86,7 +111,7 @@ export default function Menu({ setModlaShow }) {
                      {menu}
                   </StyledMobileOption>
                )
-            })}
+            })} */}
          </StyledMobileOptionBox>
          {renderMenu()}
       </div>
