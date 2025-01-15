@@ -7,6 +7,8 @@ import { CityMenu } from './CityMenu'
 import { PayMenu } from './PayMenu'
 import DateMenu from './DateMenu'
 import { breakpoint } from '../../styles/utils/breakpoint'
+import { searchIcon } from '../../assets/images'
+import { useNavigate } from 'react-router-dom'
 
 export default function Menu({ setModlaShow }) {
    const menuNameList = ['縣市', '日期']
@@ -15,9 +17,10 @@ export default function Menu({ setModlaShow }) {
    const [keywords, setKeywords] = useState({
       keyword: '',
       city: '',
-      date: { start: '', end: '' },
+      date: { start: null, end: null },
       pay: '',
    })
+   const navigate = useNavigate()
    const menuList = [
       <CityMenu
          setKeywords={setKeywords}
@@ -41,10 +44,19 @@ export default function Menu({ setModlaShow }) {
             return <DefaultMenu />
       }
    }
+   function search() {
+      navigate(
+         `/result?keyword=${keywords.keyword}&city=${keywords.city}&start=${keywords.date.start}&end=${keywords.date.end}&pay=${keywords.pay}`,
+      )
+   }
+
    return (
       <div>
          <StyledMobileSearch>
             <Input placeholder={'輸入展覽名稱'} width={'100%'} />
+            <StyledSearchIcon onClick={search}>
+               <img src={searchIcon} alt='' />
+            </StyledSearchIcon>
          </StyledMobileSearch>
          <StyledSearchBox>
             <input type='text' />
@@ -90,6 +102,17 @@ const StyledMobileSearch = styled.div`
       display: none;
    }
 `
+const StyledSearchIcon = styled.div`
+   width: 24px;
+   height: 24px;
+   object-fit: contain;
+
+   cursor: pointer;
+
+   position: absolute;
+   top: 6%;
+   right: 10%;
+`
 
 const StyledSearchBox = styled.div`
    display: none;
@@ -98,6 +121,7 @@ const StyledSearchBox = styled.div`
    border: 1px solid #c2c2c2;
    border-radius: 20px;
    width: 100%;
+   position: relative;
 
    .menu {
       display: none;
