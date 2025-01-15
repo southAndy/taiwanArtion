@@ -15,17 +15,16 @@ export default function Menu({ setModlaShow }) {
    const [keywords, setKeywords] = useState({
       keyword: '',
       city: '',
-      date: '',
+      date: { start: '', end: '' },
       pay: '',
    })
    const menuList = [
       <CityMenu
-         setModlaShow={setModlaShow}
          setKeywords={setKeywords}
          setCurrentCityIndex={setCurrentCityIndex}
          currentCityIndex={currentCityIndex}
       />,
-      <DateMenu />,
+      <DateMenu setKeywords={setKeywords} dateKeywords={keywords.date} />,
       <PayMenu />,
    ]
    function renderMenu() {

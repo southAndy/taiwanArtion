@@ -1,5 +1,150 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+
+const Calendar = ({ setKeywords, dateKeywords }) => {
+   const [currentMonth, setCurrentMonth] = useState(new Date())
+   const [selectedDates, setSelectedDates] = useState({ start: null, end: null })
+
+   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
+
+   const getCalendarDays = (year, month) => {
+      const firstDayOfMonth = new Date(year, month, 1).getDay()
+      const totalDays = daysInMonth(year, month)
+
+      const days = []
+      for (let i = 0; i < firstDayOfMonth; i++) {
+         days.push(null) // 前置空白
+      }
+      for (let i = 1; i <= totalDays; i++) {
+         days.push(new Date(year, month, i))
+      }
+      return days
+   }
+
+   const handleDateClick = (date) => {
+      if (!dateKeywords.start || dateKeywords.end) {
+         // setSelectedDates({ start: date, end: null })
+         setKeywords((state) => {
+            const pickedDate = { start: date, end: null }
+            return { ...state, date: pickedDate }
+         })
+      } else {
+         // setSelectedDates({ start: selectedDates.start, end: date })
+         setKeywords((state) => {
+            const pickedDate = { start: dateKeywords.start, end: date }
+            return { ...state, date: pickedDate }
+         })
+      }
+   }
+
+   const isInRange = (date) => {
+      const { start, end } = dateKeywords
+      return start && end && date > start && date < end
+   }
+
+   const goToPreviousMonth = () => {
+      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
+   }
+
+   const goToNextMonth = () => {
+      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
+   }
+
+   const currentYear = currentMonth.getFullYear()
+   const currentMonthIndex = currentMonth.getMonth()
+
+   const firstMonthDays = getCalendarDays(currentYear, currentMonthIndex)
+   const secondMonthDays = getCalendarDays(currentYear, currentMonthIndex + 1)
+
+   return (
+      <CalendarContainer>
+         {/* 快速選擇區 */}
+         <QuickSelectButtons>
+            <h3>日期</h3>
+            <QuickButton onClick={() => setSelectedDates({ start: new Date(), end: null })}>
+               今天
+            </QuickButton>
+            <QuickButton
+               onClick={() =>
+                  setSelectedDates({
+                     start: new Date(new Date().setDate(new Date().getDate() + 1)),
+                     end: new Date(new Date().setDate(new Date().getDate() + 1)),
+                  })
+               }
+            >
+               明天
+            </QuickButton>
+            <QuickButton>本週</QuickButton>
+            <QuickButton>本週末</QuickButton>
+         </QuickSelectButtons>
+
+         {/* 月份顯示 */}
+         <MonthContainer>
+            {/* 第一個月份 */}
+            <CalendarWrapper>
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
+                  <button onClick={goToPreviousMonth}>&lt;</button>
+                  <span>
+                     {currentYear}年 {currentMonthIndex + 1}月
+                  </span>
+               </div>
+               <CalendarGrid>
+                  {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
+                     <CalendarHeader key={day}>{day}</CalendarHeader>
+                  ))}
+                  {firstMonthDays.map((day, index) => (
+                     <CalendarDay
+                        key={index}
+                        onClick={() => day && handleDateClick(day)}
+                        isSelectedStart={
+                           day && dateKeywords.start?.toDateString() === day.toDateString()
+                        }
+                        isSelectedEnd={
+                           day && dateKeywords.end?.toDateString() === day.toDateString()
+                        }
+                        isInRange={day && isInRange(day)}
+                     >
+                        {day ? day.getDate() : ''}
+                     </CalendarDay>
+                  ))}
+               </CalendarGrid>
+            </CalendarWrapper>
+
+            {/* 第二個月份 */}
+            <CalendarWrapper>
+               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
+                  <span>
+                     {currentYear}年 {currentMonthIndex + 2}月
+                  </span>
+                  <button onClick={goToNextMonth}>&gt;</button>
+               </div>
+               <CalendarGrid>
+                  {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
+                     <CalendarHeader key={day}>{day}</CalendarHeader>
+                  ))}
+                  {secondMonthDays.map((day, index) => (
+                     <CalendarDay
+                        key={index}
+                        onClick={() => day && handleDateClick(day)}
+                        isSelectedStart={
+                           day && selectedDates.start?.toDateString() === day.toDateString()
+                        }
+                        isSelectedEnd={
+                           day && selectedDates.end?.toDateString() === day.toDateString()
+                        }
+                        isInRange={day && isInRange(day)}
+                     >
+                        {day ? day.getDate() : ''}
+                     </CalendarDay>
+                  ))}
+               </CalendarGrid>
+            </CalendarWrapper>
+         </MonthContainer>
+      </CalendarContainer>
+   )
+}
+
+export default Calendar
 
 const CalendarContainer = styled.div`
    max-width: 100vw;
@@ -90,140 +235,3 @@ const CalendarDay = styled.div`
          props.isSelectedStart || props.isSelectedEnd || props.isInRange ? null : '#eee'};
    }
 `
-
-const Calendar = () => {
-   const [currentMonth, setCurrentMonth] = useState(new Date())
-   const [selectedDates, setSelectedDates] = useState({ start: null, end: null })
-
-   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
-
-   const getCalendarDays = (year, month) => {
-      const firstDayOfMonth = new Date(year, month, 1).getDay()
-      const totalDays = daysInMonth(year, month)
-
-      const days = []
-      for (let i = 0; i < firstDayOfMonth; i++) {
-         days.push(null) // 前置空白
-      }
-      for (let i = 1; i <= totalDays; i++) {
-         days.push(new Date(year, month, i))
-      }
-      return days
-   }
-
-   const handleDateClick = (date) => {
-      if (!selectedDates.start || selectedDates.end) {
-         setSelectedDates({ start: date, end: null })
-      } else {
-         setSelectedDates({ start: selectedDates.start, end: date })
-      }
-   }
-
-   const isInRange = (date) => {
-      const { start, end } = selectedDates
-      return start && end && date > start && date < end
-   }
-
-   const goToPreviousMonth = () => {
-      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1))
-   }
-
-   const goToNextMonth = () => {
-      setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1))
-   }
-
-   const currentYear = currentMonth.getFullYear()
-   const currentMonthIndex = currentMonth.getMonth()
-
-   const firstMonthDays = getCalendarDays(currentYear, currentMonthIndex)
-   const secondMonthDays = getCalendarDays(currentYear, currentMonthIndex + 1)
-
-   return (
-      <CalendarContainer>
-         {/* 快速選擇區 */}
-         <QuickSelectButtons>
-            <h3>日期</h3>
-            <QuickButton onClick={() => setSelectedDates({ start: new Date(), end: null })}>
-               今天
-            </QuickButton>
-            <QuickButton
-               onClick={() =>
-                  setSelectedDates({
-                     start: new Date(new Date().setDate(new Date().getDate() + 1)),
-                     end: new Date(new Date().setDate(new Date().getDate() + 1)),
-                  })
-               }
-            >
-               明天
-            </QuickButton>
-            <QuickButton>本週</QuickButton>
-            <QuickButton>本週末</QuickButton>
-         </QuickSelectButtons>
-
-         {/* 月份顯示 */}
-         <MonthContainer>
-            {/* 第一個月份 */}
-            <CalendarWrapper>
-               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-                  <button onClick={goToPreviousMonth}>&lt;</button>
-                  <span>
-                     {currentYear}年 {currentMonthIndex + 1}月
-                  </span>
-               </div>
-               <CalendarGrid>
-                  {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
-                     <CalendarHeader key={day}>{day}</CalendarHeader>
-                  ))}
-                  {firstMonthDays.map((day, index) => (
-                     <CalendarDay
-                        key={index}
-                        onClick={() => day && handleDateClick(day)}
-                        isSelectedStart={
-                           day && selectedDates.start?.toDateString() === day.toDateString()
-                        }
-                        isSelectedEnd={
-                           day && selectedDates.end?.toDateString() === day.toDateString()
-                        }
-                        isInRange={day && isInRange(day)}
-                     >
-                        {day ? day.getDate() : ''}
-                     </CalendarDay>
-                  ))}
-               </CalendarGrid>
-            </CalendarWrapper>
-
-            {/* 第二個月份 */}
-            <CalendarWrapper>
-               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 24 }}>
-                  <span>
-                     {currentYear}年 {currentMonthIndex + 2}月
-                  </span>
-                  <button onClick={goToNextMonth}>&gt;</button>
-               </div>
-               <CalendarGrid>
-                  {['日', '一', '二', '三', '四', '五', '六'].map((day) => (
-                     <CalendarHeader key={day}>{day}</CalendarHeader>
-                  ))}
-                  {secondMonthDays.map((day, index) => (
-                     <CalendarDay
-                        key={index}
-                        onClick={() => day && handleDateClick(day)}
-                        isSelectedStart={
-                           day && selectedDates.start?.toDateString() === day.toDateString()
-                        }
-                        isSelectedEnd={
-                           day && selectedDates.end?.toDateString() === day.toDateString()
-                        }
-                        isInRange={day && isInRange(day)}
-                     >
-                        {day ? day.getDate() : ''}
-                     </CalendarDay>
-                  ))}
-               </CalendarGrid>
-            </CalendarWrapper>
-         </MonthContainer>
-      </CalendarContainer>
-   )
-}
-
-export default Calendar
