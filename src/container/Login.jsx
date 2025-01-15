@@ -152,7 +152,7 @@ const Login = () => {
                      註冊帳號
                   </Link>
                </div>
-               <p className=' cursor-pointer'>或者使用以下方式登入</p>
+               {/* <p className=' cursor-pointer'>或者使用以下方式登入</p>
                <div className='society'>
                   <StyledImageBox>
                      <img src={facebookIcon} alt='' />
@@ -163,7 +163,7 @@ const Login = () => {
                   <StyledImageBox onClick={loginLine}>
                      <img src={lineIcon} alt='' />
                   </StyledImageBox>
-               </div>
+               </div> */}
             </section>
          </StyledContent>
       </>

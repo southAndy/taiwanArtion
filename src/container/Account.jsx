@@ -32,7 +32,7 @@ const LoginPage = () => {
                   <StyledLoginLink to={'/login'}>登入</StyledLoginLink>
                   <StyledLoginLink to={'/register'}>註冊</StyledLoginLink>
                </div>
-               <div className='society'>
+               {/* <div className='society'>
                   <p className='mb-4'>或者使用以下帳號登入/註冊</p>
                   <div className='society-option'>
                      <StyledImageBox>
@@ -45,7 +45,7 @@ const LoginPage = () => {
                         <img src={lineIcon} alt='Line圖示' />
                      </StyledImageBox>
                   </div>
-               </div>
+               </div> */}
             </StyledContainer>
          </StyledLoginContainer>
       </>
