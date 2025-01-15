@@ -11,7 +11,23 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 export default function Menu({ setModlaShow }) {
    const menuNameList = ['縣市', '日期']
    const [currentMenu, setMenuList] = useState(0)
-   const menuList = [<CityMenu setModlaShow={setModlaShow} />, <DateMenu />, <PayMenu />]
+   const [currentCityIndex, setCurrentCityIndex] = useState('')
+   const [keywords, setKeywords] = useState({
+      keyword: '',
+      city: '',
+      date: '',
+      pay: '',
+   })
+   const menuList = [
+      <CityMenu
+         setModlaShow={setModlaShow}
+         setKeywords={setKeywords}
+         setCurrentCityIndex={setCurrentCityIndex}
+         currentCityIndex={currentCityIndex}
+      />,
+      <DateMenu />,
+      <PayMenu />,
+   ]
    function renderMenu() {
       switch (currentMenu) {
          case 0:

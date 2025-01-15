@@ -1,18 +1,23 @@
 import React from 'react'
+import { useState } from 'react'
 import cityList from '../../assets/data/city.json'
 import styled from 'styled-components'
 import { locateIcon } from '../../assets/images/index'
-import { useNavigate } from 'react-router-dom'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { breakpoint } from '../../styles/utils/breakpoint'
 
-export const CityMenu = ({ setModlaShow }) => {
+export const CityMenu = ({
+   setModlaShow,
+   setKeywords,
+   keywords,
+   setCurrentCityIndex,
+   currentCityIndex,
+}) => {
    const areaList = ['北部', '中部', '南部', '東部', '離島']
-   const navigate = useNavigate()
 
-   function selectCity(cityEn) {
-      setModlaShow((n) => false)
-      navigate(`/result?keyword=${cityEn}`)
+   function selectCity(cityEn, selectedIndex) {
+      setCurrentCityIndex(selectedIndex)
+      setKeywords((n) => ({ ...n, city: cityEn }))
    }
 
    return (
@@ -29,8 +34,12 @@ export const CityMenu = ({ setModlaShow }) => {
                <div className='flex flex-col gap-3 mt-5 overflow-scroll'>
                   <h3 className='font-medium'>{areaList[0]}</h3>
                   <StyledCityBox>
-                     {cityList.north.map((city) => (
-                        <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                     {cityList.north.map((city, index) => (
+                        <StyledCityItem
+                           onClick={() => selectCity(city.en, city.id)}
+                           key={city.chinese}
+                           isSelect={currentCityIndex === city.id}
+                        >
                            {city.chinese}
                         </StyledCityItem>
                      ))}
@@ -40,7 +49,11 @@ export const CityMenu = ({ setModlaShow }) => {
                   <h3 className='font-medium'>{areaList[1]}</h3>
                   <StyledCityBox>
                      {cityList.central.map((city) => (
-                        <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                        <StyledCityItem
+                           onClick={() => selectCity(city.en, city.id)}
+                           key={city.chinese}
+                           isSelect={currentCityIndex === city.id}
+                        >
                            {city.chinese}
                         </StyledCityItem>
                      ))}
@@ -50,7 +63,11 @@ export const CityMenu = ({ setModlaShow }) => {
                   <h3 className='font-medium'>{areaList[2]}</h3>
                   <StyledCityBox>
                      {cityList.south.map((city) => (
-                        <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                        <StyledCityItem
+                           onClick={() => selectCity(city.en, city.id)}
+                           key={city.chinese}
+                           isSelect={currentCityIndex === city.id}
+                        >
                            {city.chinese}
                         </StyledCityItem>
                      ))}
@@ -60,7 +77,11 @@ export const CityMenu = ({ setModlaShow }) => {
                   <h3 className='font-medium'>{areaList[3]}</h3>
                   <StyledCityBox>
                      {cityList.east.map((city) => (
-                        <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                        <StyledCityItem
+                           onClick={() => selectCity(city.en, city.id)}
+                           key={city.chinese}
+                           isSelect={currentCityIndex === city.id}
+                        >
                            {city.chinese}
                         </StyledCityItem>
                      ))}
@@ -70,7 +91,11 @@ export const CityMenu = ({ setModlaShow }) => {
                   <h3 className='font-medium'>{areaList[4]}</h3>
                   <StyledCityBox>
                      {cityList.islands.map((city) => (
-                        <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                        <StyledCityItem
+                           onClick={() => selectCity(city.en, index)}
+                           key={city.chinese}
+                           isSelect={currentCityIndex === index}
+                        >
                            {city.chinese}
                         </StyledCityItem>
                      ))}
@@ -114,7 +139,7 @@ const StyledCityItem = styled.div`
    text-align: center;
    font-size: 14px;
    background: ${(props) => (props.isSelect ? '#BE8152' : '#EEEEEE')};
-   color: ${(props) => (props.isSelect ? 'red' : 'black')};
+   color: ${(props) => (props.isSelect ? '#fff' : 'black')};
    cursor: pointer;
    &:hover {
       background: #be875c;
