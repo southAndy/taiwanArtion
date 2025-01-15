@@ -60,10 +60,10 @@ export default function Menu({ setModlaShow }) {
    function search() {
       navigate(
          `/result?keyword=${keywords.keyword}&city=${keywords.city}&start_date=${
-            keywords.date.start.getMonth() + 1
-         }/${keywords.date.start.getDate()}&end_date=${
-            keywords.date.end.getMonth() + 1
-         }/${keywords.date.end.getDate()}&pay=${keywords.pay}`,
+            keywords.date?.start?.getMonth() + 1
+         }/${keywords.date?.start?.getDate()}&end_date=${
+            keywords.date?.end?.getMonth() + 1
+         }/${keywords.date?.end?.getDate()}&pay=${keywords.pay}`,
       )
       setModlaShow(false)
    }
@@ -81,7 +81,11 @@ export default function Menu({ setModlaShow }) {
             </StyledSearchIcon>
          </StyledMobileSearch>
          <StyledSearchBox>
-            <StyledMobileInput />
+            <StyledMobileInput
+               onChange={(event) => {
+                  setKeywords({ ...keywords, keyword: event.target.value })
+               }}
+            />
             <div className='menu' onClick={() => setMenuList(0)}>
                {keywords.city ? keywords.city : '城市'}
             </div>

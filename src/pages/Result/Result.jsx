@@ -14,7 +14,6 @@ import {
 } from '../../assets/images/index'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { breakpoint } from '../../styles/utils/breakpoint'
-import FlexCenter from '../../styles/utils/FlexCenter'
 import cityList from '../../assets/data/city.json'
 import { useSearchParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -28,17 +27,27 @@ export default function ResultPage() {
    const cityQuery = searchParams.get('city')
    const startDateQuery = searchParams.get('date_start')
    const endDateQuery = searchParams.get('date_end')
+   const keywordQuery = searchParams.get('keyword')
    const cityName = transformCityName(cityQuery)
 
    useEffect(() => {
       setTotal(filterCityExhibition.length)
-   }, [cityQuery])
+   }, [cityQuery, startDateQuery, endDateQuery, keywordQuery, openData])
 
    const filterCityExhibition = useMemo(() => {
-      //當展覽位置符合關鍵字時
-      const data = openData.filter((data) => data.showInfo[0].location.startsWith(cityName))
-      return data
-   }, [openData, cityQuery])
+      return openData.filter((data) => {
+         const locationMatch = cityName ? data.showInfo[0].location.startsWith(cityName) : true
+         const keywordMatch = keywordQuery ? data.title.includes(keywordQuery) : true
+         const dateMatch = checkDateInRange(
+            data.startDate,
+            data.endDate,
+            startDateQuery,
+            endDateQuery,
+         )
+
+         return locationMatch && keywordMatch && dateMatch
+      })
+   }, [openData, cityQuery, startDateQuery, endDateQuery, keywordQuery])
 
    function transformCityName(cityQuery) {
       // 遍歷 cityList 的所有區域
@@ -54,6 +63,24 @@ export default function ResultPage() {
       // 如果沒有找到匹配的城市，返回 null 或其他適當的值
       return null
    }
+
+   function checkDateInRange(eventStartDate, eventEndDate, startDateQuery, endDateQuery) {
+      const eventStart = new Date(eventStartDate)
+      const eventEnd = new Date(eventEndDate)
+      const startQuery = startDateQuery ? new Date(startDateQuery) : null
+      const endQuery = endDateQuery ? new Date(endDateQuery) : null
+
+      if (startQuery && endQuery) {
+         return eventStart <= endQuery && eventEnd >= startQuery
+      } else if (startQuery) {
+         return eventEnd >= startQuery
+      } else if (endQuery) {
+         return eventStart <= endQuery
+      } else {
+         return true
+      }
+   }
+
    return (
       <>
          <Header />
