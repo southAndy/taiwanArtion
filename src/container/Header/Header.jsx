@@ -155,7 +155,7 @@ const Header = () => {
             <StyledMemberMenuBox>
                <div className='user'>
                   <StyledUserIcon width={'38px'} height={'38px'}>
-                     <img src={UserIcon[user.photoIndex]} alt='' />
+                     <img src={UserIcon[user?.photoIndex]} alt='' />
                   </StyledUserIcon>
                   <Link to={'/backstage'} className='user-name'>
                      <div className='hello'>hello!</div>
