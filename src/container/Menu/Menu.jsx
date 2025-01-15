@@ -45,7 +45,7 @@ export default function Menu({ setModlaShow }) {
    return (
       <div>
          <StyledMobileSearch>
-            <Input placeholder={'輸入展覽名稱'} width={'auto'} />
+            <Input placeholder={'輸入展覽名稱'} width={'100%'} />
          </StyledMobileSearch>
          <StyledSearchBox>
             <input type='text' />
@@ -62,9 +62,14 @@ export default function Menu({ setModlaShow }) {
          <StyledMobileOptionBox>
             {menuNameList.map((menu, index) => {
                return (
-                  <div className='option text-red' key={index} onClick={() => setMenuList(index)}>
+                  <StyledMobileOption
+                     className='option text-red'
+                     key={index}
+                     onClick={() => setMenuList(index)}
+                     isSelect={currentMenu === index}
+                  >
                      {menu}
-                  </div>
+                  </StyledMobileOption>
                )
             })}
          </StyledMobileOptionBox>
@@ -102,7 +107,6 @@ const StyledSearchBox = styled.div`
    @media (min-width: ${breakpoint.tablet}px) {
       gap: 16px;
       display: flex;
-
       .menu {
          color: #5f5f5f;
          font-weight: 400;
@@ -112,6 +116,16 @@ const StyledSearchBox = styled.div`
             color: #be875c;
          }
       }
+   }
+`
+const StyledMobileOption = styled.div`
+   font-size: 14px;
+   font-weight: 600;
+   padding: 16px;
+   color: ${(props) => (props.isSelect ? '#be875c' : '#929292')};
+   cursor: pointer;
+   &:hover {
+      color: #be875c;
    }
 `
 
@@ -148,16 +162,6 @@ const StyledMobileOptionBox = styled.div`
    display: flex;
    gap: 16px;
 
-   .option {
-      font-size: 14px;
-      font-weight: 600;
-      padding: 16px;
-      color: ${(props) => (props.isSelect ? 'red' : '#929292')};
-      cursor: pointer;
-      &:hover {
-         color: #be875c;
-      }
-   }
    @media (min-width: ${breakpoint.tablet}px) {
       display: none;
    }

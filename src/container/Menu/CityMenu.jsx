@@ -92,9 +92,9 @@ export const CityMenu = ({
                   <StyledCityBox>
                      {cityList.islands.map((city) => (
                         <StyledCityItem
-                           onClick={() => selectCity(city.en, index)}
+                           onClick={() => selectCity(city.en, city.id)}
                            key={city.chinese}
-                           isSelect={currentCityIndex === index}
+                           isSelect={currentCityIndex === city.id}
                         >
                            {city.chinese}
                         </StyledCityItem>
