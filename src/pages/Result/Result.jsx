@@ -25,7 +25,9 @@ export default function ResultPage() {
    const [currentType, setCurrentType] = useState('')
    const [searchParams] = useSearchParams()
    const { openData } = useSelector((state) => state.common)
-   const cityQuery = searchParams.get('keyword')
+   const cityQuery = searchParams.get('city')
+   const startDateQuery = searchParams.get('date_start')
+   const endDateQuery = searchParams.get('date_end')
    const cityName = transformCityName(cityQuery)
 
    useEffect(() => {

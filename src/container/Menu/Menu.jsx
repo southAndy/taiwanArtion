@@ -90,6 +90,9 @@ export default function Menu({ setModlaShow }) {
             <div className='menu' onClick={() => setMenuList(1)}>
                {currentDate.end ? `${currentDate.end}` : '結束日期'}
             </div>
+            <StyledSearchIcon onClick={search}>
+               <img src={searchIcon} alt='' />
+            </StyledSearchIcon>
          </StyledSearchBox>
          <StyledMobileOptionBox>
             <StyledMobileOption onClick={() => setMenuList(0)}>
@@ -157,6 +160,11 @@ const StyledSearchIcon = styled.div`
    position: absolute;
    top: 6%;
    right: 10%;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      right: 1%;
+      top: 25%;
+   }
 `
 
 const StyledSearchBox = styled.div`
