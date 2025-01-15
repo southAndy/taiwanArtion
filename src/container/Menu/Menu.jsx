@@ -65,6 +65,7 @@ export default function Menu({ setModlaShow }) {
             keywords.date.end.getMonth() + 1
          }/${keywords.date.end.getDate()}&pay=${keywords.pay}`,
       )
+      setModlaShow(false)
    }
 
    return (
