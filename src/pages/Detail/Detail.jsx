@@ -18,6 +18,10 @@ import {
 } from '../../assets/images'
 import styled from '@emotion/styled'
 import { breakpoint } from '../../styles/utils/breakpoint'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from '../../../firebase.config'
+import { fetchMemberInfo } from '../../store/memberSlice'
+import { fetchData } from '../../store/commonSlice'
 
 export default function DetailPage() {
    const params = useParams()
@@ -28,52 +32,64 @@ export default function DetailPage() {
 
    const dispatch = useDispatch()
    const openData = useSelector((state) => state.common.openData)
-   const user = useSelector((state) => state.member.memberInfo)
+   const { user, memberInfo } = useSelector((state) => state.member)
    const isLogin = useSelector((state) => state.member.isLogin)
 
-   // 索取使用者資料
+   //確認登入狀態
    useEffect(() => {
-      if (isLogin) {
-         // 取得最新的資料(查詢 localStorage)
-         const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
-         console.log('reading data', data)
-
-         // 判斷是否已收藏
-         const hasStoreUID = data.find((item) => item === params.id)
-         if (hasStoreUID) {
-            setIsStore(true)
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+         if (user) {
+            dispatch(fetchMemberInfo(user.uid))
+         } else {
+            console.log('No user is signed in')
          }
+      })
+      return () => unsubscribe()
+   }, [])
+
+   //確認資料狀態
+   useEffect(() => {
+      // redux 無資料重新打 api
+      if (openData.length === 0) {
+         dispatch(fetchData())
       }
-   }, [isStore])
+   }, [])
+
+   //確認收藏狀態
+   useEffect(() => {
+      if (memberInfo.favorite) {
+         currentData.forEach((data) => {
+            if (memberInfo.favorite.includes(data.UID)) {
+               setIsStore(true)
+            }
+         })
+      }
+   }, [memberInfo.favorite, isStore, openData])
 
    // 新增展覽資料到 localStorage
-   function addExhibition() {
-      // 取得現有資料
-      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
-
-      // 檢查是否已存在該展覽（以 id 判斷）
-      if (data.find((item) => item === params.id)) {
-         console.log('該展覽已收藏過了！')
+   async function addExhibition() {
+      if (!document.cookie.includes('accessToken')) {
+         navigate('/login', { state: { from: `/detail/${params.id}` } })
          return
       }
-
-      // 新增展覽到資料中
-      data.push(params.id)
-
-      // 更新 localStorage
-      localStorage.setItem('favoriteExhibitions', JSON.stringify(data))
-      console.log('展覽已加入收藏！')
-   }
-   // 刪除展覽資料
-   function deleteExhibition() {
-      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
-
-      // 過濾掉要刪除的展覽
-      const updatedData = data.filter((item) => item !== params.id)
-
-      // 更新 localStorage
-      localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedData))
-      console.log('展覽已刪除！')
+      try {
+         // 加入 firestore
+         const userRef = doc(db, 'users', memberInfo.uid)
+         if (isStore) {
+            // 移除 firestore
+            await updateDoc(userRef, {
+               favorite: arrayRemove(params.id),
+            })
+            setIsStore(false)
+         } else {
+            await updateDoc(userRef, {
+               favorite: arrayUnion(params.id),
+            })
+            setIsStore(true)
+         }
+      } catch (error) {
+         console.error('Error updating favorite exhibitions:', error)
+      }
    }
 
    // todo 分享的網址能顯示簡單內容＋圖片
@@ -92,20 +108,6 @@ export default function DetailPage() {
          .catch((e) => {
             console.log('分享失敗！', e)
          })
-   }
-
-   function handleAddExhibition() {
-      // 先判斷是否登入
-      if (!document.cookie.includes('accessToken')) {
-         navigate('/login', { state: { from: `/detail/${params.id}` } })
-         return
-      }
-      if (isStore) {
-         deleteExhibition()
-      } else {
-         addExhibition()
-      }
-      setIsStore((n) => !n)
    }
 
    // 當前展覽資料
@@ -175,7 +177,7 @@ export default function DetailPage() {
                   </div>
                </div>
                <TabletToolBar>
-                  <div className='option' onClick={handleAddExhibition}>
+                  <div className='option' onClick={addExhibition}>
                      <BaseImageBox width={'24px'} height={'24px'}>
                         <img src={isStore ? loveFullIcon : loveIcon} alt='收藏此展覽按鈕' />
                      </BaseImageBox>
@@ -263,7 +265,7 @@ export default function DetailPage() {
             </StyledRateBox>
          </DetailContainer>
          <StyledToolBar>
-            <div className='option' onClick={handleAddExhibition}>
+            <div className='option' onClick={addExhibition}>
                <BaseImageBox width={'24px'} height={'24px'}>
                   <img src={isStore ? loveFullIcon : loveIcon} alt='收藏此展覽按鈕' />
                </BaseImageBox>
