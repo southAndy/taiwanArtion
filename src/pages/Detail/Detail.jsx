@@ -37,14 +37,16 @@ export default function DetailPage() {
 
    //確認登入狀態
    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-         if (user) {
-            dispatch(fetchMemberInfo(user.uid))
-         } else {
-            console.log('No user is signed in')
-         }
-      })
-      return () => unsubscribe()
+      if (document.cookie.includes('accessToken')) {
+         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+               dispatch(fetchMemberInfo(user.uid))
+            } else {
+               console.log('No user is signed in')
+            }
+         })
+         return () => unsubscribe()
+      }
    }, [])
 
    //確認資料狀態
@@ -60,6 +62,8 @@ export default function DetailPage() {
       if (memberInfo.favorite) {
          currentData.forEach((data) => {
             if (memberInfo.favorite.includes(data.UID)) {
+               console.log('stored')
+
                setIsStore(true)
             }
          })

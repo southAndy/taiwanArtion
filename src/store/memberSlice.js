@@ -48,6 +48,7 @@ const memberSlice = createSlice({
          deleteCookie('accessToken')
          //isLogin 狀態改為 false
          state.isLogin = action.payload
+         state.memberInfo = {}
       },
    },
    extraReducers: (builder) => {

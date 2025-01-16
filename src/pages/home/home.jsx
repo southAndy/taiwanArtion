@@ -47,13 +47,16 @@ const HomePage = () => {
    // 初次載入去抓資料
    useEffect(() => {
       dispatch(fetchData())
-      onAuthStateChanged(auth, (user) => {
-         if (user) {
-            dispatch(fetchMemberInfo(user.uid))
-         } else {
-            console.log('no user')
-         }
-      })
+      if (document.cookie.includes('accessToken')) {
+         const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+               dispatch(fetchMemberInfo(user.uid))
+            } else {
+               console.log('no user')
+            }
+         })
+         return () => unsubscribe()
+      }
    }, [])
 
    // 當月份改變時篩選資料
