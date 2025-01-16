@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import { breakpoint } from '../../styles/utils/breakpoint'
@@ -9,28 +10,27 @@ import dayjs from 'dayjs'
 
 const AllExhibitionCard = ({ data }) => {
    const [isStoreExhibition, setIsStoreExhibition] = useState(false)
+   const { isLogin, memberInfo } = useSelector((slice) => slice.member)
 
+   // 判斷是否為收藏展覽
    useEffect(() => {
-      // 讀取 localStorage
-      let storeData = localStorage.getItem('favoriteExhibitions')
-      // 如果陣列包含資料，則顯示收藏展覽
-      if (storeData) {
-         JSON.parse(storeData).forEach((uid) => {
-            if (uid === data.UID) {
-               setIsStoreExhibition((prev) => !prev)
-            }
+      if (isLogin && memberInfo.favorite.length > 0) {
+         memberInfo.favorite.forEach((storeUID) => {
+            if (storeUID === data.UID) setIsStoreExhibition(true)
          })
+      } else {
+         setIsStoreExhibition(false)
       }
-   }, [])
+   }, [isLogin])
 
    function storeExhibition(event) {
       event.preventDefault() // 阻止默認行為
       event.stopPropagation() // 阻止事件冒泡
 
       // 讀取 localStorage
-      let storeData = localStorage.getItem('favoriteExhibitions')
-      if (storeData) {
-         JSON.parse(storeData).forEach((uid) => {
+      let storeData = memberInfo.favorite
+      if (storeData.length > 0) {
+         storeData.forEach((uid) => {
             if (uid === data.UID) {
                setIsStoreExhibition((prev) => !prev)
             }
