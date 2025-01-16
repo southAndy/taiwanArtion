@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { db } from '../../firebase.config'
+import { db, auth } from '../../firebase.config'
 import { doc, getDoc } from 'firebase/firestore'
+import { signOut } from 'firebase/auth'
 import axios from 'axios'
 
 const fetchMemberInfo = createAsyncThunk(
@@ -42,6 +43,15 @@ const memberSlice = createSlice({
       },
       setLogout(state, action) {
          //清除 accessToken
+         if (auth.currentUser) {
+            signOut(auth)
+               .then((data) => {
+                  console.log(data)
+               })
+               .catch((e) => {
+                  console.log(e)
+               })
+         }
          function deleteCookie(name) {
             document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
          }
@@ -49,6 +59,14 @@ const memberSlice = createSlice({
          //isLogin 狀態改為 false
          state.isLogin = action.payload
          state.memberInfo = {}
+
+         // function deleteCookie(name) {
+         //    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+         // }
+         // deleteCookie('accessToken')
+         // //isLogin 狀態改為 false
+         // state.isLogin = action.payload
+         // state.memberInfo = {}
       },
    },
    extraReducers: (builder) => {
