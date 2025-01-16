@@ -55,6 +55,7 @@ const memberSlice = createSlice({
       builder
          .addCase(fetchMemberInfo.fulfilled, (state, action) => {
             state.memberInfo = action.payload
+            state.isLogin = true
          })
          .addCase(fetchMemberInfo.rejected, (state, action) => {
             console.log('取得使用者資料失敗', action.payload)
