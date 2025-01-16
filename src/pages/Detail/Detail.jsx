@@ -62,13 +62,11 @@ export default function DetailPage() {
       if (memberInfo.favorite) {
          currentData.forEach((data) => {
             if (memberInfo.favorite.includes(data.UID)) {
-               console.log('stored')
-
                setIsStore(true)
             }
          })
       }
-   }, [memberInfo.favorite, isStore, openData])
+   }, [memberInfo.favorite])
 
    // 新增展覽資料到 localStorage
    async function addExhibition() {
@@ -84,12 +82,12 @@ export default function DetailPage() {
             await updateDoc(userRef, {
                favorite: arrayRemove(params.id),
             })
-            setIsStore(false)
+            setIsStore((prev) => (prev = false))
          } else {
             await updateDoc(userRef, {
                favorite: arrayUnion(params.id),
             })
-            setIsStore(true)
+            setIsStore((prev) => (prev = true))
          }
       } catch (error) {
          console.error('Error updating favorite exhibitions:', error)

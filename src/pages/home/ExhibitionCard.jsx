@@ -16,12 +16,12 @@ const AllExhibitionCard = ({ data }) => {
    useEffect(() => {
       if (isLogin && memberInfo.favorite.length > 0) {
          memberInfo.favorite.forEach((storeUID) => {
-            if (storeUID === data.UID) setIsStoreExhibition(true)
+            if (storeUID === data.UID) setIsStoreExhibition((prev) => (prev = true))
          })
       } else {
-         setIsStoreExhibition(false)
+         setIsStoreExhibition((prev) => (prev = false))
       }
-   }, [isLogin])
+   }, [memberInfo.favorite])
 
    function storeExhibition(event) {
       event.preventDefault() // 阻止默認行為
