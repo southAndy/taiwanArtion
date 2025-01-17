@@ -159,7 +159,7 @@ const Header = () => {
                   </StyledUserIcon>
                   <Link to={'/backstage'} className='user-name'>
                      <div className='hello'>hello!</div>
-                     <div>Andy</div>
+                     <div>{user.name || '預設使用者'}</div>
                   </Link>
                </div>
                <Link to={'/backstage'} className='profile'>

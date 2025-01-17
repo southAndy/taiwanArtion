@@ -4,12 +4,36 @@ import styled from 'styled-components'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { ProfileIcon } from '../../assets/images/backstage'
+import { useSelector, useDispatch } from 'react-redux'
 
 const ProfileMenu = () => {
    const [isEdit, setIsEdit] = useState(false)
+   const dispatch = useDispatch()
+   const { memberInfo } = useSelector((slice) => slice.member)
+
+   const userInfoList = {}
+
+   function changeUserName(event) {
+      userInfoList.name = event.target.value
+   }
+
+   function UpdateUserInformation(event) {
+      // 阻止表單預設行為
+      event.preventDefault()
+
+      dispatch({
+         type: 'member/setMemberInfo',
+         payload: {
+            ...memberInfo,
+            name: userInfoList.name,
+            place: '',
+         },
+      })
+      setIsEdit(false)
+   }
+
    return (
       <StyledProfileMenu>
-         {/* <button onClick={() => setIsEdit((n) => !n)}>編輯</button> */}
          <div className='title'>
             <div className='title-icon'>
                <BaseImageBox width={'24px'} height={'24px'}>
@@ -19,14 +43,18 @@ const ProfileMenu = () => {
             </div>
             <p>開始建立你的個人檔案吧！</p>
          </div>
-         <StyledFormBox className='profile' action=''>
+         <StyledFormBox onSubmit={UpdateUserInformation} className='profile' action=''>
             <button type='button' className='edit' onClick={() => setIsEdit((n) => !n)}>
                編輯
             </button>
             <label htmlFor='name' className='name'>
                <p>姓名</p>
-               <p className={`${isEdit ? 'none' : 'show'}`}>Andy</p>
-               <input className={`${isEdit ? 'show' : 'none'}`} type='text' />
+               <p className={`${isEdit ? 'none' : 'show'}`}>{memberInfo.name || '預設使用者'}</p>
+               <ProfileInput
+                  onBlur={changeUserName}
+                  className={`${isEdit ? 'show' : 'none'}`}
+                  type='text'
+               />
             </label>
             <label htmlFor='account' className='account'>
                <p>使用者帳號</p>
@@ -54,8 +82,12 @@ const ProfileMenu = () => {
             </label>
             {isEdit ? (
                <div className='option'>
-                  <button className='cancel'>取消</button>
-                  <button className='save'>儲存</button>
+                  <button onClick={() => setIsEdit(false)} className='cancel'>
+                     取消
+                  </button>
+                  <button type='submit' className='save'>
+                     儲存
+                  </button>
                </div>
             ) : null}
          </StyledFormBox>
@@ -64,6 +96,15 @@ const ProfileMenu = () => {
 }
 
 export default ProfileMenu
+
+const ProfileInput = styled.input.attrs({})`
+   padding: 0 16px;
+   border: 1px solid #929292;
+
+   &:focus {
+      outline: 1px solid #be875c;
+   }
+`
 
 const StyledProfileMenu = styled.main`
    display: flex;
