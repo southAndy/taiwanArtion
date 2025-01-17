@@ -1,16 +1,19 @@
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { loveIcon, loveFullIcon, locationIcon, defaultBannerTablet } from '../../assets/images'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { doc, updateDoc, arrayRemove, arrayUnion } from 'firebase/firestore'
+import { db } from '../../../firebase.config'
 
 const AllExhibitionCard = ({ data }) => {
    const [isStoreExhibition, setIsStoreExhibition] = useState(false)
    const { isLogin, memberInfo } = useSelector((slice) => slice.member)
+   const dispatch = useDispatch()
 
    // 判斷是否為收藏展覽
    useEffect(() => {
@@ -21,20 +24,49 @@ const AllExhibitionCard = ({ data }) => {
       } else {
          setIsStoreExhibition((prev) => (prev = false))
       }
-   }, [memberInfo.favorite])
+   }, [isStoreExhibition])
 
-   function storeExhibition(event) {
+   async function storeExhibition(event) {
       event.preventDefault() // 阻止默認行為
       event.stopPropagation() // 阻止事件冒泡
 
-      // 讀取 localStorage
-      let storeData = memberInfo.favorite
-      if (storeData.length > 0) {
-         storeData.forEach((uid) => {
-            if (uid === data.UID) {
-               setIsStoreExhibition((prev) => !prev)
-            }
-         })
+      const userRef = doc(db, 'users', memberInfo.uid)
+
+      // 檢查當前的 favorite 是否已包含 data.UID
+      const isFavorite = memberInfo.favorite.includes(data.UID)
+
+      try {
+         if (isFavorite) {
+            // redux 先更新
+            dispatch({
+               type: 'member/setMemberInfo',
+               payload: {
+                  ...memberInfo,
+                  favorite: memberInfo.favorite.filter((item) => item !== data.UID),
+               },
+            })
+            // 移除收藏
+            await updateDoc(userRef, {
+               favorite: arrayRemove(data.UID),
+            })
+            setIsStoreExhibition(false) // 更新狀態
+         } else {
+            // redux 先更新
+            dispatch({
+               type: 'member/setMemberInfo',
+               payload: {
+                  ...memberInfo,
+                  favorite: [...memberInfo.favorite, data.UID],
+               },
+            })
+            // 添加收藏
+            await updateDoc(userRef, {
+               favorite: arrayUnion(data.UID),
+            })
+            setIsStoreExhibition(true) // 更新狀態
+         }
+      } catch (error) {
+         console.error('更新 Firestore 失敗:', error)
       }
    }
 
