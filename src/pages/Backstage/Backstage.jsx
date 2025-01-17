@@ -88,9 +88,11 @@ const Backstage = () => {
    //讀取 firestore 的資料
    useEffect(() => {
       const data = memberInfo.favorite
-      const storedExhibitions = openData.filter((exhibition) => data.includes(exhibition.UID))
-      setExhibition((data) => (data = storedExhibitions))
-   }, [])
+      if (data?.length > 0) {
+         const storedExhibitions = openData.filter((exhibition) => data.includes(exhibition.UID))
+         setExhibition((data) => (data = storedExhibitions))
+      }
+   }, [memberInfo.favorite])
 
    // 解除收藏的展覽
    function removeExhibition(id) {
