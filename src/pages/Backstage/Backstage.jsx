@@ -76,6 +76,11 @@ const Backstage = () => {
       return () => unsubscribe()
    }, [])
 
+   // 取得展覽資料
+   useEffect(() => {
+      getExhibition()
+   }, [memberInfo.favorite])
+
    // 更新相片索引
    useEffect(() => {
       setCurrentPhoto(() => memberInfo.photoIndex)
@@ -130,12 +135,11 @@ const Backstage = () => {
             'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6',
          )
          const data = res.data
-         console.log('fa', favoriteDatas)
-
-         const filteredExhibition = data.filter((item, index) => favoriteDatas.includes(item.UID))
+         const filteredExhibition = data.filter((item, index) =>
+            memberInfo.favorite.includes(item.UID),
+         )
 
          setExhibition((n) => (n = filteredExhibition))
-         console.log(exhibition)
       } catch (e) {
          console.log(e)
       }
