@@ -175,7 +175,7 @@ const Backstage = () => {
                      <img src={selectPhotoIcon} alt='' />
                   </StyledPositionImageBox>
                </BaseImageBox>
-               <p className='name'>{memberInfo?.name || '已登入使用者'}</p>
+               <p className='name'>{memberInfo?.name || '預設使用者'}</p>
             </StyledUserInfo>
             <StyledMenuBox>
                {menu.map((data, index) => {

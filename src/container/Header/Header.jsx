@@ -159,7 +159,7 @@ const Header = () => {
                   </StyledUserIcon>
                   <Link to={'/backstage'} className='user-name'>
                      <div className='hello'>hello!</div>
-                     <div>{user.name || '預設使用者'}</div>
+                     <div className='name'>{user.name || '預設使用者ssssss'}</div>
                   </Link>
                </div>
                <Link to={'/backstage'} className='profile'>
@@ -278,6 +278,15 @@ const StyledMemberMenuBox = styled.div`
       &-name {
          display: flex;
          flex-direction: column;
+         overflow: hidden;
+         width: 70px;
+
+         .name {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+         }
+
          .hello {
             font-size: 12px;
             color: #5f5f5f;
