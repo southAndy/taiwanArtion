@@ -95,18 +95,18 @@ const ProfileMenu = () => {
                <p className={`${isEdit ? 'none' : 'show'}`}>
                   {memberInfo.birthday || '尚未設定生日'}
                </p>
-               <input
+               <ProfileInput
                   onChange={changeBirthday}
                   type='date'
                   className={`${isEdit ? 'show' : 'none'}`}
-               ></input>
+               ></ProfileInput>
             </label>
             <label htmlFor='gender' className='gender'>
                <p>性別</p>
                <p className={`${isEdit ? 'none' : 'show'}`}>
                   {memberInfo.gender || '尚未設定性別'}
                </p>
-               <select
+               <ProfileSelect
                   onChange={changeGender}
                   name=''
                   id=''
@@ -115,7 +115,7 @@ const ProfileMenu = () => {
                   <option value='male'>男性</option>
                   <option value='female'>女性</option>
                   <option value='other'>第三性</option>
-               </select>
+               </ProfileSelect>
             </label>
             {/* <label htmlFor='place' className='place'>
                <p>居住地點</p>
@@ -124,12 +124,12 @@ const ProfileMenu = () => {
             </label> */}
             {isEdit ? (
                <div className='option'>
-                  <button onClick={() => setIsEdit(false)} className='cancel'>
+                  <ProfileButton onClick={() => setIsEdit(false)} className='cancel'>
                      取消
-                  </button>
-                  <button type='submit' className='save'>
+                  </ProfileButton>
+                  <ProfileSave type='submit' className='save'>
                      儲存
-                  </button>
+                  </ProfileSave>
                </div>
             ) : null}
          </StyledFormBox>
@@ -140,12 +140,46 @@ const ProfileMenu = () => {
 export default ProfileMenu
 
 const ProfileInput = styled.input.attrs({})`
-   padding: 0 16px;
+   appearance: none; /* 移除瀏覽器預設外觀 */
+   -webkit-appearance: none; /* 針對 WebKit 瀏覽器 */
+   width: 100%;
+   padding: 8px 16px;
    border: 1px solid #929292;
+   border-radius: 8px;
+   background: #ffffff;
 
    &:focus {
       outline: 1px solid #be875c;
    }
+`
+const ProfileButton = styled.button.attrs({})`
+   appearance: none; /* 移除瀏覽器預設外觀 */
+   -webkit-appearance: none; /* 針對 WebKit 瀏覽器 */
+   background: #eeeeee;
+   width: 50%;
+   max-width: 144px;
+   height: 40px;
+   border-radius: 8px;
+   border: none;
+   padding: 10px;
+   cursor: pointer;
+   color: black;
+   margin-right: 16px;
+
+   @media (min-width: ${breakpoint.tablet}px) {
+      width: 64px;
+   }
+`
+
+const ProfileSave = styled(ProfileButton)`
+   background: #a9622a;
+   color: white;
+`
+const ProfileSelect = styled.select.attrs({})`
+   appearance: none; /* 移除瀏覽器預設外觀 */
+   -webkit-appearance: none; /* 針對 WebKit 瀏覽器 */
+   background: #ffffff;
+   border-radius: 8px;
 `
 
 const StyledProfileMenu = styled.main`
@@ -218,6 +252,8 @@ const StyledFormBox = styled.form.attrs({})`
             padding: 0 16px;
             border: 1px solid #929292;
             border-radius: 4px;
+            appearance: none; /* 移除瀏覽器預設外觀 */
+            -webkit-appearance: none; /* 針對 WebKit 瀏覽器 */
          }
       }
       .email {
