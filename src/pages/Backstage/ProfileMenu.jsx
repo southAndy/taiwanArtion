@@ -5,6 +5,8 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { ProfileIcon } from '../../assets/images/backstage'
 import { useSelector, useDispatch } from 'react-redux'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../../../firebase.config'
 
 const ProfileMenu = () => {
    const [isEdit, setIsEdit] = useState(false)
@@ -29,6 +31,19 @@ const ProfileMenu = () => {
             place: '',
          },
       })
+      // 更新到 firestore
+      const userRef = doc(db, 'users', memberInfo.uid)
+      updateDoc(userRef, {
+         name: userInfoList.name,
+         place: '',
+      })
+         .then(() => {
+            console.log('User information updated successfully in Firestore')
+         })
+         .catch((error) => {
+            console.error('Error updating user information in Firestore:', error)
+         })
+
       setIsEdit(false)
    }
 
@@ -56,10 +71,10 @@ const ProfileMenu = () => {
                   type='text'
                />
             </label>
-            <label htmlFor='account' className='account'>
+            {/* <label htmlFor='account' className='account'>
                <p>使用者帳號</p>
                <p>1222test</p>
-            </label>
+            </label> */}
             <label htmlFor='emaul' className='email'>
                <p>註冊信箱</p>
                <p>zatchbell.1206@gmail.com</p>
