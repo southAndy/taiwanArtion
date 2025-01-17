@@ -87,8 +87,8 @@ const ProfileMenu = () => {
             </label> */}
             <label htmlFor='emaul' className='email'>
                <p>註冊信箱</p>
-               <p>zatchbell.1206@gmail.com</p>
-               <span>變更電子信箱</span>
+               <p>{memberInfo.email}</p>
+               {/* <span>變更電子信箱</span> */}
             </label>
             <label htmlFor='birthday' className='birthday'>
                <p>生日</p>
