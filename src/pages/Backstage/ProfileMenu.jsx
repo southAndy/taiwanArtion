@@ -19,6 +19,14 @@ const ProfileMenu = () => {
       userInfoList.name = event.target.value
    }
 
+   function changeGender(event) {
+      userInfoList.gender = event.target.value
+   }
+
+   function changeBirthday(event) {
+      userInfoList.birthday = event.target.value
+   }
+
    function UpdateUserInformation(event) {
       // 阻止表單預設行為
       event.preventDefault()
@@ -27,15 +35,17 @@ const ProfileMenu = () => {
          type: 'member/setMemberInfo',
          payload: {
             ...memberInfo,
-            name: userInfoList.name,
-            place: '',
+            name: userInfoList.name || memberInfo.name,
+            gender: userInfoList.gender,
+            birthday: userInfoList.birthday,
          },
       })
       // 更新到 firestore
       const userRef = doc(db, 'users', memberInfo.uid)
       updateDoc(userRef, {
-         name: userInfoList.name,
-         place: '',
+         name: userInfoList.name || memberInfo.name,
+         gender: userInfoList.gender,
+         birthday: userInfoList.birthday,
       })
          .then(() => {
             console.log('User information updated successfully in Firestore')
@@ -82,19 +92,36 @@ const ProfileMenu = () => {
             </label>
             <label htmlFor='birthday' className='birthday'>
                <p>生日</p>
-               <p className={`${isEdit ? 'none' : 'show'}`}>84/12/06</p>
-               <select name='' id='' className={`${isEdit ? 'show' : 'none'}`}></select>
+               <p className={`${isEdit ? 'none' : 'show'}`}>
+                  {memberInfo.birthday || '尚未設定生日'}
+               </p>
+               <input
+                  onChange={changeBirthday}
+                  type='date'
+                  className={`${isEdit ? 'show' : 'none'}`}
+               ></input>
             </label>
             <label htmlFor='gender' className='gender'>
                <p>性別</p>
-               <p className={`${isEdit ? 'none' : 'show'}`}>男性</p>
-               <select name='' id='' className={`${isEdit ? 'show' : 'none'}`}></select>
+               <p className={`${isEdit ? 'none' : 'show'}`}>
+                  {memberInfo.gender || '尚未設定性別'}
+               </p>
+               <select
+                  onChange={changeGender}
+                  name=''
+                  id=''
+                  className={`${isEdit ? 'show' : 'none'}`}
+               >
+                  <option value='male'>男性</option>
+                  <option value='female'>女性</option>
+                  <option value='other'>第三性</option>
+               </select>
             </label>
-            <label htmlFor='place' className='place'>
+            {/* <label htmlFor='place' className='place'>
                <p>居住地點</p>
                <p className={`${isEdit ? 'none' : 'show'}`}>高雄市</p>
                <input className={`${isEdit ? 'show' : 'none'}`} type='text' />
-            </label>
+            </label> */}
             {isEdit ? (
                <div className='option'>
                   <button onClick={() => setIsEdit(false)} className='cancel'>
