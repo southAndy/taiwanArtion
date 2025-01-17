@@ -64,7 +64,7 @@ const Backstage = () => {
    const { openData } = useSelector((store) => store.common)
    const { memberInfo } = useSelector((store) => store.member)
 
-   //
+   // 確認是否有登入
    useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
          if (user) {
@@ -76,6 +76,7 @@ const Backstage = () => {
       return () => unsubscribe()
    }, [])
 
+   // 更新相片索引
    useEffect(() => {
       setCurrentPhoto(() => memberInfo.photoIndex)
       initialPhoto.current = memberInfo.photoIndex
@@ -86,7 +87,7 @@ const Backstage = () => {
    let favoriteDatas = []
    //讀取 firestore 的資料
    useEffect(() => {
-      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
+      const data = memberInfo.favorite
       const storedExhibitions = openData.filter((exhibition) => data.includes(exhibition.UID))
       setExhibition((data) => (data = storedExhibitions))
    }, [])
