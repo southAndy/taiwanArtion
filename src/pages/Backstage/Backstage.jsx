@@ -87,7 +87,7 @@ const Backstage = () => {
       initialPhoto.current = memberInfo.photoIndex
    }, [memberInfo.photoIndex])
 
-   const menu = ['收藏展覽', '展覽月曆', '個人設定']
+   const menu = ['收藏展覽', '個人設定']
 
    let favoriteDatas = []
    //讀取 firestore 的資料
@@ -99,15 +99,6 @@ const Backstage = () => {
       }
    }, [memberInfo.favorite])
 
-   // 解除收藏的展覽
-   function removeExhibition(id) {
-      console.log('removed')
-
-      const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
-      updateDoc(userData, {
-         favorite: arrayRemove(id),
-      })
-   }
    const handleSave = async () => {
       try {
          const userDoc = doc(db, 'users', memberInfo.uid)
@@ -150,9 +141,8 @@ const Backstage = () => {
          case 0:
             return <StoreMenu data={exhibition} />
          case 1:
-            return <CalendarMenu />
-         case 2:
             return <ProfileMenu />
+         case 2:
       }
    }
 
