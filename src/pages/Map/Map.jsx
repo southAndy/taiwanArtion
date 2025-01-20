@@ -38,12 +38,18 @@ const MapPage = () => {
 
    useEffect(() => {
       if (navigator.geolocation) {
-         navigator.geolocation.getCurrentPosition((position) => {
-            setUserLocation({
-               lat: position.coords.latitude,
-               lng: position.coords.longitude,
-            })
-         })
+         navigator.geolocation.getCurrentPosition(
+            (position) => {
+               setUserLocation({
+                  lat: position.coords.latitude,
+                  lng: position.coords.longitude,
+               })
+            },
+            (error) => {
+               console.log(error)
+               setUserLocation({ lat: 25.033, lng: 121.5654 }) // 預設為台北 101 的經緯度
+            },
+         )
       }
    }, [])
 
