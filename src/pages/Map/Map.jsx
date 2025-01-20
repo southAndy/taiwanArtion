@@ -1,19 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../../container/Header/Header'
-import {
-   GoogleMap,
-   LoadScript,
-   Autocomplete,
-   OverlayView,
-   Marker,
-   InfoWindow,
-} from '@react-google-maps/api'
+import { GoogleMap, LoadScript, Autocomplete, Marker, InfoWindow } from '@react-google-maps/api'
 import styled from 'styled-components'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { timeIcon } from '../../assets/images/map/index'
 import { defaultBannerTablet } from '../../assets/images'
-
 import { useSelector } from 'react-redux'
 
 const containerStyle = {
@@ -36,6 +28,7 @@ const MapPage = () => {
 
    const { openData } = useSelector((state) => state.common)
 
+   // 獲取用戶當前位置
    useEffect(() => {
       if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(
@@ -47,19 +40,21 @@ const MapPage = () => {
             },
             (error) => {
                console.log(error)
-               setUserLocation({ lat: 25.033, lng: 121.5654 }) // 預設為台北 101 的經緯度
+               setUserLocation({ lat: 25.0478, lng: 121.517 }) // 預設為台北車站的經緯度
+               // setSelectedPlace({ lat: 25.0478, lng: 121.517 })
             },
          )
       }
    }, [])
 
-   // 監聽userLocation的變化
+   // 搜尋附近的展覽
    useEffect(() => {
       if (mapRef.current && userLocation) {
          // 當 userLocation 值改變時，呼叫 fetchNearbyPlaces 函式
-         fetchNearbyPlaces(userLocation)
+         // fetchNearbyPlaces(selectedPlace)
+         searchEndExhibition()
       }
-   }, [userLocation])
+   }, [userLocation, selectedPlace])
 
    // 搜尋功能要包括（可打博物館名稱 / 打關鍵字「博物館」,「美術館」,「展覽」）
    const fetchNearbyPlaces = (location) => {
@@ -74,6 +69,7 @@ const MapPage = () => {
       service.nearbySearch(request, (results, status) => {
          if (status === window.google.maps.places.PlacesServiceStatus.OK) {
             // 挑出需要的數據
+
             const markerDatas = results.map((place) => ({
                id: place.place_id,
                icon: {
@@ -90,6 +86,7 @@ const MapPage = () => {
          }
       })
    }
+
    // 計算距離
    const calculateDistance = (userLat, userLng, placeLat, placeLng) => {
       const R = 6371 // 地球半徑，單位為公里
@@ -103,15 +100,12 @@ const MapPage = () => {
             Math.sin(dLng / 2)
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
       const distance = R * c
-      console.log(distance)
 
       return distance
    }
 
    // 搜尋即將結束的展覽
-   function searchEndExhibition(radius = 300) {
-      console.log(openData)
-
+   function searchEndExhibition(radius = 5) {
       const nearbyExhibitions = openData.filter((exhibition) => {
          const distance = calculateDistance(
             userLocation.lat,
@@ -119,29 +113,34 @@ const MapPage = () => {
             exhibition.showInfo[0].latitude,
             exhibition.showInfo[0].longitude,
          )
-         console.log(distance, radius)
          return distance < radius
       })
-      console.log(nearbyExhibitions)
 
       // 顯示側邊欄位
       setIsSlideOpen(true)
 
-      setFilteredPlaces(() => nearbyExhibitions)
+      // 更新 places 狀態
+      setPlaces(nearbyExhibitions)
+      setFilteredPlaces(nearbyExhibitions)
    }
 
    const handlePlaceChanged = () => {
       if (autocompleteRef.current !== null) {
          const place = autocompleteRef.current.getPlace()
-         // 當用戶選擇了一個地點並且該地點包含幾何信息（例如經緯度），就更新userLocation
+         // 如果有geometry，代表有經緯度，更新selectedPlace
          if (place.geometry) {
-            setUserLocation({
+            setSelectedPlace({
                lat: place.geometry.location.lat(),
                lng: place.geometry.location.lng(),
             })
          }
       }
    }
+
+   function selectPlace(place) {
+      setSelectedPlace(place)
+   }
+
    const onLoad = (autocomplete) => {
       // 將Autocomplete的ref存到 autocompleteRef.current
       autocompleteRef.current = autocomplete
@@ -167,9 +166,9 @@ const MapPage = () => {
             <div style={{ position: 'relative', height: '100vh' }}>
                {isMapLoaded && (
                   <StyledMenBox>
-                     <Autocomplete onLoad={onLoad} onPlaceChanged={handlePlaceChanged}>
-                        <input type='text' placeholder='搜尋展覽（例如：故宮' className='search' />
-                     </Autocomplete>
+                     {/* <Autocomplete onLoad={onLoad} onPlaceChanged={handlePlaceChanged}>
+                        <input type='text' placeholder='搜尋場館（例如：故宮' className='search' />
+                     </Autocomplete> */}
                      <div className='option'>
                         <div className='option-hot'>熱門</div>
                         <div className='option-end' onClick={() => searchEndExhibition(5)}>
@@ -181,7 +180,7 @@ const MapPage = () => {
                )}
                <GoogleMap
                   mapContainerStyle={containerStyle}
-                  center={selectedPlace?.lat ? selectedPlace : userLocation}
+                  center={selectedPlace || userLocation}
                   zoom={15}
                   options={{
                      mapTypeControl: false, // 禁用地圖類型控制
@@ -191,29 +190,48 @@ const MapPage = () => {
                   }}
                   onLoad={handleMapLoad}
                >
-                  {places.map((place) => (
+                  {places.map((place, index) => (
                      <Marker
-                        key={place.id}
-                        position={{ lat: place.lat, lng: place.lng }}
-                        icon={place.icon}
-                        onClick={() => setSelectedPlace(place)}
+                        key={place.UID}
+                        position={{
+                           lat: Number(place.showInfo[0].latitude),
+                           lng: Number(place.showInfo[0].longitude),
+                        }}
+                        onClick={() => {
+                           selectPlace({
+                              ...place,
+                              lat: Number(place.showInfo[0].latitude),
+                              lng: Number(place.showInfo[0].longitude),
+                           })
+                        }}
                      />
                   ))}
+                  {/* 使用者定位 */}
                   <Marker
                      position={userLocation}
                      icon={{
-                        url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                        url: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
                      }}
                   />
                   {selectedPlace && (
                      <InfoWindow
-                        position={{ lat: selectedPlace.lat, lng: selectedPlace.lng }}
+                        position={{
+                           lat: Number(selectedPlace.lat),
+                           lng: Number(selectedPlace.lng),
+                        }}
                         onCloseClick={() => setSelectedPlace(null)}
                      >
                         <StyledPlaceBox>
                            <div className='info'>
                               <div className='banner'>
-                                 <img src={selectedPlace.photo} alt='' />
+                                 <img
+                                    src={
+                                       selectedPlace.imageUrl
+                                          ? selectedPlace.imageUrl
+                                          : defaultBannerTablet
+                                    }
+                                    alt=''
+                                 />
                               </div>
                               <div>
                                  <h2>{selectedPlace.title}</h2>
@@ -244,17 +262,14 @@ const MapPage = () => {
                   {filteredPlaces.map((place) => (
                      <div
                         className='info'
-                        key={place.id}
-                        onClick={() => {
-                           setIsSlideOpen(false)
-                           setTimeout(() => {
-                              setSelectedPlace(() => ({
-                                 lat: Number(place.showInfo[0].latitude),
-                                 lng: Number(place.showInfo[0].longitude),
-                                 title: place.title,
-                                 photo: place.imageUrl,
-                              }))
-                           }, 250)
+                        key={place.UID}
+                        onMouseEnter={() => {
+                           setSelectedPlace({
+                              lat: Number(place.showInfo[0]?.latitude),
+                              lng: Number(place.showInfo[0]?.longitude),
+                              title: place.title,
+                              photo: place.imageUrl,
+                           })
                         }}
                      >
                         <div className='info-detail'>
