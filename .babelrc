@@ -1,0 +1,5 @@
+{
+  // preset-env: 編譯 ES6 的 JS 內容，支援舊版瀏覽器
+  // preset-react:讓 jsx 語法能被正確編譯
+  "presets": ["@babel/preset-env", "@babel/preset-react"]
+}
