@@ -13,10 +13,12 @@ const StoreMenu = ({ data }) => {
 
    const navigate = useNavigate()
 
+   // 更新收藏展覽畫面狀態
    useEffect(() => {
       if (data.length > 0) {
-         // 顯示收藏展覽
          setIsStoreExhibition(true)
+      } else {
+         setIsStoreExhibition(false)
       }
    }, [data])
 
