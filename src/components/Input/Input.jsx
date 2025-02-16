@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-const StyledInput = styled.input.attrs((props) => {
-   placeholder: props.placeholder
-   type: props.type ?? 'text'
+const StyledInput = styled.input.attrs({
+   placeholder: props.placeholder,
+   type: props.type ?? 'text',
 })`
    width: ${(props) => props.width ?? '100%'};
    border-radius: ${(props) => props.shape ?? '16px'};
@@ -17,7 +17,9 @@ const StyledInput = styled.input.attrs((props) => {
       outline: none;
       border: 1px solid #be875c;
    }
-   &: ;
+   &:hover {
+      border: 1px solid #888;
+   }
 `
 
 const Input = ({
