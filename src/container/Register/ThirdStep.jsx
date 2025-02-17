@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import StyledInput from '../../components/StyledInput'
-import Button from '../../components/Button'
+import Button from '../../components/Button/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'

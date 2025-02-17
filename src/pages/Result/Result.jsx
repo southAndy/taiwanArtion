@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../../container/Header/Header'
-import Modal from '../../components/Modal'
+import Modal from '../../components/Modal/Modal'
 import styled from 'styled-components'
 import {
    hotBg,

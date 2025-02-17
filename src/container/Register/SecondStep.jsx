@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
-import Button from '../../components/Button'
+import Button from '../../components/Button/Button.jsx'
 import StyledInput from '../../components/StyledInput'
 import styled from 'styled-components'
 import { useForm } from 'react-hook-form'

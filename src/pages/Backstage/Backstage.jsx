@@ -38,7 +38,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 import axios from 'axios'
-import Modal from '../../components/Modal'
+import Modal from '../../components/Modal/Modal'
 import { breakpoint } from '../../styles/utils/breakpoint'
 
 const Backstage = () => {

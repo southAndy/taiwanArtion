@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import Header from '../../container/Header/Header'
-import Button from '../../components/Button'
+import Button from '../../components/Button/Button'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { db } from '../../../firebase.config'
 import { updateDoc, doc, arrayUnion, getDoc, arrayRemove } from 'firebase/firestore'
@@ -16,7 +16,7 @@ import {
    likeIcon,
    loveFullIcon,
 } from '../../assets/images'
-import styled from '@emotion/styled'
+import styled from 'styled-components'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../../firebase.config'
