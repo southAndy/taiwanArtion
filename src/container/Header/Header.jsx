@@ -1,16 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo, useCallback, Suspense } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { setIsLogin } from '../../store/memberSlice'
-import { logoIcon, headerSearch, headerMenu, UserSamplePhoto } from '../../assets/images/index'
-import BaseLink from '../../styles/base/BaseLink'
-import BaseImageBox from '../../styles/base/BaseImageBox'
-import styled from '@emotion/styled'
-import Modal from '../../components/Modal'
-import Menu from '../Menu/Menu'
-import { breakpoint } from '../../styles/utils/breakpoint'
+import styled from 'styled-components'
+import Modal from '../../components/Modal/Modal'
+import Logo from './components/Logo'
+import Menu from './components/Menu'
+import UserMenu from './components/UserMenu'
 import {
-   selectPhotoIcon,
    userIcon0,
    userIcon1,
    userIcon2,
@@ -27,149 +23,141 @@ const Header = () => {
    const [isShowMenu, setMenu] = useState(false)
    const [isShowMemberMenu, setMemberMenu] = useState(false)
    const [menu, setMenuContent] = useState([])
-   const menuList = [
-      {
-         title: '地圖找展覽',
-         link: '/map',
-      },
-      {
-         title: '所有展覽',
-         link: '/all',
-      },
-      {
-         title: '註冊/登入',
-         link: '/account',
-      },
-      {
-         title: '個人頁面',
-         link: '/backstage',
-      },
-   ]
    const navigate = useNavigate()
    const isLogin = useSelector((state) => state.member.isLogin)
    const user = useSelector((state) => state.member.memberInfo)
    const dispatch = useDispatch()
-   const UserIcon = [
-      userIcon0,
-      userIcon1,
-      userIcon2,
-      userIcon3,
-      userIcon4,
-      userIcon5,
-      userIcon6,
-      userIcon7,
-      userIcon8,
-   ]
 
-   // 判斷是否登入，改變選單內容
-   useEffect(() => {
-      if (!document.cookie.includes('accessToken')) {
-         const loginMenu = menuList.filter((item) => item.title !== '個人頁面')
-         setMenuContent(() => loginMenu)
+   const menuList = useMemo(() => {
+      return [
+         {
+            title: '地圖找展覽',
+            link: '/map',
+         },
+         {
+            title: '所有展覽',
+            link: '/all',
+         },
+         {
+            title: '註冊/登入',
+            link: '/account',
+         },
+         {
+            title: '個人頁面',
+            link: '/backstage',
+         },
+      ]
+   }, [])
+   const userIcon = useMemo(() => {
+      return [
+         userIcon0,
+         userIcon1,
+         userIcon2,
+         userIcon3,
+         userIcon4,
+         userIcon5,
+         userIcon6,
+         userIcon7,
+         userIcon8,
+      ]
+   }, [])
+
+   const modal = useMemo(() => {
+      // 每個物件都是 Modal 元件所需的 props 值跟架構
+      return [
+         {
+            isShow: isShowModal,
+            setShow: setIsShowModal,
+            translate: 'unset',
+            overflow: 'auto',
+            children: <Menu setModlaShow={setIsShowModal} />,
+         },
+         {
+            isShow: isShowMenu,
+            setShow: setMenu,
+            height: '154px',
+            translate: 'unset',
+            overflow: 'auto',
+            children: (
+               <StyldMenuBox>
+                  {menu.map((item, index) => (
+                     <Link key={index} to={item.link} keys={index}>
+                        {item.title}
+                     </Link>
+                  ))}
+               </StyldMenuBox>
+            ),
+         },
+         {
+            isShow: isShowMemberMenu,
+            setShow: setMemberMenu,
+            width: '155px',
+            height: '164px',
+            position: { r: '1%', t: '0.5%', b: 'unset', l: 'unset' },
+            overflow: 'scroll',
+            borderRadius: '20px',
+            translate: 'unset',
+            children: (
+               <StyledMemberMenuBox>
+                  <div className='user'>
+                     <StyledUserIcon width={'38px'} height={'38px'}>
+                        <img src={userIcon[user?.photoIndex]} alt='' />
+                     </StyledUserIcon>
+                     <Link to={'/backstage'} className='user-name'>
+                        <div className='hello'>hello!</div>
+                        <div className='name'>{user.name || '預設使用者ssssss'}</div>
+                     </Link>
+                  </div>
+                  <Link to={'/backstage'} className='profile'>
+                     個人檔案
+                  </Link>
+                  <div className='logout' onClick={logout}>
+                     登出
+                  </div>
+               </StyledMemberMenuBox>
+            ),
+         },
+         {},
+      ]
+   }, [isShowModal, isShowMenu, isShowMemberMenu])
+
+   const showMenu = useCallback(() => {
+      let menu = []
+      if (!isLogin) {
+         menu = menuList.filter((item) => item.title !== '個人頁面')
       } else {
-         const logoutMenu = menuList.filter((item) => item.title !== '註冊/登入')
-         setMenuContent(() => logoutMenu)
+         menu = menuList.filter((item) => item.title !== '註冊/登入')
       }
+      setMenuContent(menu)
    }, [isLogin])
 
-   const logout = () => {
+   useEffect(() => {
+      showMenu()
+   }, [showMenu])
+
+   // todo 不知是否有優化空間
+   function logout() {
       //執行登出功能
       dispatch({ type: 'member/setLogout', payload: false })
       navigate('/')
       //關閉下拉清單顯示
-      setMemberMenu((n) => (n = false))
+      setMemberMenu(false)
    }
 
    return (
       <HeaderContainer>
-         <BaseLink width={'120px'} height={'40px'} to='/'>
-            <img src={logoIcon} alt='網站圖樣' />
-         </BaseLink>
-         <div className='menu'>
-            {[
-               {
-                  title: '地圖找展覽',
-                  link: '/map',
-               },
-               {
-                  title: '所有展覽',
-                  link: '/all',
-               },
-            ].map((item, index) => (
-               <Link key={index} to={item.link}>
-                  {item.title}
-               </Link>
-            ))}
-         </div>
-         <HeaderCategory>
-            <BaseImageBox width={'18px'} height={'18px'} onClick={() => setIsShowModal((n) => !n)}>
-               <img src={headerSearch} alt='搜尋圖樣' />
-            </BaseImageBox>
-            <div className='menu-mobile' onClick={() => setMenu((n) => !n)}>
-               <img className='w-[18px] h-[18px]' src={headerMenu} alt='選單圖樣' />
-            </div>
-            {/* todo 重做共用元件 */}
-            {document.cookie.includes('accessToken') ? (
-               <StyledUserIcon onClick={() => setMemberMenu((n) => !n)}>
-                  <img src={UserIcon[user.photoIndex]} alt='' />
-               </StyledUserIcon>
-            ) : (
-               <button
-                  className='login'
-                  onClick={() => {
-                     navigate('/account')
-                  }}
-               >
-                  登入/註冊
-               </button>
-            )}
-         </HeaderCategory>
-         <Modal isShow={isShowModal} setShow={setIsShowModal} translate={'unset'} overflow={'auto'}>
-            <Menu setModlaShow={setIsShowModal} />
-         </Modal>
-         <Modal
-            isShow={isShowMenu}
-            setShow={setMenu}
-            height={'154px'}
-            translate={'unset'}
-            overflow={'auto'}
-         >
-            <StyldMenuBox>
-               {menu.map((item, index) => (
-                  <Link key={index} to={item.link} keys={index}>
-                     {item.title}
-                  </Link>
-               ))}
-            </StyldMenuBox>
-         </Modal>
-         <Modal
-            isShow={isShowMemberMenu}
-            setShow={setMemberMenu}
-            width={'155px'}
-            height={'164px'}
-            position={{ r: '1%', t: '0.5%', b: 'unset', l: 'unset' }}
-            overflow={'scroll'}
-            borderRadius={'20px'}
-            translate={'unset'}
-         >
-            <StyledMemberMenuBox>
-               <div className='user'>
-                  <StyledUserIcon width={'38px'} height={'38px'}>
-                     <img src={UserIcon[user?.photoIndex]} alt='' />
-                  </StyledUserIcon>
-                  <Link to={'/backstage'} className='user-name'>
-                     <div className='hello'>hello!</div>
-                     <div className='name'>{user.name || '預設使用者ssssss'}</div>
-                  </Link>
-               </div>
-               <Link to={'/backstage'} className='profile'>
-                  個人檔案
-               </Link>
-               <div className='logout' onClick={logout}>
-                  登出
-               </div>
-            </StyledMemberMenuBox>
-         </Modal>
+         <Logo />
+         <Menu />
+         <UserMenu isLogin={isLogin} setSearchMenu={setIsShowModal} setMenu={setMenu} />
+         <Suspense fallback={null}>
+            {modal.map((modal, index) => {
+               return (
+                  <Modal key={index} {...modal}>
+                     {modal.children}
+                  </Modal>
+               )
+            })}
+         </Suspense>
       </HeaderContainer>
    )
 }
@@ -186,10 +174,6 @@ const StyledUserIcon = styled.div`
    }
 `
 
-const StyledLink = styled(Link)`
-   width: 120px;
-   height: 40px;
-`
 const StyldMenuBox = styled.div`
    display: flex;
    flex-direction: column;
@@ -204,65 +188,6 @@ const HeaderContainer = styled.header`
    padding: 8px 20px;
    background: #ffffff;
    box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
-
-   .menu {
-      display: none;
-   }
-
-   @media (min-width: ${breakpoint.tablet}px) {
-      .menu {
-         flex: 2;
-         display: flex;
-         gap: 20px;
-         margin-left: 40px;
-         font-weight: 700;
-
-         a {
-            font-size: 14px;
-            color: #535353;
-
-            &:hover {
-               color: #be875c;
-            }
-         }
-      }
-   }
-`
-
-const HeaderCategory = styled.div`
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   gap: 20px;
-   cursor: pointer;
-
-   .login {
-      display: none;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-   }
-
-   @media (min-width: ${breakpoint.tablet}px) {
-      .menu-mobile {
-         display: none;
-      }
-      .login {
-         display: block;
-         padding: 8px 25px;
-         background: #eeeeee;
-         color: #535353;
-         border: none;
-         border-radius: 20px;
-
-         &:hover {
-            background: #be875c;
-            color: #fff;
-         }
-      }
-   }
-   @media (min-width: ${breakpoint.desktop}px) {
-   }
 `
 
 const StyledMemberMenuBox = styled.div`
