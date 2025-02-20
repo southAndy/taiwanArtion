@@ -1,0 +1,14 @@
+{
+   "compilerOptions": {
+      "strict": true, // 開啟嚴格模式
+      "noImplicitAny": true, // 禁止隱含的 any 型別
+      "strictNullChecks": true, // 嚴格的 null 檢查
+      "jsx": "react-jsx", // 設定 React JSX 支援
+      "moduleResolution": "node", // 使用 Node.js 模組解析
+      "esModuleInterop": true, // 兼容 CommonJS 模組
+      "skipLibCheck": true, // 跳過 node_modules 的型別檢查
+      "forceConsistentCasingInFileNames": true // 強制一致的檔名大小寫
+   },
+   "include": ["src/**/*"], // 指定要檢查的資料夾
+   "exclude": ["node_modules"] // 排除不需要檢查的資料夾
+}
