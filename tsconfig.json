@@ -2,6 +2,7 @@
    "compilerOptions": {
       "strict": true, // 開啟嚴格模式
       "noImplicitAny": true, // 禁止隱含的 any 型別
+      "allowJs": true, // 允許 JavaScript 檔案
       "strictNullChecks": true, // 嚴格的 null 檢查
       "jsx": "react-jsx", // 設定 React JSX 支援
       "moduleResolution": "node", // 使用 Node.js 模組解析
