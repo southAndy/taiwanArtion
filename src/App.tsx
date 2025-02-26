@@ -1,14 +1,18 @@
-import Header from './container/Header/Header'
-// import { Provider } from 'react-redux'
-// import store from './store'
+// import Header from './container/Header/Header'
+import { Provider } from 'react-redux'
+import store from './store'
 import { RouterProvider } from 'react-router-dom'
+import GlobalStyle from './styles/theme/CreateGlobalStyle'
 import router from './routes/index'
 
 const App = () => {
    return (
       <>
-         {/* <Header /> */}
-         <RouterProvider router={router}></RouterProvider>
+         <GlobalStyle />
+         <Provider store={store}>
+            {/* <Header /> */}
+            <RouterProvider router={router}></RouterProvider>
+         </Provider>
       </>
    )
 }
