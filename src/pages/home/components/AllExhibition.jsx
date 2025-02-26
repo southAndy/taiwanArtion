@@ -1,8 +1,9 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
+import { PositionElement } from '../../../styles/base/PositionElement'
 import { breakpoint } from '../../../styles/utils/breakpoint'
 
-const Exhibition = ({}) => {
+const Exhibition = ({ openData }) => {
    return (
       <StyledAllExhibitionWrapper>
          <h3 className='title font-medium mb-4 text-xl w-[100%]'>所有展覽</h3>

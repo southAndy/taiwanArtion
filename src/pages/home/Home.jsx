@@ -1,10 +1,11 @@
 import { useEffect, useState, useMemo } from 'react'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
-import Header from '../../container/Header/Header'
+import SwiperBanner from '../../plugins/Swiper/SwiperSlide.jsx'
+import Header from '../../container/Header/Header.jsx'
 import MonthSelector from './components/MonthSelector.jsx'
 import HotExhibition from './components/HotExhibition.jsx'
+import AllExhibition from './components/AllExhibition.jsx'
 import fakeMonthList from '../../assets/data/month.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from '../../store/commonSlice'
@@ -39,6 +40,7 @@ const HomePage = () => {
          <SwiperBanner data={filterData} />
          <MonthSelector month={monthList} setMonth={setMonth} currentMonth={currentMonth} />
          <HotExhibition exhibition={openData} />
+         <AllExhibition openData={filterData} />
          <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>
    )

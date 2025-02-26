@@ -16,7 +16,7 @@ import {
 } from '../assets/images/index'
 // import Input from '../components/Input/Input'
 import StyledInput from '../components/StyledInput'
-import Button from '../components/Button'
+import Button from '../components/Button/Button'
 import { Link } from 'react-router-dom'
 import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
 import { db, auth } from '../../firebase.config'
