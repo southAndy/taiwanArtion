@@ -1,6 +1,8 @@
 import React, { memo } from 'react'
 import styled from 'styled-components'
+import BaseImageBox from '../../../styles/base/BaseImageBox'
 import { PositionElement } from '../../../styles/base/PositionElement'
+import { defaultBannerTablet, loveIcon, locationIcon } from '../../../assets/images'
 import { breakpoint } from '../../../styles/utils/breakpoint'
 
 const Exhibition = ({ openData }) => {
@@ -51,6 +53,14 @@ const StyledAllExhibitionWrapper = styled.div`
          justify-content: space-between;
       }
    }
+`
+const StyledExhibitionType = styled.div`
+   padding: 8px 16px;
+   border-radius: 20px;
+   background: #f9f9f9;
+   font-size: 14px;
+   color: #7b4d29;
+   cursor: pointer;
 `
 
 const TypeWrapper = styled.div`
