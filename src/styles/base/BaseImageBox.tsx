@@ -1,7 +1,17 @@
 import styled from 'styled-components'
 import { breakpoint } from '../utils/breakpoint'
 
-export default styled.div`
+interface BaseImageBoxProps {
+   width?: string
+   height?: string
+   tabletWidth?: string
+   tabletHeight?: string
+   desktopWidth?: string
+   desktopHeight?: string
+   scale?: string
+}
+
+export default styled.div<BaseImageBoxProps>`
    width: ${(props) => props.width};
    height: ${(props) => props.height};
    object-fit: ${(props) => (props.scale ? props.scale : 'contain')};
