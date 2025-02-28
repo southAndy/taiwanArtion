@@ -3,5 +3,6 @@ export default {
    transform: {
       '^.+\\.tsx?$': 'ts-jest', // Transform TypeScript files using ts-jest
    },
+   testEnvironment: 'jsdom',
    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
 }
