@@ -1,12 +1,20 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const StyledButton = styled.button.attrs((props) => ({
-   //todo 新增動態 type ，當 button 是 form 架構內的
+interface StyledButtonProps {
+   type?: 'button' | 'submit' | 'reset'
+   disabled?: boolean
+   color?: string
+   bgColor?: string
+   border?: string
+   margin?: string
+}
+
+const StyledButton = styled.button.attrs<StyledButtonProps>((props) => ({
    type: props.type || 'button',
-}))`
+}))<StyledButtonProps>`
    color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
-   background-color: ${(props) => (props.disabled ? '#EEEEEE' : ' #be875c')};
+   background-color: ${(props) => (props.disabled ? '#EEEEEE' : props.bgColor || '#be875c')};
    border-radius: 12px;
    width: 100%;
    border: ${(props) => (props.border ? props.border : 'none')};
@@ -20,16 +28,28 @@ const StyledButton = styled.button.attrs((props) => ({
    cursor: pointer;
 `
 
-const Button = ({
+interface ButtonProps {
+   children?: React.ReactNode
+   content?: string
+   disabled?: boolean
+   textColor?: string
+   buttonBackground?: string
+   margin?: string
+   isClick?: boolean
+   actions?: () => void
+   buttonType?: 'button' | 'submit' | 'reset'
+}
+
+const Button: React.FC<ButtonProps> = ({
    children,
    content,
-   disabled,
+   disabled = false,
    textColor,
    buttonBackground,
    margin,
    isClick,
    actions,
-   buttonType,
+   buttonType = 'button',
 }) => {
    return (
       <StyledButton
@@ -40,8 +60,9 @@ const Button = ({
          onClick={actions}
          disabled={disabled}
       >
-         {content}
+         {content || children}
       </StyledButton>
    )
 }
+
 export default Button
