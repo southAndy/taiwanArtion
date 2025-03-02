@@ -7,7 +7,7 @@ const Footer = () => {
    return (
       <StyledFooter>
          <section className='service'>
-            <BaseImageBox alt='logo' width={'140px'} height={'52px'}>
+            <BaseImageBox width={'140px'} height={'52px'}>
                <img src={logoIcon} alt='logo' />
             </BaseImageBox>
 
