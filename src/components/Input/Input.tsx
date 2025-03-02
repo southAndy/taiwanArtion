@@ -5,11 +5,11 @@ interface InputProps {
    width?: string
    placeholder: string
    value: string
-   inputSize: string
+   inputSize: 'small' | 'medium' | 'large' | 'xlarge' | 'custom'
    shape?: string
    setValue: (value: string) => void
    isError?: boolean
-   types: string
+   type: string
    formState?: 'error' | 'success' | 'default' | 'loading' | 'disabled'
 }
 
@@ -21,7 +21,7 @@ const Input: React.FC<InputProps> = ({
    shape,
    setValue,
    isError,
-   types,
+   type,
    formState,
 }) => {
    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
          width={width}
          inputSize={inputSize}
          shape={shape}
-         type={types}
+         type={type}
          isError={isError}
          placeholder={placeholder}
          formState={formState}
@@ -45,7 +45,7 @@ const Input: React.FC<InputProps> = ({
 
 interface StyledInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
    shape?: string
-   inputSize: string
+   inputSize?: string
    formState?: 'error' | 'success' | 'default' | 'loading' | 'disabled'
    placeholder: string
    type: string
@@ -58,12 +58,35 @@ interface StyledInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, '
 const StyledInput = styled.input.attrs((props: StyledInputProps) => ({
    placeholder: props.placeholder,
    type: props.type,
+   'data-testid': 'input',
 }))<StyledInputProps>`
    width: 100%;
    border-radius: ${(props) => props.shape ?? '16px'};
    border: ${(props) => (props.formState === 'error' ? '1px solid #D31C1C' : '1px solid #e0e0e0')};
-   padding: ${(props) => props.inputSize ?? '16px'};
-   font-size: 16px;
+   padding: ${(props) => {
+      switch (props.inputSize) {
+         case 'small':
+            return '12px'
+         case 'medium':
+            return '14px'
+         case 'large':
+            return '16px'
+         default:
+            return props.inputSize ?? '16px'
+      }
+   }};
+   font-size: ${(props) => {
+      switch (props.inputSize) {
+         case 'small':
+            return '12px'
+         case 'medium':
+            return '14px'
+         case 'large':
+            return '16px'
+         default:
+            return props.inputSize ?? '16px'
+      }
+   }};
 
    &:focus-visible {
       border: none;
