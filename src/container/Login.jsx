@@ -1,25 +1,14 @@
 import React from 'react'
-import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { fetchMemberInfo } from '../store/memberSlice'
-import { setIsLogin } from '../store/memberSlice'
 import Header from './Header/Header'
 import styled from 'styled-components'
-import {
-   hotBg,
-   vectorIcon,
-   facebookIcon,
-   lineIcon,
-   googleIcon,
-   warnIcon,
-} from '../assets/images/index'
-// import Input from '../components/Input/Input'
+import { hotBg, vectorIcon, warnIcon } from '../assets/images/index'
 import StyledInput from '../components/StyledInput'
-import Button from '../components/Button'
+import Button from '../components/Button/Button'
 import { Link } from 'react-router-dom'
-import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
-import { db, auth } from '../../firebase.config'
+import { auth } from '../../firebase.config'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
@@ -27,8 +16,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import BaseImageBox from '../styles/base/BaseImageBox'
 
 const Login = () => {
-   const [username, setUsername] = useState('')
-   const [password, setPassword] = useState('')
    //todo 調整 button 元件 props
    const navigate = useNavigate()
    const location = useLocation()
@@ -42,7 +29,6 @@ const Login = () => {
       handleSubmit,
       register,
       formState: { errors },
-      setError,
    } = useForm({
       resolver: yupResolver(schema),
       mode: 'onBlur',
@@ -70,28 +56,6 @@ const Login = () => {
       }
    }
 
-   const loginLine = () => {
-      const channel_id = '2003812489'
-      const homePage = 'https://2439-111-241-166-18.ngrok-free.app/?isLogin=true'
-      const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${channel_id}&redirect_uri=${homePage}&state=12345abcde&scope=profile&nonce=09876xyz`
-
-      //登入成功後，將登入狀態改為 true ，並且存入 redux
-      dispatch(setIsLogin(true))
-      window.location.href = lineLoginUrl
-      //將登入成功存入 cookie
-      document.cookie = 'isLogin=true'
-   }
-   const loginGoogle = async () => {
-      try {
-         const result = await signInWithPopup(auth, provider)
-         const user = result.user
-         console.log(user)
-         // todo 增加成員的處理
-         navigate('/')
-      } catch (e) {
-         console.log(e)
-      }
-   }
    return (
       <>
          <Header />
@@ -142,7 +106,6 @@ const Login = () => {
                      ''
                   )}
                </div>
-               {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
                <Button buttonType={'submit'} content={'登入'} />
             </form>
             <section className='remind'>
@@ -152,18 +115,6 @@ const Login = () => {
                      註冊帳號
                   </Link>
                </div>
-               {/* <p className=' cursor-pointer'>或者使用以下方式登入</p>
-               <div className='society'>
-                  <StyledImageBox>
-                     <img src={facebookIcon} alt='' />
-                  </StyledImageBox>
-                  <StyledImageBox onClick={loginGoogle}>
-                     <img src={googleIcon} alt='' />
-                  </StyledImageBox>
-                  <StyledImageBox onClick={loginLine}>
-                     <img src={lineIcon} alt='' />
-                  </StyledImageBox>
-               </div> */}
             </section>
          </StyledContent>
       </>
@@ -179,11 +130,6 @@ const StyledErrorBox = styled.div`
 const StyledLink = styled(Link)`
    width: 18px;
    height: 18px;
-`
-const StyledForgetLink = styled(Link)`
-   color: #a9622a;
-   width: 85px;
-   margin-left: auto;
 `
 
 const StyledLoginBanner = styled.section`
@@ -236,11 +182,6 @@ const StyledContent = styled.section`
       display: flex;
       gap: 24px;
    }
-`
-const StyledImageBox = styled.div`
-   cursor: pointer;
-   height: 40px;
-   width: 40px;
 `
 
 export default Login
