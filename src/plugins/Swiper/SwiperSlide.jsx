@@ -1,11 +1,10 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
 import styled from 'styled-components'
-import BaseImageBox from '../../styles/base/BaseImageBox'
 import {
    defaultBannerTablet,
    calendarIcon,
@@ -51,7 +50,7 @@ export default function SwiperBanner({ data }) {
                      slidesPerView: 1.5,
                   },
                   992: {
-                     slidesPerView: 1.5,
+                     slidesPerView: 2,
                   },
                   1440: {
                      slidesPerView: 2.5,
@@ -176,6 +175,12 @@ const StyledSwiper = styled(Swiper)`
 const StyledIcon = styled.div`
    width: 16px;
    height: 16px;
+
+   img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
 `
 
 const StyledSwiperSlide = styled(SwiperSlide)`
@@ -248,6 +253,9 @@ const StyledBannerImage = styled.div`
 
    img {
       border-radius: 8px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
    }
 
    @media (min-width: ${breakpoint.tablet}px) {

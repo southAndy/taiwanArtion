@@ -37,8 +37,8 @@ const HomePage = () => {
    return (
       <>
          <Header />
-         <SwiperBanner data={filterData} />
          <MonthSelector month={monthList} setMonth={setMonth} currentMonth={currentMonth} />
+         <SwiperBanner data={filterData} />
          <HotExhibition exhibition={openData} />
          <StyledFooter>© 2024 ARTION.All rights reserved</StyledFooter>
       </>
