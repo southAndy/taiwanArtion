@@ -140,12 +140,12 @@ export default function DetailPage() {
                <DetailOption isActive={false} href='#introduce'>
                   簡介
                </DetailOption>
-               <DetailOption isActive={false} href='#price'>
+               {/* <DetailOption isActive={false} href='#price'>
                   票價
-               </DetailOption>
-               <DetailOption isActive={false} href='#comment'>
+               </DetailOption> */}
+               {/* <DetailOption isActive={false} href='#comment'>
                   評價
-               </DetailOption>
+               </DetailOption> */}
             </section>
             <StyledOverviewBox>
                <StyledInfoTitle id='overview'>總覽</StyledInfoTitle>
@@ -199,14 +199,19 @@ export default function DetailPage() {
                <StyledInfoTitle id='introduce'>展覽介紹</StyledInfoTitle>
                <p>{currentData[0]?.descriptionFilterHtml}</p>
             </StyledContent>
-            <StyledInfo>
-               <StyledInfoTitle id='price'>展覽票價</StyledInfoTitle>
-               <p>{currentData[0]?.webSales ?? '-'}</p>
-            </StyledInfo>
+            {currentData[0]?.webSales ? (
+               <StyledInfo>
+                  <StyledInfoTitle id='price'>展覽票價</StyledInfoTitle>
+                  <p>{currentData[0]?.webSales}</p>
+               </StyledInfo>
+            ) : (
+               ''
+            )}
+
             <StyledInfo>
                <StyledInfoTitle id='place'></StyledInfoTitle>
             </StyledInfo>
-            <StyledRateBox>
+            {/* <StyledRateBox>
                <StyledInfoTitle id='comment'>展覽評論</StyledInfoTitle>
                <StyledInfoComment>
                   <div className='user flex gap-4'>
@@ -254,13 +259,12 @@ export default function DetailPage() {
                   </div>
                </StyledInfoComment>
                <div className='menu'>
-                  {/* todo 調整共用按鈕 */}
                   <Button content={'全部'}></Button>
                   <Button content={'最新評價'}></Button>
                   <Button content={'最高評價'}></Button>
                   <Button content={'撰寫評價'}></Button>
                </div>
-            </StyledRateBox>
+            </StyledRateBox> */}
          </DetailContainer>
          <StyledToolBar>
             <div className='option' onClick={handleAddExhibition}>
