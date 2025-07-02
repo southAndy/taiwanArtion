@@ -16,7 +16,7 @@ import {
    passwordShowIcon,
 } from '../../assets/images'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../../../firebase.config.js'
 import { useDispatch } from 'react-redux'
 
@@ -88,6 +88,16 @@ const secondStep = ({ setStep, setUserInfo }) => {
       mode: 'onBlur', // 欄位驗證時機
    })
 
+   async function getUserInfo(uid) {
+      try {
+         const userDatas = doc(db, 'users', uid)
+         const docSnap = await getDoc(userDatas)
+         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+      } catch (e) {
+         console.log('取得使用者資料失敗', e)
+      }
+   }
+
    async function actions(data) {
       try {
          // 使用信箱驗證
@@ -95,13 +105,16 @@ const secondStep = ({ setStep, setUserInfo }) => {
 
          // 將使用者資料存入 firestore
          await setDoc(doc(db, 'users', userCredit.user.uid), {
-            // account: data.account,
             email: data.email,
             uid: userCredit.user.uid,
             photoIndex: 0, // 預設大頭貼為第一張
             interests: [], // 興趣標籤
             favorite: [], // 收藏展覽
          })
+
+         // 從 Firestore 取得使用者資料並存入 Redux (推薦做法)
+         await getUserInfo(userCredit.user.uid)
+
          // 將 accessToken 存入 cookie (登入狀態)
          document.cookie = `accessToken=${userCredit.user.accessToken}`
          dispatch({ type: 'member/setIsLogin', payload: true })
