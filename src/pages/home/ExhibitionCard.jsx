@@ -5,8 +5,15 @@ import { breakpoint } from '../../styles/utils/breakpoint'
 import { loveIcon, locationIcon, defaultBannerTablet } from '../../assets/images'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
+import { toggleFavoriteWithSync } from '../../utils/favoriteUtils'
 
 const AllExhibitionCard = ({ data }) => {
+  const handleFavorite = event => {
+    event.stopPropagation()
+    event.preventDefault()
+
+    toggleFavoriteWithSync(data.UID)
+  }
   return (
     <StyledLink to={`/detail/${data.UID}`}>
       <BaseImageBox width={'100%'} height={'180px'} tabletHeight={'202px'} className="exhibition">
@@ -15,7 +22,12 @@ const AllExhibitionCard = ({ data }) => {
           alt=""
           className="rounded-lg"
         />
-        <StyledPositionImageBox position={'absolute'} right={'2%'} top={'5%'}>
+        <StyledPositionImageBox
+          position={'absolute'}
+          right={'2%'}
+          top={'5%'}
+          onClick={handleFavorite}
+        >
           <img src={loveIcon} alt="收藏按鈕" />
         </StyledPositionImageBox>
       </BaseImageBox>
