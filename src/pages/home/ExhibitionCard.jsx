@@ -6,11 +6,21 @@ import { loveIcon, locationIcon, defaultBannerTablet } from '../../assets/images
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs'
 import { toggleFavoriteWithSync } from '../../utils/favoriteUtils'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const AllExhibitionCard = ({ data }) => {
+  const navigate = useNavigate()
+  const { user } = useSelector(state => state.user)
+
   const handleFavorite = event => {
     event.stopPropagation()
     event.preventDefault()
+
+    if (!user) {
+      navigate('/login')
+      return
+    }
 
     toggleFavoriteWithSync(data.UID)
   }

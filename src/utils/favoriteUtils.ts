@@ -91,12 +91,6 @@ export const syncToFirebase = async (userId, exhibitionId, action = 'add') => {
 
 // 完整的切換收藏 (localStorage + Firebase)
 export const toggleFavoriteWithSync = async (exhibitionId, userId = null) => {
-  // 如果沒有登入，則連到登入頁面
-  if (!userId) {
-    window.location.href = '/login'
-    return false
-  }
-
   const wasAdded = !isFavorited(exhibitionId)
   const localSuccess = toggleFavorite(exhibitionId)
 
