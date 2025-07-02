@@ -2,27 +2,49 @@ import styled from 'styled-components'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { PositionElement } from '../../styles/base/PositionElement'
 import { breakpoint } from '../../styles/utils/breakpoint'
-import { loveIcon, locationIcon, defaultBannerTablet } from '../../assets/images'
-import { Link } from 'react-router-dom'
+import { loveIcon, locationIcon, defaultBannerTablet, loveFullIcon } from '../../assets/images'
+import { Link, useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
-import { toggleFavoriteWithSync } from '../../utils/favoriteUtils'
-import { useNavigate } from 'react-router-dom'
+import { toggleFavoriteWithSync, isFavorited } from '../../utils/favoriteUtils'
 import { useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 const AllExhibitionCard = ({ data }) => {
+  const [isFavorite, setIsFavorite] = useState(false)
   const navigate = useNavigate()
-  const { user } = useSelector(state => state.user)
+  const isLogin = useSelector(state => state.member.isLogin)
+  const memberInfo = useSelector(state => state.member.memberInfo)
 
-  const handleFavorite = event => {
+  // 初始化收藏狀態
+  useEffect(() => {
+    setIsFavorite(isFavorited(data.UID))
+  }, [data.UID])
+
+  // 監聽登入狀態變化，重新檢查收藏狀態
+  useEffect(() => {
+    if (isLogin) {
+      setIsFavorite(isFavorited(data.UID))
+    } else {
+      setIsFavorite(false)
+    }
+  }, [isLogin, data.UID])
+
+  const handleFavorite = async event => {
     event.stopPropagation()
     event.preventDefault()
 
-    if (!user) {
+    if (!isLogin) {
       navigate('/login')
       return
     }
 
-    toggleFavoriteWithSync(data.UID)
+    if (memberInfo?.uid) {
+      const success = await toggleFavoriteWithSync(data.UID, memberInfo.uid)
+      if (success) {
+        // 操作成功後更新本地狀態
+        setIsFavorite(isFavorited(data.UID))
+      }
+    }
   }
   return (
     <StyledLink to={`/detail/${data.UID}`}>
@@ -38,7 +60,7 @@ const AllExhibitionCard = ({ data }) => {
           top={'5%'}
           onClick={handleFavorite}
         >
-          <img src={loveIcon} alt="收藏按鈕" />
+          <img src={isFavorite ? loveFullIcon : loveIcon} alt="收藏按鈕" />
         </StyledPositionImageBox>
       </BaseImageBox>
       <h3>{data.title}</h3>
