@@ -1,5 +1,9 @@
 # 更新日誌
 
+## 2025-07-02
+
+- 修復註冊完成未顯示預設頭貼問題 ![ad05fdba75586548b8d0155b8a453071e6f1f56b](https://github.com/southAndy/taiwanArtion/compare/main...hotfix-register)
+
 ## 2025-01-02
 
 - 詳細頁面返回首頁 => 改為返回前一個頁面
