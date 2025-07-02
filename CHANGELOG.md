@@ -2,7 +2,7 @@
 
 ## 2025-07-02
 
-- 修復註冊完成未顯示預設頭貼問題 ![ad05fdba75586548b8d0155b8a453071e6f1f56b](https://github.com/southAndy/taiwanArtion/compare/main...hotfix-register)
+- 修復註冊完成未顯示預設頭貼問題 [ad05fdba75586548b8d0155b8a453071e6f1f56b](https://github.com/southAndy/taiwanArtion/commit/ad05fdba75586548b8d0155b8a453071e6f1f56b)
 
 ## 2025-01-02
 
