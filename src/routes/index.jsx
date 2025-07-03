@@ -13,64 +13,96 @@ import Backstage from '../pages/Backstage/Backstage'
 import MapPage from '../pages/Map/Map'
 import ProtectedRoute from './ProtectedRoute'
 import handleLogin from './authLogin'
+import Layout from '../layouts/Layout'
 
 const LoginPage = lazy(() => import('../container/Login'))
 
 const router = createBrowserRouter([
-   {
-      path: '/',
-      element: <HomePage />,
-      errorElement: <ErrorPage />,
-      children: [],
-   },
-   {
-      path: '/map',
-      element: <MapPage />,
-   },
-   {
-      path: '/detail/:id',
-      element: <DetailPage />,
-   },
-   {
-      path: '/result/',
-      element: <ResultPage />,
-   },
-   {
-      path: '/account',
-      element: (
-         <ProtectedRoute>
-            <AccountPage />
-         </ProtectedRoute>
-      ),
-      // 新增檢查權限
-   },
-   {
-      path: '/login',
-      element: (
-         <ProtectedRoute>
-            <Suspense fallback={<div>Loading...</div>}>
-               <LoginPage />
-            </Suspense>
-         </ProtectedRoute>
-      ),
-   },
-   {
-      path: '/register',
-      element: (
-         <ProtectedRoute>
-            <Register />
-         </ProtectedRoute>
-      ),
-   },
-   // {
-   //    path: '/reset',
-   //    element: <Reset />,
-   // },
-   {
-      path: '/backstage/',
-      element: <Backstage />,
-      loader: handleLogin,
-   },
+  {
+    path: '/',
+    element: <Layout />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: '/map',
+        element: <MapPage />,
+      },
+      {
+        path: '/detail/:id',
+        element: <DetailPage />,
+      },
+      {
+        path: '/result/',
+        element: <ResultPage />,
+      },
+      {
+        path: '/account',
+        element: <AccountPage />,
+      },
+      {
+        path: '/login',
+      },
+      {
+        path: '/register',
+        element: <Register />,
+      },
+      {
+        path: '/backstage/',
+      },
+    ],
+  },
+  //   {
+  //     path: '/map',
+  //     element: <MapPage />,
+  //   },
+  //   {
+  //     path: '/detail/:id',
+  //     element: <DetailPage />,
+  //   },
+  //   {
+  //     path: '/result/',
+  //     element: <ResultPage />,
+  //   },
+  //   {
+  //     path: '/account',
+  //     element: (
+  //       <ProtectedRoute>
+  //         <AccountPage />
+  //       </ProtectedRoute>
+  //     ),
+  //     // 新增檢查權限
+  //   },
+  //   {
+  //     path: '/login',
+  //     element: (
+  //       <ProtectedRoute>
+  //         <Suspense fallback={<div>Loading...</div>}>
+  //           <LoginPage />
+  //         </Suspense>
+  //       </ProtectedRoute>
+  //     ),
+  //   },
+  //   {
+  //     path: '/register',
+  //     element: (
+  //       <ProtectedRoute>
+  //         <Register />
+  //       </ProtectedRoute>
+  //     ),
+  //   },
+  //   // {
+  //   //    path: '/reset',
+  //   //    element: <Reset />,
+  //   // },
+  //   {
+  //     path: '/backstage/',
+  //     element: <Backstage />,
+  //     loader: handleLogin,
+  //   },
 ])
 
 export default router
