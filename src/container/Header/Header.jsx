@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { setIsLogin } from '../../store/userSlice'
-import { logoIcon, headerSearch, headerMenu, UserSamplePhoto } from '../../assets/images/index'
+import { logoIcon, headerSearch, headerMenu } from '../../assets/images/index'
+import { logout } from '../../store/userSlice'
 import BaseLink from '../../styles/base/BaseLink'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import styled from '@emotion/styled'
@@ -10,7 +10,6 @@ import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import {
-  selectPhotoIcon,
   userIcon0,
   userIcon1,
   userIcon2,
@@ -61,20 +60,20 @@ const Header = () => {
     userIcon8,
   ]
 
-  // 判斷是否登入，改變選單內容
+  // switch menu content
   useEffect(() => {
-    if (!document.cookie.includes('accessToken')) {
-      const loginMenu = menuList.filter(item => item.title !== '個人頁面')
-      setMenuContent(() => loginMenu)
+    if (isLogin) {
+      // remove login menu
+      setMenuContent(menuList.filter(item => item.title !== '註冊/登入'))
     } else {
-      const logoutMenu = menuList.filter(item => item.title !== '註冊/登入')
-      setMenuContent(() => logoutMenu)
+      // remove register menu
+      setMenuContent(menuList.filter(item => item.title !== '個人頁面'))
     }
   }, [isLogin])
 
-  const logout = () => {
+  const handleLogout = () => {
     //執行登出功能
-    dispatch({ type: 'member/setLogout', payload: false })
+    dispatch(logout())
     navigate('/')
     //關閉下拉清單顯示
     setMemberMenu(n => (n = false))
@@ -108,10 +107,9 @@ const Header = () => {
         <div className="menu-mobile" onClick={() => setMenu(n => !n)}>
           <img className="w-[18px] h-[18px]" src={headerMenu} alt="選單圖樣" />
         </div>
-        {/* todo 重做共用元件 */}
-        {document.cookie.includes('accessToken') ? (
+        {isLogin ? (
           <StyledUserIcon onClick={() => setMemberMenu(n => !n)}>
-            <img src={UserIcon[user.photoIndex]} alt="" />
+            <img src={UserIcon[0]} alt="" />
           </StyledUserIcon>
         ) : (
           <button
@@ -165,7 +163,7 @@ const Header = () => {
           <Link to={'/backstage'} className="profile">
             個人檔案
           </Link>
-          <div className="logout" onClick={logout}>
+          <div className="logout" onClick={handleLogout}>
             登出
           </div>
         </StyledMemberMenuBox>

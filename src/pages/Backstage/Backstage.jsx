@@ -1,9 +1,6 @@
 import React from 'react'
 import { useState, useEffect, useRef } from 'react'
-import Header from '../../container/Header/Header'
-import { Link } from 'react-router-dom'
-// import { useSelector } from 'react-redux'
-import Footer from '../../container/Footer/Footer'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   backstageIcon,
   UserSamplePhoto,
@@ -33,7 +30,6 @@ import StoreMenu from './StoreMenu'
 import CalendarMenu from './CalendarMenu'
 import ProfileMenu from './ProfileMenu'
 import { PositionElement } from '../../styles/base/PositionElement'
-import { useSelector, useDispatch } from 'react-redux'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
@@ -160,7 +156,6 @@ const Backstage = () => {
 
   return (
     <>
-      <Header />
       <StyledBackstageContainer>
         <StyledUserInfo>
           <BaseImageBox
@@ -204,7 +199,6 @@ const Backstage = () => {
         </StyledMenuBox>
       </StyledBackstageContainer>
       <StyledFeatureBox>{renderMenu()}</StyledFeatureBox>
-      <Footer />
       <Modal
         isShow={isShowPhotoMenu}
         setShow={setIsShowPhotoMenu}

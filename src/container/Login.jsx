@@ -1,36 +1,24 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setIsLogin, login } from '../store/userSlice'
 import styled from 'styled-components'
-import {
-  hotBg,
-  vectorIcon,
-  facebookIcon,
-  lineIcon,
-  googleIcon,
-  warnIcon,
-} from '../assets/images/index'
-// import Input from '../components/Input/Input'
+import { hotBg, vectorIcon, warnIcon } from '../assets/images/index'
 import StyledInput from '../components/StyledInput'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
-import { collection, doc, getDocs, getDoc, query, where } from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db, auth } from '../../firebase.config'
-import { signInWithEmailAndPassword } from 'firebase/auth'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import BaseImageBox from '../styles/base/BaseImageBox'
 
 const Login = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  //todo 調整 button 元件 props
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useDispatch()
+  const isLogin = useSelector(state => state.user.isLogin)
 
   const schema = yup.object().shape({
     email: yup.string().email('請輸入有效的信箱格式').required('此欄位為必填'),
@@ -40,18 +28,24 @@ const Login = () => {
     handleSubmit,
     register,
     formState: { errors },
-    setError,
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
+
+  useEffect(() => {
+    console.log('isLogin', isLogin)
+    if (isLogin) {
+      navigate('/backstage')
+    }
+  }, [isLogin])
 
   async function getUserInfo(uid) {
     try {
       const userDatas = doc(db, 'users', uid)
       const docSnap = await getDoc(userDatas)
       // 存入 redux
-      dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+      dispatch({ type: 'user/setUserInfo', payload: docSnap.data() })
     } catch (e) {
       console.log(e)
     }
@@ -61,14 +55,7 @@ const Login = () => {
     const { email, password } = data
     try {
       // 使用信箱和密碼進行驗證
-
-      const result = await dispatch(login({ email, password }))
-      console.log('result', result)
-
-      // 如果是從其他頁面跳轉的，回去該頁面
-      const from = location.state?.from || '/backstage'
-      navigate(from)
-      dispatch({ type: 'member/setIsLogin', payload: true })
+      dispatch(login({ email, password }))
     } catch (error) {
       console.error('Error during login:', error)
     }
