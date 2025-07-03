@@ -1,23 +1,13 @@
-import { useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
-import {
-  loginBannerMobile,
-  facebookIcon,
-  lineIcon,
-  googleIcon,
-  logoWhite,
-} from '../assets/images/index'
-import Header from './Header/Header'
+import { Link } from 'react-router-dom'
+import { loginBannerMobile, logoWhite } from '../assets/images/index'
 import styled from 'styled-components'
 import Flex from '../styles/utils/Flex'
 import { PositionElement } from '../styles/base/PositionElement'
 import { breakpoint } from '../styles/utils/breakpoint'
 
 const LoginPage = () => {
-  const navigate = useNavigate()
   return (
     <>
-      <Header />
       <StyledLoginContainer>
         <StyledBanner>
           <img src={loginBannerMobile} alt="" />

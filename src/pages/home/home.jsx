@@ -1,10 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
-import axios from 'axios'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
-// import Header from '../../container/Header/Header'
-// import Footer from '../../container/Footer/Footer'
 import fakeMonthList from '../../assets/data/month.json'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchData } from '../../store/commonSlice'
@@ -87,7 +84,6 @@ const HomePage = () => {
 
   return (
     <>
-      {/* <Header /> */}
       <StyledMonthWrapper>
         <h3 className="title">{new Date().getFullYear()}年</h3>
         <StyledMonthBox>
@@ -148,7 +144,6 @@ const HomePage = () => {
           })}
         </div>
       </StyledAllExhibitionWrapper>
-      {/* <Footer /> */}
     </>
   )
 }
