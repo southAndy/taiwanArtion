@@ -15,7 +15,16 @@ export const monitorUserState = createAsyncThunk('user/monitorUserState', async 
 // login
 export const login = createAsyncThunk('user/login', async ({ email, password }) => {
   const userCredential = await signInWithEmailAndPassword(auth, email, password)
-  return userCredential.user
+  console.log('userCredential', userCredential)
+  return {
+    uid: userCredential.user.uid,
+    email: userCredential.user.email,
+    displayName: userCredential.user.displayName,
+    photoURL: userCredential.user.photoURL,
+    emailVerified: userCredential.user.emailVerified,
+    isAnonymous: userCredential.user.isAnonymous,
+    providerData: userCredential.user.providerData,
+  }
 })
 
 // logout
@@ -29,7 +38,7 @@ const userSlice = createSlice({
   initialState: {
     userInfo: {},
     loginTime: '',
-    isLogin: false,
+    isLogin: false, // login state
     isLoading: false,
   },
   reducers: {
@@ -55,6 +64,14 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(monitorUserState.fulfilled, (state, action) => {
       state.userInfo = action.payload
+    })
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.isLogin = true
+      state.userInfo = action.payload
+    })
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.isLogin = false
+      state.userInfo = {}
     })
   },
 })
