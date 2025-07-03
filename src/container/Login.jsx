@@ -2,8 +2,7 @@ import React from 'react'
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { setIsLogin } from '../store/memberSlice'
-import Header from './Header/Header'
+import { setIsLogin, login } from '../store/userSlice'
 import styled from 'styled-components'
 import {
   hotBg,
@@ -62,14 +61,9 @@ const Login = () => {
     const { email, password } = data
     try {
       // 使用信箱和密碼進行驗證
-      const loginInfo = await signInWithEmailAndPassword(auth, email, password)
 
-      // 取得使用者資料
-      await getUserInfo(loginInfo.user.uid)
-
-      // 登入成功後，存 accessToken 到 cookie 中，並將登入狀態改為 true
-      document.cookie = 'accessToken=' + loginInfo.user.accessToken
-      document.cookie = `isLogin=true`
+      const result = await dispatch(login({ email, password }))
+      console.log('result', result)
 
       // 如果是從其他頁面跳轉的，回去該頁面
       const from = location.state?.from || '/backstage'
@@ -104,7 +98,6 @@ const Login = () => {
   }
   return (
     <>
-      <Header />
       <StyledLoginBanner>
         <StyledLink to="/account">
           <img src={vectorIcon} alt="回到上一頁箭頭" />

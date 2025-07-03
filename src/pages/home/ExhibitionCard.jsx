@@ -12,8 +12,8 @@ import { useState, useEffect } from 'react'
 const AllExhibitionCard = ({ data }) => {
   const [isFavorite, setIsFavorite] = useState(false)
   const navigate = useNavigate()
-  const isLogin = useSelector(state => state.member.isLogin)
-  const memberInfo = useSelector(state => state.member.memberInfo)
+  const isLogin = useSelector(state => state.user.isLogin)
+  const userInfo = useSelector(state => state.user.userInfo)
 
   // 初始化收藏狀態
   useEffect(() => {
@@ -38,8 +38,8 @@ const AllExhibitionCard = ({ data }) => {
       return
     }
 
-    if (memberInfo?.uid) {
-      const success = await toggleFavoriteWithSync(data.UID, memberInfo.uid)
+    if (userInfo?.uid) {
+      const success = await toggleFavoriteWithSync(data.UID, userInfo.uid)
       if (success) {
         // 操作成功後更新本地狀態
         setIsFavorite(isFavorited(data.UID))
