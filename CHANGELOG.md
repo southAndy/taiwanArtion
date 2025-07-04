@@ -1,5 +1,18 @@
 # 更新日誌
 
+## 2025-07-04
+
+- feat:重整頁面偵測登入狀態功能 [2bb4f07](https://github.com/southAndy/taiwanArtion/commit/2bb4f07cd4b659b850a14cc12241ce0ee8b078d7)
+- fix:修復首頁輪播展覽日期篩選邏輯 [51a469a](https://github.com/southAndy/taiwanArtion/commit/51a469a4f846320390094b4abbc509e171d5b1ee)
+- feat:展覽詳細頁面新增 Loading 樣式 [973d979](https://github.com/southAndy/taiwanArtion/commit/973d9798c2901f03e0df25391b908981eb6d963a)
+
+### 🔄 重構計劃啟動
+
+- 確定優化執行順序：組件拆分 → TypeScript 遷移 → 測試導入
+- 識別需要拆分的大組件：Detail.jsx、Backstage.jsx、Header.jsx
+
+更詳細內容 [重構紀錄](./Refactor.md)
+
 ## 2025-07-03
 
 - refactor:加入根層 App 元件，簡化 index.jsx 檔案邏輯，責任分明 [e32e081](https://github.com/southAndy/taiwanArtion/commit/e32e08161b26bc69770e80ccd7237073262fc42f)
