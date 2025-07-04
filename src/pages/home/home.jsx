@@ -11,28 +11,7 @@ import ExhibitionCard from './HotCard.jsx'
 import filterRules from '../../assets/data/filterRules.json'
 import { sortByDate, sortByHitRate } from '../../utils/date'
 
-import {
-  // categoryicon1,
-  // categoryicon2,
-  // categoryicon3,
-  // categoryicon4,
-  // categoryicon5,
-  // categoryicon6,
-  // categoryicon7,
-  // categoryicon8,
-  hotBg,
-} from '../../assets/images/index'
-
-// const categoryList = [
-//    { imageUrl: categoryicon1, title: '美術' },
-//    { imageUrl: categoryicon2, title: '攝影' },
-//    { imageUrl: categoryicon3, title: '音樂' },
-//    { imageUrl: categoryicon4, title: '戲劇' },
-//    { imageUrl: categoryicon5, title: '舞蹈' },
-//    { imageUrl: categoryicon6, title: '綜藝' },
-//    { imageUrl: categoryicon7, title: '親子' },
-//    { imageUrl: categoryicon8, title: '展覽' },
-// ]
+import { hotBg } from '../../assets/images/index'
 
 const HomePage = () => {
   const monthList = fakeMonthList
@@ -48,15 +27,18 @@ const HomePage = () => {
 
   // 當月份改變時篩選資料
   const filterData = useMemo(() => {
+    const currentYear = new Date().getFullYear()
+    const targetDate = dayjs(`${currentYear}-${String(currentMonth).padStart(2, '0')}-01`)
+
     const currentMonthData = openData
       .filter(data => {
-        const startDate = dayjs(data.startDate).month() + 1
-        const hasImage = Boolean(data.imageUrl) //判斷此筆資料是否有圖片
-        // todo 目前月份篩選，會不夠精確，因為只有月份，沒有年份
-        return startDate >= currentMonth && hasImage
+        const startDate = dayjs(data.startDate)
+        const hasImage = Boolean(data.imageUrl)
+
+        return (startDate.isAfter(targetDate) || startDate.isSame(targetDate, 'month')) && hasImage
       })
       .slice(0, 12)
-    // 如果當月沒有展覽，就顯示全部展覽
+
     if (currentMonthData.length === 0) {
       return openData.slice(0, 12)
     } else {
@@ -102,24 +84,10 @@ const HomePage = () => {
         </StyledMonthBox>
       </StyledMonthWrapper>
       <SwiperBanner data={filterData} />
-      {/* <StyledExhibitionTypeBox>
-            {categoryList.map((data, index) => {
-               return (
-                  <div key={index}>
-                     <div>
-                        <img src={data.imageUrl} alt={data.title} />
-                     </div>
-                     <p>{data.title}</p>
-                  </div>
-               )
-            })}
-         </StyledExhibitionTypeBox> */}
+
       <StyledHotSection>
         <h3 className="title">熱門展覽</h3>
         <div className="content">
-          {/* <div className='highlight'>
-                  {hotData.length > 0 && <ExhibitionCard data={hotData[0]} rank={0} />}
-               </div> */}
           <div>
             {hotData.map((data, index) => {
               return <ExhibitionCard data={data} rank={index} key={data.UID} />
@@ -163,17 +131,6 @@ const StyledMonthWrapper = styled.section`
     margin-top: 56px;
   }
 `
-
-// const StyledCardTitle = styled.h3`
-//    font-size: 16px;
-//    font-weight: 500;
-//    color: #453434;
-//    text-align: start;
-//    white-space: nowrap;
-//    overflow: hidden;
-//    text-overflow: ellipsis;
-//    margin: unset; //移除預設
-// `
 
 const StyledMonthBox = styled.div`
   display: flex;
@@ -299,20 +256,5 @@ const StyledExhibitionType = styled.div`
     color: #fff;
   }
 `
-
-// const StyledExhibitionTypeBox = styled.div`
-//    display: flex;
-//    flex-wrap: true;
-//    gap: 40px;
-//    max-height: 358px;
-//    padding: 24px;
-//    overflow-x: auto;
-//    //隱藏滾動條 chrome
-//    &::-webkit-scrollbar {
-//       display: none;
-//    }
-//    //隱藏滾動條 firefox
-//    scrollbar-width: none;
-// `
 
 export default HomePage
