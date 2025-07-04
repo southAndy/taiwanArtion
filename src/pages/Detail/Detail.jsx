@@ -13,6 +13,7 @@ import {
 import styled from '@emotion/styled'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { fetchData } from '../../store/commonSlice'
+import Skeleton from '../../components/Skeleton'
 
 export default function DetailPage() {
   const params = useParams()
@@ -125,21 +126,18 @@ export default function DetailPage() {
             </BaseImageBox>
             <StyledReturnButton onClick={() => navigate(-1)}>返回上一頁</StyledReturnButton>
           </div>
-          <BaseImageBox height={'245px'} tabletHeight={'280px'}>
-            {isLoading || currentData.length === 0 ? (
-              <div className="flex justify-center items-center h-full bg-gray-200 rounded-xl">
-                <div>載入中...</div>
-              </div>
-            ) : (
+          {isLoading || currentData.length === 0 ? (
+            <Skeleton variant="card" height="245px" radius="12px" />
+          ) : (
+            <BaseImageBox height={'245px'} tabletHeight={'280px'}>
               <img
                 className="rounded-xl"
                 src={currentData[0]?.imageUrl ? currentData[0]?.imageUrl : sampleResult}
               />
-            )}
-          </BaseImageBox>
-          <h3 className="title text-[24px] font-bold">
-            {isLoading || currentData.length === 0 ? '載入中...' : currentData[0]?.title}
-          </h3>
+            </BaseImageBox>
+          )}
+
+          <h3 className="title text-[24px] font-bold">{currentData[0]?.title}</h3>
         </DetailBanner>
 
         <section className="menu">
@@ -154,28 +152,7 @@ export default function DetailPage() {
         <StyledOverviewBox>
           <StyledInfoTitle id="overview">總覽</StyledInfoTitle>
           {isLoading || currentData.length === 0 ? (
-            <div className="info">
-              <div className="info-option">
-                <div>展覽日期</div>
-                <div>載入中...</div>
-              </div>
-              <div className="info-option">
-                <div>營業時間</div>
-                <div>載入中...</div>
-              </div>
-              <div className="info-option">
-                <div>主辦單位</div>
-                <div>載入中...</div>
-              </div>
-              <div className="info-option">
-                <div>展覽官網</div>
-                <div>載入中...</div>
-              </div>
-              <div className="info-option">
-                <div>展覽電話</div>
-                <div>載入中...</div>
-              </div>
-            </div>
+            <Skeleton variant="card" height="245px" width={'20%'} radius="12px" />
           ) : (
             <div className="info">
               <div className="info-option">
@@ -228,7 +205,7 @@ export default function DetailPage() {
         <StyledContent>
           <StyledInfoTitle id="introduce">展覽介紹</StyledInfoTitle>
           {isLoading || currentData.length === 0 ? (
-            <p>載入中...</p>
+            <Skeleton variant="card" height="245px" radius="12px" />
           ) : (
             <p>{currentData[0]?.descriptionFilterHtml}</p>
           )}
