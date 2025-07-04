@@ -6,7 +6,15 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebas
 export const monitorUserState = createAsyncThunk('user/monitorUserState', async () => {
   return new Promise(resolve => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-      resolve(user)
+      resolve({
+        uid: user.uid,
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        emailVerified: user.emailVerified,
+        isAnonymous: user.isAnonymous,
+        providerData: user.providerData,
+      })
     })
     return () => unsubscribe()
   })
@@ -64,6 +72,7 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(monitorUserState.fulfilled, (state, action) => {
       state.userInfo = action.payload
+      state.isLogin = true
     })
     builder.addCase(login.fulfilled, (state, action) => {
       state.isLogin = true
