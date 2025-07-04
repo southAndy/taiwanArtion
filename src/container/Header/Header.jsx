@@ -27,14 +27,14 @@ const Header = () => {
   const [isShowMemberMenu, setMemberMenu] = useState(false)
   const [menu, setMenuContent] = useState([])
   const menuList = [
-    {
-      title: '地圖找展覽',
-      link: '/map',
-    },
-    {
-      title: '所有展覽',
-      link: '/all',
-    },
+    // {
+    //   title: '地圖找展覽',
+    //   link: '/map',
+    // },
+    // {
+    //   title: '所有展覽',
+    //   link: '/all',
+    // },
     {
       title: '註冊/登入',
       link: '/account',
@@ -84,7 +84,7 @@ const Header = () => {
       <BaseLink width={'120px'} height={'40px'} to="/">
         <img src={logoIcon} alt="網站圖樣" />
       </BaseLink>
-      <div className="menu">
+      {/* <div className="menu">
         {[
           {
             title: '地圖找展覽',
@@ -99,11 +99,12 @@ const Header = () => {
             {item.title}
           </Link>
         ))}
-      </div>
+      </div> */}
+      {/* Desktop version */}
       <HeaderCategory>
-        <BaseImageBox width={'18px'} height={'18px'} onClick={() => setIsShowModal(n => !n)}>
+        {/* <BaseImageBox width={'18px'} height={'18px'} onClick={() => setIsShowModal(n => !n)}>
           <img src={headerSearch} alt="搜尋圖樣" />
-        </BaseImageBox>
+        </BaseImageBox> */}
         <div className="menu-mobile" onClick={() => setMenu(n => !n)}>
           <img className="w-[18px] h-[18px]" src={headerMenu} alt="選單圖樣" />
         </div>
@@ -153,7 +154,7 @@ const Header = () => {
         <StyledMemberMenuBox>
           <div className="user">
             <StyledUserIcon width={'38px'} height={'38px'}>
-              <img src={UserIcon[user.photoIndex]} alt="" />
+              <img src={UserIcon[0]} alt="" />
             </StyledUserIcon>
             <Link to={'/backstage'} className="user-name">
               <div className="hello">hello!</div>
