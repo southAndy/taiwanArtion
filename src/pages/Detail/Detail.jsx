@@ -28,26 +28,20 @@ export default function DetailPage() {
   const isLogin = useSelector(state => state.user.isLogin)
   const isLoading = useSelector(state => state.common.isLoading)
 
-  // 索取使用者資料
   useEffect(() => {
+    // need to login to check favorite state
     if (isLogin) {
-      // 取得最新的資料(查詢 localStorage)
-      const data = JSON.parse(localStorage.getItem('favoriteExhibitions')) || []
-      console.log('reading data', data)
-
-      // 判斷是否已收藏
-      const hasStoreUID = data.find(item => item === params.id)
-      if (hasStoreUID) {
-        setIsStore(true)
-      }
+      setIsFavorite(isFavorited(params.id))
+    } else {
+      setIsFavorite(false)
     }
-  }, [isStore])
+  }, [isLogin, params.id])
 
   useEffect(() => {
     if (openData.length === 0) {
       dispatch(fetchData())
     }
-  }, [dispatch, openData.length])
+  }, [])
 
   // 新增展覽資料到 localStorage
   function addExhibition() {
