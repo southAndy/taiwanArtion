@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from 'react'
 import { createBrowserRouter } from 'react-router-dom'
-import HomePage from '@pages/Home_temp/Home_temp'
+import HomePage from '@pages/Home/Home'
 import ErrorPage from '@pages/Errors/Error'
 import DetailPage from '@pages/Detail/Detail'
 import ResultPage from '@pages/Result/Result'
