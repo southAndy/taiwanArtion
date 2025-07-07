@@ -1,11 +1,11 @@
 import styled from 'styled-components'
-import BaseImageBox from '../../styles/base/BaseImageBox'
-import { PositionElement } from '../../styles/base/PositionElement'
-import { breakpoint } from '../../styles/utils/breakpoint'
-import { loveIcon, locationIcon, defaultBannerTablet, loveFullIcon } from '../../assets/images'
+import BaseImageBox from '@styles/base/BaseImageBox'
+import { PositionElement } from '@styles/base/PositionElement'
+import { breakpoint } from '@styles/utils/breakpoint'
+import { loveIcon, locationIcon, defaultBannerTablet, loveFullIcon } from '@assets/images'
 import { Link, useNavigate } from 'react-router-dom'
 import dayjs from 'dayjs'
-import { toggleFavoriteWithSync, isFavorited } from '../../utils/favoriteUtils'
+import { toggleFavoriteWithSync, isFavorited } from '@utils/favoriteUtils'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 
@@ -14,11 +14,6 @@ const AllExhibitionCard = ({ data }) => {
   const navigate = useNavigate()
   const isLogin = useSelector(state => state.user.isLogin)
   const userInfo = useSelector(state => state.user.userInfo)
-
-  // 初始化收藏狀態
-  useEffect(() => {
-    setIsFavorite(isFavorited(data.UID))
-  }, [data.UID])
 
   // 監聽登入狀態變化，重新檢查收藏狀態
   useEffect(() => {

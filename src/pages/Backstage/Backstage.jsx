@@ -11,7 +11,7 @@ import {
   locateIcon,
   commentStarIcon,
   searchIcon,
-} from '../../assets/images'
+} from '@assets/images'
 import {
   selectPhotoIcon,
   userIcon0,
@@ -23,19 +23,19 @@ import {
   userIcon6,
   userIcon7,
   userIcon8,
-} from '../../assets/images/backstage'
+} from '@assets/images/backstage'
 import styled from 'styled-components'
-import BaseImageBox from '../../styles/base/BaseImageBox'
+import BaseImageBox from '@styles/base/BaseImageBox'
 import StoreMenu from './StoreMenu'
 import CalendarMenu from './CalendarMenu'
 import ProfileMenu from './ProfileMenu'
-import { PositionElement } from '../../styles/base/PositionElement'
+import { PositionElement } from '@styles/base/PositionElement'
 import { onAuthStateChanged } from 'firebase/auth'
 import { db, auth } from '../../../firebase.config'
 import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 import axios from 'axios'
-import Modal from '../../components/Modal'
-import { breakpoint } from '../../styles/utils/breakpoint'
+import Modal from '@components/Modal'
+import { breakpoint } from '@styles/utils/breakpoint'
 
 const Backstage = () => {
   const [favoriteData, setFavoriteData] = useState([])

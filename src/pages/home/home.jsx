@@ -1,17 +1,16 @@
 import { useEffect, useState, useMemo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import SwiperBanner from '../../plugins/Swiper/SwiperSlide'
-import fakeMonthList from '../../assets/data/month.json'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchData } from '../../store/commonSlice'
-import { breakpoint } from '../../styles/utils/breakpoint'
+import fakeMonthList from '@assets/data/month.json'
+import { fetchData } from '@store/commonSlice.js'
+import SwiperBanner from '@plugins/Swiper/SwiperSlide.jsx'
+import { breakpoint } from '@styles/utils/breakpoint.js'
+import { sortByDate, sortByHitRate } from '@utils/date.ts'
+import { hotBg } from '@assets/images/index'
 import AllExhibitionCard from './ExhibitionCard.jsx'
 import ExhibitionCard from './HotCard.jsx'
-import filterRules from '../../assets/data/filterRules.json'
-import { sortByDate, sortByHitRate } from '../../utils/date'
-
-import { hotBg } from '../../assets/images/index'
+import filterRules from '@assets/data/filterRules.json'
 
 const HomePage = () => {
   const monthList = fakeMonthList
