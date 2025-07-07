@@ -9,17 +9,6 @@ import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
 import { breakpoint } from '../../styles/utils/breakpoint'
-import {
-  userIcon0,
-  userIcon1,
-  userIcon2,
-  userIcon3,
-  userIcon4,
-  userIcon5,
-  userIcon6,
-  userIcon7,
-  userIcon8,
-} from '../../assets/images/backstage'
 
 const Header = () => {
   const [isShowModal, setIsShowModal] = useState(false)
@@ -46,19 +35,8 @@ const Header = () => {
   ]
   const navigate = useNavigate()
   const isLogin = useSelector(state => state.user.isLogin)
-  const user = useSelector(state => state.user.userInfo)
+  const { userInfo, userPhotos } = useSelector(state => state.user)
   const dispatch = useDispatch()
-  const UserIcon = [
-    userIcon0,
-    userIcon1,
-    userIcon2,
-    userIcon3,
-    userIcon4,
-    userIcon5,
-    userIcon6,
-    userIcon7,
-    userIcon8,
-  ]
 
   // switch menu content
   useEffect(() => {
@@ -110,7 +88,7 @@ const Header = () => {
         </div>
         {isLogin ? (
           <StyledUserIcon onClick={() => setMemberMenu(n => !n)}>
-            <img src={UserIcon[0]} alt="" />
+            <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
           </StyledUserIcon>
         ) : (
           <button
@@ -154,7 +132,7 @@ const Header = () => {
         <StyledMemberMenuBox>
           <div className="user">
             <StyledUserIcon width={'38px'} height={'38px'}>
-              <img src={UserIcon[0]} alt="" />
+              <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
             </StyledUserIcon>
             <Link to={'/backstage'} className="user-name">
               <div className="hello">hello!</div>

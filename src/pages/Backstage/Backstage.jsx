@@ -36,43 +36,46 @@ import { updateDoc, doc, getDoc, arrayRemove } from 'firebase/firestore'
 import axios from 'axios'
 import Modal from '@components/Modal'
 import { breakpoint } from '@styles/utils/breakpoint'
+import {
+  updateUserPhoto,
+  setTempPhotoIndex,
+  setPhotoModalOpen,
+  cancelPhotoSelection,
+} from '@store/userSlice'
 
 const Backstage = () => {
+  const dispatch = useDispatch()
+  const { openData } = useSelector(store => store.common)
+  const { userInfo, isLogin, userPhotos, tempPhotoIndex, isPhotoModalOpen } = useSelector(
+    store => store.user
+  )
+
   const [favoriteData, setFavoriteData] = useState([])
   let [exhibition, setExhibition] = useState([])
   const [currentMenu, setCurrentMenu] = useState(0)
-  const [currentPhoto, setCurrentPhoto] = useState(0)
-  const initialPhoto = useRef(currentPhoto)
-  const [userPhoto, setUserPhoto] = useState([
-    userIcon0,
-    userIcon1,
-    userIcon2,
-    userIcon3,
-    userIcon4,
-    userIcon5,
-    userIcon6,
-    userIcon7,
-    userIcon8,
-  ])
 
-  const [isShowPhotoMenu, setIsShowPhotoMenu] = useState(false)
-  const dispatch = useDispatch()
-  const { openData } = useSelector(store => store.common)
-  const { userInfo } = useSelector(store => store.user)
-
-  //
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
-      if (user) {
-        getUserInfo(user.uid)
-      } else {
-        console.log('No user is signed in')
-      }
-    })
-    setCurrentPhoto(userInfo.photoIndex)
+    if (userInfo.photoURL !== undefined) {
+      dispatch(setTempPhotoIndex(userInfo.photoURL))
+    }
+  }, [userInfo.photoURL, dispatch])
 
-    return () => unsubscribe()
-  }, [])
+  const handleSave = () => {
+    dispatch(updateUserPhoto(tempPhotoIndex))
+  }
+
+  const handleCancel = () => {
+    dispatch(cancelPhotoSelection())
+  }
+
+  const handlePhotoSelect = index => {
+    dispatch(setTempPhotoIndex(index))
+  }
+
+  const openPhotoModal = () => {
+    dispatch(setTempPhotoIndex(userInfo.photoURL || 0))
+    dispatch(setPhotoModalOpen(true))
+  }
 
   const menu = ['收藏展覽', '展覽月曆', '個人設定']
 
@@ -94,26 +97,6 @@ const Backstage = () => {
     updateDoc(userData, {
       favorite: arrayRemove(id),
     })
-  }
-  const handleSave = async () => {
-    try {
-      const userDoc = doc(db, 'users', userInfo.uid)
-      await updateDoc(userDoc, {
-        photoIndex: currentPhoto,
-      })
-      initialPhoto.current = currentPhoto // 更新初始相片索引
-      dispatch({
-        type: 'member/setMemberInfo',
-        payload: { ...userInfo, photoIndex: currentPhoto },
-      }) // 更新 redux 中的相片索引
-      setIsShowPhotoMenu(false) // 關閉 選擇 modal
-    } catch (error) {
-      console.error('Error updating document: ', error)
-    }
-  }
-  const handleCancel = () => {
-    setCurrentPhoto(initialPhoto.current)
-    setIsShowPhotoMenu(false)
   }
 
   async function getExhibition() {
@@ -165,7 +148,7 @@ const Backstage = () => {
             tabletHeight={'122px'}
             className="photo"
           >
-            <img src={userPhoto[currentPhoto]} alt="" />
+            <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
             <StyledPositionImageBox
               bottom={'0'}
               right={'5%'}
@@ -174,10 +157,7 @@ const Backstage = () => {
               height={'16px'}
               tabletWidth={'32px'}
               tabletHeight={'32px'}
-              onClick={() => {
-                console.log('click')
-                setIsShowPhotoMenu(true)
-              }}
+              onClick={openPhotoModal}
             >
               <img src={selectPhotoIcon} alt="" />
             </StyledPositionImageBox>
@@ -200,8 +180,8 @@ const Backstage = () => {
       </StyledBackstageContainer>
       <StyledFeatureBox>{renderMenu()}</StyledFeatureBox>
       <Modal
-        isShow={isShowPhotoMenu}
-        setShow={setIsShowPhotoMenu}
+        isShow={isPhotoModalOpen}
+        setShow={show => dispatch(setPhotoModalOpen(show))}
         width={'100%'}
         height={'auto'}
         borderRadius={'20px'}
@@ -213,21 +193,17 @@ const Backstage = () => {
           <p>大頭照</p>
           <p>選擇你喜歡的頭像或上傳你的照片</p>
           <div className="option">
-            {userPhoto.map((data, index) => {
-              return (
-                <BaseImageBox
-                  key={index}
-                  width={'141px'}
-                  height={'120px'}
-                  className={`photo ${currentPhoto === index ? 'active' : ''}`}
-                  onClick={() => {
-                    setCurrentPhoto(index)
-                  }}
-                >
-                  <img src={data} alt="" />
-                </BaseImageBox>
-              )
-            })}
+            {userPhotos.map((data, index) => (
+              <BaseImageBox
+                key={index}
+                width={'141px'}
+                height={'120px'}
+                className={`photo ${tempPhotoIndex === index ? 'active' : ''}`}
+                onClick={() => handlePhotoSelect(index)}
+              >
+                <img src={data} alt="" />
+              </BaseImageBox>
+            ))}
           </div>
           <div className="operator">
             <div className="operator-cancel" onClick={handleCancel}>

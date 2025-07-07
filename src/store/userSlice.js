@@ -1,6 +1,17 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { auth } from '../../firebase.config'
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import {
+  userIcon0,
+  userIcon1,
+  userIcon2,
+  userIcon3,
+  userIcon4,
+  userIcon5,
+  userIcon6,
+  userIcon7,
+  userIcon8,
+} from '../assets/images/backstage'
 
 // monitor user state
 export const monitorUserState = createAsyncThunk('user/monitorUserState', async () => {
@@ -10,7 +21,7 @@ export const monitorUserState = createAsyncThunk('user/monitorUserState', async 
         uid: user.uid,
         email: user.email,
         displayName: user.displayName,
-        photoURL: user.photoURL,
+        photoURL: user.photoURL ? user.photoURL : 0,
         emailVerified: user.emailVerified,
         isAnonymous: user.isAnonymous,
         providerData: user.providerData,
@@ -41,6 +52,17 @@ export const logout = createAsyncThunk('user/logout', async () => {
   return null
 })
 
+// 頭像相關的 actions
+export const updateUserPhoto = createAsyncThunk(
+  'user/updateUserPhoto',
+  async (photoIndex, { getState }) => {
+    const { user } = getState()
+    // const userDoc = doc(db, 'users', user.userInfo.uid)
+    // await updateDoc(userDoc, { photoURL: photoIndex })
+    return photoIndex
+  }
+)
+
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -48,6 +70,20 @@ const userSlice = createSlice({
     loginTime: '',
     isLogin: false, // login state
     isLoading: false,
+    // 新增大頭貼相關狀態
+    userPhotos: [
+      userIcon0,
+      userIcon1,
+      userIcon2,
+      userIcon3,
+      userIcon4,
+      userIcon5,
+      userIcon6,
+      userIcon7,
+      userIcon8,
+    ],
+    tempPhotoIndex: 0, // 暫時選擇的照片索引（編輯時用）
+    isPhotoModalOpen: false,
   },
   reducers: {
     setUserInfo(state, action) {
@@ -68,6 +104,16 @@ const userSlice = createSlice({
       //isLogin 狀態改為 false
       state.isLogin = action.payload
     },
+    setTempPhotoIndex(state, action) {
+      state.tempPhotoIndex = action.payload
+    },
+    setPhotoModalOpen(state, action) {
+      state.isPhotoModalOpen = action.payload
+    },
+    cancelPhotoSelection(state) {
+      state.tempPhotoIndex = state.userInfo.photoURL || 0
+      state.isPhotoModalOpen = false
+    },
   },
   extraReducers: builder => {
     builder.addCase(monitorUserState.fulfilled, (state, action) => {
@@ -82,8 +128,21 @@ const userSlice = createSlice({
       state.isLogin = false
       state.userInfo = {}
     })
+    builder.addCase(updateUserPhoto.fulfilled, (state, action) => {
+      state.userInfo.photoURL = action.payload
+      state.isPhotoModalOpen = false
+    })
   },
 })
-export const { setUserInfo, setLoginTime, setIsLogin, setLogout } = userSlice.actions
+
+export const {
+  setUserInfo,
+  setLoginTime,
+  setIsLogin,
+  setLogout,
+  setTempPhotoIndex,
+  setPhotoModalOpen,
+  cancelPhotoSelection,
+} = userSlice.actions
 
 export default userSlice.reducer
