@@ -30,6 +30,8 @@ module.exports = {
           ['@store', './src/store'],
           ['@services', './src/services'],
           ['@plugins', './src/plugins'],
+          ['@container', './src/container'],
+          ['@layouts', './src/layouts'],
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
