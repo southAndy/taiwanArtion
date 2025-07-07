@@ -4,15 +4,35 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:import/recommended',
   ],
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["@typescript-eslint", "react"],
+  plugins: ['@typescript-eslint', 'react', 'import'],
   rules: {},
-};
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['@', './src'],
+          ['@components', './src/components'],
+          ['@pages', './src/pages'],
+          ['@assets', './src/assets'],
+          ['@styles', './src/styles'],
+          ['@utils', './src/utils'],
+          ['@hooks', './src/hooks'],
+          ['@store', './src/store'],
+          ['@services', './src/services'],
+          ['@plugins', './src/plugins'],
+        ],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
+}
