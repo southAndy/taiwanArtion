@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
-import { useParams, useNavigate, Link, useLocation } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import BaseImageBox from '../../styles/base/BaseImageBox'
+import BaseImageBox from '@styles/base/BaseImageBox'
 import {
   calendarIcon,
   shareIcon,
@@ -9,18 +9,17 @@ import {
   vectorIcon,
   loveIcon,
   loveFullIcon,
-} from '../../assets/images'
+} from '@assets/images'
 import styled from '@emotion/styled'
-import { breakpoint } from '../../styles/utils/breakpoint'
-import { fetchData } from '../../store/commonSlice'
-import Skeleton from '../../components/Skeleton'
+import { breakpoint } from '@styles/utils/breakpoint'
+import { fetchData } from '@store/commonSlice'
+import Skeleton from '@components/Skeleton'
+import { isFavorited } from '@utils/favoriteUtils'
 
 export default function DetailPage() {
   const params = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
-  const [currentOption, setCurrentOption] = useState(0)
-  const [isStore, setIsStore] = useState(false) // 聯動收藏愛心 icon
+  const [isFavorite, setIsFavorite] = useState(false) // 聯動收藏愛心 icon
 
   const dispatch = useDispatch()
   const openData = useSelector(state => state.common.openData)
@@ -93,16 +92,16 @@ export default function DetailPage() {
 
   function handleAddExhibition() {
     // 先判斷是否登入
-    if (!document.cookie.includes('accessToken')) {
+    if (!isLogin) {
       navigate('/login', { state: { from: `/detail/${params.id}` } })
       return
     }
-    if (isStore) {
+    if (isFavorite) {
       deleteExhibition()
     } else {
       addExhibition()
     }
-    setIsStore(n => !n)
+    setIsFavorite(n => !n)
   }
 
   // 當前展覽資料
@@ -177,7 +176,7 @@ export default function DetailPage() {
           <TabletToolBar>
             <div className="option" onClick={handleAddExhibition}>
               <BaseImageBox width={'24px'} height={'24px'}>
-                <img src={isStore ? loveFullIcon : loveIcon} alt="收藏此展覽按鈕" />
+                <img src={isFavorite ? loveFullIcon : loveIcon} alt="收藏此展覽按鈕" />
               </BaseImageBox>
               <div>收藏展覽</div>
             </div>
@@ -222,7 +221,7 @@ export default function DetailPage() {
       <StyledToolBar>
         <div className="option" onClick={handleAddExhibition}>
           <BaseImageBox width={'24px'} height={'24px'}>
-            <img src={isStore ? loveFullIcon : loveIcon} alt="收藏此展覽按鈕" />
+            <img src={isFavorite ? loveFullIcon : loveIcon} alt="收藏此展覽按鈕" />
           </BaseImageBox>
           <div>收藏展覽</div>
         </div>
