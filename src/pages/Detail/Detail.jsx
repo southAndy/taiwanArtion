@@ -103,6 +103,11 @@ export default function DetailPage() {
     }
     setIsFavorite(n => !n)
   }
+  // 提取時間的輔助函數
+  const extractTime = dateTimeString => {
+    if (!dateTimeString) return ''
+    return dateTimeString.split(' ')[1]?.slice(0, 5) || ''
+  }
 
   // 當前展覽資料
   const currentData = useMemo(() => {
@@ -154,7 +159,9 @@ export default function DetailPage() {
               </div>
               <div className="info-option">
                 <div>營業時間</div>
-                <div>{'9:00a.m'}</div>
+                <div>{`${extractTime(currentData[0]?.showInfo[0]?.time)} - ${extractTime(
+                  currentData[0]?.showInfo[0]?.endTime
+                )}`}</div>
               </div>
               <div className="info-option">
                 <div>主辦單位</div>
@@ -162,13 +169,13 @@ export default function DetailPage() {
               </div>
               <div className="info-option">
                 <div>展覽官網</div>
-                <a href="https://womany.net/terms" className="flex text-blue-300">
-                  {'-'}
+                <a
+                  href={currentData[0]?.sourceWebPromote ?? ''}
+                  target="_blank"
+                  className="flex text-blue-300 "
+                >
+                  {currentData[0]?.sourceWebPromote ?? '-'}
                 </a>
-              </div>
-              <div className="info-option">
-                <div>展覽電話</div>
-                <div>{'-'}</div>
               </div>
             </div>
           )}
