@@ -1,5 +1,45 @@
 # 更新日誌
 
+## 2025-07-08
+
+### 重構 Header 元件
+
+拆分成以下架構
+
+```
+src/container/Header/
+├── Header.jsx                    # 主容器，組裝所有部件
+├── components/
+│   ├── Logo.jsx                 # Header 專屬 Logo 區塊
+│   ├── Navigation.jsx           # Header 專屬導航
+│   ├── UserSection.jsx          # Header 專屬用戶區塊
+│   ├── MobileMenu.jsx           # Header 專屬手機選單
+│   └── SearchBar.jsx            # Header 專屬搜尋列
+├── hooks/
+│   ├── useHeaderModals.js       # Modal 狀態管理
+│   └── useHeaderMenu.js         # 選單邏輯
+└── styles/
+    └── HeaderStyles.js          # Header 專屬樣式
+```
+
+#### 為何要這樣拆
+
+- 渲染策略：理解了 React 的渲染模式後發現，**若是沒有拆出子元件並且進行 `React.memo` 等設定，在每次的 re-render 都會被重新渲染**，因此決定拆小
+- 可讀性提升：Header 元件剩下組裝 UI 及邏輯，閱讀難度下降
+- UI 跟邏輯分離：
+- 易測試：小元件也更容易用 Jest + React Testing Library 單獨測
+
+#### 進度
+
+- 拆分出 Navigation 元件 [8e9b4dc](https://github.com/southAndy/taiwanArtion/commit/8e9b4dcaa411310355a622eda6356e5fa704ab75#diff-776bdb3c4f24a8fd9ab8a473891c2bf70f6b72d0ad6df0414bb2f5cc81e62305)
+- 拆分用戶區域 [c331edc](https://github.com/southAndy/taiwanArtion/commit/c331edcd9ee53e7492176c21294d425391e50102)
+- 拆分 Logo 元件[8e9b4dc](https://github.com/southAndy/taiwanArtion/commit/8e9b4dcaa411310355a622eda6356e5fa704ab75#diff-74ac55edeb4ba4a4c1ef56a52747bd0165246a0924630a2448c2a43292241ead)
+
+#### 待辦
+
+- 手機版元件拆分
+- 拆分邏輯到自定義 hooks
+
 ## 2025-07-07
 
 - fix:修復詳細頁面的收藏功能 [974b356](https://github.com/southAndy/taiwanArtion/commit/974b356609fd19f658e1561177ccdce96ff022ca)
