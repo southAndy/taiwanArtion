@@ -9,6 +9,8 @@ import styled from '@emotion/styled'
 import Modal from '../../components/Modal'
 import Menu from '../Menu/Menu'
 import { breakpoint } from '../../styles/utils/breakpoint'
+import Dropdown from '../../components/Dropdown/Dropdown'
+import UserMenu from './components/dropdown/UserMenu'
 
 const Header = () => {
   const [isShowModal, setIsShowModal] = useState(false)
@@ -54,7 +56,7 @@ const Header = () => {
     dispatch(logout())
     navigate('/')
     //關閉下拉清單顯示
-    setMemberMenu(n => (n = false))
+    setMemberMenu(false)
   }
 
   return (
@@ -87,9 +89,24 @@ const Header = () => {
           <img className="w-[18px] h-[18px]" src={headerMenu} alt="選單圖樣" />
         </div>
         {isLogin ? (
-          <StyledUserIcon onClick={() => setMemberMenu(n => !n)}>
-            <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
-          </StyledUserIcon>
+          <Dropdown
+            isOpen={isShowMemberMenu}
+            onClose={() => setMemberMenu(false)}
+            placement="bottom-right"
+            offset={{ x: 0, y: 30 }}
+            trigger={
+              <StyledUserIcon onClick={() => setMemberMenu(n => !n)}>
+                <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
+              </StyledUserIcon>
+            }
+          >
+            <UserMenu
+              userInfo={userInfo}
+              userPhotos={userPhotos}
+              onLogout={handleLogout}
+              onClose={() => setMemberMenu(false)}
+            />
+          </Dropdown>
         ) : (
           <button
             className="login"
@@ -119,34 +136,6 @@ const Header = () => {
           ))}
         </StyldMenuBox>
       </Modal>
-      <Modal
-        isShow={isShowMemberMenu}
-        setShow={setMemberMenu}
-        width={'155px'}
-        height={'164px'}
-        position={{ r: '1%', t: '0.5%', b: 'unset', l: 'unset' }}
-        overflow={'scroll'}
-        borderRadius={'20px'}
-        translate={'unset'}
-      >
-        <StyledMemberMenuBox>
-          <div className="user">
-            <StyledUserIcon width={'38px'} height={'38px'}>
-              <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
-            </StyledUserIcon>
-            <Link to={'/backstage'} className="user-name">
-              <div className="hello">hello!</div>
-              <div>Andy</div>
-            </Link>
-          </div>
-          <Link to={'/backstage'} className="profile">
-            個人檔案
-          </Link>
-          <div className="logout" onClick={handleLogout}>
-            登出
-          </div>
-        </StyledMemberMenuBox>
-      </Modal>
     </HeaderContainer>
   )
 }
@@ -163,10 +152,6 @@ const StyledUserIcon = styled.div`
   }
 `
 
-const StyledLink = styled(Link)`
-  width: 120px;
-  height: 40px;
-`
 const StyldMenuBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -239,39 +224,6 @@ const HeaderCategory = styled.div`
     }
   }
   @media (min-width: ${breakpoint.desktop}px) {
-  }
-`
-
-const StyledMemberMenuBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-
-  .user {
-    display: flex;
-    gap: 8px;
-
-    &-name {
-      display: flex;
-      flex-direction: column;
-      .hello {
-        font-size: 12px;
-        color: #5f5f5f;
-      }
-    }
-  }
-  .profile {
-    cursor: pointer;
-    &:hover {
-      color: #bd7e4c;
-    }
-  }
-  .logout {
-    cursor: pointer;
-    &:hover {
-      color: #bd7e4c;
-    }
   }
 `
 
