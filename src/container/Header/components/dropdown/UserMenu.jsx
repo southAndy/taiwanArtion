@@ -1,26 +1,38 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useNavigate, Link } from 'react-router-dom'
 import styled from '@emotion/styled'
+import { logout } from '@store/userSlice'
 
-const UserMenu = ({ userInfo, userPhotos, onLogout, onClose }) => {
+const UserMenu = ({ onClose }) => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const { userInfo, userPhotos } = useSelector(state => state.user)
+
   const handleLinkClick = () => {
     onClose()
   }
 
   const handleLogoutClick = () => {
-    onLogout()
+    dispatch(logout())
+    navigate('/')
     onClose()
   }
+
+  // const photoIndex = userInfo?.photoURL || 0
+  // const userPhoto = userPhotos?.[photoIndex] || userPhotos?.[0]
+  // const userName = userInfo?.displayName || userInfo?.name || 'User'
 
   return (
     <StyledMemberMenuBox>
       <div className="user">
         <StyledUserIcon width={'38px'} height={'38px'}>
-          <img src={userPhotos[userInfo.photoURL || 0]} alt="" />
+          <img src={userPhotos} alt="" />
         </StyledUserIcon>
         <Link to={'/backstage'} className="user-name" onClick={handleLinkClick}>
           <div className="hello">hello!</div>
-          <div>Andy</div>
+          <div>{userInfo?.displayName || userInfo?.name || 'User'}</div>
         </Link>
       </div>
       <Link to={'/backstage'} className="profile" onClick={handleLinkClick}>

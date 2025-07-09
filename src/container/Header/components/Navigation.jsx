@@ -5,30 +5,16 @@ import DesktopMenu from './DesktopMenu'
 import MobileMenu from './MobileMenu'
 import User from './User'
 
-const Navigation = ({
-  isLogin,
-  userInfo,
-  userPhotos,
-  onLoginClick,
-  onMemberMenuToggle,
-  onMobileMenuToggle,
-}) => {
+const Navigation = ({ onLoginClick }) => {
   return (
     <HeaderCategory>
       {/* 桌面版導航 */}
       <DesktopMenu />
 
       {/* 手機版選單按鈕 */}
-      <MobileMenu onToggle={onMobileMenuToggle} />
+      <MobileMenu />
 
-      {/* 用戶區塊 */}
-      <User
-        isLogin={isLogin}
-        userInfo={userInfo}
-        userPhotos={userPhotos}
-        onLoginClick={onLoginClick}
-        onMemberMenuToggle={onMemberMenuToggle}
-      />
+      <User onLoginClick={onLoginClick} />
     </HeaderCategory>
   )
 }
