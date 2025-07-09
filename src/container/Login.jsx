@@ -130,7 +130,7 @@ const Login = () => {
             )}
           </div>
           {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
-          <Button buttonType={'submit'} content={'登入'} />
+          <Button buttonType={'submit'}>登入</Button>
         </form>
         <section className="remind">
           <div>
