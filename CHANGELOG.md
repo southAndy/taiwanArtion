@@ -1,8 +1,17 @@
 # 更新日誌
 
+## 2025-07-09
+
+### 重構 Header 元件(進行中)
+
+#### 進度
+
+- 手機版元件拆分 [e339ea7](https://github.com/southAndy/taiwanArtion/commit/e339ea71ff1fcfb3efc22b7704f42d99e2723e31)
+- 拆分元件拼回 header 元件 [c0fe154](https://github.com/southAndy/taiwanArtion/commit/c0fe15496bf964649b83b39e52d7e3701b2b1585)
+
 ## 2025-07-08
 
-### 重構 Header 元件
+### 重構 Header 元件(進行中)
 
 拆分成以下架構
 
