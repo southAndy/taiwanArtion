@@ -5,9 +5,14 @@ import styled from '@emotion/styled'
 import Logo from '@container/Header/components/Logo'
 import Navigation from '@container/Header/components/Navigation'
 import LoginModal from '@container/Header/components/LoginModal'
+import SearchBar from './components/search/SearchBar'
+import Dropdown from '@components/Dropdown/Dropdown'
+import HeaderSearchMenu from './components/search/Menu'
 
 const Header = () => {
   const [isShowLoginModal, setIsShowLoginModal] = useState(false)
+  const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('city')
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
 
@@ -19,9 +24,24 @@ const Header = () => {
     }
   }
 
+  const handleSearchSectionClick = tabId => {
+    if (tabId) {
+      setActiveTab(tabId) // 設定要顯示的頁籤
+    }
+    setIsSearchMenuOpen(true) // 打開下拉選單
+  }
+
   return (
     <HeaderContainer>
       <Logo />
+      <Dropdown
+        trigger={<SearchBar onSearch={handleSearchSectionClick} />}
+        isOpen={isSearchMenuOpen}
+        onClose={() => setIsSearchMenuOpen(false)}
+        setIsOpen={setIsSearchMenuOpen}
+      >
+        <HeaderSearchMenu />
+      </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />
 
       <LoginModal

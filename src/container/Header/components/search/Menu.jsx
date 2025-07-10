@@ -1,9 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import Input from '../../../../components/Input/Input'
 import { CityMenu } from './CityMenu'
-// import { ExhibitionMenu } from './ExhibitionMenu'
-import { PayMenu } from './PayMenu'
 import DateMenu from './DateMenu'
 import { breakpoint } from '../../../../styles/utils/breakpoint'
 
@@ -13,17 +10,21 @@ const TABS = [
   // { id: 'price', name: '票價', component: PayMenu }, // 預留票價篩選，未來取消註解即可啟用
 ]
 
-export default function HeaderSearchMenu({ setModlaShow }) {
+export default function HeaderSearchMenu({ setModlaShow, initialActiveTab }) {
   const [activeTab, setActiveTab] = useState(TABS[0].id)
+
+  useEffect(() => {
+    setActiveTab(initialActiveTab)
+  }, [initialActiveTab])
 
   const ActiveComponent = TABS.find(tab => tab.id === activeTab)?.component
 
   return (
     <MenuContainer>
       {/* 手機版專用搜尋框 */}
-      <StyledMobileSearch>
+      {/* <StyledMobileSearch>
         <Input placeholder={'輸入展覽名稱'} width={'auto'} />
-      </StyledMobileSearch>
+      </StyledMobileSearch> */}
 
       {/* 統一的頁籤導航 */}
       <TabNav>
