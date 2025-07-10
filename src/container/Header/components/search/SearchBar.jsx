@@ -2,14 +2,14 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { searchIcon } from '@assets/images'
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
   return (
     <StyledSearchBar>
       <SearchContent>
-        <SearchText>輸入展覽名稱</SearchText>
-        <SearchText>選擇縣市</SearchText>
-        <SearchText>開始日期</SearchText>
-        <SearchText>結束日期</SearchText>
+        <SearchText onClick={() => onSearch('exxhibition')}>輸入展覽名稱</SearchText>
+        <SearchText onClick={() => onSearch('city')}>選擇縣市</SearchText>
+        <SearchText onClick={() => onSearch('date')}>開始日期</SearchText>
+        <SearchText onClick={() => onSearch('end-date')}>結束日期</SearchText>
       </SearchContent>
       <SearchIconWrapper>
         <img src={searchIcon} alt="search" />
