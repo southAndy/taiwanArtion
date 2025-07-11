@@ -1,5 +1,5 @@
 import React from 'react'
-import cityList from '../../../../assets/data/city.json'
+import cityList from '@assets/data/city.json'
 import styled from 'styled-components'
 import { locateIcon } from '../../../../assets/images/index'
 import { useNavigate } from 'react-router-dom'
@@ -17,67 +17,65 @@ export const CityMenu = ({ setModlaShow }) => {
 
   return (
     <>
-      <div>
-        {/* todo 新增定位功能偵測使用者縣市功能 */}
-        {/* <StyledLocateBox>
+      {/* todo 新增定位功能偵測使用者縣市功能 */}
+      {/* <StyledLocateBox>
                <BaseImageBox width={'40px'} height={'40px'}>
                   <img src={locateIcon} alt='' />
                </BaseImageBox>
                <p className='text-sm font-medium'>目前所在位置</p>
             </StyledLocateBox> */}
-        <StyledSection>
-          <div className="flex flex-col gap-3 mt-5 overflow-scroll">
-            <h3 className="font-medium">{areaList[0]}</h3>
-            <StyledCityBox>
-              {cityList.north.map(city => (
-                <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
-                  {city.chinese}
-                </StyledCityItem>
-              ))}
-            </StyledCityBox>
-          </div>
-          <div>
-            <h3 className="font-medium">{areaList[1]}</h3>
-            <StyledCityBox>
-              {cityList.central.map(city => (
-                <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
-                  {city.chinese}
-                </StyledCityItem>
-              ))}
-            </StyledCityBox>
-          </div>
-          <div>
-            <h3 className="font-medium">{areaList[2]}</h3>
-            <StyledCityBox>
-              {cityList.south.map(city => (
-                <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
-                  {city.chinese}
-                </StyledCityItem>
-              ))}
-            </StyledCityBox>
-          </div>
-          <div>
-            <h3 className="font-medium">{areaList[3]}</h3>
-            <StyledCityBox>
-              {cityList.east.map(city => (
-                <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
-                  {city.chinese}
-                </StyledCityItem>
-              ))}
-            </StyledCityBox>
-          </div>
-          <div>
-            <h3 className="font-medium">{areaList[4]}</h3>
-            <StyledCityBox>
-              {cityList.islands.map(city => (
-                <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
-                  {city.chinese}
-                </StyledCityItem>
-              ))}
-            </StyledCityBox>
-          </div>
-        </StyledSection>
-      </div>
+      <StyledSection>
+        <div className="flex flex-col gap-3 mt-5 overflow-scroll">
+          <h3 className="font-medium">{areaList[0]}</h3>
+          <StyledCityBox>
+            {cityList.north.map(city => (
+              <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                {city.chinese}
+              </StyledCityItem>
+            ))}
+          </StyledCityBox>
+        </div>
+        <div>
+          <h3 className="font-medium">{areaList[1]}</h3>
+          <StyledCityBox>
+            {cityList.central.map(city => (
+              <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                {city.chinese}
+              </StyledCityItem>
+            ))}
+          </StyledCityBox>
+        </div>
+        <div>
+          <h3 className="font-medium">{areaList[2]}</h3>
+          <StyledCityBox>
+            {cityList.south.map(city => (
+              <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                {city.chinese}
+              </StyledCityItem>
+            ))}
+          </StyledCityBox>
+        </div>
+        <div>
+          <h3 className="font-medium">{areaList[3]}</h3>
+          <StyledCityBox>
+            {cityList.east.map(city => (
+              <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                {city.chinese}
+              </StyledCityItem>
+            ))}
+          </StyledCityBox>
+        </div>
+        <div>
+          <h3 className="font-medium">{areaList[4]}</h3>
+          <StyledCityBox>
+            {cityList.islands.map(city => (
+              <StyledCityItem onClick={() => selectCity(city.en)} key={city.chinese}>
+                {city.chinese}
+              </StyledCityItem>
+            ))}
+          </StyledCityBox>
+        </div>
+      </StyledSection>
     </>
   )
 }
