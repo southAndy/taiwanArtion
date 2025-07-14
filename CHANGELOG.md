@@ -1,8 +1,26 @@
 # 更新日誌
 
+## 2025-07-14
+
+### 樣式系統重構完成
+
+- refactor(styles): 將所有 styled-components 遷移至 @emotion/styled [3bbfcc1](https://github.com/southAndy/taiwanArtion/commit/3bbfcc1)
+
+### Header 元件重構完成
+
+- refactor(header): 優化 header 元件狀態控制 [446e086](https://github.com/southAndy/taiwanArtion/commit/446e086)
+- feat(header): 新增搜尋列功能 [558beec](https://github.com/southAndy/taiwanArtion/commit/558beec)
+- style(header): 重新設計搜尋列版面配置 [4d8abe6](https://github.com/southAndy/taiwanArtion/commit/4d8abe6)
+- refactor(menu): 將選單容器移至 header 資料夾 [c9f7639](https://github.com/southAndy/taiwanArtion/commit/c9f7639)
+
+### 其他改善
+
+- style: 新增網站最小高度設定 [5fe22ca](https://github.com/southAndy/taiwanArtion/commit/5fe22ca)
+- feat(header): 修復 header 固定於頂部功能 [e339ea7](https://github.com/southAndy/taiwanArtion/commit/e339ea7)
+
 ## 2025-07-09
 
-### 重構 Header 元件(進行中)
+### 重構 Header 元件(已完成)
 
 #### 進度
 
