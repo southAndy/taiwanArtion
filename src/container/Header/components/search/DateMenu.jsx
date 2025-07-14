@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
+import { useNavigate } from 'react-router-dom'
 
 const CalendarContainer = styled.div`
    max-width: 100vw;
@@ -91,9 +92,10 @@ const CalendarDay = styled.div`
    }
 `
 
-const Calendar = () => {
+const Calendar = ({ setModlaShow }) => {
    const [currentMonth, setCurrentMonth] = useState(new Date())
    const [selectedDates, setSelectedDates] = useState({ start: null, end: null })
+   const navigate = useNavigate()
 
    const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate()
 
@@ -115,7 +117,15 @@ const Calendar = () => {
       if (!selectedDates.start || selectedDates.end) {
          setSelectedDates({ start: date, end: null })
       } else {
-         setSelectedDates({ start: selectedDates.start, end: date })
+         const startDate = selectedDates.start
+         const endDate = date
+         setSelectedDates({ start: startDate, end: endDate })
+         
+         // 搜尋邏輯：導航到結果頁面並傳遞日期參數
+         const startDateStr = startDate.toISOString().split('T')[0]
+         const endDateStr = endDate.toISOString().split('T')[0]
+         setModlaShow(false)
+         navigate(`/result?startDate=${startDateStr}&endDate=${endDateStr}`)
       }
    }
 
@@ -143,21 +153,45 @@ const Calendar = () => {
          {/* 快速選擇區 */}
          <QuickSelectButtons>
             <h3>日期</h3>
-            <QuickButton onClick={() => setSelectedDates({ start: new Date(), end: null })}>
+            <QuickButton onClick={() => {
+               const today = new Date()
+               setSelectedDates({ start: today, end: today })
+               const todayStr = today.toISOString().split('T')[0]
+               setModlaShow(false)
+               navigate(`/result?startDate=${todayStr}&endDate=${todayStr}`)
+            }}>
                今天
             </QuickButton>
             <QuickButton
-               onClick={() =>
-                  setSelectedDates({
-                     start: new Date(new Date().setDate(new Date().getDate() + 1)),
-                     end: new Date(new Date().setDate(new Date().getDate() + 1)),
-                  })
-               }
+               onClick={() => {
+                  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1))
+                  setSelectedDates({ start: tomorrow, end: tomorrow })
+                  const tomorrowStr = tomorrow.toISOString().split('T')[0]
+                  setModlaShow(false)
+                  navigate(`/result?startDate=${tomorrowStr}&endDate=${tomorrowStr}`)
+               }}
             >
                明天
             </QuickButton>
-            <QuickButton>本週</QuickButton>
-            <QuickButton>本週末</QuickButton>
+            <QuickButton onClick={() => {
+               const today = new Date()
+               const weekEnd = new Date(today.getTime() + (6 - today.getDay()) * 24 * 60 * 60 * 1000)
+               setSelectedDates({ start: today, end: weekEnd })
+               const startStr = today.toISOString().split('T')[0]
+               const endStr = weekEnd.toISOString().split('T')[0]
+               setModlaShow(false)
+               navigate(`/result?startDate=${startStr}&endDate=${endStr}`)
+            }}>本週</QuickButton>
+            <QuickButton onClick={() => {
+               const today = new Date()
+               const saturday = new Date(today.getTime() + (6 - today.getDay()) * 24 * 60 * 60 * 1000)
+               const sunday = new Date(saturday.getTime() + 24 * 60 * 60 * 1000)
+               setSelectedDates({ start: saturday, end: sunday })
+               const startStr = saturday.toISOString().split('T')[0]
+               const endStr = sunday.toISOString().split('T')[0]
+               setModlaShow(false)
+               navigate(`/result?startDate=${startStr}&endDate=${endStr}`)
+            }}>本週末</QuickButton>
          </QuickSelectButtons>
 
          {/* 月份顯示 */}

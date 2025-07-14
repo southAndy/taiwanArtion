@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { hotBg } from '@assets/images/index'
 import { PositionElement } from '@styles/base/PositionElement'
 import FirstStep from '@container/Register/FirstStep'

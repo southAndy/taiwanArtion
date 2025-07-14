@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import BaseImageBox from '@styles/base/BaseImageBox'
 import { PositionElement } from '@styles/base/PositionElement'
 import { breakpoint } from '@styles/utils/breakpoint'

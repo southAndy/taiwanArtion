@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Modal from '@components/Modal'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { hotBg, vectorIcon, sampleResult, locateIcon, calendarIcon } from '@assets/images/index'
 import BaseImageBox from '@styles/base/BaseImageBox'
 import { breakpoint } from '@styles/utils/breakpoint'
@@ -16,17 +16,47 @@ export default function ResultPage() {
   const [searchParams] = useSearchParams()
   const { openData } = useSelector(state => state.common)
   const cityQuery = searchParams.get('keyword')
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
+  const exhibitionName = searchParams.get('exhibition')
   const cityName = transformCityName(cityQuery)
+
+  const filterCityExhibition = useMemo(() => {
+    let filteredData = openData
+
+    // 縣市篩選
+    if (cityName) {
+      filteredData = filteredData.filter(data => 
+        data.showInfo[0].location.startsWith(cityName)
+      )
+    }
+
+    // 展覽名稱篩選
+    if (exhibitionName) {
+      filteredData = filteredData.filter(data => 
+        data.title.toLowerCase().includes(exhibitionName.toLowerCase())
+      )
+    }
+
+    // 日期篩選
+    if (startDate && endDate) {
+      filteredData = filteredData.filter(data => {
+        const exhibitionStart = new Date(data.startDate)
+        const exhibitionEnd = new Date(data.endDate)
+        const searchStart = new Date(startDate)
+        const searchEnd = new Date(endDate)
+        
+        // 檢查展覽日期是否與搜尋範圍重疊
+        return exhibitionStart <= searchEnd && exhibitionEnd >= searchStart
+      })
+    }
+
+    return filteredData
+  }, [openData, cityQuery, startDate, endDate, exhibitionName])
 
   useEffect(() => {
     setTotal(filterCityExhibition.length)
-  }, [cityQuery])
-
-  const filterCityExhibition = useMemo(() => {
-    //當展覽位置符合關鍵字時
-    const data = openData.filter(data => data.showInfo[0].location.startsWith(cityName))
-    return data
-  }, [openData, cityQuery])
+  }, [filterCityExhibition])
 
   function transformCityName(cityQuery) {
     // 遍歷 cityList 的所有區域
@@ -49,6 +79,9 @@ export default function ResultPage() {
           <StyledPageLink to="/">
             <img src={vectorIcon} alt="回到上一頁箭頭" />
           </StyledPageLink>
+          {cityName && `${cityName} `}
+          {exhibitionName && `"${exhibitionName}" `}
+          {startDate && endDate && `${startDate} ~ ${endDate} `}
           找到共{total}筆展覽資訊
         </StyledTitle>
         <div className="menu">
@@ -206,12 +239,6 @@ const StyledExhibitionLink = styled(Link)`
   }
 `
 
-const StyledExhibitionRate = styled(Link)`
-  display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-`
 
 const StyledFilterText = styled.p`
   font-size: 16px;

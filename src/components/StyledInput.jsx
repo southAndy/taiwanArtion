@@ -1,8 +1,7 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
-const StyledInput = styled.input.attrs((props) => {
-   placeholder: props.placeholder
-   type: props.type ?? 'text'
+const StyledInput = styled('input', {
+  shouldForwardProp: (prop) => !['shape', 'formState', 'size'].includes(prop)
 })`
    width: 100%;
    border-radius: ${(props) => props.shape ?? '16px'};
@@ -17,7 +16,6 @@ const StyledInput = styled.input.attrs((props) => {
       outline: none;
       border: 1px solid #be875c;
    }
-   &: ;
 `
 
 export default StyledInput

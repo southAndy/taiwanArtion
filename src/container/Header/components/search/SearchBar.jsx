@@ -6,7 +6,7 @@ const SearchBar = ({ onSearch }) => {
   return (
     <StyledSearchBar>
       <SearchContent>
-        <SearchText onClick={() => onSearch('exxhibition')}>輸入展覽名稱</SearchText>
+        <SearchText onClick={() => onSearch('exhibition')}>輸入展覽名稱</SearchText>
         <SearchText onClick={() => onSearch('city')}>選擇縣市</SearchText>
         <SearchText onClick={() => onSearch('date')}>開始日期</SearchText>
         <SearchText onClick={() => onSearch('end-date')}>結束日期</SearchText>

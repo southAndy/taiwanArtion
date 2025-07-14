@@ -4,7 +4,7 @@ import 'swiper/css'
 import { Navigation, Pagination } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import {
   defaultBannerTablet,
@@ -102,9 +102,7 @@ export default function SwiperBanner({ data }) {
   )
 }
 
-const PreviousButton = styled.div.attrs({
-  className: 'swiper-button-prev',
-})`
+const PreviousButton = styled.div`
   position: absolute;
   left: 5%;
   top: 50%;

@@ -1,10 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
-const StyledButton = styled.button.attrs(props => ({
-  //todo 新增動態 type ，當 button 是 form 架構內的
-  type: props.type || 'button',
-}))`
+const StyledButton = styled('button', {
+  shouldForwardProp: (prop) => !['textColor', 'backgroundColor', 'margin'].includes(prop)
+})`
   color: ${props => (props.textColor ? props.textColor : 'black')};
   background-color: ${props => (props.backgroundColor ? props.backgroundColor : '#eeeee')};
   border-radius: 12px;
@@ -27,12 +26,12 @@ const Button = ({
   buttonBackground,
   margin,
   actions,
-  buttonType,
+  buttonType = 'button',
 }) => {
   return (
     <StyledButton
       type={buttonType}
-      color={textColor}
+      textColor={textColor}
       backgroundColor={buttonBackground}
       margin={margin}
       onClick={actions}

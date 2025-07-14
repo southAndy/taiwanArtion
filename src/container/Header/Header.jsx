@@ -38,9 +38,9 @@ const Header = () => {
         trigger={<SearchBar onSearch={handleSearchSectionClick} />}
         isOpen={isSearchMenuOpen}
         onClose={() => setIsSearchMenuOpen(false)}
-        setIsOpen={setIsSearchMenuOpen}
+        placement="bottom-center"
       >
-        <HeaderSearchMenu />
+        <HeaderSearchMenu activeTabId={activeTab} setModlaShow={setIsSearchMenuOpen} />
       </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />
 
