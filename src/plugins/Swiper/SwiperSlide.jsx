@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
 import styled from '@emotion/styled'
@@ -33,11 +33,16 @@ export default function SwiperBanner({ data }) {
         <Skeleton height={'300px'} />
       ) : (
         <StyledSwiper
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Autoplay]}
           centeredSlides={true}
           slidesPerView={1}
           initialSlide={1}
           loop={true} // 啟用循環滑動
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           pagination={{ clickable: true }}
           navigation={{
             nextEl: '.swiper-button-next',
