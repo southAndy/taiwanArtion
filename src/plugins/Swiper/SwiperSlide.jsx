@@ -44,17 +44,17 @@ export default function SwiperBanner({ data }) {
             prevEl: '.swiper-button-prev',
           }}
           breakpoints={{
-            576: {
+            [breakpoint.mobile]: {
               slidesPerView: 1,
             },
-            768: {
+            [breakpoint.tablet]: {
               slidesPerView: 1.5,
             },
             992: {
               slidesPerView: 2,
             },
-            1440: {
-              slidesPerView: 3.5,
+            [breakpoint.desktop]: {
+              slidesPerView: 2.5,
             },
             1920: {
               slidesPerView: 3.5,
