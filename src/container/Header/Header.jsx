@@ -13,6 +13,7 @@ const Header = () => {
   const [isShowLoginModal, setIsShowLoginModal] = useState(false)
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('city')
+  const [selectedCities, setSelectedCities] = useState([])
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
 
@@ -31,16 +32,25 @@ const Header = () => {
     setIsSearchMenuOpen(true) // 打開下拉選單
   }
 
+  const handleCitySelect = (cities) => {
+    setSelectedCities(cities)
+  }
+
   return (
     <HeaderContainer>
       <Logo />
       <Dropdown
-        trigger={<SearchBar onSearch={handleSearchSectionClick} />}
+        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} />}
         isOpen={isSearchMenuOpen}
         onClose={() => setIsSearchMenuOpen(false)}
         placement="bottom-center"
       >
-        <HeaderSearchMenu activeTabId={activeTab} setModlaShow={setIsSearchMenuOpen} />
+        <HeaderSearchMenu 
+          activeTabId={activeTab} 
+          setModlaShow={setIsSearchMenuOpen}
+          selectedCities={selectedCities}
+          onCitySelect={handleCitySelect}
+        />
       </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />
 

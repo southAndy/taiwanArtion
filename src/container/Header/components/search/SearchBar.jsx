@@ -2,12 +2,24 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { searchIcon } from '@assets/images'
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = ({ onSearch, selectedCities = [] }) => {
+  const getCityDisplayText = () => {
+    if (selectedCities.length === 0) {
+      return '選擇縣市'
+    }
+    if (selectedCities.length === 1) {
+      return selectedCities[0].chinese
+    }
+    return `${selectedCities[0].chinese} 等 ${selectedCities.length} 個城市`
+  }
+
   return (
     <StyledSearchBar>
       <SearchContent>
         <SearchText onClick={() => onSearch('exhibition')}>輸入展覽名稱</SearchText>
-        <SearchText onClick={() => onSearch('city')}>選擇縣市</SearchText>
+        <SearchText onClick={() => onSearch('city')} hasValue={selectedCities.length > 0}>
+          {getCityDisplayText()}
+        </SearchText>
         <SearchText onClick={() => onSearch('date')}>開始日期</SearchText>
         <SearchText onClick={() => onSearch('end-date')}>結束日期</SearchText>
       </SearchContent>
@@ -56,11 +68,12 @@ const SearchContent = styled.div`
 `
 
 const SearchText = styled.span`
-  disdisplay: flex;
+  display: flex;
   align-items: center;
   height: 100%;
   text-align: center;
-  color: #5f5f5f;
+  color: ${props => props.hasValue ? '#333' : '#5f5f5f'};
+  font-weight: ${props => props.hasValue ? '500' : '400'};
   font-size: 14px;
   width: 124px;
   white-space: nowrap;
