@@ -92,6 +92,12 @@ Extensive alias configuration for clean imports:
 
 ## Development Notes
 
+### 開發流程規範
+
+- **功能開發前必須討論**: 在實作任何新功能或修改現有功能前，Claude 必須先與用戶討論實作方案、技術選擇和預期效果，獲得明確同意後才能開始編碼
+- **討論內容包含**: 功能需求分析、技術實作方式、可能的影響範圍、測試計畫
+- **例外情況**: 僅限於 bug 修復、code style 調整等不影響功能邏輯的修改可以直接執行
+
 ### Code Conventions
 
 - React functional components with hooks
@@ -113,7 +119,6 @@ Requires environment variables:
 
 - **Component Consolidation**: Merge duplicate components (Button.jsx vs StyledButton.jsx)
 - **Tailwind Cleanup**: Remove complex Tailwind usage from styled components
-- Header search functionality has spelling error (`setModlaShow` should be `setModalShow`)
 
 ### Styling Decision Flow
 
