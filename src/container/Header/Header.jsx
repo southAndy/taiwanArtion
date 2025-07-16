@@ -14,6 +14,8 @@ const Header = () => {
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('city')
   const [selectedCities, setSelectedCities] = useState([])
+  const [selectedStartDate, setSelectedStartDate] = useState(null)
+  const [selectedEndDate, setSelectedEndDate] = useState(null)
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
 
@@ -36,11 +38,16 @@ const Header = () => {
     setSelectedCities(cities)
   }
 
+  const handleDateSelect = (dateRange) => {
+    setSelectedStartDate(dateRange.startDate)
+    setSelectedEndDate(dateRange.endDate)
+  }
+
   return (
     <HeaderContainer>
       <Logo />
       <Dropdown
-        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} />}
+        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} />}
         isOpen={isSearchMenuOpen}
         onClose={() => setIsSearchMenuOpen(false)}
         placement="bottom-center"
@@ -50,6 +57,9 @@ const Header = () => {
           setModlaShow={setIsSearchMenuOpen}
           selectedCities={selectedCities}
           onCitySelect={handleCitySelect}
+          selectedStartDate={selectedStartDate}
+          selectedEndDate={selectedEndDate}
+          onDateSelect={handleDateSelect}
         />
       </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />

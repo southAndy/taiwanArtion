@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import { searchIcon } from '@assets/images'
 
-const SearchBar = ({ onSearch, selectedCities = [] }) => {
+const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, selectedEndDate = null }) => {
   const getCityDisplayText = () => {
     if (selectedCities.length === 0) {
       return '選擇縣市'
@@ -13,6 +13,22 @@ const SearchBar = ({ onSearch, selectedCities = [] }) => {
     return `${selectedCities[0].chinese} 等 ${selectedCities.length} 個城市`
   }
 
+  const getStartDateDisplayText = () => {
+    if (!selectedStartDate) {
+      return '開始日期'
+    }
+    const date = new Date(selectedStartDate)
+    return `${date.getMonth() + 1}/${date.getDate()}`
+  }
+
+  const getEndDateDisplayText = () => {
+    if (!selectedEndDate) {
+      return '結束日期'
+    }
+    const date = new Date(selectedEndDate)
+    return `${date.getMonth() + 1}/${date.getDate()}`
+  }
+
   return (
     <StyledSearchBar>
       <SearchContent>
@@ -20,8 +36,12 @@ const SearchBar = ({ onSearch, selectedCities = [] }) => {
         <SearchText onClick={() => onSearch('city')} hasValue={selectedCities.length > 0}>
           {getCityDisplayText()}
         </SearchText>
-        <SearchText onClick={() => onSearch('date')}>開始日期</SearchText>
-        <SearchText onClick={() => onSearch('end-date')}>結束日期</SearchText>
+        <SearchText onClick={() => onSearch('date')} hasValue={selectedStartDate}>
+          {getStartDateDisplayText()}
+        </SearchText>
+        <SearchText onClick={() => onSearch('end-date')} hasValue={selectedEndDate}>
+          {getEndDateDisplayText()}
+        </SearchText>
       </SearchContent>
       <SearchIconWrapper>
         <img src={searchIcon} alt="search" />
