@@ -1,7 +1,7 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
-const StyledButton = styled.button.attrs({
-   type: 'button',
+const StyledButton = styled('button', {
+  shouldForwardProp: (prop) => !['margin'].includes(prop)
 })`
    color: ${(props) => (props.disabled ? '#3333' : ' #eeeeee')};
    background-color: ${(props) => (props.disabled ? '#EEEEEE' : ' #be875c')};

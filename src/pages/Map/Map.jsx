@@ -9,7 +9,7 @@ import {
    Marker,
    InfoWindow,
 } from '@react-google-maps/api'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { breakpoint } from '../../styles/utils/breakpoint'
 import { timeIcon } from '../../assets/images/map/index'
 import { defaultBannerTablet } from '../../assets/images'

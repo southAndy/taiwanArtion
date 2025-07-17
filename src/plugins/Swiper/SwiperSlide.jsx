@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { Navigation, Pagination } from 'swiper/modules'
+import { Navigation, Pagination, Autoplay } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 import { Skeleton } from '@mui/material'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import {
   defaultBannerTablet,
@@ -33,28 +33,33 @@ export default function SwiperBanner({ data }) {
         <Skeleton height={'300px'} />
       ) : (
         <StyledSwiper
-          modules={[Pagination, Navigation]}
+          modules={[Pagination, Navigation, Autoplay]}
           centeredSlides={true}
           slidesPerView={1}
           initialSlide={1}
           loop={true} // 啟用循環滑動
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
           pagination={{ clickable: true }}
           navigation={{
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
           }}
           breakpoints={{
-            576: {
+            [breakpoint.mobile]: {
               slidesPerView: 1,
             },
-            768: {
+            [breakpoint.tablet]: {
               slidesPerView: 1.5,
             },
             992: {
               slidesPerView: 2,
             },
-            1440: {
-              slidesPerView: 3.5,
+            [breakpoint.desktop]: {
+              slidesPerView: 2.5,
             },
             1920: {
               slidesPerView: 3.5,
@@ -102,9 +107,7 @@ export default function SwiperBanner({ data }) {
   )
 }
 
-const PreviousButton = styled.div.attrs({
-  className: 'swiper-button-prev',
-})`
+const PreviousButton = styled.div`
   position: absolute;
   left: 5%;
   top: 50%;

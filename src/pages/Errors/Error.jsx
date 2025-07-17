@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { notfindBg } from '@assets/images'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export default function ErrorPage() {
   return (

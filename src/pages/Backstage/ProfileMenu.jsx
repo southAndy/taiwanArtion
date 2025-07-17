@@ -1,6 +1,6 @@
 import { React } from 'react'
 import { useState, useEffect } from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { breakpoint } from '@styles/utils/breakpoint'
 import BaseImageBox from '@styles/base/BaseImageBox'
 import { ProfileIcon } from '@assets/images/backstage'
@@ -95,7 +95,7 @@ const StyledProfileMenu = styled.main`
     }
   }
 `
-const StyledFormBox = styled.form.attrs({})`
+const StyledFormBox = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;

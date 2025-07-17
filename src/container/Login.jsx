@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setIsLogin, login } from '../store/userSlice'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { hotBg, vectorIcon, warnIcon } from '../assets/images/index'
 import StyledInput from '../components/StyledInput'
 import Button from '../components/Button'
@@ -55,7 +55,7 @@ const Login = () => {
     const { email, password } = data
     try {
       // 使用信箱和密碼進行驗證
-      dispatch(login({ email, password }))
+      await dispatch(login({ email, password })).unwrap()
     } catch (error) {
       console.error('Error during login:', error)
     }
@@ -130,7 +130,7 @@ const Login = () => {
             )}
           </div>
           {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
-          <Button buttonType={'submit'} content={'登入'} />
+          <Button buttonType={'submit'}>登入</Button>
         </form>
         <section className="remind">
           <div>

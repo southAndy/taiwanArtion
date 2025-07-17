@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { warnIcon } from '../../assets/images'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
 import { auth } from '../../../firebase.config'
 import BaseImageBox from '../../styles/base/BaseImageBox'
@@ -19,7 +19,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
   const [userPhone, setUserPhone] = useState('')
   const [confirmResult, setConfirmResult] = useState('')
   const [userCode, setUserCode] = useState('')
-  let content = '寄送手機驗證碼'
+  let content = '寄送驗證碼'
   const schema = yup.object().shape({
     userPhone: yup
       .string()

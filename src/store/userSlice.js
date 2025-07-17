@@ -17,15 +17,19 @@ import {
 export const monitorUserState = createAsyncThunk('user/monitorUserState', async () => {
   return new Promise(resolve => {
     const unsubscribe = onAuthStateChanged(auth, user => {
-      resolve({
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL ? user.photoURL : 0,
-        emailVerified: user.emailVerified,
-        isAnonymous: user.isAnonymous,
-        providerData: user.providerData,
-      })
+      if (user) {
+        resolve({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL ? user.photoURL : 0,
+          emailVerified: user.emailVerified,
+          isAnonymous: user.isAnonymous,
+          providerData: user.providerData,
+        })
+      } else {
+        resolve(null) // 沒有用戶時返回 null
+      }
     })
     return () => unsubscribe()
   })
@@ -96,13 +100,9 @@ const userSlice = createSlice({
       state.isLogin = action.payload
     },
     setLogout(state, action) {
-      //清除 accessToken
-      function deleteCookie(name) {
-        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
-      }
-      deleteCookie('accessToken')
       //isLogin 狀態改為 false
       state.isLogin = action.payload
+      state.userInfo = {}
     },
     setTempPhotoIndex(state, action) {
       state.tempPhotoIndex = action.payload
@@ -117,8 +117,13 @@ const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder.addCase(monitorUserState.fulfilled, (state, action) => {
-      state.userInfo = action.payload
-      state.isLogin = true
+      if (action.payload) {
+        state.userInfo = action.payload
+        state.isLogin = true
+      } else {
+        state.userInfo = {}
+        state.isLogin = false
+      }
     })
     builder.addCase(login.fulfilled, (state, action) => {
       state.isLogin = true

@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import { logoIcon } from '../../assets/images/index'
 import { Link } from 'react-router-dom'

@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 const StyledTitle = styled.h3`
    margin-top: 1.5rem;
    font-weight: 700;

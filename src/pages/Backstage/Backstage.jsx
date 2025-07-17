@@ -24,7 +24,7 @@ import {
   userIcon7,
   userIcon8,
 } from '@assets/images/backstage'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import BaseImageBox from '@styles/base/BaseImageBox'
 import StoreMenu from './StoreMenu'
 import CalendarMenu from './CalendarMenu'

@@ -1,82 +1,117 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { useEffect } from 'react'
 
 const Modal = ({
-   children,
-   isShow,
-   setShow,
-   position = { l: 'unset', r: 'unset', t: 'unset', b: 'unset' },
-   width,
-   height,
-   shape,
-   translate,
-   overflow,
+  children,
+  isShow,
+  setShow,
+  width = '90%',
+  height = 'auto',
+  maxWidth = '600px',
+  maxHeight = '85vh',
+  borderRadius = '20px',
+  centered = true,
+  position,
+  closable = true,
+  maskClosable = true,
+  overflow = 'auto',
+  backgroundColor = 'white', // 新增
+  backdropColor = 'rgba(0, 0, 0, 0.5)', // 新增
+  padding, // 新增
 }) => {
-   useEffect(() => {
-      if (isShow) {
-         document.body.style.overflow = 'hidden'
-      } else {
-         document.body.style.overflow = 'auto'
-      }
-   }, [isShow])
+  useEffect(() => {
+    if (isShow) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'auto'
+    }
 
-   const showModalHandler = (event) => {
-      // 如果是 children 內的子元素，不關閉 modal
-      if (event.target !== event.currentTarget) {
-         return
-      } else {
-         setShow(() => !isShow)
+    // ESC 鍵關閉
+    const handleEscape = e => {
+      if (e.key === 'Escape' && closable) {
+        setShow(false)
       }
-   }
+    }
 
-   return (
-      <StyledModalBackground showModal={isShow} onClick={showModalHandler}>
-         <StyledModalContent
-            width={width}
-            height={height}
-            top={position.t}
-            bottom={position.b}
-            left={position.l}
-            right={position.r}
-            borderRadius={shape}
-            translate={translate}
-            overflow={overflow}
-         >
-            {children}
-         </StyledModalContent>
-      </StyledModalBackground>
-   )
+    if (isShow) {
+      document.addEventListener('keydown', handleEscape)
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isShow, closable, setShow])
+
+  const handleBackdropClick = event => {
+    if (maskClosable && event.target === event.currentTarget) {
+      setShow(false)
+    }
+  }
+
+  if (!isShow) return null
+
+  return (
+    <StyledModalBackground onClick={handleBackdropClick} backdropColor={backdropColor}>
+      <StyledModalContent
+        width={width}
+        height={height}
+        maxWidth={maxWidth}
+        maxHeight={maxHeight}
+        borderRadius={borderRadius}
+        centered={centered}
+        position={position}
+        overflow={overflow}
+        backgroundColor={backgroundColor}
+        padding={padding}
+      >
+        {children}
+      </StyledModalContent>
+    </StyledModalBackground>
+  )
 }
 
-export default Modal
-
 const StyledModalBackground = styled.div`
-   display: ${({ showModal }) => (showModal ? 'block' : 'none')};
-   position: absolute;
-   top: 8%;
-   left: 0;
-   background-color: rgba(0, 0, 0, 0.2);
-   width: 100vw;
-   height: 100vh;
-   z-index: 2000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${({ backdropColor }) => backdropColor};
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
-const StyledModalContent = styled.div`
-   background: ${({ bgColor }) => bgColor || '#fff'};
-   height: ${({ height }) => height || '600px'};
-   max-height: ${({ maxHeight }) => maxHeight || '85%'};
-   width: ${({ width }) => width || '100%'};
-   position: absolute;
-   overflow: ${({ overflow }) => overflow || 'auto'};
-   border-radius: ${({ borderRadius }) => borderRadius || '0 0 20px 20px'};
-   padding: 24px;
-   top: ${({ top }) => top || '0%'};
-   bottom: ${({ bottom }) => bottom || '0%'};
-   left: ${({ left }) => left || '0%'};
-   right: ${({ right }) => right || '0%'};
-   translate: ${({ translate }) => translate || '-50% -50%'}; // 這個屬性預設用來置中的
 
-   // 隱藏滾軸
-   &::-webkit-scrollbar {
-      display: none;
-   }
+const StyledModalContent = styled.div`
+  background: ${({ backgroundColor }) => backgroundColor};
+  border-radius: ${({ borderRadius }) => borderRadius};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  max-width: ${({ maxWidth }) => maxWidth};
+  max-height: ${({ maxHeight }) => maxHeight};
+  overflow: ${({ overflow }) => overflow};
+  position: relative;
+  padding: ${({ padding }) => padding};
+
+  // 簡化的定位邏輯
+  ${({ position, centered }) => {
+    if (position) {
+      return `
+        position: absolute;
+        top: ${position.top || 'unset'};
+        right: ${position.right || 'unset'};
+        bottom: ${position.bottom || 'unset'};
+        left: ${position.left || 'unset'};
+        transform: ${position.transform || 'none'};
+      `
+    }
+    return '' // 使用 flexbox 自動置中
+  }}
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `
+
+export default Modal

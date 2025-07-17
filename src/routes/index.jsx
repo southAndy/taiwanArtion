@@ -9,6 +9,7 @@ import Register from '@pages/Register/Register'
 import Backstage from '@pages/Backstage/Backstage'
 import MapPage from '@pages/Map/Map'
 import ProtectedRoute from './ProtectedRoute'
+import AuthRequiredRoute from './AuthRequiredRoute'
 import Layout from '@layouts/Layout.tsx'
 import LoginPage from '@container/Login'
 
@@ -53,9 +54,9 @@ const router = createBrowserRouter([
       {
         path: '/backstage/',
         element: (
-          <ProtectedRoute>
+          <AuthRequiredRoute>
             <Backstage />
-          </ProtectedRoute>
+          </AuthRequiredRoute>
         ),
       },
     ],

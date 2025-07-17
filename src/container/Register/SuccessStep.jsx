@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { successBg, sucessIcon } from '../../assets/images'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 const Success = () => {
    useEffect(() => {

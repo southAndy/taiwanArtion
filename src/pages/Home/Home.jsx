@@ -16,7 +16,7 @@ const HomePage = () => {
   const monthList = fakeMonthList
   const [currentMonth, setMonth] = useState(new Date().getMonth() + 1)
   const [filterRule, setFilterRule] = useState('new')
-  const { openData } = useSelector(state => state.common)
+  const { openData, isLoading } = useSelector(state => state.common)
   const dispatch = useDispatch()
 
   // 初次載入去抓資料
@@ -61,7 +61,7 @@ const HomePage = () => {
     } else if (filterRule === 'hot') {
       return [...openData].sort(sortByHitRate)
     }
-  }, [filterRule, filterData])
+  }, [filterRule, openData])
 
   return (
     <>
@@ -82,15 +82,29 @@ const HomePage = () => {
           })}
         </StyledMonthBox>
       </StyledMonthWrapper>
-      <SwiperBanner data={filterData} />
+      {isLoading ? (
+        <SwiperLoadingContainer>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <SwiperCardLoadingSkeleton key={index} />
+          ))}
+        </SwiperLoadingContainer>
+      ) : (
+        <SwiperBanner data={filterData} />
+      )}
 
       <StyledHotSection>
         <h3 className="title">熱門展覽</h3>
         <div className="content">
           <div>
-            {hotData.map((data, index) => {
-              return <ExhibitionCard data={data} rank={index} key={data.UID} />
-            })}
+            {isLoading ? (
+              Array.from({ length: 5 }).map((_, index) => (
+                <HotCardLoadingSkeleton key={index} />
+              ))
+            ) : (
+              hotData.map((data, index) => {
+                return <ExhibitionCard data={data} rank={index} key={data.UID} />
+              })
+            )}
           </div>
         </div>
       </StyledHotSection>
@@ -99,16 +113,26 @@ const HomePage = () => {
         <TypeWrapper className="menu">
           {filterRules.map((rule, index) => {
             return (
-              <StyledExhibitionType key={index} onClick={() => setFilterRule(rule.value)}>
+              <StyledExhibitionType 
+                key={index} 
+                isActive={filterRule === rule.value}
+                onClick={() => setFilterRule(rule.value)}
+              >
                 {rule.name}
               </StyledExhibitionType>
             )
           })}
         </TypeWrapper>
         <div className="all">
-          {filterExhibition.map((data, index) => {
-            return <AllExhibitionCard key={index} data={data} />
-          })}
+          {isLoading ? (
+            Array.from({ length: 6 }).map((_, index) => (
+              <ExhibitionCardLoadingSkeleton key={index} />
+            ))
+          ) : (
+            filterExhibition?.map((data, index) => {
+              return <AllExhibitionCard key={data.UID} data={data} />
+            })
+          )}
         </div>
       </StyledAllExhibitionWrapper>
     </>
@@ -128,6 +152,12 @@ const StyledMonthWrapper = styled.section`
   @media (min-width: ${breakpoint.tablet}px) {
     padding: 0 40px;
     margin-top: 56px;
+    
+    .title {
+      font-size: 32px;
+      text-align: center;
+      margin-bottom: 24px;
+    }
   }
 `
 
@@ -182,6 +212,12 @@ const StyledHotSection = styled.section`
 
   @media (min-width: ${breakpoint.tablet}px) {
     padding: 40px;
+    
+    .title {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 32px;
+    }
   }
   @media (min-width: ${breakpoint.desktop}px) {
     padding: 40px 120px;
@@ -248,12 +284,154 @@ const StyledExhibitionType = styled.div`
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  color: ${props => (props.isActive ? '#BE8152' : '#000')};
+  color: ${props => (props.isActive ? '#fff' : '#000')};
   background: ${props => (props.isActive ? '#BE8152' : '#eeee')};
   &:hover {
     background: #be875c;
     color: #fff;
   }
 `
+
+// Loading 組件
+const LoadingSkeleton = styled.div`
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+`
+
+const SwiperLoadingContainer = styled.div`
+  position: relative;
+  padding: 16px;
+  height: auto;
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  
+  @media (min-width: ${breakpoint.tablet}px) {
+    height: 470px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+`
+
+const SwiperCardLoadingSkeleton = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+  box-shadow: 0px 1px 8px 2px #0000001a;
+  border-radius: 12px;
+  background: white;
+  flex-shrink: 0;
+  gap: 8px;
+  min-width: 267px;
+  
+  /* 圖片區域 Loading */
+  &::before {
+    content: '';
+    height: 170px;
+    width: 100%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 8px;
+  }
+  
+  /* 標題區域 Loading */
+  &::after {
+    content: '';
+    height: 20px;
+    width: 80%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+  
+  @keyframes loading {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
+  
+  @media (min-width: ${breakpoint.tablet}px) {
+    min-width: 448px;
+    align-items: flex-start;
+    
+    &::before {
+      height: 280px;
+    }
+    
+    &::after {
+      height: 24px;
+      width: 60%;
+    }
+  }
+  
+  @media (min-width: ${breakpoint.desktop}px) {
+    min-width: 475px;
+    
+    &::before {
+      height: 300px;
+    }
+  }
+`
+
+const HotCardLoadingSkeleton = styled(LoadingSkeleton)`
+  height: 80px;
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  
+  &::before {
+    content: '';
+    width: 56px;
+    height: 56px;
+    background: #d0d0d0;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  
+  &::after {
+    content: '';
+    flex: 1;
+    background: #d0d0d0;
+    border-radius: 4px;
+  }
+`
+
+const ExhibitionCardLoadingSkeleton = styled(LoadingSkeleton)`
+  height: 200px;
+  width: 100%;
+  margin-bottom: 24px;
+  
+  @media (min-width: ${breakpoint.tablet}px) {
+    height: 250px;
+  }
+`
+
 
 export default HomePage

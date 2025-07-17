@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import Button from '../../components/Button'
 import StyledInput from '../../components/StyledInput'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -92,7 +92,7 @@ const secondStep = ({ setStep, setUserInfo }) => {
       try {
          const userDatas = doc(db, 'users', uid)
          const docSnap = await getDoc(userDatas)
-         dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
+         dispatch({ type: 'user/setUserInfo', payload: docSnap.data() })
       } catch (e) {
          console.log('取得使用者資料失敗', e)
       }
@@ -115,9 +115,8 @@ const secondStep = ({ setStep, setUserInfo }) => {
          // 從 Firestore 取得使用者資料並存入 Redux (推薦做法)
          await getUserInfo(userCredit.user.uid)
 
-         // 將 accessToken 存入 cookie (登入狀態)
-         document.cookie = `accessToken=${userCredit.user.accessToken}`
-         dispatch({ type: 'member/setIsLogin', payload: true })
+         // Firebase Auth 會自動管理登入狀態，不需要手動設置 cookie
+         dispatch({ type: 'user/setIsLogin', payload: true })
          // 跳轉到下一步
          setStep((n) => n + 1)
       } catch (error) {

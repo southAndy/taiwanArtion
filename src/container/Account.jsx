@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { loginBannerMobile, logoWhite } from '../assets/images/index'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import Flex from '../styles/utils/Flex'
 import { PositionElement } from '../styles/base/PositionElement'
 import { breakpoint } from '../styles/utils/breakpoint'
