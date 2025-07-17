@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import styled from '@emotion/styled'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSelect }) => {
   const [searchText, setSearchText] = useState('')
@@ -10,6 +11,7 @@ const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSele
   const dropdownRef = useRef(null)
   const inputRef = useRef(null)
   const { openData } = useSelector(state => state.common)
+  const navigate = useNavigate()
 
   const saveSearchHistory = searchTerm => {
     const history = JSON.parse(localStorage.getItem('exhibitionSearchHistory') || '[]')
@@ -25,14 +27,24 @@ const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSele
 
   const handleExhibitionClick = exhibition => {
     saveSearchHistory(exhibition.title)
-    onExhibitionSelect(exhibition.title)
+    navigate(`/detail/${exhibition.UID}`)
     setModlaShow(false)
+  }
+
+  const handleKeywordSearch = () => {
+    if (searchText.trim()) {
+      saveSearchHistory(searchText)
+      onExhibitionSelect(searchText)
+      setModlaShow(false)
+    }
   }
 
   const handleKeyPress = e => {
     if (e.key === 'Escape') {
       setShowDropdown(false)
       inputRef.current?.blur()
+    } else if (e.key === 'Enter') {
+      handleKeywordSearch()
     }
   }
 
@@ -63,6 +75,7 @@ const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSele
   }
 
   const handleHistoryClick = historyItem => {
+    setSearchText(historyItem)
     onExhibitionSelect(historyItem)
     setModlaShow(false)
   }
@@ -97,6 +110,12 @@ const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSele
           onKeyDown={handleKeyPress}
           autoFocus
         />
+        <SearchButton 
+          onClick={handleKeywordSearch}
+          disabled={!searchText.trim()}
+        >
+          搜尋
+        </SearchButton>
         {searchHistory.length > 0 && (
           <ClearHistoryButton onClick={clearSearchHistory}>清除歷史</ClearHistoryButton>
         )}
@@ -167,7 +186,7 @@ const SearchTitle = styled.h3`
 
 const SearchInputContainer = styled.div`
   display: flex;
-  gap: 12px;
+  gap: 8px;
   align-items: center;
   position: relative;
 `
@@ -187,6 +206,29 @@ const SearchInput = styled.input`
 
   &::placeholder {
     color: #999;
+  }
+`
+
+const SearchButton = styled.button`
+  padding: 12px 20px;
+  background-color: #be875c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background-color: #a67249;
+  }
+
+  &:disabled {
+    background-color: #e0e0e0;
+    color: #999;
+    cursor: not-allowed;
   }
 `
 
