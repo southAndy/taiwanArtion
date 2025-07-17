@@ -1,9 +1,7 @@
-import { useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { CityMenu } from './CityMenu'
 import DateMenu from './DateMenu'
 import ExhibitionMenu from './ExhibitionMenu'
-import { breakpoint } from '@styles/utils/breakpoint'
 
 const TABS = [
   { id: 'exhibition', name: '展覽名稱', component: ExhibitionMenu },
@@ -12,7 +10,7 @@ const TABS = [
   // { id: 'price', name: '票價', component: PayMenu }, // 預留票價篩選，未來取消註解即可啟用
 ]
 
-export default function HeaderSearchMenu({ setModlaShow, activeTabId, selectedCities, onCitySelect, selectedStartDate, selectedEndDate, onDateSelect }) {
+export default function HeaderSearchMenu({ setModlaShow, activeTabId, selectedCities, onCitySelect, selectedStartDate, selectedEndDate, onDateSelect, selectedExhibitionName, onExhibitionSelect }) {
   const ActiveComponent = TABS.find(tab => tab.id === activeTabId)?.component
 
   return (
@@ -31,6 +29,8 @@ export default function HeaderSearchMenu({ setModlaShow, activeTabId, selectedCi
           selectedStartDate={activeTabId === 'date' ? selectedStartDate : undefined}
           selectedEndDate={activeTabId === 'date' ? selectedEndDate : undefined}
           onDateSelect={activeTabId === 'date' ? onDateSelect : undefined}
+          selectedExhibitionName={activeTabId === 'exhibition' ? selectedExhibitionName : undefined}
+          onExhibitionSelect={activeTabId === 'exhibition' ? onExhibitionSelect : undefined}
         />
       )}
     </MenuContainer>

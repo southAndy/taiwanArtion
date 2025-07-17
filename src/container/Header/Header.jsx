@@ -16,6 +16,7 @@ const Header = () => {
   const [selectedCities, setSelectedCities] = useState([])
   const [selectedStartDate, setSelectedStartDate] = useState(null)
   const [selectedEndDate, setSelectedEndDate] = useState(null)
+  const [selectedExhibitionName, setSelectedExhibitionName] = useState('')
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
 
@@ -43,11 +44,15 @@ const Header = () => {
     setSelectedEndDate(dateRange.endDate)
   }
 
+  const handleExhibitionSelect = (exhibitionName) => {
+    setSelectedExhibitionName(exhibitionName)
+  }
+
   return (
     <HeaderContainer>
       <Logo />
       <Dropdown
-        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} />}
+        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} selectedExhibitionName={selectedExhibitionName} />}
         isOpen={isSearchMenuOpen}
         onClose={() => setIsSearchMenuOpen(false)}
         placement="bottom-center"
@@ -60,6 +65,8 @@ const Header = () => {
           selectedStartDate={selectedStartDate}
           selectedEndDate={selectedEndDate}
           onDateSelect={handleDateSelect}
+          selectedExhibitionName={selectedExhibitionName}
+          onExhibitionSelect={handleExhibitionSelect}
         />
       </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />

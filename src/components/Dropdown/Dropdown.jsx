@@ -84,7 +84,6 @@ const DropdownContainer = styled.div`
   min-width: 320px;
   max-width: 90vw;
   max-height: 80vh;
-  overflow-y: auto;
 `
 
 export default Dropdown

@@ -1,8 +1,10 @@
 import React from 'react'
 import styled from '@emotion/styled'
+import { useNavigate } from 'react-router-dom'
 import { searchIcon } from '@assets/images'
 
-const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, selectedEndDate = null }) => {
+const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, selectedEndDate = null, selectedExhibitionName = '' }) => {
+  const navigate = useNavigate()
   const getCityDisplayText = () => {
     if (selectedCities.length === 0) {
       return '選擇縣市'
@@ -29,10 +31,36 @@ const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, se
     return `${date.getMonth() + 1}/${date.getDate()}`
   }
 
+  const handleSearch = () => {
+    // 構建搜尋參數
+    const searchParams = new URLSearchParams()
+    
+    if (selectedExhibitionName) {
+      searchParams.set('exhibition', selectedExhibitionName)
+    }
+    
+    if (selectedCities.length > 0) {
+      searchParams.set('keyword', selectedCities.map(city => city.chinese).join(','))
+    }
+    
+    if (selectedStartDate) {
+      searchParams.set('startDate', selectedStartDate)
+    }
+    
+    if (selectedEndDate) {
+      searchParams.set('endDate', selectedEndDate)
+    }
+    
+    // 導航到結果頁面
+    navigate(`/result?${searchParams.toString()}`)
+  }
+
   return (
     <StyledSearchBar>
       <SearchContent>
-        <SearchText onClick={() => onSearch('exhibition')}>輸入展覽名稱</SearchText>
+        <SearchText onClick={() => onSearch('exhibition')} hasValue={selectedExhibitionName}>
+          {selectedExhibitionName || '輸入展覽名稱'}
+        </SearchText>
         <SearchText onClick={() => onSearch('city')} hasValue={selectedCities.length > 0}>
           {getCityDisplayText()}
         </SearchText>
@@ -43,7 +71,7 @@ const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, se
           {getEndDateDisplayText()}
         </SearchText>
       </SearchContent>
-      <SearchIconWrapper>
+      <SearchIconWrapper onClick={handleSearch}>
         <img src={searchIcon} alt="search" />
       </SearchIconWrapper>
     </StyledSearchBar>
@@ -90,8 +118,8 @@ const SearchContent = styled.div`
 const SearchText = styled.span`
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 100%;
-  text-align: center;
   color: ${props => props.hasValue ? '#333' : '#5f5f5f'};
   font-weight: ${props => props.hasValue ? '500' : '400'};
   font-size: 14px;
@@ -120,6 +148,12 @@ const SearchIconWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #a67c52;
+  }
 
   img {
     width: 16px;
