@@ -2,6 +2,34 @@
 
 ## 2025-07-17
 
+### 認證系統重構完成
+
+- refactor(auth): 更新登入驗證機制使用 Firebase Auth 原生狀態 [f27ce61](https://github.com/southAndy/taiwanArtion/commit/f27ce61)
+  - 移除不必要的 cookie 機制，使用 Firebase Auth 內建的身份驗證狀態
+  - 新增 AuthRequiredRoute 專門保護會員限定頁面
+  - 更新 ProtectedRoute 使用 Firebase onAuthStateChanged 監聽狀態
+  - 修正 userSlice 的 monitorUserState 處理無用戶情況
+  - 統一 Redux action types，修正 member/* 為 user/*
+  - 更新 /backstage 路由使用新的權限保護機制
+
+- feat(auth): 新增桌機版登入/註冊彈窗功能 [f90cd48](https://github.com/southAndy/taiwanArtion/commit/f90cd48)
+  - 新增 AuthModal 統一彈窗容器，支援登入/註冊模式切換
+  - 新增 LoginFlow 簡潔2步驟登入流程 (表單 → 成功提示)
+  - 新增 RegisterFlow 複用現有3步驟註冊流程
+  - 更新 Header 整合桌機版分離的登入/註冊按鈕
+  - 修復 Modal 元件圖片匯入問題
+  - 響應式設計：桌機版使用彈窗，手機版維持頁面跳轉
+
+### UI 體驗大幅提升完成
+
+- feat(ui): 增強載入狀態與響應式設計改善 [06b6af6](https://github.com/southAndy/taiwanArtion/commit/06b6af6)
+  - 新增全站骨架屏 Loading 動畫（首頁所有區塊、搜尋結果頁面）
+  - 實作響應式標題縮放，大尺寸裝置優化顯示效果
+  - 創建真實尺寸輪播 Loading 卡片，完美匹配實際組件
+  - 修復篩選按鈕 active 狀態顯示問題（白色文字在彩色背景）
+  - 搜尋結果頁面實作彩色標籤化條件顯示
+  - 支援多城市搜尋參數處理與中英文城市名稱轉換
+
 ### 搜尋功能統一完成
 
 - feat(search): 統一搜尋功能與整合搜尋執行 [99d1206](https://github.com/southAndy/taiwanArtion/commit/99d1206)

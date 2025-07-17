@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react'
 import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '../../firebase.config'
 
-const ProtectedRoute = ({ children }) => {
+const AuthRequiredRoute = ({ children }) => {
+  const { isLogin } = useSelector(state => state.user)
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   
@@ -22,12 +23,12 @@ const ProtectedRoute = ({ children }) => {
     return <div>Loading...</div>
   }
   
-  // 如果已經登入，跳轉到首頁 (適用於登入頁面等)
-  if (user) {
-    return <Navigate to='/' replace />
+  // 如果沒有 Firebase 用戶，跳轉到登入頁面
+  if (!user) {
+    return <Navigate to="/login" replace />
   }
 
   return children
 }
 
-export default ProtectedRoute
+export default AuthRequiredRoute

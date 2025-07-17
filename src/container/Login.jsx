@@ -55,7 +55,7 @@ const Login = () => {
     const { email, password } = data
     try {
       // 使用信箱和密碼進行驗證
-      dispatch(login({ email, password }))
+      await dispatch(login({ email, password })).unwrap()
     } catch (error) {
       console.error('Error during login:', error)
     }
