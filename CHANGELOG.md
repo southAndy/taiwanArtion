@@ -2,6 +2,16 @@
 
 ## 2025-07-17
 
+### 展覽搜尋功能增強完成
+
+- feat(search): 增強展覽搜尋功能和用戶體驗 [d1a81b6](https://github.com/southAndy/taiwanArtion/commit/d1a81b6)
+  - 新增搜尋按鈕支援關鍵字搜尋
+  - 優化搜尋歷史交互，點擊歷史項目會填入搜尋框
+  - 改進路由導航，點擊展覽項目直接跳轉到詳情頁
+  - 新增 Enter 鍵搜尋支援
+  - 調整搜尋按鈕樣式和禁用狀態
+  - 新增 record 命令用於自動化開發流程
+
 ### 認證系統重構完成
 
 - refactor(auth): 更新登入驗證機制使用 Firebase Auth 原生狀態 [f27ce61](https://github.com/southAndy/taiwanArtion/commit/f27ce61)
