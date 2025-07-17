@@ -26,14 +26,12 @@ export default function ResultPage() {
 
     // 縣市篩選
     if (cityName) {
-      filteredData = filteredData.filter(data => 
-        data.showInfo[0].location.startsWith(cityName)
-      )
+      filteredData = filteredData.filter(data => data.showInfo[0].location.startsWith(cityName))
     }
 
     // 展覽名稱篩選
     if (exhibitionName) {
-      filteredData = filteredData.filter(data => 
+      filteredData = filteredData.filter(data =>
         data.title.toLowerCase().includes(exhibitionName.toLowerCase())
       )
     }
@@ -45,7 +43,7 @@ export default function ResultPage() {
         const exhibitionEnd = new Date(data.endDate)
         const searchStart = new Date(startDate)
         const searchEnd = new Date(endDate)
-        
+
         // 檢查展覽日期是否與搜尋範圍重疊
         return exhibitionStart <= searchEnd && exhibitionEnd >= searchStart
       })
@@ -79,10 +77,19 @@ export default function ResultPage() {
           <StyledPageLink to="/">
             <img src={vectorIcon} alt="回到上一頁箭頭" />
           </StyledPageLink>
-          {cityName && `${cityName} `}
-          {exhibitionName && `"${exhibitionName}" `}
-          {startDate && endDate && `${startDate} ~ ${endDate} `}
-          找到共{total}筆展覽資訊
+          <StyledSearchConditions>
+            <span>搜尋條件：</span>
+            <StyledTagContainer>
+              {cityName && <SearchTag type="city">{cityName}</SearchTag>}
+              {exhibitionName && <SearchTag type="exhibition">"{exhibitionName}"</SearchTag>}
+              {startDate && endDate && (
+                <SearchTag type="date">
+                  {startDate} ~ {endDate}
+                </SearchTag>
+              )}
+            </StyledTagContainer>
+          </StyledSearchConditions>
+          <StyledResultCount>找到共{total}筆展覽資訊</StyledResultCount>
         </StyledTitle>
         <div className="menu">
           <div>搜尋結果</div>
@@ -195,14 +202,94 @@ const StyledLoginBanner = styled.section`
 
 const StyledTitle = styled.h3`
   display: flex;
-  justify-content: flex-start;
-  gap: 10px;
+  flex-direction: column;
+  gap: 12px;
   font-size: 18px;
   font-weight: 500;
   color: #535353;
 
   @media (min-width: ${breakpoint.tablet}px) {
     font-size: 24px;
+  }
+`
+
+const StyledSearchConditions = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  span {
+    font-size: 16px;
+    color: #666;
+    white-space: nowrap;
+  }
+
+  @media (min-width: ${breakpoint.tablet}px) {
+    span {
+      font-size: 18px;
+    }
+  }
+`
+
+const StyledTagContainer = styled.div`
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+`
+
+const SearchTag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+
+  ${props => {
+    switch (props.type) {
+      case 'city':
+        return `
+          background-color: #e3f2fd;
+          color: #1976d2;
+          border: 1px solid #bbdefb;
+        `
+      case 'exhibition':
+        return `
+          background-color: #f3e5f5;
+          color: #7b1fa2;
+          border: 1px solid #ce93d8;
+        `
+      case 'date':
+        return `
+          background-color: #e8f5e8;
+          color: #388e3c;
+          border: 1px solid #a5d6a7;
+        `
+      default:
+        return `
+          background-color: #f5f5f5;
+          color: #666;
+          border: 1px solid #ddd;
+        `
+    }
+  }}
+
+  @media (min-width: ${breakpoint.tablet}px) {
+    font-size: 16px;
+    padding: 6px 16px;
+  }
+`
+
+const StyledResultCount = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+
+  @media (min-width: ${breakpoint.tablet}px) {
+    font-size: 20px;
   }
 `
 const StyledExhibitionLink = styled(Link)`
@@ -238,7 +325,6 @@ const StyledExhibitionLink = styled(Link)`
     margin-bottom: 0;
   }
 `
-
 
 const StyledFilterText = styled.p`
   font-size: 16px;
