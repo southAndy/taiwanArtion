@@ -8,12 +8,17 @@ import { useSelector } from 'react-redux'
 import { logout } from '@store/userSlice'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { useBreakpoint } from '@hooks/useBreakpoint'
+import AuthModal from '@container/Auth/AuthModal'
 
 const User = ({ onLoginClick }) => {
   const { userInfo, userPhotos, isLogin } = useSelector(state => state.user)
   const [isShowMemberMenu, setMemberMenu] = useState(false)
+  const [isShowAuthModal, setIsShowAuthModal] = useState(false)
+  const [authMode, setAuthMode] = useState('login')
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const { isDesktop } = useBreakpoint()
 
   const handleUserClick = () => {
     setMemberMenu(prev => !prev)
@@ -23,6 +28,24 @@ const User = ({ onLoginClick }) => {
     dispatch(logout())
     navigate('/')
     setMemberMenu(false)
+  }
+
+  const handleLoginClick = () => {
+    if (isDesktop) {
+      setAuthMode('login')
+      setIsShowAuthModal(true)
+    } else {
+      onLoginClick()
+    }
+  }
+
+  const handleRegisterClick = () => {
+    if (isDesktop) {
+      setAuthMode('register')
+      setIsShowAuthModal(true)
+    } else {
+      navigate('/register')
+    }
   }
 
   if (isLogin) {
@@ -41,7 +64,20 @@ const User = ({ onLoginClick }) => {
     )
   }
 
-  return <LoginButton onClick={onLoginClick}>登入/註冊</LoginButton>
+  return (
+    <>
+      <ButtonContainer>
+        <LoginButton onClick={handleLoginClick}>登入</LoginButton>
+        <RegisterButton onClick={handleRegisterClick}>註冊</RegisterButton>
+      </ButtonContainer>
+      
+      <AuthModal
+        isShow={isShowAuthModal}
+        setShow={setIsShowAuthModal}
+        initialMode={authMode}
+      />
+    </>
+  )
 }
 
 const StyledUserIcon = styled.div`
@@ -57,25 +93,46 @@ const StyledUserIcon = styled.div`
   }
 `
 
-const LoginButton = styled.button`
+const ButtonContainer = styled.div`
   display: none;
+  gap: 8px;
+
+  @media (min-width: ${breakpoint.tablet}px) {
+    display: flex;
+  }
+`
+
+const LoginButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
   border: none;
+  padding: 8px 20px;
+  background: #eeeeee;
+  color: #535353;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #be875c;
+    color: #fff;
+  }
+`
+
+const RegisterButton = styled.button`
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  border: 1px solid #A9622A;
+  padding: 8px 20px;
   background: transparent;
+  color: #A9622A;
+  border-radius: 20px;
+  transition: all 0.3s ease;
 
-  @media (min-width: ${breakpoint.tablet}px) {
-    display: block;
-    padding: 8px 25px;
-    background: #eeeeee;
-    color: #535353;
-    border-radius: 20px;
-
-    &:hover {
-      background: #be875c;
-      color: #fff;
-    }
+  &:hover {
+    background: #A9622A;
+    color: #fff;
   }
 `
 

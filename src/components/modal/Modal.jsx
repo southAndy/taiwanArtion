@@ -2,7 +2,7 @@ import styled from '@emotion/styled'
 import { useState } from 'react'
 
 import './moda.scss'
-import loginIcon from '../../assets/images/4672493-02.png'
+import { loginBanner } from '../../assets/images/index'
 import fbIcon from '../../assets/images/social-icons/社群icon.png'
 import googleIcon from '../../assets/images/social-icons/社群icon拷貝.png'
 
@@ -18,7 +18,7 @@ const DefaultModal = ({ mode, setMode }) => {
          <div className='modal'>
             <div className='modal-banner'>
                <div>x</div>
-               <img src={loginIcon} alt='登入圖樣' />
+               <img src={loginBanner} alt='登入圖樣' />
             </div>
             <div className='modal-info'>
                <h3 className='title'>或者使用以下帳號登入/註冊</h3>

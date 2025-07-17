@@ -4,13 +4,11 @@ import { useBreakpoint } from '@hooks/useBreakpoint'
 import styled from '@emotion/styled'
 import Logo from '@container/Header/components/Logo'
 import Navigation from '@container/Header/components/Navigation'
-import LoginModal from '@container/Header/components/LoginModal'
 import SearchBar from './components/search/SearchBar'
 import Dropdown from '@components/Dropdown/Dropdown'
 import HeaderSearchMenu from './components/search/Menu'
 
 const Header = () => {
-  const [isShowLoginModal, setIsShowLoginModal] = useState(false)
   const [isSearchMenuOpen, setIsSearchMenuOpen] = useState(false)
   const [activeTab, setActiveTab] = useState('city')
   const [selectedCities, setSelectedCities] = useState([])
@@ -23,9 +21,8 @@ const Header = () => {
   const handleLoginClick = () => {
     if (isMobile) {
       navigate('/account')
-    } else {
-      setIsShowLoginModal(true)
     }
+    // 桌面版的登入處理已移至 User 元件
   }
 
   const handleSearchSectionClick = tabId => {
@@ -35,16 +32,16 @@ const Header = () => {
     setIsSearchMenuOpen(true) // 打開下拉選單
   }
 
-  const handleCitySelect = (cities) => {
+  const handleCitySelect = cities => {
     setSelectedCities(cities)
   }
 
-  const handleDateSelect = (dateRange) => {
+  const handleDateSelect = dateRange => {
     setSelectedStartDate(dateRange.startDate)
     setSelectedEndDate(dateRange.endDate)
   }
 
-  const handleExhibitionSelect = (exhibitionName) => {
+  const handleExhibitionSelect = exhibitionName => {
     setSelectedExhibitionName(exhibitionName)
   }
 
@@ -52,13 +49,21 @@ const Header = () => {
     <HeaderContainer>
       <Logo />
       <Dropdown
-        trigger={<SearchBar onSearch={handleSearchSectionClick} selectedCities={selectedCities} selectedStartDate={selectedStartDate} selectedEndDate={selectedEndDate} selectedExhibitionName={selectedExhibitionName} />}
+        trigger={
+          <SearchBar
+            onSearch={handleSearchSectionClick}
+            selectedCities={selectedCities}
+            selectedStartDate={selectedStartDate}
+            selectedEndDate={selectedEndDate}
+            selectedExhibitionName={selectedExhibitionName}
+          />
+        }
         isOpen={isSearchMenuOpen}
         onClose={() => setIsSearchMenuOpen(false)}
         placement="bottom-center"
       >
-        <HeaderSearchMenu 
-          activeTabId={activeTab} 
+        <HeaderSearchMenu
+          activeTabId={activeTab}
           setModlaShow={setIsSearchMenuOpen}
           selectedCities={selectedCities}
           onCitySelect={handleCitySelect}
@@ -70,12 +75,6 @@ const Header = () => {
         />
       </Dropdown>
       <Navigation onLoginClick={handleLoginClick} />
-
-      <LoginModal
-        isShow={isShowLoginModal}
-        setShow={setIsShowLoginModal}
-        onClose={() => setIsShowLoginModal(false)}
-      />
     </HeaderContainer>
   )
 }
