@@ -19,7 +19,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
   const [userPhone, setUserPhone] = useState('')
   const [confirmResult, setConfirmResult] = useState('')
   const [userCode, setUserCode] = useState('')
-  let content = '寄送手機驗證碼'
+  let content = '寄送驗證碼'
   const schema = yup.object().shape({
     userPhone: yup
       .string()

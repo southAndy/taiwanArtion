@@ -143,10 +143,42 @@ const StyledModeButton = styled.button`
 
 const StyledContent = styled.div`
   padding: 0 24px 24px;
+  color: #333333;
   
   // 調整內部元件的樣式
   form {
     padding: 0;
+  }
+  
+  // 確保彈窗內的文字顏色正確
+  label {
+    color: #453434;
+    font-weight: 500;
+  }
+  
+  // 修正一般文字顏色
+  p, span {
+    color: #666666;
+  }
+  
+  // 修正標題文字顏色
+  h3 {
+    color: #453434;
+    font-weight: 600;
+  }
+  
+  // 修正輸入框樣式
+  input {
+    color: #333333;
+    
+    &::placeholder {
+      color: #999999;
+    }
+  }
+  
+  // 修正按鈕樣式
+  button {
+    transition: all 0.3s ease;
   }
 `
 

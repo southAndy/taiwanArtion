@@ -133,6 +133,92 @@ const StyledContent = styled.div`
   form {
     padding: 0;
   }
+  
+  // 確保彈窗內的文字顏色正確
+  * {
+    color: inherit;
+  }
+  
+  // 修正標籤文字顏色
+  label {
+    color: #453434;
+    font-weight: 500;
+  }
+  
+  // 修正一般文字顏色
+  p, span {
+    color: #666666;
+  }
+  
+  // 修正標題文字顏色
+  h3 {
+    color: #453434;
+    font-weight: 600;
+  }
+  
+  // 修正錯誤訊息顏色
+  .text-\\[\\#D31C1C\\] {
+    color: #D31C1C !important;
+  }
+  
+  // 修正按鈕在彈窗中的顯示
+  button {
+    border: 1px solid #e0e0e0;
+    color: #5f5f5f !important;
+    
+    &:hover:not(:disabled) {
+      border-color: #be875c;
+      background-color: #be875c !important;
+      color: #ffffff !important;
+    }
+    
+    &:disabled {
+      border-color: #f0f0f0;
+      background-color: #f5f5f5 !important;
+      color: #999999 !important;
+    }
+  }
+  
+  // 修正 FirstStep 中的 Tailwind 類別影響
+  .flex-initial {
+    flex: initial;
+  }
+  
+  .w-\\[70px\\] {
+    width: 70%;
+  }
+  
+  .w-\\[30px\\] {
+    width: 30%;
+  }
+  
+  .gap-2 {
+    gap: 8px;
+  }
+  
+  .mb-5 {
+    margin-bottom: 20px;
+  }
+  
+  .mb-6 {
+    margin-bottom: 24px;
+  }
+  
+  .text-sm {
+    font-size: 14px;
+  }
+  
+  .text-lg {
+    font-size: 18px;
+  }
+  
+  .font-bold {
+    font-weight: 700;
+  }
+  
+  .text-medium {
+    font-weight: 500;
+  }
 `
 
 const StyledSuccessWrapper = styled.div`
