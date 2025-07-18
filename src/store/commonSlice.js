@@ -6,9 +6,7 @@ const fetchData = createAsyncThunk('common/fetchData', async () => {
     const openResponse = await axios.get(
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
     )
-    // 且要有照片的資料
-    const data = openResponse.data.filter(item => item.imageUrl)
-    return data
+    return openResponse.data
   } catch (e) {
     console.log(e)
   }
@@ -20,6 +18,12 @@ const commonSlice = createSlice({
     isShowModal: false,
     isLoading: false,
     openData: [],
+    filters: {
+      cityName: '',
+      exhibitionName: '',
+      startDate: '',
+      endDate: '',
+    },
   },
   reducers: {
     showModal(state) {
@@ -33,6 +37,26 @@ const commonSlice = createSlice({
     },
     hideLoading(state) {
       state.isLoading = false
+    },
+    setFilters(state, action) {
+      state.filters = { ...state.filters, ...action.payload }
+    },
+    clearFilters(state) {
+      state.filters = {
+        cityName: '',
+        exhibitionName: '',
+        startDate: '',
+        endDate: '',
+      }
+    },
+    setFilterFromURL(state, action) {
+      const { cityQuery, exhibitionName, startDate, endDate } = action.payload
+      state.filters = {
+        cityName: cityQuery || '',
+        exhibitionName: exhibitionName || '',
+        startDate: startDate || '',
+        endDate: endDate || '',
+      }
     },
   },
   extraReducers: builder => {
@@ -50,6 +74,6 @@ const commonSlice = createSlice({
   },
 })
 
-export const { showModal, hideModal, showLoading, hideLoading } = commonSlice.actions
+export const { showModal, hideModal, showLoading, hideLoading, setFilters, clearFilters, setFilterFromURL } = commonSlice.actions
 export { fetchData }
 export default commonSlice.reducer
