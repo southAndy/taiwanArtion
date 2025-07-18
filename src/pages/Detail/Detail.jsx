@@ -15,17 +15,24 @@ import { breakpoint } from '@styles/utils/breakpoint'
 import { fetchData } from '@store/commonSlice'
 import Skeleton from '@components/Skeleton'
 import { isFavorited } from '@utils/favoriteUtils'
+import AuthModal from '@container/Auth/AuthModal'
+import { useBreakpoint } from '@hooks/useBreakpoint'
 
 export default function DetailPage() {
   const params = useParams()
   const navigate = useNavigate()
   const [isFavorite, setIsFavorite] = useState(false) // 聯動收藏愛心 icon
+  const [showAuthModal, setShowAuthModal] = useState(false)
 
   const dispatch = useDispatch()
   const openData = useSelector(state => state.common.openData)
   const user = useSelector(state => state.user.userInfo)
   const isLogin = useSelector(state => state.user.isLogin)
   const isLoading = useSelector(state => state.common.isLoading)
+  const { isDesktop, screenSize } = useBreakpoint()
+  
+  // 調試用 - 可以看到當前螢幕寬度和桌機判斷結果
+  console.log('Screen size:', screenSize, 'isDesktop:', isDesktop)
 
   useEffect(() => {
     // need to login to check favorite state
@@ -93,7 +100,13 @@ export default function DetailPage() {
   function handleAddExhibition() {
     // 先判斷是否登入
     if (!isLogin) {
-      navigate('/login', { state: { from: `/detail/${params.id}` } })
+      // 桌機版顯示彈窗，手機版導向登入頁面
+      // 使用平板以上就顯示彈窗 (screenSize >= 768)
+      if (screenSize >= 768) {
+        setShowAuthModal(true)
+      } else {
+        navigate('/login', { state: { from: `/detail/${params.id}` } })
+      }
       return
     }
     if (isFavorite) {
@@ -245,6 +258,12 @@ export default function DetailPage() {
           <div>加入月曆</div>
         </div>
       </StyledToolBar>
+      
+      <AuthModal
+        isShow={showAuthModal}
+        setShow={setShowAuthModal}
+        initialMode="login"
+      />
     </>
   )
 }
