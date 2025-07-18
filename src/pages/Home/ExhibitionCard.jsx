@@ -8,12 +8,16 @@ import dayjs from 'dayjs'
 import { toggleFavoriteWithSync, isFavorited } from '@utils/favoriteUtils'
 import { useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { useBreakpoint } from '@hooks/useBreakpoint'
+import AuthModal from '@container/Auth/AuthModal'
 
 const AllExhibitionCard = ({ data }) => {
   const [isFavorite, setIsFavorite] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
   const navigate = useNavigate()
   const isLogin = useSelector(state => state.user.isLogin)
   const userInfo = useSelector(state => state.user.userInfo)
+  const { isDesktop } = useBreakpoint()
   
   // 檢查展覽是否還未開始
   const isUpcoming = dayjs(data.startDate).isAfter(dayjs(), 'day')
@@ -32,7 +36,11 @@ const AllExhibitionCard = ({ data }) => {
     event.preventDefault()
 
     if (!isLogin) {
-      navigate('/login')
+      if (isDesktop) {
+        setShowAuthModal(true)
+      } else {
+        navigate('/login')
+      }
       return
     }
 
@@ -45,36 +53,44 @@ const AllExhibitionCard = ({ data }) => {
     }
   }
   return (
-    <StyledLink to={`/detail/${data.UID}`} isUpcoming={isUpcoming}>
-      <BaseImageBox width={'100%'} height={'180px'} tabletHeight={'202px'} className="exhibition">
-        <img
-          src={data.imageUrl ? data.imageUrl : defaultBannerTablet}
-          alt=""
-          className="rounded-lg"
-        />
-        <StyledPositionImageBox
-          position={'absolute'}
-          right={'2%'}
-          top={'5%'}
-          onClick={handleFavorite}
-        >
-          <img src={isFavorite ? loveFullIcon : loveIcon} alt="收藏按鈕" />
-        </StyledPositionImageBox>
-      </BaseImageBox>
-      <h3>{data.title}</h3>
-      <p className="text-xs date-info">
-        {isUpcoming && <span className="upcoming-badge">即將開展</span>}
-        {`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
-          data.endDate
-        ).format('MM.DD')}`}
-      </p>
-      <div className="locate flex">
-        <BaseImageBox width={'16px'} height={'16px'} className="w-[16px] h-[16px]">
-          <img src={locationIcon} alt="縣市地址圖示" />
+    <>
+      <StyledLink to={`/detail/${data.UID}`} isUpcoming={isUpcoming}>
+        <BaseImageBox width={'100%'} height={'180px'} tabletHeight={'202px'} className="exhibition">
+          <img
+            src={data.imageUrl ? data.imageUrl : defaultBannerTablet}
+            alt=""
+            className="rounded-lg"
+          />
+          <StyledPositionImageBox
+            position={'absolute'}
+            right={'2%'}
+            top={'5%'}
+            onClick={handleFavorite}
+          >
+            <img src={isFavorite ? loveFullIcon : loveIcon} alt="收藏按鈕" />
+          </StyledPositionImageBox>
         </BaseImageBox>
-        <p className="location-content text-xs ">{data.showInfo[0].location.slice(0, 3)}</p>
-      </div>
-    </StyledLink>
+        <h3>{data.title}</h3>
+        <p className="text-xs date-info">
+          {isUpcoming && <span className="upcoming-badge">即將開展</span>}
+          {`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
+            data.endDate
+          ).format('MM.DD')}`}
+        </p>
+        <div className="locate flex">
+          <BaseImageBox width={'16px'} height={'16px'} className="w-[16px] h-[16px]">
+            <img src={locationIcon} alt="縣市地址圖示" />
+          </BaseImageBox>
+          <p className="location-content text-xs ">{data.showInfo[0].location.slice(0, 3)}</p>
+        </div>
+      </StyledLink>
+      
+      <AuthModal
+        isShow={showAuthModal}
+        setShow={setShowAuthModal}
+        initialMode="login"
+      />
+    </>
   )
 }
 
