@@ -30,7 +30,7 @@ export default function DetailPage() {
   const isLogin = useSelector(state => state.user.isLogin)
   const isLoading = useSelector(state => state.common.isLoading)
   const { isDesktop, screenSize } = useBreakpoint()
-  
+
   // 調試用 - 可以看到當前螢幕寬度和桌機判斷結果
   console.log('Screen size:', screenSize, 'isDesktop:', isDesktop)
 
@@ -206,12 +206,12 @@ export default function DetailPage() {
               </BaseImageBox>
               <div>分享展覽</div>
             </div>
-            <div className="option">
+            {/* <div className="option">
               <BaseImageBox width={'24px'} height={'24px'}>
                 <img src={calendarIcon} alt="點擊按鈕，將展覽加入自己的行事曆" />
               </BaseImageBox>
               <div>加入月曆</div>
-            </div>
+            </div> */}
           </TabletToolBar>
         </StyledOverviewBox>
 
@@ -251,19 +251,15 @@ export default function DetailPage() {
           </BaseImageBox>
           <div>分享展覽</div>
         </div>
-        <div className="option">
+        {/* <div className="option">
           <BaseImageBox width={'24px'} height={'24px'}>
             <img src={calendarIcon} alt="點擊按鈕，將展覽加入自己的行事曆" />
           </BaseImageBox>
           <div>加入月曆</div>
-        </div>
+        </div> */}
       </StyledToolBar>
-      
-      <AuthModal
-        isShow={showAuthModal}
-        setShow={setShowAuthModal}
-        initialMode="login"
-      />
+
+      <AuthModal isShow={showAuthModal} setShow={setShowAuthModal} initialMode="login" />
     </>
   )
 }
@@ -462,7 +458,8 @@ const StyledToolBar = styled.div`
   bottom: 0;
   width: 100%;
   display: flex;
-  justify-content: space-between;
+  justify-content: center; //todo 等月曆功能完成後，調整 space-between
+  gap: 24px;
   background-color: #ffffff;
   box-shadow: 0px -1px 4px rgba(0, 0, 0, 0.25);
   padding: 8px 32px;
