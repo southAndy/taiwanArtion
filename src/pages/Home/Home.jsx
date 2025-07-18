@@ -243,8 +243,10 @@ const StyledAllExhibitionWrapper = styled.div`
 
   .all {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+    /* 調整 padding 以配合卡片的 margin */
+    padding: 0 8px;
   }
   .title {
     text-align: start;
