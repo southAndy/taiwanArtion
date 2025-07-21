@@ -253,9 +253,9 @@ export default function ResultPage() {
                         url: isSelected || isHovered 
                           ? 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
                           : 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
-                        scaledSize: isSelected || isHovered 
+                        scaledSize: window.google?.maps ? (isSelected || isHovered 
                           ? new window.google.maps.Size(40, 40)
-                          : new window.google.maps.Size(30, 30)
+                          : new window.google.maps.Size(30, 30)) : undefined
                       }}
                     />
                   )
