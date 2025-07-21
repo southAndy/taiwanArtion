@@ -2,6 +2,15 @@
 
 ## 2025-07-21
 
+### 安全性修復完成
+
+- security: 升級依賴套件修復安全漏洞 [0394300](https://github.com/southAndy/taiwanArtion/commit/0394300)
+  - 升級 vite 從 4.0.0 到 4.5.14 (修復 esbuild 開發環境漏洞)
+  - 升級 vite-plugin-checker 從 0.5.6 到 0.10.0 (修復 lodash.pick 原型污染高風險漏洞)
+  - 移除 2 個高嚴重度安全漏洞，總漏洞數從 15 個降至 13 個
+  - 保持 Vite 4.x 版本範圍內，避免破壞性變更
+  - 開發服務器升級後功能完全正常
+
 ### 程式碼品質優化完成
 
 - refactor: 移除開發除錯用 console 語句 [3fc6203](https://github.com/southAndy/taiwanArtion/commit/3fc6203)
