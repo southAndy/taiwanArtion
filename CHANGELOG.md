@@ -2,6 +2,15 @@
 
 ## 2025-07-21
 
+### 程式碼品質優化完成
+
+- refactor: 移除開發除錯用 console 語句 [3fc6203](https://github.com/southAndy/taiwanArtion/commit/3fc6203)
+  - 移除17個開發除錯用的console語句，提升程式碼品質
+  - 清理除錯類console.log：距離計算、GPS座標、展覽資料載入調試
+  - 移除流程狀態類console.log：註冊、登入、驗證流程狀態追蹤
+  - 保留關鍵錯誤處理的console.error用於生產環境監控
+  - 影響檔案：Map.jsx、Detail.jsx、Backstage.jsx、Login.jsx、Register相關檔案、Store檔案
+
 ### ShareModal 元件重構與功能增強完成
 
 - feat(detail): 新增 ShareModal 複製連結功能
