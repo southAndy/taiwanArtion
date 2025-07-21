@@ -34,7 +34,6 @@ const Login = () => {
   })
 
   useEffect(() => {
-    console.log('isLogin', isLogin)
     if (isLogin) {
       navigate('/backstage')
     }
@@ -47,7 +46,6 @@ const Login = () => {
       // 存入 redux
       dispatch({ type: 'user/setUserInfo', payload: docSnap.data() })
     } catch (e) {
-      console.log(e)
     }
   }
 
@@ -57,7 +55,6 @@ const Login = () => {
       // 使用信箱和密碼進行驗證
       await dispatch(login({ email, password })).unwrap()
     } catch (error) {
-      console.error('Error during login:', error)
     }
   }
 
@@ -76,11 +73,9 @@ const Login = () => {
     try {
       const result = await signInWithPopup(auth, provider)
       const user = result.user
-      console.log(user)
       // todo 增加成員的處理
       navigate('/')
     } catch (e) {
-      console.log(e)
     }
   }
   return (

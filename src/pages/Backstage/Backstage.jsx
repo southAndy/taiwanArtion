@@ -91,7 +91,6 @@ const Backstage = () => {
 
   // 解除收藏的展覽
   function removeExhibition(id) {
-    console.log('removed')
 
     const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
     updateDoc(userData, {
@@ -105,14 +104,11 @@ const Backstage = () => {
         'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
       )
       const data = res.data
-      console.log('fa', favoriteDatas)
 
       const filteredExhibition = data.filter((item, index) => favoriteDatas.includes(item.UID))
 
       setExhibition(n => (n = filteredExhibition))
-      console.log(exhibition)
     } catch (e) {
-      console.log(e)
     }
   }
 
@@ -122,7 +118,6 @@ const Backstage = () => {
       const docSnap = await getDoc(userDatas)
       dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
     } catch (e) {
-      console.log('取得使用者資料失敗', e)
     }
   }
 

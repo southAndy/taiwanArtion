@@ -8,7 +8,6 @@ const fetchData = createAsyncThunk('common/fetchData', async () => {
     )
     return openResponse.data
   } catch (e) {
-    console.log(e)
   }
 })
 

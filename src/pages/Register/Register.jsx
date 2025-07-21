@@ -28,7 +28,6 @@ const Register = () => {
     renderContent()
     if (step === 2) {
       //將 userInfo 存入 firebase 中
-      console.log(step, 'store!')
       storeUserInfo()
     }
   }, [step])
@@ -48,7 +47,6 @@ const Register = () => {
     try {
       const userData = await addDoc(collection(db, 'users'), userInfo)
     } catch (e) {
-      console.log(e)
     }
   }
 

@@ -37,8 +37,6 @@ export default function DetailPage() {
   const isLoading = useSelector(state => state.common.isLoading)
   const { isDesktop, screenSize } = useBreakpoint()
 
-  // 調試用 - 可以看到當前螢幕寬度和桌機判斷結果
-  console.log('Screen size:', screenSize, 'isDesktop:', isDesktop)
 
   useEffect(() => {
     // need to login to check favorite state
@@ -62,7 +60,6 @@ export default function DetailPage() {
 
     // 檢查是否已存在該展覽（以 id 判斷）
     if (data.find(item => item === params.id)) {
-      console.log('該展覽已收藏過了！')
       return
     }
 
@@ -71,7 +68,6 @@ export default function DetailPage() {
 
     // 更新 localStorage
     localStorage.setItem('favoriteExhibitions', JSON.stringify(data))
-    console.log('展覽已加入收藏！')
   }
   // 刪除展覽資料
   function deleteExhibition() {
@@ -82,7 +78,6 @@ export default function DetailPage() {
 
     // 更新 localStorage
     localStorage.setItem('favoriteExhibitions', JSON.stringify(updatedData))
-    console.log('展覽已刪除！')
   }
 
   const handleShare = () => {

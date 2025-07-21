@@ -94,7 +94,6 @@ const secondStep = ({ setStep, setUserInfo }) => {
          const docSnap = await getDoc(userDatas)
          dispatch({ type: 'user/setUserInfo', payload: docSnap.data() })
       } catch (e) {
-         console.log('取得使用者資料失敗', e)
       }
    }
 
@@ -143,7 +142,6 @@ const secondStep = ({ setStep, setUserInfo }) => {
                      try {
                         setAccount(e.target.value)
                      } catch (err) {
-                        console.log(err)
                      }
                   }}
                />
