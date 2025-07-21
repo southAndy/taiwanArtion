@@ -20,6 +20,21 @@ const ShareModal = ({ isOpen, onClose, exhibitionData }) => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank')
   }
 
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href)
+      alert('連結已複製到剪貼簿')
+    } catch (err) {
+      const textArea = document.createElement('textarea')
+      textArea.value = window.location.href
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      alert('連結已複製到剪貼簿')
+    }
+  }
+
   // close modal
   const handleClose = () => {
     onClose(true)
@@ -45,8 +60,8 @@ const ShareModal = ({ isOpen, onClose, exhibitionData }) => {
           </SocialShareItem>
         </SocialShareList>
         <LinkCopySection>
-          <LinkInput type="text" value={window.location.href} />
-          <CopyButton>複製連結</CopyButton>
+          <LinkInput type="text" value={window.location.href} readOnly />
+          <CopyButton onClick={copyToClipboard}>複製連結</CopyButton>
         </LinkCopySection>
       </ModalContent>
     </ShareBackground>
@@ -90,7 +105,7 @@ const CloseButton = styled.button`
   font-size: 18px;
   cursor: pointer;
   color: #666;
-  
+
   &:hover {
     color: #000;
   }
@@ -111,7 +126,7 @@ const SocialShareItem = styled.div`
   border-radius: 6px;
   cursor: pointer;
   transition: background-color 0.2s;
-  
+
   &:hover {
     background-color: #f5f5f5;
   }
@@ -131,6 +146,7 @@ const LinkCopySection = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  justify-content: center;
 `
 
 const LinkInput = styled.input`
@@ -142,14 +158,15 @@ const LinkInput = styled.input`
 `
 
 const CopyButton = styled.button`
+  white-space: nowrap;
   padding: 8px 16px;
   border: none;
   border-radius: 4px;
-  background-color: #007bff;
+  background-color: #bd7e4c;
   color: white;
   cursor: pointer;
   font-size: 14px;
-  
+
   &:hover {
     background-color: #0056b3;
   }
