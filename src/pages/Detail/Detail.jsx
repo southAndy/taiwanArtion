@@ -17,12 +17,18 @@ import Skeleton from '@components/Skeleton'
 import { isFavorited } from '@utils/favoriteUtils'
 import AuthModal from '@container/Auth/AuthModal'
 import { useBreakpoint } from '@hooks/useBreakpoint'
+import ShareModal from './components/ShareModal'
 
 export default function DetailPage() {
   const params = useParams()
   const navigate = useNavigate()
   const [isFavorite, setIsFavorite] = useState(false) // 聯動收藏愛心 icon
   const [showAuthModal, setShowAuthModal] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleClose = () => {
+    setIsOpen(false)
+  }
 
   const dispatch = useDispatch()
   const openData = useSelector(state => state.common.openData)
@@ -79,22 +85,8 @@ export default function DetailPage() {
     console.log('展覽已刪除！')
   }
 
-  // todo 分享的網址能顯示簡單內容＋圖片
-  function shareExhibition() {
-    console.log('分享展覽')
-
-    navigator
-      .share({
-        title: currentData[0].title, // 確保提供標題
-        text: `來看看這個有趣的展覽吧！${currentData[0].title}`, // 提供分享內容
-        url: window.location.href, // 確保提供網址s
-      })
-      .then(() => {
-        console.log('分享成功！')
-      })
-      .catch(e => {
-        console.log('分享失敗！', e)
-      })
+  const handleShare = () => {
+    setIsOpen(true)
   }
 
   function handleAddExhibition() {
@@ -200,7 +192,7 @@ export default function DetailPage() {
               </BaseImageBox>
               <div>收藏展覽</div>
             </div>
-            <div className="option" onClick={shareExhibition}>
+            <div className="option" onClick={handleShare}>
               <BaseImageBox width={'24px'} height={'24px'}>
                 <img src={shareIcon} alt="分享此展覽按鈕" />
               </BaseImageBox>
@@ -245,21 +237,16 @@ export default function DetailPage() {
           </BaseImageBox>
           <div>收藏展覽</div>
         </div>
-        <div className="option" onClick={shareExhibition}>
+        <div className="option" onClick={() => setIsOpen(pre => !pre)}>
           <BaseImageBox width={'24px'} height={'24px'}>
             <img src={shareIcon} alt="分享此展覽按鈕" />
           </BaseImageBox>
           <div>分享展覽</div>
         </div>
-        {/* <div className="option">
-          <BaseImageBox width={'24px'} height={'24px'}>
-            <img src={calendarIcon} alt="點擊按鈕，將展覽加入自己的行事曆" />
-          </BaseImageBox>
-          <div>加入月曆</div>
-        </div> */}
       </StyledToolBar>
 
       <AuthModal isShow={showAuthModal} setShow={setShowAuthModal} initialMode="login" />
+      <ShareModal isOpen={isOpen} onClose={handleClose} exhibitionData={currentData[0]} />
     </>
   )
 }
@@ -324,6 +311,7 @@ const DetailBanner = styled.section`
 
   .back {
     display: flex;
+    align-items: center;
     margin-bottom: 16px;
     align-self: flex-start;
     border-radius: 20px;
@@ -349,31 +337,12 @@ const DetailOption = styled.a`
   }
 `
 
-const BannerImage = styled.img`
-  width: 1356.75px;
-  height: 711px;
-  border-radius: 10px;
-  position: relative;
-`
 const StyledInfo = styled.section`
   display: flex;
   flex-direction: column;
   margin-bottom: 40px;
 `
 
-const StyledRateBox = styled(StyledInfo)`
-  .menu {
-    display: flex;
-    gap: 12px;
-    white-space: nowrap;
-    overflow: scroll;
-  }
-  @media (min-width: ${breakpoint.tablet}px) {
-    .menu {
-      overflow: auto;
-    }
-  }
-`
 const StyledOverviewBox = styled(StyledInfo)`
   position: relative; // 用於設定平版以上的固定按鈕
 
@@ -419,40 +388,6 @@ const StyledInfoTitle = styled.a`
     font-size: 24px;
   }
 `
-const StyledInfoComment = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 16px;
-  border-radius: 12px;
-  background-color: #f9f9f9;
-  margin-bottom: 16px;
-
-  .user {
-    display: flex;
-    gap: 12px;
-
-    &-star {
-      display: flex;
-      gap: 4px;
-    }
-  }
-  .rating {
-    &-option {
-      display: flex;
-      flex-wrap: nowrap;
-      align-items: center;
-      gap: 12px;
-    }
-  }
-`
-const StyledCommentStyle = styled.div`
-  padding: 4px;
-  border-radius: 12px;
-  height: 1px;
-  width: 165px;
-  background-color: #333;
-`
 const StyledToolBar = styled.div`
   position: fixed;
   bottom: 0;
@@ -478,40 +413,5 @@ const StyledToolBar = styled.div`
     .option {
       justify-content: center;
     }
-  }
-`
-const SkeletonBox = styled.div`
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-  border-radius: 8px;
-
-  @keyframes loading {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
-`
-
-const SkeletonText = styled(SkeletonBox)`
-  height: 20px;
-  margin-bottom: 8px;
-`
-
-const SkeletonTitle = styled(SkeletonBox)`
-  height: 32px;
-  margin-bottom: 16px;
-`
-
-const SkeletonImage = styled(SkeletonBox)`
-  width: 100%;
-  height: 245px;
-  border-radius: 12px;
-
-  @media (min-width: ${breakpoint.tablet}px) {
-    height: 280px;
   }
 `
