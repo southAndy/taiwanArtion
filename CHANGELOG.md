@@ -1,5 +1,23 @@
 # 更新日誌
 
+## 2025-07-21
+
+### ShareModal 元件重構與功能增強完成
+
+- feat(detail): 新增 ShareModal 複製連結功能
+  - 實作 copyToClipboard 功能，支援現代 navigator.clipboard API
+  - 提供 document.execCommand 回退方案支援舊瀏覽器
+  - 新增複製成功提示訊息，提升使用者體驗
+  - 設定 LinkInput 為 readOnly 避免誤編輯
+
+- refactor(detail): 使用 ShareModal 取代原生分享功能 [9de7688](https://github.com/southAndy/taiwanArtion/commit/9de7688)
+  - 以自定義 ShareModal 元件取代瀏覽器原生分享 API
+  - 重構 ShareModal 採用語意化元件命名，使用 @emotion/styled
+  - 創建專用的 styled 元件：ModalContent、ModalHeader、CloseButton、SocialShareList、SocialShareItem 等
+  - 遵循專案規範提升元件可維護性和重用性
+  - 移除未使用的 styled 元件定義，清理元件結構
+  - 新增適當的 hover 效果和過渡動畫，提升使用者體驗
+
 ## 2025-07-17
 
 ### 展覽搜尋功能增強完成
