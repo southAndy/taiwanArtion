@@ -49,7 +49,6 @@ const firstStep = ({ setStep, setUserInfo }) => {
       size: 'invisible',
       callback: response => {
         const totalPhone = '+886' + userPhone
-        console.log('sent')
       },
     })
   }
@@ -61,7 +60,6 @@ const firstStep = ({ setStep, setUserInfo }) => {
       setSent(true) // 設置為已發送
       setConfirmResult(res)
     } catch (error) {
-      console.log(error)
     }
   }
 

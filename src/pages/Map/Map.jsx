@@ -97,14 +97,12 @@ const MapPage = () => {
             Math.sin(dLng / 2)
       const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
       const distance = R * c
-      console.log(distance)
 
       return distance
    }
 
    // 搜尋即將結束的展覽
    function searchEndExhibition(radius = 300) {
-      console.log(openData)
 
       const nearbyExhibitions = openData.filter((exhibition) => {
          const distance = calculateDistance(
@@ -113,10 +111,8 @@ const MapPage = () => {
             exhibition.showInfo[0].latitude,
             exhibition.showInfo[0].longitude,
          )
-         console.log(distance, radius)
          return distance < radius
       })
-      console.log(nearbyExhibitions)
 
       // 顯示側邊欄位
       setIsSlideOpen(true)

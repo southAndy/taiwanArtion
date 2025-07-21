@@ -38,7 +38,6 @@ export const monitorUserState = createAsyncThunk('user/monitorUserState', async 
 // login
 export const login = createAsyncThunk('user/login', async ({ email, password }) => {
   const userCredential = await signInWithEmailAndPassword(auth, email, password)
-  console.log('userCredential', userCredential)
   return {
     uid: userCredential.user.uid,
     email: userCredential.user.email,
