@@ -84,10 +84,10 @@ const ConfirmButton = styled.button`
 `
 
 const verifyModal = () => {
-   let [currentStep, setStep] = useState < number > 0
-   let [isSendVerify, setVerifyState] = useState < boolean > false
+   let [currentStep, setStep] = useState(0)
+   let [isSendVerify, setVerifyState] = useState(false)
    let [phoneNumber, setPhoneNumber] = useState()
-   let [resetTime, setResetTime] = useState < number > 0
+   let [resetTime, setResetTime] = useState(0)
    let stepsText = ['手機認證', '帳號密碼', '信箱認證', '完成註冊']
 
    useEffect(() => {

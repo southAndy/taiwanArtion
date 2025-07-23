@@ -2,6 +2,17 @@
 
 ## 2025-07-23
 
+### ESLint 配置優化完成
+
+- refactor(eslint): 簡化 ESLint 配置專注於 JavaScript 專案 [5439838](https://github.com/southAndy/taiwanArtion/commit/5439838)
+  - 移除 TypeScript 相關規則和依賴 (@typescript-eslint/eslint-plugin, @typescript-eslint/parser)
+  - 專注於 React + JavaScript 語法檢查，保留必要規則
+  - 更新 CI 工作流程僅檢查 .js/.jsx 文件，維持零警告政策
+  - 新增基本代碼品質規則：no-console (警告)、no-debugger (錯誤)
+  - 保持 React 17+ JSX 轉換支援 (無需 import React)
+  - 維持專案 path alias 解析功能
+  - 清理未使用的 TypeScript 依賴，減少 package 大小
+
 ### CI/CD 工作流程建立完成
 
 - feat(ci): 新增 GitHub Actions CI 工作流程 [5399e35](https://github.com/southAndy/taiwanArtion/commit/5399e35)

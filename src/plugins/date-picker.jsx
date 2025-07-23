@@ -18,7 +18,7 @@ import './date-picker.scss'
 // };
 
 // const styledDatePicker = styled()
-export default function DateSelecter({ isShowModal }: Props) {
+export default function DateSelecter({ isShowModal }) {
    return (
       <div className={isShowModal ? 'date-show' : 'date'}>
          <LocalizationProvider dateAdapter={AdapterDayjs}>
