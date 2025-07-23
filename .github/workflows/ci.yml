@@ -28,8 +28,8 @@ jobs:
       - name: Run ESLint
         run: npx eslint src --ext .js,.jsx --max-warnings=300
 
-      - name: Run Standard.js formatting check
-        run: npm run style
+      - name: Run Prettier formatting check
+        run: npx prettier --check src/
 
       - name: Check for console.log statements
         run: |

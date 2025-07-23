@@ -3,7 +3,13 @@ import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 import { searchIcon } from '@assets/images'
 
-const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, selectedEndDate = null, selectedExhibitionName = '' }) => {
+const SearchBar = ({
+  onSearch,
+  selectedCities = [],
+  selectedStartDate = null,
+  selectedEndDate = null,
+  selectedExhibitionName = '',
+}) => {
   const navigate = useNavigate()
   const getCityDisplayText = () => {
     if (selectedCities.length === 0) {
@@ -34,23 +40,23 @@ const SearchBar = ({ onSearch, selectedCities = [], selectedStartDate = null, se
   const handleSearch = () => {
     // 構建搜尋參數
     const searchParams = new URLSearchParams()
-    
+
     if (selectedExhibitionName) {
       searchParams.set('exhibition', selectedExhibitionName)
     }
-    
+
     if (selectedCities.length > 0) {
       searchParams.set('keyword', selectedCities.map(city => city.chinese).join(','))
     }
-    
+
     if (selectedStartDate) {
       searchParams.set('startDate', selectedStartDate)
     }
-    
+
     if (selectedEndDate) {
       searchParams.set('endDate', selectedEndDate)
     }
-    
+
     // 導航到結果頁面
     navigate(`/result?${searchParams.toString()}`)
   }
@@ -120,8 +126,8 @@ const SearchText = styled.span`
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: ${props => props.hasValue ? '#333' : '#5f5f5f'};
-  font-weight: ${props => props.hasValue ? '500' : '400'};
+  color: ${props => (props.hasValue ? '#333' : '#5f5f5f')};
+  font-weight: ${props => (props.hasValue ? '500' : '400')};
   font-size: 14px;
   width: 124px;
   white-space: nowrap;

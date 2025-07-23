@@ -30,15 +30,15 @@ const LoginFlow = ({ onSuccess }) => {
     mode: 'onBlur',
   })
 
-  const handleLogin = async (data) => {
+  const handleLogin = async data => {
     setIsLoading(true)
     try {
       const { email, password } = data
       await dispatch(login({ email, password })).unwrap()
-      
+
       // 登入成功，顯示成功步驟
       setStep(1)
-      
+
       // 1.5秒後關閉彈窗
       setTimeout(() => {
         onSuccess?.()
@@ -58,11 +58,7 @@ const LoginFlow = ({ onSuccess }) => {
     <StyledForm onSubmit={handleSubmit(handleLogin)}>
       <StyledInputGroup>
         <label htmlFor="email">電子郵件</label>
-        <StyledInput
-          {...register('email')}
-          placeholder="請輸入您的電子郵件"
-          disabled={isLoading}
-        />
+        <StyledInput {...register('email')} placeholder="請輸入您的電子郵件" disabled={isLoading} />
         {errors.email && (
           <StyledErrorBox>
             <BaseImageBox width="20px" height="20px">
@@ -91,10 +87,7 @@ const LoginFlow = ({ onSuccess }) => {
         )}
       </StyledInputGroup>
 
-      <Button
-        buttonType="submit"
-        disabled={isLoading}
-      >
+      <Button buttonType="submit" disabled={isLoading}>
         {isLoading ? '登入中...' : '登入'}
       </Button>
 
@@ -151,7 +144,7 @@ const StyledErrorBox = styled.div`
   margin-top: 4px;
 
   span {
-    color: #D31C1C;
+    color: #d31c1c;
     font-size: 14px;
   }
 `
@@ -167,7 +160,7 @@ const StyledReminder = styled.div`
 `
 
 const StyledLink = styled.span`
-  color: #A9622A;
+  color: #a9622a;
   cursor: pointer;
   text-decoration: underline;
 
@@ -188,7 +181,7 @@ const StyledSuccessContainer = styled.div`
 const StyledSuccessIcon = styled.div`
   width: 60px;
   height: 60px;
-  background-color: #4CAF50;
+  background-color: #4caf50;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -200,7 +193,7 @@ const StyledSuccessIcon = styled.div`
 `
 
 const StyledSuccessTitle = styled.h3`
-  color: #A9622A;
+  color: #a9622a;
   font-size: 18px;
   font-weight: 700;
   margin: 0 0 8px 0;

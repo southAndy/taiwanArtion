@@ -45,8 +45,7 @@ const Login = () => {
       const docSnap = await getDoc(userDatas)
       // 存入 redux
       dispatch({ type: 'user/setUserInfo', payload: docSnap.data() })
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   const sendLoginRequest = async data => {
@@ -54,8 +53,7 @@ const Login = () => {
     try {
       // 使用信箱和密碼進行驗證
       await dispatch(login({ email, password })).unwrap()
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   const loginLine = () => {
@@ -75,8 +73,7 @@ const Login = () => {
       const user = result.user
       // todo 增加成員的處理
       navigate('/')
-    } catch (e) {
-    }
+    } catch (e) {}
   }
   return (
     <>

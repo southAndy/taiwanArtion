@@ -1,6 +1,6 @@
 import { css } from '@emotion/react'
 
 export default css`
-   display: flex;
-   justify-content: center;
+  display: flex;
+  justify-content: center;
 `

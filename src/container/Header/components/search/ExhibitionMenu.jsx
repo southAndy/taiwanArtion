@@ -110,10 +110,7 @@ const ExhibitionMenu = ({ setModlaShow, selectedExhibitionName, onExhibitionSele
           onKeyDown={handleKeyPress}
           autoFocus
         />
-        <SearchButton 
-          onClick={handleKeywordSearch}
-          disabled={!searchText.trim()}
-        >
+        <SearchButton onClick={handleKeywordSearch} disabled={!searchText.trim()}>
           搜尋
         </SearchButton>
         {searchHistory.length > 0 && (

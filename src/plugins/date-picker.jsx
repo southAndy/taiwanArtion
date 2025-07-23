@@ -19,11 +19,11 @@ import './date-picker.scss'
 
 // const styledDatePicker = styled()
 export default function DateSelecter({ isShowModal }) {
-   return (
-      <div className={isShowModal ? 'date-show' : 'date'}>
-         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateRangePicker localeText={{ start: '開始日期', end: '結束日期' }} />
-         </LocalizationProvider>
-      </div>
-   )
+  return (
+    <div className={isShowModal ? 'date-show' : 'date'}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateRangePicker localeText={{ start: '開始日期', end: '結束日期' }} />
+      </LocalizationProvider>
+    </div>
+  )
 }

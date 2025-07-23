@@ -7,8 +7,7 @@ const fetchData = createAsyncThunk('common/fetchData', async () => {
       'https://cloud.culture.tw/frontsite/trans/SearchShowAction.do?method=doFindTypeJ&category=6'
     )
     return openResponse.data
-  } catch (e) {
-  }
+  } catch (e) {}
 })
 
 const commonSlice = createSlice({
@@ -73,6 +72,14 @@ const commonSlice = createSlice({
   },
 })
 
-export const { showModal, hideModal, showLoading, hideLoading, setFilters, clearFilters, setFilterFromURL } = commonSlice.actions
+export const {
+  showModal,
+  hideModal,
+  showLoading,
+  hideLoading,
+  setFilters,
+  clearFilters,
+  setFilterFromURL,
+} = commonSlice.actions
 export { fetchData }
 export default commonSlice.reducer

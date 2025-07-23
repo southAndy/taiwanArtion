@@ -46,8 +46,7 @@ const Register = () => {
   async function storeUserInfo() {
     try {
       const userData = await addDoc(collection(db, 'users'), userInfo)
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   return (

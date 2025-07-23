@@ -12,7 +12,7 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
     { key: 'central', name: '中部' },
     { key: 'south', name: '南部' },
     { key: 'east', name: '東部' },
-    { key: 'islands', name: '離島' }
+    { key: 'islands', name: '離島' },
   ]
   const navigate = useNavigate()
   const [selectedCities, setSelectedCities] = useState([])
@@ -29,7 +29,7 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
   function selectCity(city, areaKey) {
     const cityWithArea = { ...city, area: areaKey }
     const isSelected = selectedCities.find(c => c.id === city.id)
-    
+
     if (isSelected) {
       setSelectedCities(prev => prev.filter(c => c.id !== city.id))
     } else {
@@ -57,9 +57,12 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
     }
 
     navigator.geolocation.getCurrentPosition(
-      (position) => {
+      position => {
         // 這裡應該要有座標轉城市的邏輯，暫時先設定為台北
-        const location = { latitude: position.coords.latitude, longitude: position.coords.longitude }
+        const location = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }
         setCurrentLocation(location)
         // 假設定位到台北
         const taipei = cityList.north.find(city => city.chinese === '台北市')
@@ -67,7 +70,7 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
           selectCity(taipei, 'north')
         }
       },
-      (error) => {
+      error => {
         alert('定位失敗，請手動選擇城市')
         console.error('定位錯誤:', error)
       }
@@ -85,18 +88,16 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
       <StyledTopSection>
         <StyledLocateBox onClick={getCurrentLocation}>
           <BaseImageBox width={'40px'} height={'40px'}>
-            <img src={locateIcon} alt='定位圖示' />
+            <img src={locateIcon} alt="定位圖示" />
           </BaseImageBox>
           <p>目前所在位置</p>
         </StyledLocateBox>
-        <StyledClearButton onClick={clearSelection}>
-          清除選擇
-        </StyledClearButton>
+        <StyledClearButton onClick={clearSelection}>清除選擇</StyledClearButton>
       </StyledTopSection>
 
       {/* 城市選擇區域 */}
       <StyledSection>
-        {areaList.map((area) => (
+        {areaList.map(area => (
           <StyledAreaContainer key={area.key}>
             <StyledAreaHeader>
               <h3>{area.name}</h3>
@@ -106,7 +107,7 @@ export const CityMenu = ({ setModlaShow, onCitySelect }) => {
             </StyledAreaHeader>
             <StyledCityBox>
               {cityList[area.key].map(city => (
-                <StyledCityItem 
+                <StyledCityItem
                   key={city.id}
                   isSelected={isCitySelected(city.id)}
                   onClick={() => selectCity(city, area.key)}
@@ -135,11 +136,11 @@ const StyledLocateBox = styled.div`
   gap: 12px;
   cursor: pointer;
   transition: opacity 0.2s ease;
-  
+
   &:hover {
     opacity: 0.8;
   }
-  
+
   p {
     font-size: 14px;
     font-weight: 500;
@@ -156,7 +157,7 @@ const StyledClearButton = styled.button`
   font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
     background: #f5f5f5;
     color: #333;
@@ -192,7 +193,7 @@ const StyledAreaHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   h3 {
     font-size: 16px;
     font-weight: 600;
@@ -203,16 +204,16 @@ const StyledAreaHeader = styled.div`
 
 const StyledSelectAllButton = styled.button`
   background: none;
-  border: 1px solid #BE8152;
-  color: #BE8152;
+  border: 1px solid #be8152;
+  color: #be8152;
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
-    background: #BE8152;
+    background: #be8152;
     color: white;
   }
 `

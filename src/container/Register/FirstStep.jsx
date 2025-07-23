@@ -59,8 +59,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
       const res = await signInWithPhoneNumber(auth, totalPhone, appVerifier)
       setSent(true) // 設置為已發送
       setConfirmResult(res)
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   async function verifySMSCode() {
