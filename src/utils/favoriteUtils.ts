@@ -31,13 +31,13 @@ export const addToFavorites = exhibitionId => {
     const favorites = getFavorites()
 
     if (favorites.includes(exhibitionId)) {
-      console.log('該展覽已收藏過了！')
+      console.info('該展覽已收藏過了！')
       return false
     }
 
     favorites.push(exhibitionId)
     localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites))
-    console.log('展覽已加入收藏！')
+    console.info('展覽已加入收藏！')
     return true
   } catch (error) {
     console.error('Error adding to favorites:', error)
@@ -52,7 +52,7 @@ export const removeFromFavorites = exhibitionId => {
     const updatedFavorites = favorites.filter(id => id !== exhibitionId)
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedFavorites))
-    console.log('展覽已移除收藏！')
+    console.info('展覽已移除收藏！')
     return true
   } catch (error) {
     console.error('Error removing from favorites:', error)

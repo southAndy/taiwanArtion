@@ -33,12 +33,14 @@ jobs:
 
       - name: Check for console.log statements
         run: |
-          if grep -r "console\.log" src/; then
+          if grep -r "console\.log" src/ --exclude-dir=node_modules; then
             echo "❌ Found console.log statements in source code"
             echo "Please remove console.log statements before committing"
+            echo "Note: console.error and console.warn are allowed for debugging"
             exit 1
           else
             echo "✅ No console.log statements found"
+            echo "✅ console.error and console.warn are preserved for error handling"
           fi
 
   # 安全掃描

@@ -2,6 +2,18 @@
 
 ## 2025-07-23
 
+### 代碼規範工具鏈優化完成
+
+- refactor(lint): 以 ESLint + Prettier 取代 Standard.js 配置 [9232082](https://github.com/southAndy/taiwanArtion/commit/9232082)
+  - 移除 Standard.js 依賴，解決與 Prettier 的格式衝突問題
+  - 新增 eslint-config-prettier 防止 ESLint 與 Prettier 規則衝突
+  - 更新 CI 工作流程：以 `npx prettier --check src/` 取代 `npm run style`
+  - 新增 package.json 腳本：`format` 和 `format:check` 用於 Prettier 操作
+  - 修復 monthList.json 語法錯誤（無效物件結構 → 有效陣列格式）
+  - 使用 Prettier 自動格式化整個代碼庫，確保格式一致性
+  - 維持零 ESLint 錯誤，161 個警告在 CI 限制範圍內
+  - 建立現代化 ESLint + Prettier 工具鏈，提升開發者體驗
+
 ### ESLint 配置優化完成
 
 - refactor(eslint): 簡化 ESLint 配置專注於 JavaScript 專案 [5439838](https://github.com/southAndy/taiwanArtion/commit/5439838)
