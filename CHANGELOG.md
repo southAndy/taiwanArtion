@@ -1,5 +1,18 @@
 # 更新日誌
 
+## 2025-07-23
+
+### CI/CD 工作流程建立完成
+
+- feat(ci): 新增 GitHub Actions CI 工作流程 [5399e35](https://github.com/southAndy/taiwanArtion/commit/5399e35)
+  - 建立三階段並行 CI 流程：代碼品質檢查、安全掃描、建置驗證
+  - 代碼品質檢查：ESLint 語法檢查 (零警告政策)、Standard.js 格式檢查、自動偵測 console.log 語句
+  - 安全掃描：npm audit 中高級漏洞檢查、過時依賴套件檢查
+  - 建置驗證：npm run build 成功驗證、建置大小報告、產物上傳 (保留7天)
+  - 支援 main/develop 分支推送和 Pull Request 觸發
+  - 包含 Firebase 測試配置回退機制，確保 CI 環境建置成功
+  - 新增詳細的建置摘要報告和 GitHub Actions 整合
+
 ## 2025-07-21
 
 ### 安全性修復完成
