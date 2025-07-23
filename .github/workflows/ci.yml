@@ -64,7 +64,7 @@ jobs:
       - name: Run security audit
         run: |
           echo "🔍 Checking for security vulnerabilities..."
-          npm audit --audit-level=moderate
+          npm audit --audit-level=high
 
       - name: Check for outdated dependencies
         run: |
