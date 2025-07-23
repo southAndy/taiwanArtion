@@ -10,7 +10,17 @@ const TABS = [
   // { id: 'price', name: '票價', component: PayMenu }, // 預留票價篩選，未來取消註解即可啟用
 ]
 
-export default function HeaderSearchMenu({ setModlaShow, activeTabId, selectedCities, onCitySelect, selectedStartDate, selectedEndDate, onDateSelect, selectedExhibitionName, onExhibitionSelect }) {
+export default function HeaderSearchMenu({
+  setModlaShow,
+  activeTabId,
+  selectedCities,
+  onCitySelect,
+  selectedStartDate,
+  selectedEndDate,
+  onDateSelect,
+  selectedExhibitionName,
+  onExhibitionSelect,
+}) {
   const ActiveComponent = TABS.find(tab => tab.id === activeTabId)?.component
 
   return (
@@ -22,7 +32,7 @@ export default function HeaderSearchMenu({ setModlaShow, activeTabId, selectedCi
 
       {/* 頁籤內容 */}
       {ActiveComponent && (
-        <ActiveComponent 
+        <ActiveComponent
           setModlaShow={setModlaShow}
           selectedCities={activeTabId === 'city' ? selectedCities : undefined}
           onCitySelect={activeTabId === 'city' ? onCitySelect : undefined}

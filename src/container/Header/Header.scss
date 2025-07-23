@@ -1,69 +1,67 @@
-.header-container{
+.header-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  box-sizing: border-box;
+  //為了IOS 14.5以下裝置所設計
+  margin-right: 16px;
+  padding: 20px 40px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  position: relative;
+  &last-child {
+    margin-right: 0;
+  }
+
+  .login {
+    background-color: gray;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    color: #dedede;
+  }
+  .login:hover {
+    background-color: #986f4f;
+  }
+}
+.logo {
+  display: flex;
+}
+
+.filter {
+  display: flex;
+  // gap:20px;
+
+  &-box {
+    padding: 8px 24px;
+    background: #ffffff;
+    /* Black&white/400 */
+    border: 1px solid #dedede;
+    border-radius: 20px;
+  }
+
+  &-item {
+    border-left: 1px solid #dedede;
+  }
+  &-item_button {
     display: flex;
-    justify-content: space-around;
     align-items: center;
-    height: 80px;
-    width: 100%;
-    box-sizing: border-box;
-    //為了IOS 14.5以下裝置所設計
-    margin-right: 16px;
-    padding: 20px 40px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-    &last-child{
-        margin-right: 0;
-    }
-
-    .login{
-        background-color: gray;
-        border-radius: 20px;
-        padding: 10px;
-        cursor: pointer;
-        color:#DEDEDE
-    }
-    .login:hover{
-        background-color: #986F4F;
-    }
-
+    margin-left: 20px;
+  }
 }
-.logo{
-    display: flex;
+.menu {
+  color: #636363;
+  font-weight: 700;
 }
 
-.filter{
-    display: flex;
-    // gap:20px;
-
-    &-box{
-        padding: 8px 24px;
-        background: #FFFFFF;
-            /* Black&white/400 */
-        border: 1px solid #DEDEDE;
-        border-radius: 20px;
-    }
-
-    &-item{
-        border-left:1px solid #DEDEDE;
-    }
-    &-item_button{
-        display: flex;
-        align-items: center;
-        margin-left: 20px;
-    }
-    
-}
-.menu{
-    color:#636363;
-    font-weight: 700;
+.none {
+  display: none;
 }
 
-.none{
-    display: none;
-}
-
-.result-drop{
-    display: flex;
-    min-height:12px;
-    gap:16px;
-    color:#636363;
+.result-drop {
+  display: flex;
+  min-height: 12px;
+  gap: 16px;
+  color: #636363;
 }

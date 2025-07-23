@@ -1,82 +1,83 @@
-.show{
+.show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(128, 128, 128, 0.3);
+  position: absolute;
+  z-index: 20;
+}
+.invisible {
+  display: none;
+}
+
+.modal {
+  width: 540px;
+  height: 489px;
+  background-color: white;
+
+  &-banner {
+    width: 541px;
+    height: 271px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+  &-info {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(128,128,128,0.3);
-    position: absolute;
-    z-index: 20;
-}
-.invisible{
-    display: none;
-}
+    .title {
+      font-size: 14px;
+      color: #636363;
 
-.modal{
-    width: 540px;
-    height: 489px;
-    background-color: white;
-
-    &-banner{
-        width: 541px;
-        height: 271px;
-        img{
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+      &::before {
+        content: '--------------------';
+        margin-right: 5px;
+      }
+      &::after {
+        content: '--------------------';
+        margin-left: 5px;
+      }
     }
-    &-info{
+    .social {
+      display: flex;
+      margin-bottom: 40px;
+      &-item {
+        width: 40px;
+        height: 40px;
+        margin-right: 24px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
+      }
+    }
+    .member {
+      display: flex;
+      gap: 24px;
+
+      .login,
+      .register {
         display: flex;
-        flex-direction: column;
         align-items: center;
-        .title{
-            font-size: 14px;
-            color:#636363;
+        justify-content: center;
+        text-align: center;
+        width: 226px;
+        height: 40px;
+        background: #f5f5f5;
+        border-radius: 10px;
 
-            &::before{
-                content:'--------------------';
-                margin-right: 5px;
-            }
-            &::after{
-                content: '--------------------';
-                margin-left: 5px;
-            }
+        &:hover {
+          cursor: pointer;
+          background-color: #be875c;
+          color: white;
         }
-        .social{
-            display: flex;
-            margin-bottom: 40px;
-            &-item{
-                width: 40px;
-                height: 40px;
-                margin-right: 24px;
-                img{
-                    width: 100%;
-                    height: 100%;
-                    object-fit: contain;
-                }
-            }
-        }
-        .member{
-            display: flex;
-            gap:24px;
-
-            .login, .register{
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-                width: 226px;
-                height: 40px;
-                background: #F5F5F5;
-                    border-radius: 10px;
-
-                &:hover{
-                    cursor: pointer;
-                    background-color: #BE875C;
-                    color:white
-                }
-            }
-        }
+      }
     }
+  }
 }

@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from "react";
-import "./evaluate-card.scss";
+import { useState, useEffect, useMemo } from 'react'
+import './evaluate-card.scss'
 const evaluateCard = () => {
   return (
     <>
@@ -8,7 +8,7 @@ const evaluateCard = () => {
           <div className="user-photo">
             <img src="" alt="" />
           </div>
-          <p className="user-name">{"Kristin Watson"}</p>
+          <p className="user-name">{'Kristin Watson'}</p>
         </div>
         <div className="evaluate star-shape"></div>
         <div>
@@ -19,7 +19,7 @@ const evaluateCard = () => {
         </div>
       </section>
     </>
-  );
-};
+  )
+}
 
-export default evaluateCard;
+export default evaluateCard

@@ -96,15 +96,11 @@ const HomePage = () => {
         <h3 className="title">熱門展覽</h3>
         <div className="content">
           <div>
-            {isLoading ? (
-              Array.from({ length: 5 }).map((_, index) => (
-                <HotCardLoadingSkeleton key={index} />
-              ))
-            ) : (
-              hotData.map((data, index) => {
-                return <ExhibitionCard data={data} rank={index} key={data.UID} />
-              })
-            )}
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, index) => <HotCardLoadingSkeleton key={index} />)
+              : hotData.map((data, index) => {
+                  return <ExhibitionCard data={data} rank={index} key={data.UID} />
+                })}
           </div>
         </div>
       </StyledHotSection>
@@ -113,8 +109,8 @@ const HomePage = () => {
         <TypeWrapper className="menu">
           {filterRules.map((rule, index) => {
             return (
-              <StyledExhibitionType 
-                key={index} 
+              <StyledExhibitionType
+                key={index}
                 isActive={filterRule === rule.value}
                 onClick={() => setFilterRule(rule.value)}
               >
@@ -124,15 +120,13 @@ const HomePage = () => {
           })}
         </TypeWrapper>
         <div className="all">
-          {isLoading ? (
-            Array.from({ length: 6 }).map((_, index) => (
-              <ExhibitionCardLoadingSkeleton key={index} />
-            ))
-          ) : (
-            filterExhibition?.map((data, index) => {
-              return <AllExhibitionCard key={data.UID} data={data} />
-            })
-          )}
+          {isLoading
+            ? Array.from({ length: 6 }).map((_, index) => (
+                <ExhibitionCardLoadingSkeleton key={index} />
+              ))
+            : filterExhibition?.map((data, index) => {
+                return <AllExhibitionCard key={data.UID} data={data} />
+              })}
         </div>
       </StyledAllExhibitionWrapper>
     </>
@@ -152,7 +146,7 @@ const StyledMonthWrapper = styled.section`
   @media (min-width: ${breakpoint.tablet}px) {
     padding: 0 40px;
     margin-top: 56px;
-    
+
     .title {
       font-size: 32px;
       text-align: center;
@@ -212,7 +206,7 @@ const StyledHotSection = styled.section`
 
   @media (min-width: ${breakpoint.tablet}px) {
     padding: 40px;
-    
+
     .title {
       font-size: 36px;
       text-align: center;
@@ -300,7 +294,7 @@ const LoadingSkeleton = styled.div`
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
   border-radius: 8px;
-  
+
   @keyframes loading {
     0% {
       background-position: 200% 0;
@@ -319,12 +313,12 @@ const SwiperLoadingContainer = styled.div`
   gap: 16px;
   overflow-x: auto;
   scroll-behavior: smooth;
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
   scrollbar-width: none;
-  
+
   @media (min-width: ${breakpoint.tablet}px) {
     height: 470px;
     padding: 20px;
@@ -344,7 +338,7 @@ const SwiperCardLoadingSkeleton = styled.div`
   flex-shrink: 0;
   gap: 8px;
   min-width: 267px;
-  
+
   /* 圖片區域 Loading */
   &::before {
     content: '';
@@ -355,7 +349,7 @@ const SwiperCardLoadingSkeleton = styled.div`
     animation: loading 1.5s infinite;
     border-radius: 8px;
   }
-  
+
   /* 標題區域 Loading */
   &::after {
     content: '';
@@ -367,7 +361,7 @@ const SwiperCardLoadingSkeleton = styled.div`
     border-radius: 4px;
     margin-top: 8px;
   }
-  
+
   @keyframes loading {
     0% {
       background-position: 200% 0;
@@ -376,24 +370,24 @@ const SwiperCardLoadingSkeleton = styled.div`
       background-position: -200% 0;
     }
   }
-  
+
   @media (min-width: ${breakpoint.tablet}px) {
     min-width: 448px;
     align-items: flex-start;
-    
+
     &::before {
       height: 280px;
     }
-    
+
     &::after {
       height: 24px;
       width: 60%;
     }
   }
-  
+
   @media (min-width: ${breakpoint.desktop}px) {
     min-width: 475px;
-    
+
     &::before {
       height: 300px;
     }
@@ -407,7 +401,7 @@ const HotCardLoadingSkeleton = styled(LoadingSkeleton)`
   display: flex;
   gap: 12px;
   padding: 12px;
-  
+
   &::before {
     content: '';
     width: 56px;
@@ -416,7 +410,7 @@ const HotCardLoadingSkeleton = styled(LoadingSkeleton)`
     border-radius: 4px;
     flex-shrink: 0;
   }
-  
+
   &::after {
     content: '';
     flex: 1;
@@ -429,11 +423,10 @@ const ExhibitionCardLoadingSkeleton = styled(LoadingSkeleton)`
   height: 200px;
   width: 100%;
   margin-bottom: 24px;
-  
+
   @media (min-width: ${breakpoint.tablet}px) {
     height: 250px;
   }
 `
-
 
 export default HomePage

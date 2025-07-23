@@ -197,11 +197,15 @@ export default function ResultPage() {
                           {item.title}
                           {!hasLocation && <span className="no-location">📍 無位置資訊</span>}
                         </SidebarExhibitionTitle>
-                        <SidebarExhibitionDate>{item.startDate} ~ {item.endDate}</SidebarExhibitionDate>
-                        <SidebarExhibitionLocation>{item.showInfo?.[0]?.location || '地點未提供'}</SidebarExhibitionLocation>
+                        <SidebarExhibitionDate>
+                          {item.startDate} ~ {item.endDate}
+                        </SidebarExhibitionDate>
+                        <SidebarExhibitionLocation>
+                          {item.showInfo?.[0]?.location || '地點未提供'}
+                        </SidebarExhibitionLocation>
                       </SidebarExhibitionInfo>
                       <SidebarViewButton
-                        onClick={(e) => {
+                        onClick={e => {
                           e.stopPropagation()
                           window.open(`/detail/${item.UID}`, '_blank')
                         }}
@@ -218,7 +222,7 @@ export default function ResultPage() {
                 mapContainerStyle={mapContainerStyle}
                 center={userLocation || { lat: 25.033, lng: 121.5654 }} // 默認台北
                 zoom={12}
-                onLoad={(map) => setMapRef(map)}
+                onLoad={map => setMapRef(map)}
                 options={{
                   mapTypeControl: false,
                   zoomControl: false,
@@ -226,72 +230,75 @@ export default function ResultPage() {
                   streetViewControl: false,
                 }}
               >
-              {/* 用戶位置標記 */}
-              {userLocation && (
-                <Marker
-                  position={userLocation}
-                  icon={{
-                    url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-                  }}
-                />
-              )}
+                {/* 用戶位置標記 */}
+                {userLocation && (
+                  <Marker
+                    position={userLocation}
+                    icon={{
+                      url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                    }}
+                  />
+                )}
 
-              {/* 展覽位置標記 */}
-              {filterCityExhibition.map(exhibition => {
-                if (exhibition.showInfo?.[0]?.latitude && exhibition.showInfo?.[0]?.longitude) {
-                  const isSelected = selectedPlace?.UID === exhibition.UID
-                  const isHovered = hoveredExhibition?.UID === exhibition.UID
-                  return (
-                    <Marker
-                      key={exhibition.UID}
-                      position={{
-                        lat: Number(exhibition.showInfo[0].latitude),
-                        lng: Number(exhibition.showInfo[0].longitude),
-                      }}
-                      onClick={() => setSelectedPlace(exhibition)}
-                      icon={{
-                        url: isSelected || isHovered 
-                          ? 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-                          : 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
-                        scaledSize: window.google?.maps ? (isSelected || isHovered 
-                          ? new window.google.maps.Size(40, 40)
-                          : new window.google.maps.Size(30, 30)) : undefined
-                      }}
-                    />
-                  )
-                }
-                return null
-              })}
+                {/* 展覽位置標記 */}
+                {filterCityExhibition.map(exhibition => {
+                  if (exhibition.showInfo?.[0]?.latitude && exhibition.showInfo?.[0]?.longitude) {
+                    const isSelected = selectedPlace?.UID === exhibition.UID
+                    const isHovered = hoveredExhibition?.UID === exhibition.UID
+                    return (
+                      <Marker
+                        key={exhibition.UID}
+                        position={{
+                          lat: Number(exhibition.showInfo[0].latitude),
+                          lng: Number(exhibition.showInfo[0].longitude),
+                        }}
+                        onClick={() => setSelectedPlace(exhibition)}
+                        icon={{
+                          url:
+                            isSelected || isHovered
+                              ? 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                              : 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png',
+                          scaledSize: window.google?.maps
+                            ? isSelected || isHovered
+                              ? new window.google.maps.Size(40, 40)
+                              : new window.google.maps.Size(30, 30)
+                            : undefined,
+                        }}
+                      />
+                    )
+                  }
+                  return null
+                })}
 
-              {/* 資訊視窗 */}
-              {selectedPlace && selectedPlace.showInfo?.[0] && (
-                <InfoWindow
-                  position={{
-                    lat: Number(selectedPlace.showInfo[0].latitude),
-                    lng: Number(selectedPlace.showInfo[0].longitude),
-                  }}
-                  onCloseClick={() => setSelectedPlace(null)}
-                >
-                  <StyledInfoWindow>
-                    <img
-                      src={selectedPlace.imageUrl || sampleResult}
-                      alt={selectedPlace.title}
-                      className="exhibition-image"
-                    />
-                    <div className="content">
-                      <h3>{selectedPlace.title}</h3>
-                      <p className="location">{selectedPlace.showInfo[0].location}</p>
-                      <p className="date">
-                        {selectedPlace.startDate} ~ {selectedPlace.endDate}
-                      </p>
-                      <Link to={`/detail/${selectedPlace.UID}`} className="detail-link">
-                        查看詳情
-                      </Link>
-                    </div>
-                  </StyledInfoWindow>
-                </InfoWindow>
-              )}
-            </GoogleMap>
+                {/* 資訊視窗 */}
+                {selectedPlace && selectedPlace.showInfo?.[0] && (
+                  <InfoWindow
+                    position={{
+                      lat: Number(selectedPlace.showInfo[0].latitude),
+                      lng: Number(selectedPlace.showInfo[0].longitude),
+                    }}
+                    onCloseClick={() => setSelectedPlace(null)}
+                  >
+                    <StyledInfoWindow>
+                      <img
+                        src={selectedPlace.imageUrl || sampleResult}
+                        alt={selectedPlace.title}
+                        className="exhibition-image"
+                      />
+                      <div className="content">
+                        <h3>{selectedPlace.title}</h3>
+                        <p className="location">{selectedPlace.showInfo[0].location}</p>
+                        <p className="date">
+                          {selectedPlace.startDate} ~ {selectedPlace.endDate}
+                        </p>
+                        <Link to={`/detail/${selectedPlace.UID}`} className="detail-link">
+                          查看詳情
+                        </Link>
+                      </div>
+                    </StyledInfoWindow>
+                  </InfoWindow>
+                )}
+              </GoogleMap>
             </StyledMapContainer>
           </StyledMapViewContainer>
         </LoadScript>
@@ -554,14 +561,14 @@ const SidebarExhibitionItem = styled.div`
   display: flex;
   gap: 12px;
   padding: 12px 16px;
-  cursor: ${props => props.hasLocation ? 'pointer' : 'default'};
+  cursor: ${props => (props.hasLocation ? 'pointer' : 'default')};
   border-bottom: 1px solid #f5f5f5;
   background: ${props => {
     if (props.isSelected) return '#fff3e0'
     if (props.isHovered && props.hasLocation) return '#f8f8f8'
     return 'white'
   }};
-  opacity: ${props => props.hasLocation ? 1 : 0.6};
+  opacity: ${props => (props.hasLocation ? 1 : 0.6)};
   transition: all 0.2s ease;
 
   &:hover {
@@ -588,7 +595,7 @@ const SidebarExhibitionInfo = styled.div`
 const SidebarExhibitionTitle = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.hasLocation ? '#333' : '#999'};
+  color: ${props => (props.hasLocation ? '#333' : '#999')};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

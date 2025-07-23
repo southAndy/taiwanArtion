@@ -1,4 +1,4 @@
-.skeleton{
+.skeleton {
   display: flex;
   align-items: center;
   background-position: -500px 0;
@@ -11,14 +11,12 @@
   background-image: linear-gradient(90deg, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
   background-repeat: no-repeat;
   background-size: 1000px 100%;
-
 }
 @keyframes skeletonShine {
-  0%{
+  0% {
     background-position: -250px 0;
   }
-  50%{
+  50% {
     background-position: 0px 0;
-  } 
-  
+  }
 }

@@ -91,7 +91,6 @@ const Backstage = () => {
 
   // 解除收藏的展覽
   function removeExhibition(id) {
-
     const userData = doc(db, 'users', '9Jx7yrqhjuoM4VxrmSCh') //todo 根據會員回傳資料存入
     updateDoc(userData, {
       favorite: arrayRemove(id),
@@ -108,8 +107,7 @@ const Backstage = () => {
       const filteredExhibition = data.filter((item, index) => favoriteDatas.includes(item.UID))
 
       setExhibition(n => (n = filteredExhibition))
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   async function getUserInfo(uid) {
@@ -117,8 +115,7 @@ const Backstage = () => {
       const userDatas = doc(db, 'users', uid)
       const docSnap = await getDoc(userDatas)
       dispatch({ type: 'member/setMemberInfo', payload: docSnap.data() })
-    } catch (e) {
-    }
+    } catch (e) {}
   }
 
   function renderMenu() {

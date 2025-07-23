@@ -9,7 +9,7 @@ import RegisterFlow from './RegisterFlow'
 const AuthModal = ({
   isShow,
   setShow,
-  initialMode = 'login' // 'login' or 'register'
+  initialMode = 'login', // 'login' or 'register'
 }) => {
   const [mode, setMode] = useState(initialMode)
   const { isDesktop } = useBreakpoint()
@@ -19,7 +19,7 @@ const AuthModal = ({
     return null
   }
 
-  const handleModeSwitch = (newMode) => {
+  const handleModeSwitch = newMode => {
     setMode(newMode)
   }
 
@@ -41,19 +41,14 @@ const AuthModal = ({
           <StyledBackButton onClick={() => setShow(false)}>
             <img src={vectorIcon} alt="關閉" />
           </StyledBackButton>
-          <StyledTitle>
-            {mode === 'login' ? '會員登入' : '會員註冊'}
-          </StyledTitle>
+          <StyledTitle>{mode === 'login' ? '會員登入' : '會員註冊'}</StyledTitle>
         </StyledHeader>
 
         <StyledModeSelector>
-          <StyledModeButton 
-            active={mode === 'login'}
-            onClick={() => handleModeSwitch('login')}
-          >
+          <StyledModeButton active={mode === 'login'} onClick={() => handleModeSwitch('login')}>
             登入
           </StyledModeButton>
-          <StyledModeButton 
+          <StyledModeButton
             active={mode === 'register'}
             onClick={() => handleModeSwitch('register')}
           >
@@ -103,7 +98,7 @@ const StyledBackButton = styled.button`
   cursor: pointer;
   width: 18px;
   height: 18px;
-  
+
   img {
     width: 100%;
     height: 100%;
@@ -129,53 +124,54 @@ const StyledModeSelector = styled.div`
 const StyledModeButton = styled.button`
   flex: 1;
   padding: 12px 16px;
-  background-color: ${props => props.active ? '#A9622A' : '#fff'};
-  color: ${props => props.active ? '#fff' : '#5f5f5f'};
+  background-color: ${props => (props.active ? '#A9622A' : '#fff')};
+  color: ${props => (props.active ? '#fff' : '#5f5f5f')};
   border: none;
   cursor: pointer;
   font-weight: 500;
   transition: all 0.3s ease;
-  
+
   &:hover {
-    background-color: ${props => props.active ? '#A9622A' : '#f5f5f5'};
+    background-color: ${props => (props.active ? '#A9622A' : '#f5f5f5')};
   }
 `
 
 const StyledContent = styled.div`
   padding: 0 24px 24px;
   color: #333333;
-  
+
   // 調整內部元件的樣式
   form {
     padding: 0;
   }
-  
+
   // 確保彈窗內的文字顏色正確
   label {
     color: #453434;
     font-weight: 500;
   }
-  
+
   // 修正一般文字顏色
-  p, span {
+  p,
+  span {
     color: #666666;
   }
-  
+
   // 修正標題文字顏色
   h3 {
     color: #453434;
     font-weight: 600;
   }
-  
+
   // 修正輸入框樣式
   input {
     color: #333333;
-    
+
     &::placeholder {
       color: #999999;
     }
   }
-  
+
   // 修正按鈕樣式
   button {
     transition: all 0.3s ease;

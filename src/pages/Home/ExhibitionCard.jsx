@@ -18,7 +18,7 @@ const AllExhibitionCard = ({ data }) => {
   const isLogin = useSelector(state => state.user.isLogin)
   const userInfo = useSelector(state => state.user.userInfo)
   const { isDesktop } = useBreakpoint()
-  
+
   // 檢查展覽是否還未開始
   const isUpcoming = dayjs(data.startDate).isAfter(dayjs(), 'day')
 
@@ -73,9 +73,7 @@ const AllExhibitionCard = ({ data }) => {
         <h3>{data.title}</h3>
         <p className="text-xs date-info">
           {isUpcoming && <span className="upcoming-badge">即將開展</span>}
-          {`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(
-            data.endDate
-          ).format('MM.DD')}`}
+          {`${dayjs(data.startDate).format('YYYY.MM.DD')}-${dayjs(data.endDate).format('MM.DD')}`}
         </p>
         <div className="locate flex">
           <BaseImageBox width={'16px'} height={'16px'} className="w-[16px] h-[16px]">
@@ -84,12 +82,8 @@ const AllExhibitionCard = ({ data }) => {
           <p className="location-content text-xs ">{data.showInfo[0].location.slice(0, 3)}</p>
         </div>
       </StyledLink>
-      
-      <AuthModal
-        isShow={showAuthModal}
-        setShow={setShowAuthModal}
-        initialMode="login"
-      />
+
+      <AuthModal isShow={showAuthModal} setShow={setShowAuthModal} initialMode="login" />
     </>
   )
 }
@@ -109,21 +103,24 @@ const StyledLink = styled(Link)`
   overflow: hidden;
   transition: all 0.3s ease;
   border-radius: 16px;
-  opacity: ${props => props.isUpcoming ? 0.7 : 1};
+  opacity: ${props => (props.isUpcoming ? 0.7 : 1)};
   cursor: pointer;
   /* 預留空間給 hover 效果，避免佈局偏移 */
   margin: 8px;
   /* 為所有卡片預留統一的邊框空間 */
   border: 2px solid transparent;
-  
+
   &:hover {
     /* 使用 scale 替代 translateY，避免影響 Grid 佈局 */
-    transform: ${props => props.isUpcoming ? 'scale(1.02)' : 'scale(1.05)'};
+    transform: ${props => (props.isUpcoming ? 'scale(1.02)' : 'scale(1.05)')};
     /* 調整陰影，避免溢出太多 */
-    box-shadow: ${props => props.isUpcoming ? '0 2px 12px rgba(153, 153, 153, 0.15)' : '0 4px 20px rgba(190, 135, 92, 0.2)'};
-    
+    box-shadow: ${props =>
+      props.isUpcoming
+        ? '0 2px 12px rgba(153, 153, 153, 0.15)'
+        : '0 4px 20px rgba(190, 135, 92, 0.2)'};
+
     h3 {
-      color: ${props => props.isUpcoming ? '#666666' : '#be875c'};
+      color: ${props => (props.isUpcoming ? '#666666' : '#be875c')};
     }
   }
 
@@ -132,19 +129,21 @@ const StyledLink = styled(Link)`
     border-radius: 16px;
     transition: all 0.3s ease;
     /* 移除 padding，改用 outline 避免 box model 影響 */
-    ${props => props.isUpcoming && `
+    ${props =>
+      props.isUpcoming &&
+      `
       filter: grayscale(30%);
       outline: 2px dashed #d9d9d9;
       outline-offset: -2px;
     `}
   }
-  
+
   .locate {
     display: flex;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    color: ${props => props.isUpcoming ? '#999999' : 'inherit'};
+    color: ${props => (props.isUpcoming ? '#999999' : 'inherit')};
   }
 
   h3 {
@@ -155,15 +154,15 @@ const StyledLink = styled(Link)`
     font-size: 16px;
     width: 100%;
     transition: color 0.3s ease;
-    color: ${props => props.isUpcoming ? '#999999' : '#535353'};
+    color: ${props => (props.isUpcoming ? '#999999' : '#535353')};
   }
-  
+
   .date-info {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: ${props => props.isUpcoming ? '#999999' : 'inherit'};
-    
+    color: ${props => (props.isUpcoming ? '#999999' : 'inherit')};
+
     .upcoming-badge {
       display: inline-flex;
       align-items: center;
@@ -176,7 +175,7 @@ const StyledLink = styled(Link)`
       border: 1px solid #e0e0e0;
     }
   }
-  
+
   @media (min-width: ${breakpoint.tablet}px) {
     flex-direction: column;
     /* 移除 max-width 限制，讓 Grid 自然決定寬度 */

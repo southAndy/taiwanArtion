@@ -70,12 +70,8 @@ const User = ({ onLoginClick }) => {
         <LoginButton onClick={handleLoginClick}>登入</LoginButton>
         <RegisterButton onClick={handleRegisterClick}>註冊</RegisterButton>
       </ButtonContainer>
-      
-      <AuthModal
-        isShow={isShowAuthModal}
-        setShow={setIsShowAuthModal}
-        initialMode={authMode}
-      />
+
+      <AuthModal isShow={isShowAuthModal} setShow={setIsShowAuthModal} initialMode={authMode} />
     </>
   )
 }
@@ -123,15 +119,15 @@ const RegisterButton = styled.button`
   cursor: pointer;
   font-size: 14px;
   font-weight: 700;
-  border: 1px solid #A9622A;
+  border: 1px solid #a9622a;
   padding: 8px 20px;
   background: transparent;
-  color: #A9622A;
+  color: #a9622a;
   border-radius: 20px;
   transition: all 0.3s ease;
 
   &:hover {
-    background: #A9622A;
+    background: #a9622a;
     color: #fff;
   }
 `

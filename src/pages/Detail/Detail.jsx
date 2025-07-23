@@ -37,7 +37,6 @@ export default function DetailPage() {
   const isLoading = useSelector(state => state.common.isLoading)
   const { isDesktop, screenSize } = useBreakpoint()
 
-
   useEffect(() => {
     // need to login to check favorite state
     if (isLogin) {
