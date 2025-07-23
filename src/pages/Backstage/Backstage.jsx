@@ -370,5 +370,5 @@ const StyledPhotoMenuBox = styled.div`
 const StyledUserIcon = styled(BaseImageBox)`
   outline: 5px solid red;
   border-radius: 2px;
-  opacity: ${isActive => (opacity ? opacity : '')};
+  opacity: ${props => (props.isActive ? 1 : 0.5)};
 `
