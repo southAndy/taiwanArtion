@@ -29,7 +29,7 @@ module.exports = {
     'no-debugger': 'error',
     // 臨時將錯誤降級為警告，讓 CI 通過
     'import/no-unresolved': 'warn',
-    'react/jsx-key': 'warn',
+    'react/jsx-key': 'error', // 強制使用 key 屬性
     'no-undef': 'error', // 不允許未定義的變數
     'no-empty': 'warn',
     'react/no-unescaped-entities': 'warn',
