@@ -1,0 +1,136 @@
+name: CI - Continuous Integration
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # 代碼質量檢查
+  code-quality:
+    runs-on: ubuntu-latest
+    name: Code Quality Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.4'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npx eslint src --ext .js,.jsx,.ts,.tsx --max-warnings=0
+
+      - name: Run Standard.js formatting check
+        run: npm run style
+
+      - name: Check for console.log statements
+        run: |
+          if grep -r "console\.log" src/; then
+            echo "❌ Found console.log statements in source code"
+            echo "Please remove console.log statements before committing"
+            exit 1
+          else
+            echo "✅ No console.log statements found"
+          fi
+
+  # 安全掃描
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.4'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run security audit
+        run: |
+          echo "🔍 Checking for security vulnerabilities..."
+          npm audit --audit-level=moderate
+
+      - name: Check for outdated dependencies
+        run: |
+          echo "📦 Checking for outdated dependencies..."
+          npm outdated || true
+
+  # 建置驗證
+  build-test:
+    runs-on: ubuntu-latest
+    name: Build Test
+    needs: [code-quality, security-scan]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.4'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: |
+          echo "🏗️ Building application..."
+          npm run build
+        env:
+          # 使用測試用的 Firebase 配置
+          VITE_FIREBASE_API_KEY: ${{ secrets.VITE_FIREBASE_API_KEY_TEST || 'test-api-key' }}
+          VITE_FIREBASE_AUTH_DOMAIN: ${{ secrets.VITE_FIREBASE_AUTH_DOMAIN_TEST || 'test.firebaseapp.com' }}
+          VITE_FIREBASE_PROJECT_ID: ${{ secrets.VITE_FIREBASE_PROJECT_ID_TEST || 'test-project' }}
+          VITE_FIREBASE_STORAGE_BUCKET: ${{ secrets.VITE_FIREBASE_STORAGE_BUCKET_TEST || 'test.appspot.com' }}
+          VITE_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID_TEST || '123456789' }}
+          VITE_FIREBASE_APP_ID: ${{ secrets.VITE_FIREBASE_APP_ID_TEST || '1:123456789:web:test' }}
+
+      - name: Check build size
+        run: |
+          if [ -d "dist" ]; then
+            BUILD_SIZE=$(du -sh dist | cut -f1)
+            echo "📦 Build size: $BUILD_SIZE"
+            
+            # 檢查 build 檔案是否存在
+            if [ -f "dist/index.html" ]; then
+              echo "✅ Build successful - index.html found"
+            else
+              echo "❌ Build failed - index.html not found"
+              exit 1
+            fi
+          else
+            echo "❌ Build failed - dist directory not found"
+            exit 1
+          fi
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files-${{ github.sha }}
+          path: dist/
+          retention-days: 7
+
+      - name: Build summary
+        run: |
+          echo "## 🏗️ Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Code quality checks passed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Security scan completed" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Build successful" >> $GITHUB_STEP_SUMMARY
+          echo "- 📦 Build size: $(du -sh dist | cut -f1)" >> $GITHUB_STEP_SUMMARY
+          echo "- 🔗 Artifacts uploaded for deployment" >> $GITHUB_STEP_SUMMARY
