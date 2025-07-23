@@ -3,11 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:import/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:import/recommended'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -20,7 +16,7 @@ module.exports = {
     // React 17+ 不需要 import React
     'react/react-in-jsx-scope': 'off',
     // PropTypes 設為警告
-    'react/prop-types': 'warn',
+    'react/prop-types': 'off',
     // 允許未使用的變數（以 _ 開頭）
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
     // 基本的代碼品質規則
