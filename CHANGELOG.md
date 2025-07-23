@@ -2,6 +2,24 @@
 
 ## 2025-07-23
 
+### ESLint 規則強化與程式碼清理完成
+
+- refactor(lint): 強化 ESLint 規則並清理未使用元件 [30d73e7](https://github.com/southAndy/taiwanArtion/commit/30d73e7)
+  - 將 react/jsx-key 規則從 warn 升級為 error，強制使用 key 屬性
+  - 移除未使用的 modal 元件：modal/Modal.jsx、register-modal.jsx、moda.scss
+  - 清理過時的認證模態框實作，已由 AuthModal 取代
+  - 消除所有 ESLint 錯誤（4個錯誤 → 0個錯誤）
+  - 透過移除死代碼和強制執行 React key props 提升代碼品質
+
+### 關鍵錯誤修復完成
+
+- fix(eslint): 修復 ESLint 嚴重錯誤和代碼品質問題 [53b811a](https://github.com/southAndy/taiwanArtion/commit/53b811a)
+  - 修復 Login.jsx 中未定義變數錯誤（signInWithPopup, provider）
+  - 修復 Backstage.jsx 中 styled-component 語法錯誤（opacity 參數不匹配）
+  - 將 no-undef 規則從 warn 提升為 error，防止未定義變數錯誤
+  - 暫時註解 Google 登入功能避免編譯錯誤
+  - ESLint 錯誤從 4 個降至 0 個，確保 CI 代碼品質檢查通過
+
 ### Console 日誌策略優化完成
 
 - refactor(ci): 優化 Console 日誌策略以改善調試體驗 [08912ec](https://github.com/southAndy/taiwanArtion/commit/08912ec)
