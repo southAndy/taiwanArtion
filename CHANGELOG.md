@@ -2,6 +2,16 @@
 
 ## 2025-07-23
 
+### Console 日誌策略優化完成
+
+- refactor(ci): 優化 Console 日誌策略以改善調試體驗 [08912ec](https://github.com/southAndy/taiwanArtion/commit/08912ec)
+  - 更新 CI console.log 檢查，保留錯誤處理日誌功能
+  - 將 favoriteUtils 中的 console.log 改為 console.info，提供更語義化的用戶反饋
+  - 保留 console.error 和 console.warn 用於 API 錯誤處理和調試
+  - 在 CI 中新增清楚的訊息說明允許的 console 方法
+  - 建立語義化日誌分層：console.info 用於用戶操作，console.error 用於錯誤
+  - 在維持乾淨生產代碼的同時，保留必要的調試功能
+
 ### 代碼規範工具鏈優化完成
 
 - refactor(lint): 以 ESLint + Prettier 取代 Standard.js 配置 [9232082](https://github.com/southAndy/taiwanArtion/commit/9232082)
