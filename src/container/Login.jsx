@@ -8,7 +8,8 @@ import StyledInput from '../components/StyledInput'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
-import { db, auth } from '../../firebase.config'
+// import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { db } from '../../firebase.config'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -67,14 +68,15 @@ const Login = () => {
     //將登入成功存入 cookie
     document.cookie = 'isLogin=true'
   }
-  const loginGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider)
-      const user = result.user
-      // todo 增加成員的處理
-      navigate('/')
-    } catch (e) {}
-  }
+  // const loginGoogle = async () => {
+  //   try {
+  //     const provider = new GoogleAuthProvider()
+  //     const result = await signInWithPopup(auth, provider)
+  //     const user = result.user
+  //     // todo 增加成員的處理
+  //     navigate('/')
+  //   } catch (e) {}
+  // }
   return (
     <>
       <StyledLoginBanner>
