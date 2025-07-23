@@ -5,18 +5,32 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:react/recommended',
     'plugin:import/recommended',
   ],
-  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-  plugins: ['@typescript-eslint', 'react', 'import'],
-  rules: {},
+  plugins: ['react', 'import'],
+  rules: {
+    // React 17+ 不需要 import React
+    'react/react-in-jsx-scope': 'off',
+    // PropTypes 設為警告
+    'react/prop-types': 'warn',
+    // 允許未使用的變數（以 _ 開頭）
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    // 基本的代碼品質規則
+    'no-console': 'warn',
+    'no-debugger': 'error',
+  },
   settings: {
+    react: {
+      version: 'detect',
+    },
     'import/resolver': {
       alias: {
         map: [
@@ -33,7 +47,7 @@ module.exports = {
           ['@container', './src/container'],
           ['@layouts', './src/layouts'],
         ],
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx'],
       },
     },
   },
