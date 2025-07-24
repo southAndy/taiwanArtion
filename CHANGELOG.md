@@ -1,5 +1,15 @@
 # 更新日誌
 
+## 2025-07-24
+
+### Claude 命令工作流程改進完成
+
+- refactor(commands): 更新 record 命令工作流程並移除測試命令 [d23a556](https://github.com/southAndy/taiwanArtion/commit/d23a556)
+  - 新增 record.md 協作者確認步驟，詢問是否將 Claude 加入 commit 協作者
+  - 變更 commit message 語言要求為英文，提升專案國際化水準
+  - 移除未使用的 test.md 命令檔案，清理命令結構
+  - 優化自動化開發流程，提升開發者體驗
+
 ## 2025-07-23
 
 ### ESLint 規則強化與程式碼清理完成
