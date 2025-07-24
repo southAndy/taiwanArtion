@@ -23,8 +23,7 @@ module.exports = {
     'react/prop-types': 'off', // PropTypes 設為警告
     // 允許未使用的變數（以 _ 開頭）
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-    // 基本的代碼品質規則
-    'no-console': 'warn',
+    'no-console': ['error', { allow: ['warn', 'error'] }], // 不允許使用 console.log
     'no-debugger': 'error',
     // todo: 臨時將錯誤降級為警告，讓 CI 通過
     'import/no-unresolved': 'warn',
