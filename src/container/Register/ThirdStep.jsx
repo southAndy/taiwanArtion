@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import StyledInput from '../../components/StyledInput'
-import Button from '../../components/Button'
+import Button from '@/components/atoms/Button/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -64,7 +64,9 @@ const thirdStep = ({ setStepStatus }) => {
             setUserEmail(e.target.value)
           }}
         />
-        <Button content={'送出驗證'} disabled={errors.email} setClick={setCanSent} />
+        <Button disabled={errors.email} actions={setCanSent} height={'50px'}>
+          送出驗證
+        </Button>
       </StyledValidateBox>
       <div className="">
         {errors.email ? (

@@ -5,7 +5,7 @@ import { setIsLogin, login } from '../store/userSlice'
 import styled from '@emotion/styled'
 import { hotBg, vectorIcon, warnIcon } from '../assets/images/index'
 import StyledInput from '../components/StyledInput'
-import Button from '../components/Button'
+import Button from '../components/atoms/Button/Button'
 import { Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 // import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
@@ -124,7 +124,7 @@ const Login = () => {
             )}
           </div>
           {/* <StyledForgetLink to='/forget-password'>忘記密碼？</StyledForgetLink> */}
-          <Button buttonType={'submit'}>登入</Button>
+          <Button>登入</Button>
         </form>
         <section className="remind">
           <div>
@@ -189,19 +189,6 @@ const StyledContent = styled.section`
     flex-direction: column;
     gap: 16px;
     margin-bottom: 40px;
-  }
-  button {
-    border-radius: 20px;
-    border: none;
-    background-color: #eeeeee;
-    color: #5f5f5f;
-    padding: 9px 0;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #a9622a;
-      color: white;
-    }
   }
   .remind {
     display: flex;
