@@ -1,5 +1,16 @@
 # 更新日誌
 
+## 2025-07-25
+
+### 原子元件系統建立完成
+
+- feat(components): 新增原子級 Button 元件與變體系統 [待提交]
+  - 新增 atoms/Button/ 結構，採用 @emotion/styled 實作
+  - 實作 primary/secondary 變體系統，支援主題色 (#be875c) 與次要色 (#eeeeee)
+  - 建立完整的 disabled 狀態處理，包含游標與透明度控制
+  - 支援自訂 margin、width、height 等屬性配置
+  - 為元件統一與程式碼清理奠定基礎
+
 ## 2025-07-24
 
 ### Claude 命令工作流程改進完成
