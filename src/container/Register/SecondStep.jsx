@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
-import Button from '../../components/Button'
+import Button from '@/components/atoms/Button/Button'
 import StyledInput from '../../components/StyledInput'
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
@@ -231,8 +231,8 @@ const secondStep = ({ setStep, setUserInfo }) => {
         <Button
           buttonType={'submit'}
           disabled={!password || !email}
-          content={'下一步'}
           margin={'40px 0 0 0'}
+          height={'50px'}
         >
           下一步
         </Button>

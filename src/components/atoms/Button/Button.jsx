@@ -3,8 +3,8 @@ import StyledButton from './Button.styles'
 
 const Button = ({
   children,
-  content,
   disabled,
+  height,
   margin,
   actions,
   buttonType = 'button',
@@ -19,8 +19,9 @@ const Button = ({
       onClick={actions}
       disabled={disabled}
       className={className}
+      height={height}
     >
-      {content || children}
+      {children}
     </StyledButton>
   )
 }

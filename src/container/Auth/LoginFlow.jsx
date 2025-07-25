@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { login } from '@store/userSlice'
 import StyledInput from '@components/StyledInput'
-import Button from '@components/Button'
+import Button from '@components/atoms/Button/Button'
 import { warnIcon } from '@assets/images/index'
 import BaseImageBox from '@styles/base/BaseImageBox'
 
@@ -87,7 +87,7 @@ const LoginFlow = ({ onSuccess }) => {
         )}
       </StyledInputGroup>
 
-      <Button buttonType="submit" disabled={isLoading}>
+      <Button buttonType="submit" disabled={isLoading} height={'50px'}>
         {isLoading ? '登入中...' : '登入'}
       </Button>
 

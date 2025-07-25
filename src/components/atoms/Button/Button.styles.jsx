@@ -2,8 +2,10 @@ import styled from '@emotion/styled'
 
 const ButtonStyles = {
   primary: {
-    backgroundColor: '#be875c',
-    color: '#ffffff',
+    backgroundColor: '#eeeeee',
+    color: '#5f5f5f',
+    hoverBackgroundColor: '#be875c',
+    hoverColor: '#ffffff',
   },
   secondary: {
     backgroundColor: '#eeeeee',
@@ -31,6 +33,10 @@ const StyledButton = styled('button', {
     color: #999999;
     cursor: not-allowed;
     opacity: 0.6;
+  }
+  &:hover:not(:disabled) {
+    background-color: ${props => ButtonStyles[props.variant]?.hoverBackgroundColor ?? '#be875c'};
+    color: ${props => ButtonStyles[props.variant]?.hoverColor ?? '#ffffff'};
   }
 `
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import StyledInput from '../../components/StyledInput'
-import Button from '../../components/Button'
+import Button from '@/components/atoms/Button/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -132,11 +132,9 @@ const firstStep = ({ setStep, setUserInfo }) => {
                 value={userCode}
                 maxLength="6"
               />
-              <Button
-                content={`${countdown}秒後重新發送`}
-                actions={setSent}
-                disabled={countdown !== 0}
-              />
+              <Button actions={setSent} disabled={countdown !== 0} height={'50px'}>
+                {countdown !== 0 ? `${countdown}秒後重新發送` : '發送驗證碼'}
+              </Button>
             </ProgressBox>
             {errors.userCode ? (
               <StyledErroBox className="flex gap-1 mt-2">
@@ -153,8 +151,8 @@ const firstStep = ({ setStep, setUserInfo }) => {
             <Button
               actions={actions}
               disabled={errors.userCode?.message || userCode.length === 0}
-              content={'下一步'}
               margin={'40px 0 0 0'}
+              height={'50px'}
             >
               下一步
             </Button>
@@ -184,11 +182,13 @@ const firstStep = ({ setStep, setUserInfo }) => {
                 maxLength="10"
               />
               <Button
-                content={content}
                 actions={setSent}
                 disabled={errors.userPhone || userPhone.length !== 10}
                 className="flex-initial w-[30px]"
-              />
+                height={'50px'}
+              >
+                {content}
+              </Button>
             </ProgressBox>
             {errors.userPhone ? (
               <StyledErroBox>
