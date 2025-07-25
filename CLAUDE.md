@@ -120,6 +120,23 @@ Requires environment variables:
 - **Component Consolidation**: Merge duplicate components (Button.jsx vs StyledButton.jsx)
 - **Tailwind Cleanup**: Remove complex Tailwind usage from styled components
 
+### 元件清理狀況 (2025-07-25)
+
+**已確認重複元件**：
+- `src/components/Dropdown.jsx` - 簡單選單元件 (建議移除)
+- `src/components/Dropdown/Dropdown.jsx` - 進階Portal實作 (保留)
+- `src/components/Input/Input.jsx` - 完整元件含邏輯 (保留)
+- `src/components/StyledInput.jsx` - 僅樣式元件 (建議移除)
+
+**清理優先級**：
+1. 移除 `Dropdown.jsx` (根目錄)，保留 `Dropdown/` 版本
+2. 移除 `StyledInput.jsx`，統一使用 `Input/Input.jsx`
+3. 檢查使用狀況後安全移除
+
+**已確認單一元件**：
+- `Modal.jsx` - 功能完整，無重複
+- `atoms/Button/` - 結構完整，無衝突
+
 ### Styling Decision Flow
 
 When adding styles, follow this decision tree:

@@ -2,9 +2,29 @@
 
 ## 2025-07-25
 
+### 元件清理與優化完成
+
+- refactor(components): remove duplicate and unused component files [待提交]
+  - 移除 5 個無用的元件檔案：Dropdown.jsx, AccountInput.jsx, EmailInput.jsx, PasswordInput.jsx, user-input.jsx
+  - 清理重複元件，統一使用 Dropdown/ 目錄版本
+  - 移除空白檔案和無實際功能的元件
+  - 更新 CLAUDE.md 記錄元件清理狀況
+  - 減少程式碼維護負擔，提升專案整潔度
+
+### Button 元件完全遷移完成
+
+- refactor(components): 遷移所有 Button 使用到原子級 Button 元件 [d666bc3](https://github.com/southAndy/taiwanArtion/commit/d666bc3)
+  - 移除舊版 Button.jsx 元件，避免引用衝突
+  - 更新 Button API：移除 content prop，統一使用 children
+  - 新增 height prop 支援，提升元件彈性
+  - 遷移 7 個檔案到新的原子級 Button 元件
+  - 改進 Button.styles.jsx，新增 hover 狀態與主題變體
+  - 確保所有元件的按鈕行為一致性
+  - Commit message 由 Claude Code assistant 整理
+
 ### 原子元件系統建立完成
 
-- feat(components): 新增原子級 Button 元件與變體系統 [待提交]
+- feat(components): 新增原子級 Button 元件與變體系統 [c5b19bc](https://github.com/southAndy/taiwanArtion/commit/c5b19bc)
   - 新增 atoms/Button/ 結構，採用 @emotion/styled 實作
   - 實作 primary/secondary 變體系統，支援主題色 (#be875c) 與次要色 (#eeeeee)
   - 建立完整的 disabled 狀態處理，包含游標與透明度控制
