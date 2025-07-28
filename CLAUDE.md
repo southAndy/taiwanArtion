@@ -47,6 +47,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - User authentication state monitored on app initialization
 - Protected routes implemented for login and backstage areas
 
+**Component Design Principles** (原子化設計規範):
+
+- **原子層級** (`src/components/`): 最基礎的 UI 元件，只負責樣式和基本交互
+  - ✅ 處理：HTML 原生屬性 (`type`, `placeholder`, `disabled`)、樣式 props (`size`, `width`, `variant`)、基本事件 (`onChange`, `onFocus`)
+  - ❌ 避免：表單邏輯 (`register`, `validation`)、業務邏輯 (`onSubmit`, `resetField`)、狀態管理 (`setValue`)
+  - 範例：`<Input type="password" placeholder="密碼" {...register('password')} />`
+
+- **分子/容器層級** (`src/container/`, `src/pages/`): 負責業務邏輯和狀態管理
+  - 使用 react-hook-form 處理表單狀態
+  - 組合原子元件成為完整功能
+  - 處理 API 調用和資料流
+
+- **設計目標**：保持原子元件的可重用性和可測試性，避免與特定框架或業務邏輯耦合
+
 **Styling Approach** (統一樣式規範):
 
 - **Primary Solution**: @emotion/styled for complex components and theming
@@ -122,20 +136,28 @@ Requires environment variables:
 
 ### 元件清理狀況 (2025-07-25)
 
+**已新增原子化元件**：
+- `src/components/atoms/Input/` - 新增原子級 Input 元件 (2025-07-25)
+  - 採用 @emotion/styled 實作
+  - 支援 forwardRef、size、shape、formState 屬性
+  - 完整的錯誤狀態和 disabled 狀態處理
+
 **已確認重複元件**：
 - `src/components/Dropdown.jsx` - 簡單選單元件 (建議移除)
 - `src/components/Dropdown/Dropdown.jsx` - 進階Portal實作 (保留)
-- `src/components/Input/Input.jsx` - 完整元件含邏輯 (保留)
+- `src/components/Input/Input.jsx` - 舊版完整元件 (待評估遷移)
 - `src/components/StyledInput.jsx` - 僅樣式元件 (建議移除)
 
 **清理優先級**：
 1. 移除 `Dropdown.jsx` (根目錄)，保留 `Dropdown/` 版本
-2. 移除 `StyledInput.jsx`，統一使用 `Input/Input.jsx`
-3. 檢查使用狀況後安全移除
+2. 移除 `StyledInput.jsx`，評估遷移到 `atoms/Input/`
+3. 評估 `Input/Input.jsx` 與 `atoms/Input/` 的統一方案
+4. 檢查使用狀況後安全移除
 
 **已確認單一元件**：
 - `Modal.jsx` - 功能完整，無重複
 - `atoms/Button/` - 結構完整，無衝突
+- `atoms/Input/` - 新增原子級元件，結構完整
 
 ### Styling Decision Flow
 
