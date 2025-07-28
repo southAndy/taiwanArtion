@@ -2,9 +2,20 @@
 
 ## 2025-07-25
 
+### 原子級 Input 元件新增完成
+
+- feat(components): 新增原子級 Input 元件與樣式系統 [f6b91c8](https://github.com/southAndy/taiwanArtion/commit/f6b91c8)
+  - 建立 atoms/Input/ 結構，採用 @emotion/styled 實作
+  - 支援 forwardRef 機制，完整表單整合能力
+  - 實作 size、shape、formState 可配置屬性系統
+  - 新增錯誤狀態視覺回饋（紅色邊框），正常狀態使用品牌色 (#be875c)
+  - 建立完整的 disabled 狀態處理，包含游標、透明度和顏色控制
+  - 支援自訂 width 等屬性配置，符合原子化設計規範
+  - 為統一 Input 元件使用和程式碼清理奠定基礎
+
 ### 元件清理與優化完成
 
-- refactor(components): remove duplicate and unused component files [待提交]
+- refactor(components): remove duplicate and unused component files [17fde98](https://github.com/southAndy/taiwanArtion/commit/17fde98)
   - 移除 5 個無用的元件檔案：Dropdown.jsx, AccountInput.jsx, EmailInput.jsx, PasswordInput.jsx, user-input.jsx
   - 清理重複元件，統一使用 Dropdown/ 目錄版本
   - 移除空白檔案和無實際功能的元件
