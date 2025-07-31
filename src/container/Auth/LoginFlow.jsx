@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { login } from '@store/userSlice'
-import StyledInput from '@components/StyledInput'
+import Input from '@/components/atoms/Input/Input'
 import Button from '@components/atoms/Button/Button'
 import { warnIcon } from '@assets/images/index'
 import BaseImageBox from '@styles/base/BaseImageBox'
@@ -58,7 +58,12 @@ const LoginFlow = ({ onSuccess }) => {
     <StyledForm onSubmit={handleSubmit(handleLogin)}>
       <StyledInputGroup>
         <label htmlFor="email">電子郵件</label>
-        <StyledInput {...register('email')} placeholder="請輸入您的電子郵件" disabled={isLoading} />
+        <Input
+          {...register('email')}
+          placeholder="請輸入您的電子郵件"
+          disabled={isLoading}
+          formState={errors.email ? 'error' : 'normal'}
+        />
         {errors.email && (
           <StyledErrorBox>
             <BaseImageBox width="20px" height="20px">
@@ -71,11 +76,12 @@ const LoginFlow = ({ onSuccess }) => {
 
       <StyledInputGroup>
         <label htmlFor="password">密碼</label>
-        <StyledInput
+        <Input
           {...register('password')}
           type="password"
           placeholder="請輸入您的密碼"
           disabled={isLoading}
+          formState={errors.password ? 'error' : 'normal'}
         />
         {errors.password && (
           <StyledErrorBox>

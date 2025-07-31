@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setIsLogin, login } from '../store/userSlice'
 import styled from '@emotion/styled'
 import { hotBg, vectorIcon, warnIcon } from '../assets/images/index'
-import StyledInput from '../components/StyledInput'
+import Input from '@/components/atoms/Input/Input'
 import Button from '../components/atoms/Button/Button'
 import { Link } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
@@ -91,7 +91,11 @@ const Login = () => {
             <label htmlFor="email" className="font-medium mb-2">
               電子郵件
             </label>
-            <StyledInput {...register('email')} placeholder="請輸入您的電子郵件"></StyledInput>
+            <Input
+              {...register('email')}
+              placeholder="請輸入您的電子郵件"
+              formState={errors.email ? 'error' : 'normal'}
+            />
             {errors.email ? (
               <StyledErrorBox>
                 <BaseImageBox width={'20px'} height={'20px'}>
@@ -107,11 +111,12 @@ const Login = () => {
             <label htmlFor="password" className="mb-2 font-medium">
               密碼
             </label>
-            <StyledInput
+            <Input
               {...register('password')}
               type={'password'}
               placeholder="6-18位數密碼,請區分大小寫"
-            ></StyledInput>
+              formState={errors.password ? 'error' : 'normal'}
+            />
             {errors.password ? (
               <StyledErrorBox>
                 <BaseImageBox width={'20px'} height={'20px'}>
