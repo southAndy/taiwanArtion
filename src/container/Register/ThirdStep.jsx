@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import StyledInput from '../../components/StyledInput'
+import Input from '@/components/atoms/Input/Input'
 import Button from '@/components/atoms/Button/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -57,9 +57,10 @@ const thirdStep = ({ setStepStatus }) => {
       <p className="mb-6 text-sm">為了確保是你本人，我們將會寄送一封驗證信件到你的電子信箱。</p>
       <h3 className="mb-5 font-medium">電子信箱</h3>
       <StyledValidateBox className="flex gap-2">
-        <StyledInput
+        <Input
           placeholder="請輸入電子信箱"
           {...register('email')}
+          formState={errors.email ? 'error' : 'normal'}
           onChange={e => {
             setUserEmail(e.target.value)
           }}

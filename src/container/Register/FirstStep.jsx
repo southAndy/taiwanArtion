@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import StyledInput from '../../components/StyledInput'
+import Input from '@/components/atoms/Input/Input'
 import Button from '@/components/atoms/Button/Button'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -16,9 +16,7 @@ const firstStep = ({ setStep, setUserInfo }) => {
   const dispatch = useDispatch()
   const [isSent, setSent] = useState(false)
   const [countdown, setCountdown] = useState(60)
-  const [userPhone, setUserPhone] = useState('')
   const [confirmResult, setConfirmResult] = useState('')
-  const [userCode, setUserCode] = useState('')
   let content = '寄送驗證碼'
   const schema = yup.object().shape({
     userPhone: yup
@@ -40,10 +38,17 @@ const firstStep = ({ setStep, setUserInfo }) => {
     handleSubmit,
     formState: { errors },
     setError,
+    watch,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
     mode: 'onBlur',
   })
+
+  // use watch to get form values
+  const userPhone = watch('userPhone') || ''
+  const userCode = watch('userCode') || ''
+
   function setupRecapVerifier() {
     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recap', {
       size: 'invisible',
@@ -107,6 +112,21 @@ const firstStep = ({ setStep, setUserInfo }) => {
     if (isSent) sendVerifySMS()
   }, [isSent])
 
+  // 重置表單狀態，避免欄位值互相影響
+  useEffect(() => {
+    if (isSent) {
+      // 只保留 userPhone，清空 userCode 和所有錯誤狀態
+      reset(
+        { userPhone: userPhone, userCode: '' },
+        {
+          keepErrors: false, // 清空所有錯誤
+          keepDirty: false, // 清空 dirty 狀態
+          keepTouched: false, // 清空 touched 狀態
+        }
+      )
+    }
+  }, [isSent, userPhone, reset])
+
   const showContent = () => {
     if (isSent) {
       return (
@@ -121,15 +141,11 @@ const firstStep = ({ setStep, setUserInfo }) => {
               {content}
             </h3>
             <ProgressBox className="flex gap-2">
-              <StyledInput
+              <Input
                 {...register('userCode')}
                 size={'12px 16px'}
                 shape={'12px'}
                 placeholder={'請輸入驗證碼'}
-                onChange={e => {
-                  setUserCode(e.target.value)
-                }}
-                value={userCode}
                 maxLength="6"
               />
               <Button actions={setSent} disabled={countdown !== 0} height={'50px'}>
@@ -169,16 +185,12 @@ const firstStep = ({ setStep, setUserInfo }) => {
             </p>
             <h3 className="mb-5 font-bold text-lg">手機號碼</h3>
             <ProgressBox className="flex gap-2">
-              <StyledInput
+              <Input
                 {...register('userPhone')}
+                formState={errors.userPhone ? 'error' : 'default'}
                 size={'12px 16px'}
                 shape={'12px'}
                 placeholder={'請輸入手機號碼'}
-                className="flex-initial w-[70px]"
-                onChange={e => {
-                  setUserPhone(e.target.value)
-                }}
-                value={userPhone}
                 maxLength="10"
               />
               <Button

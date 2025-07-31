@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import Button from '@/components/atoms/Button/Button'
-import StyledInput from '../../components/StyledInput'
+import Input from '@/components/atoms/Input/Input'
 import styled from '@emotion/styled'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -157,11 +157,12 @@ const secondStep = ({ setStep, setUserInfo }) => {
             </div> */}
         <div>
           <label htmlFor="">電子郵件</label>
-          <StyledInput
+          <Input
             placeholder="請輸入電子信箱"
             {...register('email')}
+            formState={errors.email ? 'error' : 'normal'}
             onChange={e => setEmail(e.target.value)}
-          ></StyledInput>
+          />
           {errors.email ? (
             <StyledErrorBox>
               <BaseImageBox width={'20px'} height={'20px'}>
@@ -178,13 +179,13 @@ const secondStep = ({ setStep, setUserInfo }) => {
             密碼
           </label>
           <div className="password-input">
-            <StyledInput
+            <Input
               {...register('password', { required: '密碼必填' })}
-              type={isShowPassword ? 'input' : 'password'}
-              setValue={setPassword}
+              type={isShowPassword ? 'text' : 'password'}
               size={'12px 16px'}
               shape={'12px'}
               placeholder={'6-18位數密碼,請區分大小寫'}
+              formState={errors.password ? 'error' : 'normal'}
               onChange={e => {
                 setPassword(e.target.value)
               }}

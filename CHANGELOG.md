@@ -2,6 +2,17 @@
 
 ## 2025-07-31
 
+### Input 元件完全統一完成
+
+- refactor(components): unify all Input usage to atomic Input component
+  - 遷移 4 個檔案從 StyledInput 到 atoms/Input：SecondStep.jsx, ThirdStep.jsx, LoginFlow.jsx, Login.jsx
+  - 移除重複的 StyledInput.jsx 和 Input/Input.jsx 元件檔案
+  - 解決 SecondStep.jsx 的 setValue prop 不相容問題，符合原子化設計原則
+  - 統一所有表單的錯誤狀態處理，添加 formState prop 支援
+  - 完成程式碼格式化，確保代碼風格一致性
+  - 編譯測試成功，開發環境運行正常
+  - 程式碼庫達成 Input 元件完全統一，減少維護成本
+
 ### 元件目錄深度清理完成
 
 - refactor(components): remove unused Card and evaluate component directories
