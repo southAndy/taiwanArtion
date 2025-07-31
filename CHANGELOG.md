@@ -1,5 +1,16 @@
 # 更新日誌
 
+## 2025-07-31
+
+### 元件目錄深度清理完成
+
+- refactor(components): remove unused Card and evaluate component directories
+  - 移除完全未使用的 Card/ 目錄（Card.jsx, Card.scss）
+  - 移除未完成的 evaluate/ 目錄（evaluate-card.jsx, evaluate-card.scss）
+  - 完成 src/components/ 目錄結構優化，僅保留實際使用的元件
+  - 驗證構建流程無錯誤，確保移除不影響現有功能
+  - 程式碼庫更加乾淨，符合原子化設計原則
+
 ## 2025-07-25
 
 ### 原子級 Input 元件新增完成

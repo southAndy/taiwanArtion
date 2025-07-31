@@ -134,7 +134,7 @@ Requires environment variables:
 - **Component Consolidation**: Merge duplicate components (Button.jsx vs StyledButton.jsx)
 - **Tailwind Cleanup**: Remove complex Tailwind usage from styled components
 
-### 元件清理狀況 (2025-07-25)
+### 元件清理狀況 (2025-07-31 更新)
 
 **已新增原子化元件**：
 - `src/components/atoms/Input/` - 新增原子級 Input 元件 (2025-07-25)
@@ -142,22 +142,31 @@ Requires environment variables:
   - 支援 forwardRef、size、shape、formState 屬性
   - 完整的錯誤狀態和 disabled 狀態處理
 
-**已確認重複元件**：
-- `src/components/Dropdown.jsx` - 簡單選單元件 (建議移除)
-- `src/components/Dropdown/Dropdown.jsx` - 進階Portal實作 (保留)
-- `src/components/Input/Input.jsx` - 舊版完整元件 (待評估遷移)
-- `src/components/StyledInput.jsx` - 僅樣式元件 (建議移除)
+**✅ 已完成清理 (2025-07-31)**：
+- ✅ `src/components/Card/` - 已移除未使用的通用卡片元件
+- ✅ `src/components/evaluate/` - 已移除未完成的評價元件
+- ✅ 已確認並保留實際使用的元件：
+  - `Dropdown/Dropdown.jsx` - 進階Portal實作，Header使用中
+  - `Modal.jsx` - 核心元件，多處使用
+  - `Skeleton.jsx` - Loading狀態，Detail頁面使用
+  - `atoms/Button/` - 原子級按鈕元件
+  - `atoms/Input/` - 原子級輸入元件
 
-**清理優先級**：
-1. 移除 `Dropdown.jsx` (根目錄)，保留 `Dropdown/` 版本
-2. 移除 `StyledInput.jsx`，評估遷移到 `atoms/Input/`
-3. 評估 `Input/Input.jsx` 與 `atoms/Input/` 的統一方案
-4. 檢查使用狀況後安全移除
+**當前 components 結構**：
+```
+src/components/
+├── Dropdown/Dropdown.jsx     ✅ 使用中
+├── Modal.jsx                 ✅ 使用中  
+├── Skeleton.jsx              ✅ 使用中
+└── atoms/                    ✅ 原子化元件
+    ├── Button/
+    └── Input/
+```
 
-**已確認單一元件**：
-- `Modal.jsx` - 功能完整，無重複
-- `atoms/Button/` - 結構完整，無衝突
-- `atoms/Input/` - 新增原子級元件，結構完整
+**清理成果**：
+- 移除 4 個無用檔案
+- 移除 2 個空目錄
+- 程式碼庫結構更加清晰，符合原子化設計原則
 
 ### Styling Decision Flow
 
