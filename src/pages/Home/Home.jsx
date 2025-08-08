@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
@@ -11,6 +11,7 @@ import { hotBg } from '@assets/images/index'
 import AllExhibitionCard from './ExhibitionCard.jsx'
 import ExhibitionCard from './HotCard.jsx'
 import filterRules from '@assets/data/filterRules.json'
+import { useVirtualizer } from '@tanstack/react-virtual'
 
 const HomePage = () => {
   const monthList = fakeMonthList
@@ -61,7 +62,17 @@ const HomePage = () => {
     } else if (filterRule === 'hot') {
       return [...openData].sort(sortByHitRate)
     }
+    return [...openData].sort(sortByDate)
   }, [filterRule, openData])
+
+  // virtual scroll
+  const allExhibitionParent = useRef()
+  const virtualColumns = 4
+  const virtualizer = useVirtualizer({
+    getScrollElement: () => allExhibitionParent.current,
+    count: Math.ceil(filterExhibition.length / virtualColumns),
+    estimateSize: () => 280,
+  })
 
   return (
     <>
@@ -119,14 +130,52 @@ const HomePage = () => {
             )
           })}
         </TypeWrapper>
-        <div className="all">
-          {isLoading
-            ? Array.from({ length: 6 }).map((_, index) => (
+        <div
+          ref={allExhibitionParent}
+          className="h-[600px] overflow-auto"
+          style={{
+            contain: 'strict',
+            position: 'relative',
+          }}
+        >
+          {isLoading ? (
+            <div className="flex flex-col gap-4 p-4">
+              {Array.from({ length: 3 }).map((_, index) => (
                 <ExhibitionCardLoadingSkeleton key={index} />
-              ))
-            : filterExhibition?.map((data, index) => {
-                return <AllExhibitionCard key={data.UID} data={data} />
-              })}
+              ))}
+            </div>
+          ) : (
+            <div
+              style={{
+                height: virtualizer.getTotalSize(),
+                width: '100%',
+                position: 'relative',
+              }}
+            >
+              {virtualizer.getVirtualItems().map(virtualRow => (
+                <div
+                  key={virtualRow.key}
+                  ref={virtualizer.measureElement}
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    transform: `translateY(${virtualRow.start}px)`,
+                    display: 'grid',
+                    gridTemplateColumns: `repeat(${virtualColumns}, 1fr)`,
+                    gap: '16px',
+                  }}
+                >
+                  {Array.from({ length: virtualColumns }, (_, colIndex) => {
+                    const itemIndex = virtualRow.index * virtualColumns + colIndex
+                    const item = filterExhibition[itemIndex]
+                    return item ? <AllExhibitionCard key={item.UID} data={item} /> : null
+                  })}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </StyledAllExhibitionWrapper>
     </>
