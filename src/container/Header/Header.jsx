@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 import Logo from '@container/Header/components/Logo'
 import Navigation from '@container/Header/components/Navigation'
 import SearchBar from './components/search/SearchBar'
-import Dropdown from '@components/Dropdown/Dropdown'
+import Dropdown from '@components/atoms/Dropdown/Dropdown'
 import HeaderSearchMenu from './components/search/Menu'
 
 const Header = () => {
