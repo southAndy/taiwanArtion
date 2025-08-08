@@ -20,6 +20,7 @@
     "@mui/x-date-pickers": "^6.19.4",
     "@react-google-maps/api": "^2.20.5",
     "@reduxjs/toolkit": "^2.2.1",
+    "@tanstack/react-virtual": "^3.13.12",
     "axios": "^1.2.2",
     "dayjs": "^1.11.7",
     "firebase": "^10.8.0",
