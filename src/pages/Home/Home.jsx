@@ -12,6 +12,9 @@ import AllExhibitionCard from './ExhibitionCard.jsx'
 import ExhibitionCard from './HotCard.jsx'
 import filterRules from '@assets/data/filterRules.json'
 import { useVirtualizer } from '@tanstack/react-virtual'
+import { useBreakpoint } from '@hooks/useBreakpoint'
+import { useScrollPerformance } from '@hooks/useScrollPerformance'
+import PerformanceMonitor from '@components/PerformanceMonitor'
 
 const HomePage = () => {
   const monthList = fakeMonthList
@@ -19,6 +22,7 @@ const HomePage = () => {
   const [filterRule, setFilterRule] = useState('new')
   const { openData, isLoading } = useSelector(state => state.common)
   const dispatch = useDispatch()
+  const { isMobile, isTablet, isDesktop } = useBreakpoint()
 
   // 初次載入去抓資料
   useEffect(() => {
@@ -65,14 +69,24 @@ const HomePage = () => {
     return [...openData].sort(sortByDate)
   }, [filterRule, openData])
 
-  // virtual scroll
+  // virtual scroll with responsive columns
   const allExhibitionParent = useRef()
-  const virtualColumns = 4
+  const virtualColumns = useMemo(() => {
+    if (isMobile) return 1 // 手機：1欄
+    if (isTablet) return 2 // 平板：2欄
+    if (isDesktop) return 4 // 桌面：4欄
+    return 4 // 預設：4欄
+  }, [isMobile, isTablet, isDesktop])
+
   const virtualizer = useVirtualizer({
     getScrollElement: () => allExhibitionParent.current,
     count: Math.ceil(filterExhibition.length / virtualColumns),
     estimateSize: () => 280,
+    overscan: 4,
   })
+
+  // 性能監控
+  const { metrics, resetMetrics } = useScrollPerformance(allExhibitionParent)
 
   return (
     <>
@@ -155,6 +169,7 @@ const HomePage = () => {
               {virtualizer.getVirtualItems().map(virtualRow => (
                 <div
                   key={virtualRow.key}
+                  data-index={virtualRow.index}
                   ref={virtualizer.measureElement}
                   style={{
                     position: 'absolute',
@@ -178,6 +193,9 @@ const HomePage = () => {
           )}
         </div>
       </StyledAllExhibitionWrapper>
+
+      {/* 性能監控面板 - 僅開發環境 */}
+      <PerformanceMonitor metrics={metrics} />
     </>
   )
 }

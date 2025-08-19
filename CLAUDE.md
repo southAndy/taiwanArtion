@@ -187,6 +187,37 @@ When adding styles, follow this decision tree:
 3. **Global styles/animations?** → Use SCSS
 4. **Legacy styled-components?** → Migrate to @emotion/styled when possible
 
+### Performance Optimization Roadmap (2025-08-11)
+
+基於 Bundle 分析結果，虛擬化實作成效與優化方向：
+
+**🎯 虛擬化成效驗收 (已完成)**:
+- **Bundle 影響**: @tanstack/react-virtual 僅增加 4.47KB gzipped (~1% 增長)
+- **模組影響**: 增加 3 個模組 (1,257 → 1,260)
+- **成本效益**: 極小的體積代價換取大量數據渲染性能提升，投資報酬率高
+
+**🔄 下階段性能優化重點** (按優先級排序):
+
+1. **高優先級 - Bundle 優化**:
+   - MUI Material UI Tree-shaking 優化 (目前佔 bundle 大部分)
+   - 圖片資源優化 (總計 ~2MB+)
+   - 移除未使用的依賴
+
+2. **中優先級 - 渲染性能監控**:
+   - 實作 FPS 監控和渲染時間追蹤
+   - DOM 節點數量變化分析
+   - 滾動流暢度量化指標
+
+3. **低優先級 - 用戶體驗指標**:
+   - 首屏渲染時間 (LCP)
+   - 互動響應時間 (FID)
+   - 累積版面位移 (CLS)
+
+**⚡ 技術實作計畫**:
+- 下一步：實作 FPS 監控系統，量化虛擬化帶來的實際性能提升
+- 工具：使用 Performance API + requestAnimationFrame
+- 目標：建立性能基線，持續監控優化效果
+
 ### 自動化規則
 
 - 每次啟動專案時，執行 `npm run dev`

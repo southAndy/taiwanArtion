@@ -1,5 +1,15 @@
 # 更新日誌
 
+## 2025-08-08
+
+### Dropdown 元件原子化結構遷移完成
+
+- refactor(components): migrate Dropdown to atomic design structure
+  - 將 Dropdown 元件遷移到原子化設計目錄結構 (`src/components/atoms/Dropdown/`)
+  - 更新 Header.jsx 和 User.jsx 中的引用路徑，指向新的原子化位置
+  - 保持現有功能完整性，遵循專案原子化設計原則
+  - 完成元件目錄結構進一步優化，提升程式碼組織性
+
 ## 2025-07-31
 
 ### Input 元件完全統一完成
@@ -82,7 +92,7 @@
   - 將 react/jsx-key 規則從 warn 升級為 error，強制使用 key 屬性
   - 移除未使用的 modal 元件：modal/Modal.jsx、register-modal.jsx、moda.scss
   - 清理過時的認證模態框實作，已由 AuthModal 取代
-  - 消除所有 ESLint 錯誤（4個錯誤 → 0個錯誤）
+  - 消除所有 ESLint 錯誤（4 個錯誤 → 0 個錯誤）
   - 透過移除死代碼和強制執行 React key props 提升代碼品質
 
 ### 關鍵錯誤修復完成
@@ -133,7 +143,7 @@
   - 建立三階段並行 CI 流程：代碼品質檢查、安全掃描、建置驗證
   - 代碼品質檢查：ESLint 語法檢查 (零警告政策)、Standard.js 格式檢查、自動偵測 console.log 語句
   - 安全掃描：npm audit 中高級漏洞檢查、過時依賴套件檢查
-  - 建置驗證：npm run build 成功驗證、建置大小報告、產物上傳 (保留7天)
+  - 建置驗證：npm run build 成功驗證、建置大小報告、產物上傳 (保留 7 天)
   - 支援 main/develop 分支推送和 Pull Request 觸發
   - 包含 Firebase 測試配置回退機制，確保 CI 環境建置成功
   - 新增詳細的建置摘要報告和 GitHub Actions 整合
