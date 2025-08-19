@@ -218,6 +218,28 @@ When adding styles, follow this decision tree:
 - 工具：使用 Performance API + requestAnimationFrame
 - 目標：建立性能基線，持續監控優化效果
 
+### Node.js 版本升級紀錄 (2025-08-19)
+
+**升級路徑**: Node.js 18.20.4 → 22.18.0
+
+**升級原因**: 
+- Vercel 於 2025/09/01 停止支援 Node.js 18
+- 提前升級確保部署平台兼容性
+- 獲得更好的性能和安全性更新
+
+**升級成果**:
+- ✅ 所有依賴套件完全兼容 Node.js 22
+- ✅ 開發環境 (`npm run dev`) 正常運行
+- ✅ 生產構建 (`npm run build`) 成功完成
+- ✅ 配置文件已更新：`.nvmrc` 和 `package.json`
+- ✅ npm 同步升級至 10.9.3
+
+**技術驗證**:
+- Vite 4.5.14: 完全支援 Node.js 22
+- React 18.2.0: 完全支援 Node.js 22  
+- Firebase 10.8.0: 官方支援 Node.js 22
+- @mui/material 5.15.10: 支援 Node.js 22
+
 ### 自動化規則
 
 - 每次啟動專案時，執行 `npm run dev`

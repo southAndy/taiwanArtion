@@ -1,5 +1,18 @@
 # 更新日誌
 
+## 2025-08-19
+
+### Node.js 升級至 22.x 支援 Vercel 新要求
+
+- feat(node): upgrade Node.js from 18.20.4 to 22.18.0 for Vercel compatibility
+  - 升級至 Node.js 22.18.0 (LTS) 以符合 Vercel 2025/09/01 停止支援 Node.js 18 的新政策
+  - 更新 `.nvmrc` 檔案指定版本為 v22.18.0
+  - 更新 `package.json` engines 欄位設定為 `"node": "22.x"`，符合 Vercel 建議格式
+  - 驗證開發環境 (`npm run dev`) 和生產構建 (`npm run build`) 在 Node.js 22 下正常運行
+  - npm 版本同步升級至 10.9.3，獲得更好的套件管理性能
+  - 測試完成：所有現有功能在新版本下保持穩定，無破壞性變更
+  - 提前完成升級，確保專案持續可在 Vercel 平台上正常部署
+
 ## 2025-08-08
 
 ### Dropdown 元件原子化結構遷移完成
