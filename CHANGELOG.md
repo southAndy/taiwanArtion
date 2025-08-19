@@ -1,5 +1,15 @@
 # 更新日誌
 
+## 2025-08-08
+
+### Dropdown 元件原子化結構遷移完成
+
+- refactor(components): migrate Dropdown to atomic design structure
+  - 將 Dropdown 元件遷移到原子化設計目錄結構 (`src/components/atoms/Dropdown/`)
+  - 更新 Header.jsx 和 User.jsx 中的引用路徑，指向新的原子化位置
+  - 保持現有功能完整性，遵循專案原子化設計原則
+  - 完成元件目錄結構進一步優化，提升程式碼組織性
+
 ## 2025-07-31
 
 ### Input 元件完全統一完成
@@ -82,7 +92,7 @@
   - 將 react/jsx-key 規則從 warn 升級為 error，強制使用 key 屬性
   - 移除未使用的 modal 元件：modal/Modal.jsx、register-modal.jsx、moda.scss
   - 清理過時的認證模態框實作，已由 AuthModal 取代
-  - 消除所有 ESLint 錯誤（4個錯誤 → 0個錯誤）
+  - 消除所有 ESLint 錯誤（4 個錯誤 → 0 個錯誤）
   - 透過移除死代碼和強制執行 React key props 提升代碼品質
 
 ### 關鍵錯誤修復完成
@@ -133,7 +143,7 @@
   - 建立三階段並行 CI 流程：代碼品質檢查、安全掃描、建置驗證
   - 代碼品質檢查：ESLint 語法檢查 (零警告政策)、Standard.js 格式檢查、自動偵測 console.log 語句
   - 安全掃描：npm audit 中高級漏洞檢查、過時依賴套件檢查
-  - 建置驗證：npm run build 成功驗證、建置大小報告、產物上傳 (保留7天)
+  - 建置驗證：npm run build 成功驗證、建置大小報告、產物上傳 (保留 7 天)
   - 支援 main/develop 分支推送和 Pull Request 觸發
   - 包含 Firebase 測試配置回退機制，確保 CI 環境建置成功
   - 新增詳細的建置摘要報告和 GitHub Actions 整合
@@ -152,15 +162,16 @@
 ### 程式碼品質優化完成
 
 - refactor: 移除開發除錯用 console 語句 [3fc6203](https://github.com/southAndy/taiwanArtion/commit/3fc6203)
-  - 移除17個開發除錯用的console語句，提升程式碼品質
-  - 清理除錯類console.log：距離計算、GPS座標、展覽資料載入調試
-  - 移除流程狀態類console.log：註冊、登入、驗證流程狀態追蹤
-  - 保留關鍵錯誤處理的console.error用於生產環境監控
-  - 影響檔案：Map.jsx、Detail.jsx、Backstage.jsx、Login.jsx、Register相關檔案、Store檔案
+  - 移除 17 個開發除錯用的 console 語句，提升程式碼品質
+  - 清理除錯類 console.log：距離計算、GPS 座標、展覽資料載入調試
+  - 移除流程狀態類 console.log：註冊、登入、驗證流程狀態追蹤
+  - 保留關鍵錯誤處理的 console.error 用於生產環境監控
+  - 影響檔案：Map.jsx、Detail.jsx、Backstage.jsx、Login.jsx、Register 相關檔案、Store 檔案
 
 ### ShareModal 元件重構與功能增強完成
 
 - feat(detail): 新增 ShareModal 複製連結功能
+
   - 實作 copyToClipboard 功能，支援現代 navigator.clipboard API
   - 提供 document.execCommand 回退方案支援舊瀏覽器
   - 新增複製成功提示訊息，提升使用者體驗
@@ -189,17 +200,18 @@
 ### 認證系統重構完成
 
 - refactor(auth): 更新登入驗證機制使用 Firebase Auth 原生狀態 [f27ce61](https://github.com/southAndy/taiwanArtion/commit/f27ce61)
+
   - 移除不必要的 cookie 機制，使用 Firebase Auth 內建的身份驗證狀態
   - 新增 AuthRequiredRoute 專門保護會員限定頁面
   - 更新 ProtectedRoute 使用 Firebase onAuthStateChanged 監聽狀態
   - 修正 userSlice 的 monitorUserState 處理無用戶情況
-  - 統一 Redux action types，修正 member/* 為 user/*
+  - 統一 Redux action types，修正 member/_ 為 user/_
   - 更新 /backstage 路由使用新的權限保護機制
 
 - feat(auth): 新增桌機版登入/註冊彈窗功能 [f90cd48](https://github.com/southAndy/taiwanArtion/commit/f90cd48)
   - 新增 AuthModal 統一彈窗容器，支援登入/註冊模式切換
-  - 新增 LoginFlow 簡潔2步驟登入流程 (表單 → 成功提示)
-  - 新增 RegisterFlow 複用現有3步驟註冊流程
+  - 新增 LoginFlow 簡潔 2 步驟登入流程 (表單 → 成功提示)
+  - 新增 RegisterFlow 複用現有 3 步驟註冊流程
   - 更新 Header 整合桌機版分離的登入/註冊按鈕
   - 修復 Modal 元件圖片匯入問題
   - 響應式設計：桌機版使用彈窗，手機版維持頁面跳轉
@@ -239,7 +251,7 @@
 ### 日期選擇器優化完成
 
 - feat(header): 日期選擇器增強與 UI 全面改善 [7d12053](https://github.com/southAndy/taiwanArtion/commit/7d12053)
-  - 轉換為日期範圍選擇器（開始日期→結束日期）
+  - 轉換為日期範圍選擇器（開始日期 → 結束日期）
   - 分離顯示在 SearchBar 的開始日期和結束日期欄位
   - 全面 UI 優化：固定大小按鈕、卡片佈局、平滑動畫
   - 修復時區問題，實作日期範圍驗證和排序
