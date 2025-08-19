@@ -10,7 +10,6 @@ const PerformanceMonitor = ({ metrics }) => {
     return null
   }
 
-
   const { fps, avgFPS, frameDrops, scrollEvents, isScrolling } = metrics
 
   return (
@@ -78,7 +77,7 @@ const MetricLabel = styled.span`
 
 const MetricValue = styled.span`
   font-weight: bold;
-  color: ${props => props.$isGood ? '#4ade80' : props.$isGood === false ? '#f87171' : '#fbbf24'};
+  color: ${props => (props.$isGood ? '#4ade80' : props.$isGood === false ? '#f87171' : '#fbbf24')};
   font-size: 14px;
 `
 
@@ -91,7 +90,7 @@ const StatusRow = styled.div`
 
 const StatusIndicator = styled.span`
   font-size: 11px;
-  color: ${props => props.$isScrolling ? '#4ade80' : '#64748b'};
+  color: ${props => (props.$isScrolling ? '#4ade80' : '#64748b')};
   font-weight: bold;
 `
 
