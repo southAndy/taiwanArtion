@@ -6,7 +6,7 @@ import styled from '@emotion/styled'
  */
 const PerformanceMonitor = ({ metrics }) => {
   // 只在開發環境顯示
-  if (process.env.NODE_ENV !== 'development') {
+  if (import.meta.env.MODE !== 'development') {
     return null
   }
 
