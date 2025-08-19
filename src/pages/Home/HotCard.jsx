@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 import FlexCenter from '../../styles/utils/FlexCenter.jsx'
 import BaseImageBox from '../../styles/base/BaseImageBox.jsx'
 import { breakpoint } from '../../styles/utils/breakpoint.js'
-import { locationIcon } from '../../assets/images/index.js'
 import {
+  locationIcon,
   hotestNumber,
   hotestNumber2,
   hotestNumber3,

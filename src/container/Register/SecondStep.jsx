@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import BaseImageBox from '../../styles/base/BaseImageBox'
 import Button from '@/components/atoms/Button/Button'
 import Input from '@/components/atoms/Input/Input'

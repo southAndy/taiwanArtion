@@ -95,7 +95,7 @@ const StyledModalContent = styled.div`
   padding: ${({ padding }) => padding};
 
   // 簡化的定位邏輯
-  ${({ position, centered }) => {
+  ${({ position }) => {
     if (position) {
       return `
         position: absolute;

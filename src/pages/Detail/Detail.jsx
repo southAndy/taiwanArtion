@@ -172,6 +172,7 @@ export default function DetailPage() {
                   href={currentData[0]?.sourceWebPromote ?? ''}
                   target="_blank"
                   className="flex text-blue-300 "
+                  rel="noreferrer"
                 >
                   {currentData[0]?.sourceWebPromote ?? '-'}
                 </a>

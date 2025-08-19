@@ -2,6 +2,16 @@
 
 ## 2025-08-19
 
+### 程式碼品質優化：修復重複 import 和未使用變數
+
+- fix(lint): resolve duplicate imports and unused variables across codebase
+  - 移除 Vector.png 重複匯入：統一使用 `vectorIcon`，移除多餘的 `dropdownIcon`
+  - 清理未使用的變數和參數：包括 `Account` import、`index` 參數、`onSuccess` 參數、`centered` 參數
+  - 標準化 React import：統一 React hooks 的匯入方式，避免分離式匯入
+  - 修復 ESLint 警告：解決原始 10 個程式碼品質檢查警告
+  - 減少 bundle 大小：移除無用程式碼，提升載入效能
+  - 提升程式碼可維護性：消除重複和冗余，符合最佳實踐規範
+
 ### Node.js 升級至 22.x 支援 Vercel 新要求
 
 - feat(node): upgrade Node.js from 18.20.4 to 22.18.0 for Vercel compatibility

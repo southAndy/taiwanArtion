@@ -112,6 +112,37 @@ Extensive alias configuration for clean imports:
 - **討論內容包含**: 功能需求分析、技術實作方式、可能的影響範圍、測試計畫
 - **例外情況**: 僅限於 bug 修復、code style 調整等不影響功能邏輯的修改可以直接執行
 
+### Code Quality Standards & Required Commands
+
+**IMPORTANT: 程式碼品質檢查流程**（Claude 必須嚴格遵守）：
+
+1. **ESLint 檢查與修復**：
+   ```bash
+   npm run lint:fix  # 修復 ESLint 問題
+   ```
+
+2. **Prettier 格式檢查與修復**：
+   ```bash
+   npm run format:check  # 檢查格式問題
+   npm run format       # 修復格式問題（如有需要）
+   ```
+
+3. **完整的程式碼品質修復流程**：
+   ```bash
+   # 必須按順序執行，不可跳過任何步驟
+   npm run lint:fix      # Step 1: 修復 ESLint 問題
+   npm run format:check  # Step 2: 檢查格式
+   npm run format        # Step 3: 修復格式（如需要）
+   npm run format:check  # Step 4: 確認格式修復完成
+   ```
+
+4. **Commit 前的最終檢查**：
+   - 確保 ESLint 無錯誤警告
+   - 確保 Prettier 格式檢查通過
+   - 單次 commit 包含所有程式碼品質修復
+
+**⚠️ Claude 提醒**：任何程式碼修改後，必須執行完整的品質檢查流程，不得遺漏 Prettier 格式化步驟。
+
 ### Code Conventions
 
 - React functional components with hooks
@@ -172,11 +203,19 @@ src/components/
     └── Input/                ✅ 全專案統一使用
 ```
 
+**✅ 程式碼品質優化完成 (2025-08-19)**：
+- ✅ 移除 Vector.png 重複匯入：統一使用 `vectorIcon`，減少 bundle 重複資源
+- ✅ 清理未使用變數：移除 `Account` import、`centered` 參數、`onSuccess` 參數等
+- ✅ 標準化 React import：統一 hooks 匯入方式，提升程式碼一致性
+- ✅ 修復 ESLint 原始警告：解決 10 個程式碼品質檢查問題
+- ✅ 提升程式碼可維護性：消除重複和冗余，符合最佳實踐
+
 **清理與統一成果**：
 - 移除 6 個重複/無用檔案
 - 移除 3 個空目錄  
 - Input 元件 100% 統一使用 atoms/Input
 - 程式碼庫結構更加清晰，完全符合原子化設計原則
+- 程式碼品質警告從 10 個降至 0 個（原始問題已解決）
 
 ### Styling Decision Flow
 

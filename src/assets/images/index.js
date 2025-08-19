@@ -1,7 +1,6 @@
 import searchIcon from '../../assets/images/search-icon.png'
 import headerSearch from '../../assets/images/header-search.png'
 import headerMenu from '../../assets/images/menu-mobile.png'
-import dropdownIcon from '../../assets/images/Vector.png'
 import fakeUserIcon from '../../assets/images/Ellipse22.png'
 import notifyIcon from '../../assets/images/notify159.png'
 import logoIcon from '../../assets/images/logo.png'
@@ -73,7 +72,6 @@ export {
   loveFullIcon,
   accountBg,
   searchIcon,
-  dropdownIcon,
   fakeUserIcon,
   notifyIcon,
   logoIcon,
