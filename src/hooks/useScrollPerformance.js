@@ -55,7 +55,6 @@ export const useScrollPerformance = scrollElementRef => {
           ? recentFrames.reduce((sum, time) => sum + time, 0) / recentFrames.length
           : 16.67
       const avgFPS = Math.round(1000 / avgFrameTime)
-
       setMetrics(prev => ({
         ...prev,
         fps: Math.min(fps, 60), // 限制最大60fps
@@ -64,7 +63,6 @@ export const useScrollPerformance = scrollElementRef => {
         scrollEvents: scrollEventsRef.current,
         isScrolling: isScrollingRef.current,
       }))
-
       frameCountRef.current = 0
       lastTimeRef.current = currentTime
     }
@@ -82,14 +80,13 @@ export const useScrollPerformance = scrollElementRef => {
     if (!isScrollingRef.current) {
       isScrollingRef.current = true
       scrollEventsRef.current++
-
+      
       // 立即更新 UI 狀態
       setMetrics(prev => ({
         ...prev,
         scrollEvents: scrollEventsRef.current,
         isScrolling: true,
       }))
-
       // 開始 FPS 監控
       if (!animationIdRef.current) {
         lastTimeRef.current = performance.now()
@@ -104,12 +101,10 @@ export const useScrollPerformance = scrollElementRef => {
         scrollEvents: scrollEventsRef.current,
       }))
     }
-
     // 重置滾動結束計時器
     if (scrollTimeoutRef.current) {
       clearTimeout(scrollTimeoutRef.current)
     }
-
     // 滾動停止後 150ms 停止監控
     scrollTimeoutRef.current = setTimeout(() => {
       isScrollingRef.current = false
@@ -134,7 +129,6 @@ export const useScrollPerformance = scrollElementRef => {
 
   useEffect(() => {
     const scrollElement = scrollElementRef?.current
-
     if (!scrollElement) {
       return
     }
@@ -148,7 +142,6 @@ export const useScrollPerformance = scrollElementRef => {
 
     return () => {
       scrollElement.removeEventListener('scroll', handleScroll)
-
       // 清理計時器和動畫
       if (animationIdRef.current) {
         cancelAnimationFrame(animationIdRef.current)
@@ -160,4 +153,3 @@ export const useScrollPerformance = scrollElementRef => {
   }, [scrollElementRef])
 
   return { metrics, resetMetrics }
-}

@@ -6,10 +6,11 @@ import styled from '@emotion/styled'
  */
 const PerformanceMonitor = ({ metrics }) => {
   // 只在開發環境顯示
+
   if (import.meta.env.MODE !== 'development') {
     return null
   }
-
+  
   const { fps, avgFPS, frameDrops, scrollEvents, isScrolling } = metrics
 
   return (
@@ -89,9 +90,9 @@ const StatusRow = styled.div`
 `
 
 const StatusIndicator = styled.span`
-  font-size: 11px;
   color: ${props => (props.$isScrolling ? '#4ade80' : '#64748b')};
   font-weight: bold;
 `
 
 export default PerformanceMonitor
+
