@@ -1,5 +1,4 @@
-import { React } from 'react'
-import { useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 import styled from '@emotion/styled'
 import { breakpoint } from '@styles/utils/breakpoint'
 import BaseImageBox from '@styles/base/BaseImageBox'

@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Input from '@/components/atoms/Input/Input'
 import Button from '@/components/atoms/Button/Button'
 import { useForm } from 'react-hook-form'

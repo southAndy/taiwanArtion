@@ -1,6 +1,5 @@
 import React from 'react'
 import Modal from '@components/Modal'
-import Account from '@container/Account'
 import styled from '@emotion/styled'
 import { loginBanner } from '@assets/images/index'
 import Button from '@components/atoms/Button/Button'

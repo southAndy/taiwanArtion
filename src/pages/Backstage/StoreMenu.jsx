@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BaseImageBox from '@styles/base/BaseImageBox'
 import { notFoundBg } from '@assets/images/backstage/index'

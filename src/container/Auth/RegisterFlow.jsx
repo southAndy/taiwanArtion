@@ -7,7 +7,7 @@ import SuccessStep from '@container/Register/SuccessStep'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../../../firebase.config'
 
-const RegisterFlow = ({ onSuccess }) => {
+const RegisterFlow = () => {
   const [step, setStep] = useState(0)
   const [userInfo, setUserInfo] = useState({})
   const stepContent = ['手機驗證', '帳密信箱', '完成註冊']
@@ -58,7 +58,7 @@ const RegisterFlow = ({ onSuccess }) => {
       {step < 2 && (
         <StyledStepperContainer>
           <Stepper activeStep={step} alternativeLabel>
-            {stepContent.map((label, index) => (
+            {stepContent.map(label => (
               <Step key={label}>
                 <StepLabel className="text-[#A9622A] font-bold">{label}</StepLabel>
               </Step>

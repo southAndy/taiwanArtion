@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import styled from '@emotion/styled'
 import { headerMenu } from '@assets/images/index'
 import { breakpoint } from '@styles/utils/breakpoint'

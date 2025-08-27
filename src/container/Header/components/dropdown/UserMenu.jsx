@@ -20,15 +20,11 @@ const UserMenu = ({ onClose }) => {
     onClose()
   }
 
-  // const photoIndex = userInfo?.photoURL || 0
-  // const userPhoto = userPhotos?.[photoIndex] || userPhotos?.[0]
-  // const userName = userInfo?.displayName || userInfo?.name || 'User'
-
   return (
     <StyledMemberMenuBox>
       <div className="user">
         <StyledUserIcon width={'38px'} height={'38px'}>
-          <img src={userPhotos} alt="" />
+          <img src={userPhotos[userInfo?.photoURL || 0]} alt="" />
         </StyledUserIcon>
         <Link to={'/backstage'} className="user-name" onClick={handleLinkClick}>
           <div className="hello">hello!</div>
