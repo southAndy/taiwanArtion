@@ -80,7 +80,7 @@ export const useScrollPerformance = scrollElementRef => {
     if (!isScrollingRef.current) {
       isScrollingRef.current = true
       scrollEventsRef.current++
-      
+
       // 立即更新 UI 狀態
       setMetrics(prev => ({
         ...prev,
@@ -153,3 +153,4 @@ export const useScrollPerformance = scrollElementRef => {
   }, [scrollElementRef])
 
   return { metrics, resetMetrics }
+}
