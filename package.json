@@ -21,7 +21,7 @@
     "@react-google-maps/api": "^2.20.5",
     "@reduxjs/toolkit": "^2.2.1",
     "@tanstack/react-virtual": "^3.13.12",
-    "axios": "^1.13.5",
+    "axios": "^1.15.2",
     "dayjs": "^1.11.7",
     "firebase": "^10.8.0",
     "react": "^18.2.0",
